@@ -1,0 +1,46 @@
+.home_bg_m {
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("../assets/images/building_2.png");
+    height: 100vh;
+
+    .logout_m {
+        span {
+            color: #ffffff;
+            font-size: 20px;
+            font-weight: normal;
+            text-transform: uppercase;
+            margin-left: 10px;
+            border-bottom: 1px solid white;
+            cursor: pointer;
+        }
+    }
+    .loginop_card {
+        background: #ffffff 0% 0% no-repeat padding-box;
+        box-shadow: 0px 0px 4px #00000099;
+        position: absolute;
+        top: 20%;
+        border-radius: 0.7rem;
+        width: 50%;
+        h3 {
+            margin: 1rem 0;
+            color: #26786c;
+            text-transform: uppercase;
+            text-align: center;
+        }
+        .login_crad_body {
+            p {
+                color: #969696;
+                font-weight: bold;
+                margin: 0;
+            }
+            h6 {
+                color: #26786c;
+                font-weight: normal;
+                span {
+                    font-weight: bold;
+                }
+            }
+        }
+    }
+}

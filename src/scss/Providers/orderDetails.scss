@@ -1,0 +1,184 @@
+.order-details {
+    .content-row {
+        justify-content: center;
+        margin: 1% 0 2%;
+
+        .details {
+            position: relative;
+            padding: 0;
+
+            .status {
+                margin-top: 3px;
+                display: flex;
+                justify-content: end;
+                align-items: center;
+                position: absolute;
+                right: 0;
+                top: 5px;
+
+                .status-text,
+                .status-text-blue,
+                .status-text-red {
+                    text-align: right;
+                    font: normal normal bold 12px/15px Montserrat;
+                    letter-spacing: 0px;
+                    color: #006594;
+                    opacity: 1;
+                    margin-right: 2%;
+                    margin-right: 5px;
+                }
+                .status-indicator-blue {
+                    height: 12px;
+                    width: 12px;
+                    border-radius: 50%;
+                    background-color: #006594;
+                }
+            }
+            .content {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-top: 29px;
+                height: 150px;
+                margin-top: 7%;
+
+                .order {
+                    width: 40%;
+                    height: 100%;
+                    padding: 11px 0;
+
+                    strong {
+                        text-align: left;
+                        letter-spacing: 0px;
+                        color: #146F62;
+                    }
+
+                    span {
+                        margin: 0 5px;
+                        text-align: left;
+                        font: normal normal normal 16px/19px Montserrat;
+                        letter-spacing: 0px;
+                        color: #146F62;
+                    }
+
+                    .faded-headings {
+                        font: normal normal 100 12px/15px Montserrat;
+                        letter-spacing: 0px;
+                        color: #707070;
+                        opacity: 1;
+                    }
+                }
+
+                .delivery-details {
+                    height: 100%;
+                    width: 28%;
+                    text-align: center;
+                    border-right: 2.5px solid #65ABA0;
+                    border-left: 2.5px solid #65ABA0;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                }
+
+                .time-details {
+                    text-align: right;
+                    width: 32%;
+                }
+            }
+
+            .faded-heading {
+                font: normal normal 300 14px/18px Montserrat;
+                letter-spacing: 0px;
+                color: #707070;
+            }
+
+            .actual-details {
+                font: normal normal 600 14px/18px Montserrat;
+                letter-spacing: 0px;
+                color: #707070;
+            }
+        }
+
+        .cards-section {
+            margin-top: 82px;
+            display: flex;
+            justify-content: space-between;
+
+            .card {
+                width: 225px;
+                border: none;
+
+                .card-heading {
+                    text-align: center;
+                    font: normal normal bold 20px/24px Montserrat;
+                    letter-spacing: 7px;
+                    color: #146F62;
+                }
+
+                .card-body {
+                    margin-top: 18px;
+                    background: #FFFFFF 0% 0% no-repeat padding-box;
+                    box-shadow: 0px 0px 4px #00000099;
+                    position: relative;
+                    padding: 20px 8px 0 8px;
+                    border-radius: 8px;
+
+                    .card-content {
+                        margin-top: 5%;
+
+                        &:before {
+                            content: 'ACTIVE';
+                            font-size: 12px;
+                            line-height: 15px;
+                            letter-spacing: 0px;
+                            color: #0C4523;
+                            position: absolute;
+                            right: 4px;
+                            top: 2px;
+                            font-weight: bold;
+                        }
+
+                        .card-data-row {
+                            display: flex;
+                            justify-content: space-between;
+
+                            .headings {
+                                text-align: left;
+                                font-size: 12px;
+                                line-height: 15px;
+                                letter-spacing: 0px;
+                                font-weight: 600;
+                                color: #000000;
+                            }
+
+                            .details {
+                                text-align: right;
+                                font-size: 12px;
+                                line-height: 15px;
+                                letter-spacing: 0px;
+                                color: #707070;
+                            }
+                        }
+                        .view-details {
+                            margin-top: 16px;
+                            text-align: right;
+                            a {
+                                text-decoration: none !important;
+                                letter-spacing: 0px;
+                                color: #146F62 !important;
+                                font-weight: 400;
+                                margin-right: 5px;
+                                font-size: 12px;
+                                line-height: 15px;
+                            }
+                            .fa-angle-right {
+                                color: #146F62;
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+}

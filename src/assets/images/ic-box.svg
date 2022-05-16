@@ -1,0 +1,11 @@
+<svg id="ic-box" xmlns="http://www.w3.org/2000/svg" width="24.144" height="24.143" viewBox="0 0 24.144 24.143">
+  <path id="Path_4832" data-name="Path 4832" d="M236.942,149.554,236,155.768l.943,10.876,9.374-3.107V152.661Z" transform="translate(-224.871 -142.502)" fill="#c48958"/>
+  <path id="Path_4833" data-name="Path 4833" d="M57.209,152.661v10.876l9.374,3.107V149.554Z" transform="translate(-54.512 -142.502)" fill="#e3a76f"/>
+  <g id="Group_164223" data-name="Group 164223" transform="translate(4.711)">
+    <path id="Path_4834" data-name="Path 4834" d="M241,0h1.415V4.724H241Z" transform="translate(-234.348)" fill="#ffda44"/>
+    <path id="Path_4835" data-name="Path 4835" d="M0,0H1.415V4.724H0Z" transform="matrix(0.866, -0.5, 0.5, 0.866, 0, 2.161)" fill="#ffda44"/>
+    <path id="Path_4836" data-name="Path 4836" d="M0,0H4.724V1.415H0Z" transform="matrix(0.5, -0.866, 0.866, 0.5, 11.132, 5.545)" fill="#ffda44"/>
+  </g>
+  <path id="Path_4837" data-name="Path 4837" d="M9.374,222.842l2.7-4.285L2.7,215.45,0,219.735Z" transform="translate(0 -205.291)" fill="#f2d1a5"/>
+  <path id="Path_4838" data-name="Path 4838" d="M258.7,222.842l-2.7-4.285,9.374-3.107,2.7,4.285Z" transform="translate(-243.928 -205.291)" fill="#e3a76f"/>
+</svg>

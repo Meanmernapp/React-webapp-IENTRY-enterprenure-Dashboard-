@@ -1,0 +1,581 @@
+/////////////////////////////Reall
+.employee_m {
+  width: 100%;
+  background: #ffffff 0% 0% no-repeat padding-box;
+  box-shadow: 0px 0px 4px #00000099;
+  border-radius: 1rem;
+  width: 328px;
+}
+
+.addNewEmployeeBtn {
+  height: 38px;
+  background-color: #65aba0;
+  box-shadow: 0px 0px 4px #00000080;
+  border: none;
+  border-radius: 4px;
+  outline: none;
+  color: #fff;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 16px;
+  width: 213px;
+}
+.overlay {
+  position: fixed;
+  width: 100%; 
+  height: 100%; 
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.89); 
+  z-index: 2; 
+  cursor: pointer;
+}
+
+// .addNewEmployee {
+//   width: "215px";
+//   height: "241px";
+//   display: "flex";
+//   justify-content: "center";
+//   align-items: "center";
+//   border: "1px dashed #70707080";
+//   border-radius: "10px";
+//   opacity: 1;
+// }
+
+.top_heading_m {
+  p {
+    float: right;
+    font-size: 12px;
+    font-weight: 600;
+    margin-right: 15px !important;
+  }
+}
+.emp_card_body {
+  width: 100%;
+}
+
+.employee_detail_m {
+  display: "flex";
+  justify-content: "space-between";
+  p {
+    @include color(#146f62, 12px, normal, uppercase);
+    text-decoration: none;
+  }
+  @include color(#146f62, 12px, normal, uppercase);
+  span {
+    img {
+      margin-left: 10px;
+      width: 10px;
+    }
+  }
+}
+
+.days_card {
+  background: #e1e1e1 0% 0% no-repeat padding-box;
+  border-radius: 8px;
+  width: 378px;
+  height: 56px;
+  .days_card_text {
+    padding: 10px;
+    p {
+      @include color(#707070, 18px, normal, uppercase);
+      padding: 6px;
+      text-align: center;
+    }
+  }
+}
+
+.from_text {
+  padding: 1.5rem 0rem 0rem 2rem;
+  line-height: 0rem;
+  span {
+    @include color(#707070, 14px, normal, uppercase);
+    margin-right: 10rem;
+    line-height: 0rem;
+  }
+  h2 {
+    @include color(#65aba0, 14px, bold, uppercase);
+    line-height: 0rem;
+  }
+}
+
+.type_nfc_card {
+  display: "flex";
+  justify-content: "space-between";
+  .updown_icon {
+    p {
+      @include color(#178a7b, 14px, bold, uppercase);
+    }
+
+    span {
+      svg {
+        height: 10px;
+        width: 10px;
+        margin-left: 5px;
+        margin-bottom: 2px;
+        // margin-top: 0.4rem;
+      }
+    }
+  }
+}
+.access_textt {
+  a {
+    @include color(#178a7b, 20px, bold, uppercase);
+    letter-spacing: 5.6px;
+    color: #178a7b !important;
+    // text-decoration: underline;
+  }
+  button {
+    @include color(#ffffff, 16px, normal, uppercase);
+    background: #146f62 0% 0% no-repeat padding-box;
+    border-radius: 8px;
+    letter-spacing: 0rem !important;
+    width: 15rem;
+  }
+}
+
+.coomon_accessCarsd {
+  box-shadow: 0px 0px 6px #00000099;
+  border-radius: 6px;
+  padding: 6px;
+  padding-left: 15px;
+  padding-right: 15px;
+  .card_content_inline {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  input {
+    width: 13px;
+  }
+  input:checked {
+    color: #146f62;
+    background-color: #146f62;
+  }
+  p {
+    @include color(#707070, 14px, normal, uppercase);
+  }
+  span {
+    @include color(#0c4523, 14px, bold, uppercase);
+  }
+  h5 {
+    @include color(#bc0000, 14px, bold, uppercase);
+  }
+}
+
+.firearms_card {
+  box-shadow: 0px 0px 4px #00000080;
+  border-radius: 6px;
+}
+
+.firearms_txt {
+  h4 {
+    @include color(#bc0000, 48px, normal, uppercase);
+    padding: 1rem;
+    span {
+      margin-left: 6rem;
+    }
+  }
+}
+
+.main_all_p {
+  left: 24%;
+}
+
+.exchange_icon {
+  position: relative;
+  a {
+    position: relative;
+  }
+  .dot {
+    height: 35px;
+    width: 35px;
+    background-color: #146f62;
+    border-radius: 50%;
+    display: inline-block;
+    position: absolute;
+    bottom: -58px;
+    right: 0px;
+  }
+  .exchange_alt_m {
+    width: 1.6rem;
+    padding-top: 5px;
+  }
+}
+.infoEmpl_text {
+  @include color(#146f62, 20px, bold, capitalize);
+  letter-spacing: 7px;
+  text-transform: uppercase;
+}
+
+.empdetail_c {
+  .row {
+    margin: 0px 10px 10px 0px;
+    width: 100%;
+  }
+  background: #ffffff 0% 0% no-repeat padding-box;
+  box-shadow: 0px 0px 6px #00000099;
+  p {
+    @include color(#707070, 14px, normal, uppercase);
+  }
+  h2 {
+    @include color(#65aba0, 14px, bold, capitalize);
+  }
+  td {
+    padding: 5px !important;
+  }
+}
+
+.common_img_emp {
+  // padding: 0rem 1rem 1rem 1rem;
+}
+
+.access_right_m p {
+  @include color(#146f62, 20px, bold, capitalize);
+  letter-spacing: 7px;
+}
+
+.access_right_card {
+  box-shadow: 0px 0px 6px #00000099;
+  border-radius: 6px;
+  padding-right: 15px;
+  padding-left: 15px;
+
+  .separator {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    line-height: 1.5rem;
+    @include color(#707070, 16px, bold, capitalize);
+  }
+  .separator::before,
+  .separator::after {
+    content: "";
+    flex: 1;
+    border-bottom: 0.2rem solid #707070;
+  }
+  .separator:not(:empty)::before {
+    margin-right: 0.25em;
+  }
+  .separator:not(:empty)::after {
+    margin-left: 0.25em;
+  }
+}
+.access_text {
+  p {
+    @include color(#178a7b, 16px, bold, uppercase);
+    letter-spacing: 5.6px;
+    text-decoration: underline;
+    color: #178a7b !important;
+  }
+}
+
+.checkboxes_m {
+  input {
+    margin-left: 12px;
+    width: 13px;
+  }
+  ol {
+    list-style: none;
+    text-decoration: none;
+    li {
+      i {
+        font-size: 14px;
+        color: #146f62;
+        font-weight: 600;
+      }
+
+      span {
+        @include color(#707070, 14px, normal, uppercase);
+        margin-left: 10px;
+        position: absolute;
+      }
+    }
+  }
+  ul {
+    list-style: none;
+    li {
+      line-height: 1rem;
+      padding-top: 1rem;
+      &:hover {
+        background: white;
+      }
+    }
+  }
+  .nested_checkbox {
+    li {
+      margin-left: 20px;
+    }
+  }
+}
+
+.mystyle {
+  width: 34px;
+  background-color: #e1e1e1;
+  height: 34px;
+  top: 18%;
+  padding: 34px 34px;
+  border-radius: 25px;
+}
+
+.slectday {
+  width: 34px;
+  background-color: #146f62;
+  height: 34px;
+  top: 18%;
+  color: #ffffff !important;
+  // padding: 0.33rem 0rem 0rem 0.9rem;
+  padding: 34px 34px;
+  border-radius: 25px;
+}
+
+.addemp_input_m {
+  margin: 0px !important;
+  justify-content: space-between;
+  select {
+    box-shadow: 0.4rem 0.4rem 0.4rem #0000001a;
+    padding: 0.9rem;
+    border-radius: 0.8rem;
+    width: 100%;
+    @include color(#707070, 1.2rem, bold, uppercase);
+  }
+}
+
+.input_field {
+  background: url("../../../assets/images/user-regular.svg") no-repeat scroll 7px 7px;
+  padding-left: 30px;
+}
+
+.contract_access_r {
+  .access_text {
+    margin: 2rem 0rem 2rem 0rem;
+  }
+  .alldays_checkbox {
+    margin: 1rem 0rem;
+  }
+}
+
+.c_c_custom_s {
+  margin: 3rem;
+  input {
+    @include color(#146f62, 13px, 600, uppercase);
+    height: 1rem;
+    width: 1rem;
+  }
+  span {
+    margin-left: 2rem;
+    @include color(#707070, 18px, bold, uppercase);
+  }
+}
+
+.alldays_checkbox {
+  padding: 1rem;
+  label {
+    display: flex;
+    align-items: center;
+  }
+  span {
+    @include color(#707070, 1.4rem, bold, uppercase);
+    margin-left: 1.5rem;
+  }
+}
+
+.add_card_modal {
+  @include color(#ffffff, 16px, normal, uppercase);
+  background: #146f62 0% 0% no-repeat padding-box;
+  border-radius: 8px;
+  letter-spacing: 0rem !important;
+  width: 10rem;
+}
+
+.addemp_plus {
+  margin-left: 2rem;
+}
+
+.addemp_dletuser {
+  margin-bottom: 2rem;
+  p {
+    @include color(#bc0000, 18px, bold, uppercase);
+  }
+  button {
+    @include color(#ffffff, 18px, 500, uppercase);
+    background: #0c4523 0% 0% no-repeat padding-box;
+    border: 1px solid #707070;
+    border-radius: 4px;
+    margin-left: 10rem;
+    width: 15rem;
+    margin-right: 2rem;
+  }
+}
+
+.document_card {
+  display: flex;
+  flex-wrap: wrap;
+  border-radius: 20px !important;
+  padding: 1.25rem;
+  .document_head {
+    color: #707070;
+    font-weight: bold;
+    font-size: 18px;
+  }
+  .document_img {
+    align-items: center;
+    text-align: center;
+    img {
+      position: relative;
+      width: 175px;
+    }
+  }
+  .document_name {
+    color: #707070;
+    span {
+      color: #707070;
+      font-size: 13px;
+    }
+  }
+}
+
+.uploadFile {
+  background: #146f62 0% 0% no-repeat padding-box;
+  border-radius: 8px;
+  letter-spacing: 0rem !important;
+  button {
+    color: #e1e1e1;
+    font-weight: bold;
+  }
+}
+.instruction_text {
+  @include color(red, 0.5rem, bold, uppercase);
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.cloud_upload {
+  border-radius: 5px;
+  padding: 2rem;
+  border: 2px #707070 dashed;
+  p {
+    color: #707070;
+  }
+  span {
+    color: #707070;
+    font-size: 10px;
+  }
+}
+
+.card_file {
+  .cloud_img {
+    img {
+      width: 150%;
+    }
+  }
+}
+
+.employee_card_head {
+  color: #65aba0;
+  font-weight: bold;
+  font-family: "Montserrat";
+}
+
+.employee_card_data {
+  table {
+    border-collapse: separate;
+    border-spacing: 0px 5px;
+    margin-top: -10px;
+    tbody tr {
+      border: solid 1px #000;
+      border-style: solid none;
+      border-radius: 10px;
+      padding: 10px;
+      background-color: cyan;
+    }
+  }
+}
+
+.emp_card_content {
+  display: flex;
+  justify-content: space-between;
+  p {
+    color: #000000;
+    font-size: 12px;
+  }
+  span {
+    color: #707070;
+    font-size: 12px;
+  }
+}
+
+.contractors_tabs {
+  li {
+    button {
+      letter-spacing: 7px;
+    }
+  }
+}
+
+.add_access {
+  border: none;
+  padding: 7px 0;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 15rem;
+  border-radius: 5px;
+  background-color: #146f62;
+  color: #fff;
+  font-size: 1rem;
+  text-transform: uppercase;
+  font-weight: 450;
+}
+.all_checkbox {
+  margin-top: 1rem;
+  font-size: 14px;
+  font-weight: bold;
+  color: #707070;
+  text-transform: uppercase;
+  text-align: right;
+  input {
+    width: 13px;
+    margin-right: 10px;
+  }
+}
+
+.main_content {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  background-clip: border-box;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.25rem;
+}
+
+.updata_img_m {
+  // box-shadow: 0px 0px 4px #00000099;
+  // border-radius: 5px;
+  // padding: 10px;
+
+  .dottedborderbox {
+    width: 100%;
+    height: 165px;
+    border: 2px #707070 dashed;
+    border-radius: 5px;
+    padding: 1rem;
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    cursor: pointer;
+    p {
+      font-size: 20px;
+      line-height: 28px;
+      text-align: center;
+      color: #a1a1a1;
+      width: 100%;
+      text-transform: uppercase;
+    }
+    #file-input {
+      display: none;
+    }
+  }
+}

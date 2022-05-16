@@ -1,0 +1,198 @@
+
+.vehicle_component{
+    border: 1px solid rgba(0,0,0,.125);
+    box-shadow: 0px 0px 4px #0000004D;
+    font-family: 'Montserrat';
+    margin-bottom: 2rem;
+    border-radius: 0.25rem;
+    // width: 268px;
+    .vehicle_card_header{
+        margin-top: 11px;
+        img{
+            width: 64px;
+            height: 64px;
+        }
+        .header_component{
+            margin-left: 10px;
+            width: 100%;
+            line-height: 1.2;
+            margin-bottom: 15px;
+            // border-bottom: 2px solid #0C4523 ;
+            p{
+                font-size: 18px;
+                font-weight: 600;
+                color: #178A7B;
+            }
+            span{
+                font-size: 14px;
+                color:#707070;
+                text-decoration: underline;
+            }
+        }
+    }
+    .vehice_data_card_body{
+        display: "flex";
+        justify-content: "center";
+        margin: "43px";
+    }
+    .vehicle_card_body{
+        margin: 13px 13px 3px 13px;
+        p{
+            font-size: 14px;
+            color: #146F62;
+            font-weight: bold;
+        }
+        span{
+            font-size: 14px;
+            color: #707070;
+        }
+        .status{
+            text-transform: uppercase;
+            font-size: 14px;
+            font-weight: bold;
+        }
+    }
+    .update_data{
+        font-size: 14px;
+        font-weight: bold;
+        color:#178A7B !important;
+        display: flex;
+        justify-content: end;
+        text-transform: uppercase;
+        margin-right: 10px !important;
+        margin-bottom: 6px !important;
+        span{
+            margin-left: 10px;
+        }
+    }
+}
+
+
+
+.vehice_data_card{
+     padding: 20px 42px;
+    border: 1px solid rgba(0,0,0,.125);
+    box-shadow: 0px 0px 4px #0000004D;
+    font-family: 'Montserrat';
+    width: 100%;
+    border-radius: 12px;
+
+    .vehicle_header{
+        display: "flex";
+        justify-content: "center";
+        border-bottom: 3px dashed #178A7B;
+        p{
+            font-size: 24px;
+            text-transform: uppercase;
+            color: #65ABA0;
+        }
+        img{
+            width: 25px;
+            position: absolute;
+            right: 14px;
+            width: 25px;
+            top: 31px;
+        }
+    }
+}
+
+
+.vehicle_images_card{
+    margin-top:1rem ;
+    border: 1px solid rgba(0,0,0,.125);
+    box-shadow: 0px 0px 4px #0000004D;
+    font-family: 'Montserrat';
+    width: 100%;
+    border-radius: 12px;
+    margin-right: "20px";
+    .vehicle_images{
+        margin-top: 20px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        img{    
+            width: 216px;
+            height: 215px;
+            // margin-right:21px;
+    }
+    }
+    .vehicle_images_card_title{
+        font-size: 24px;
+        color: #65ABA0;
+        text-transform: uppercase;
+        border-bottom: 3px dashed #178A7B;
+        text-align: center;
+
+    }
+   
+}
+ 
+.uploadBox {
+    width: 100%;
+}
+
+
+
+
+.filter_parent{
+    position: absolute !important;
+    z-index: 1;
+    right: 0;
+    top: 15px;
+    opacity: 1;
+    background: #ffffff;
+    border: 1px solid rgba(0,0,0,.125);
+    box-shadow: 0px 0px 4px #0000004D;
+    font-family: 'Montserrat';
+    .filter_header{
+        
+            display: flex;
+            justify-content: space-between;
+            font-size: 28px;
+            font-weight: 600;
+            color: #000000;
+            border-bottom: 3px solid #178A7B;
+        
+    }
+    .filter_body{
+        font-size: 16px;
+        color: #707070;
+       
+        button{
+            font-size: 18px;
+            font-weight: 600;
+            color:#707070;
+            background-color: #ffffff;
+            border: 0.5px solid #707070;
+            border-radius: 8px;            
+        }
+
+        button:focus{
+            color:#707070;
+            background-color: #ffffff;
+            border: 0.5px solid #707070;
+        }
+    }
+}
+.filterIconBtn{
+
+}
+
+// .filter_btn_group{
+//     button:focus {
+//         outline: none;
+//     }
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+

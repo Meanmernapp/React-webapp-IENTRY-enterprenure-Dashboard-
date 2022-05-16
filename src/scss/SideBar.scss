@@ -1,0 +1,56 @@
+.sidebar {
+    .sideLogo {
+        width: 12rem;
+        padding: 0.5rem 0rem 2rem 1rem;
+    }
+    .sideTabs {
+        height: 100vh;
+        background: #146f62;
+        border-radius: 0 4.5rem 0 0;
+        box-shadow: 1px 32px 11px -2px grey;
+        padding-top: 4.5rem;
+        ul {
+            list-style: none;
+            padding: 0;
+            a {
+                &:hover {
+                    text-decoration: none !important;
+                }
+            }
+            .activeLi {
+                background-color: #fff;
+                color: #146f62;
+            }
+            li {
+                display: flex;
+                padding: 0.6rem 1rem;
+                align-items: center;
+                justify-content: space-between;
+                cursor: pointer;
+                font-size: 18px;
+                text-transform: uppercase;
+                color: #fff;
+                span {
+                    font-size: 12px;
+                }
+                &:hover {
+                    background-color: #fff;
+                    color: #146f62 !important;
+                    text-decoration: none !important;
+                }
+                i {
+                    margin-right: 1rem;
+                }
+            }
+        }
+        .sideBarFooter {
+            text-align: center;
+            width: 15%;
+            color: #fff;
+            p {
+                margin-bottom: 0;
+                font-size: 12px;
+            }
+        }
+    }
+}

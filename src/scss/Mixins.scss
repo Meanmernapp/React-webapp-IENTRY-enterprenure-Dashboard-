@@ -1,0 +1,47 @@
+@mixin fontsize($font-size, $text-transform, $font-weight, $color, $word-spacing, $font-family) {
+    font-size: $font-size;
+    text-transform: $text-transform;
+    font-weight: $font-weight;
+    color: $color;
+    word-spacing: $word-spacing;
+    font-family: Montserrat;
+}
+@mixin positions($positions, $left, $top) {
+    position: $positions;
+    left: $left;
+    top: $top;
+}
+@mixin background($background) {
+    background-color: $background;
+}
+@mixin color($color, $font-size, $font-weight, $text-transform) {
+    color: $color;
+    font-size: $font-size;
+    font-weight: $font-weight;
+    text-transform: $text-transform;
+}
+@mixin colorr($color, $font-size, $font-weight) {
+    color: $color;
+    font-size: $font-size;
+    font-weight: $font-weight;
+}
+@mixin padding_margin($padding, $margin) {
+    padding: $padding;
+    margin: $margin;
+}
+
+@mixin lineheight($line-height) {
+    line-height: $line-height;
+}
+
+@mixin employee_m($font-size, $font-family, $font-weight) {
+    font-size: $font-size;
+    font-family: $font-family;
+    font-weight: $font-weight;
+}
+
+@mixin positionrighttop($positions, $top, $right) {
+    position: $positions;
+    top: $top;
+    right: $right;
+}

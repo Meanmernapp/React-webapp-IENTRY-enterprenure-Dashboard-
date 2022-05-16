@@ -1,0 +1,178 @@
+.documentsPanel {
+    padding: 26px 0rem 2rem 1rem;
+    .page-heading {
+        font-size: 39px;
+        font-weight: 500;
+        text-align: left;
+        letter-spacing: 0px;
+        color: #146f62;
+        opacity: 1;
+        h1 {
+            font-size: 39px;
+            font-weight: 500;
+            text-align: left;
+            letter-spacing: 0px;
+            color: #146f62;
+            opacity: 1;
+        }
+    }
+    .row {
+        margin-top: 105px;
+        justify-content: center;
+        .table-heading {
+            margin: 14px 0;
+            padding: 0 14.34px;
+            display: flex;
+            justify-content: center;
+            p {
+                height: 24px;
+                /* UI Properties */
+                font-size: 20px;
+                font-weight: 500;
+                text-align: left;
+                letter-spacing: 7px;
+                color: #146f62;
+                opacity: 1;
+                font-weight: bold;
+                text-transform: capitalize;
+            }
+            button {
+                border: none;
+                text-decoration: underline;
+                text-decoration-color: #000000;
+                background-color: Transparent;
+                text-transform: capitalize;
+                &:focus {
+                    border: none;
+                    outline: none;
+                    outline: none !important;
+                }
+            }
+        }
+        .contractors {
+            margin-top: 182px;
+        }
+    }
+    .documents-detail-sec {
+        width: 505px;
+        .table-header {
+            padding: 0 14.34px;
+            display: flex;
+            justify-content: center;
+            div {
+                width: 33.33%;
+                height: 18px;
+                /* UI Properties */
+                font: normal normal bold 14px/18px Montserrat;
+                letter-spacing: 0px;
+                color: #65aba0;
+                opacity: 1;
+            }
+        }
+        .data-row {
+            display: flex;
+            justify-content: space-between;
+            left: 500px;
+            padding: 0 14.34px;
+            background: #ffffff 0% 0% no-repeat padding-box;
+            box-shadow: 0px 0px 4px #000000b3;
+            border-radius: 8px;
+            opacity: 1;
+            margin: 5px 0;
+            align-items: center;
+            font: normal normal bold 14px/18px Montserrat;
+            div {
+                width: 33.33%;
+            }
+            .cancel {
+                height: 12px;
+                width: 12px;
+            }
+        }
+        .second-row {
+            height: 96px;
+            .download-pdf {
+                width: 30%;
+                font-size: 12px;
+                text-align: center;
+            }
+        }
+        .first-row,
+        .third-row {
+            height: 34px;
+        }
+    }
+}
+
+.documents-panel-modal {
+    .modal-content {
+        justify-content: center !important;
+        .modal-header {
+            border-bottom: none;
+            .h4 {
+                margin: auto !important;
+                text-align: left;
+                font-size: 15px;
+                letter-spacing: 7px;
+                color: #146F62;
+                opacity: 1;
+            }
+            .modalClose {
+                padding: 2px;
+            }
+        }
+        .docsModalBody {
+            display: flex;
+            flex-direction: column;
+            grid-gap: 8px;
+            .uploadImg {
+                height: 97px;
+                /* UI Properties */
+                border: 1px dashed #707070B3;
+                border-radius: 4px;
+                opacity: 1;
+                display: flex;
+                align-items: center;
+                justify-content: space-evenly;
+                .cloud {
+                    width: 20%;
+                    height: auto;
+                }
+                .dragAndDrop {
+                    width: 50%;
+                    text-align: end;
+                    h2 {
+                        text-align: center;
+                        font: normal normal normal 16px/13px Montserrat;
+                        letter-spacing: 0px;
+                        color: #707070B3;
+                    }
+                    p {
+                        text-align: center;
+                        font: normal normal bold 10px/13px Montserrat;
+                        letter-spacing: 0px;
+                        color: #707070B3;
+                    }
+                }
+            }
+            .buttonArea {
+                width: 100%;
+                .btn-light {
+                    padding: 0;
+                    width: 50% !important;
+                    border-radius: 4px;
+                    opacity: 1;
+                    color: #BC0000 !important;
+                }
+                .btn-success {
+                    padding: 0;
+                    width: 50%;
+                    border-radius: 4px;
+                    opacity: 1;
+                    background-color: #65ABA0;
+                    color: #fff !important;
+                }
+            }
+        }
+    }
+}

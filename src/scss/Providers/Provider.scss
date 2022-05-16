@@ -1,0 +1,201 @@
+.add_provider{
+    font-family: 'Montserrat' !important;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    .add_provider_content{
+        box-shadow: 0px 0px 4px hsla(0, 3%, 62%, 0.702);
+        background: #ffffff;
+        padding: 39px 40px 29px 40px;
+    }
+    .provider_header{
+        font-size: 20px;
+        font-weight: bold;
+        letter-spacing: 7px;
+        color: #146F62;
+        text-transform: uppercase;
+        border-bottom: 2px solid #65ABA0;
+    }
+    .add_provider_text_field{
+        margin-bottom: 20px !important;
+        padding: 0px 12px;
+    }
+}
+.employee_provider_detail{
+    margin-top: 170px;
+    margin-bottom: 126px;
+    justify-content: center;
+    .__userImage{
+        position: absolute;
+        width: 160px;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    .__userData{
+        box-shadow: 0px 0px 4px #000000B3;
+        border-radius: 8px;
+        background: #FFFFFF;
+        margin-right: 11px;
+        .__body{
+            padding:136px 61px 51px 62px;
+            text-align: center;
+            .ishead{
+                margin-top: 20px !important;
+            }
+            p{
+                color: #707070;
+                font-size: 14px;
+                font-weight: bold;
+                text-transform: uppercase;
+            }
+            span{
+                font-size: 14px;
+                color: #707070;
+            }
+        }
+        
+    }
+}
+.employee_files_details{
+    box-shadow: 0px 0px 4px #000000B3;
+    border-radius: 8px;
+    background: #ffffff;
+    padding: 35px 33px 60px 33px !important;
+    .__header{
+        display: flex;
+        justify-content: space-between;
+        font-size: 14px;
+        font-weight: bold;
+        color: #178A7B;
+        padding-left: 10px;
+        // padding-right: 40px;
+        text-transform: uppercase;
+    }
+    .__body{
+        .__file{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px dashed #146F62;
+            padding: 17px;
+            .__name{
+               position: relative;
+                width: 40%;
+                p{
+                    font-size: 14px;
+                    font-weight: bold;
+                    color: #707070;
+                }
+                span{
+                    font-size: 14px;
+                    color: #707070;
+                }
+            }
+            .__file_icon{
+                display: flex;
+                align-items: center;
+                img{
+                    width:18px;
+                    height: 24px;
+                }
+                p{
+                    font-size: 14px;
+                    color: #707070;
+                }
+                span{
+                    color: #707070;
+                    font-size: 12px;
+                    font-weight: 100;
+                }
+                .download_icon{
+                    width: 15px;
+                    margin-bottom: 30px;
+                    // height: 7px;
+                }
+            }
+            .noFile{
+                font-size: 14px;
+                color: #707070;
+                text-decoration: underline;
+            }
+        }
+    }
+}
+
+
+
+.vehicleProviderDetails{
+    box-shadow: 0px 0px 4px #000000B3;
+    border-radius: 8px;
+    background: #ffffff;
+    padding:0 !important;
+    width: 459px !important;
+    .__vehicleImage{
+        position: absolute;
+        width: 160px;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    .__vehicleStatus{
+        text-align: right;
+        color: #0C4523;
+        font-size: 16px;
+        font-weight: bold;
+        padding: 5px;
+    }
+    .__body{
+        display: 'flex';
+        justify-content: space-between;
+        padding: 84px 46px 35px 19px;
+        text-align: center;
+
+        p{
+            color: #707070;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        span{
+            font-size: 14px;
+            color: #707070;
+        }
+    }
+}
+
+.upload-doc{
+    .document_card{
+        padding: 15px !important;
+    }
+    .main-content{
+        .card-body{
+            padding: 15px !important;
+        }
+    }
+    .employee-table{
+        thead{
+            th{
+                padding: 0;
+                font-size: 14px;
+            }
+        }
+        .row-first-child{
+            text-align: left;
+        }
+    }
+    .updata_img_m{
+        p{
+            font-size: 14px;
+            line-height: normal;
+            span{
+                font-size: 8px;
+                font-weight: bold;
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
