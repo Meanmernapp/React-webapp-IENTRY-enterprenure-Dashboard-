@@ -31,7 +31,7 @@ const override = css`
 const AddUpdateVehicle = () => {
   const { data } = JSON.parse(sessionStorage.getItem("userdata"));
   const updateVehicleId = location.pathname.split("addupdatevehicle/")[1]
-  const companyId = localStorage.getItem("companyId");
+  const companyId = "bc9789f1-3f16-4759-851d-5501cc37ec97";
   const vehicleImages = [1, 2, 3];
   const checkobj = {};
   const target = useRef(null);

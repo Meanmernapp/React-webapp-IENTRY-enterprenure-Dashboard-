@@ -5,10 +5,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import tokenIcon from '../assets/images/ic-key.svg'
 import BounceLoader from "react-spinners/BounceLoader";
-import { css } from "@emotion/react";
 import { getToken } from '../Apis/Authentication';
 import { toast } from 'react-toastify';
 import { loginMiddleware } from '../reduxToolkit/authentication/authenticationSlice';
+import { override } from '../Helpers/spinnercss';
 
 const LoginForm = () => {
     const [loading, setLoading] = useState(false)
@@ -18,11 +18,6 @@ const LoginForm = () => {
     const [passwordShown, setPasswordShown] = useState(false);
     const { user } = useSelector((state) => state.userData);
 
-    const override = css`
-    display: block;
-    margin: 0 auto;
-    border-color: #26786c;
-  `;
 
     useEffect(() => {
 
@@ -69,8 +64,8 @@ const LoginForm = () => {
                 sessionStorage.setItem("bearerToken", data.access_token);
                 dispatch(loginMiddleware(values));
                 // if (user.data) {
-                    setLoading(false);
-                    navigate('/login-option');
+                setLoading(false);
+                navigate('/login-option');
                 // }
             }).catch(error => {
                 toast.error("something went wrong.")

@@ -16,21 +16,28 @@ export const CompanyDetails = () => {
     const [companyDetail, setCompanyDetail] = useState();
     const [employeeData, setEmployeeData] = useState();
     const [vehicleData, setVehicleData] = useState();
+    const companyId = "bc9789f1-3f16-4759-851d-5501cc37ec97";
+
+    const [page1, setPage1] = useState("0");
+    const [rowsPerPage1, setRowsPerPage1] = useState("8");
+    console.log(page1, rowsPerPage1)
+    // localStorage.setItem("page1", page1)
+    // localStorage.setItem("rowsPerPage1", rowsPerPage1)
 
     useEffect(() => {
 
-        getAllCompaniesData().then(({ data: { data } }) => {
+        getCompanyData(companyId).then(({ data: { data } }) => {
             console.log(data)
-            setCompanyDetail(data[0]);
+            setCompanyDetail(data);
             localStorage.setItem("companyId", data[0]?.id)
 
             const body = {
-                companyId: data[0]?.id,
+                companyId: companyId,
                 email: userdata?.data.email,
                 pagination: {
                     order: true,
-                    page: 0,
-                    size: 4,
+                    page: Number(page1),
+                    size: Number(rowsPerPage1),
                     sortBy: "id"
                 },
                 userId: userdata?.data.id,
@@ -39,7 +46,7 @@ export const CompanyDetails = () => {
 
             getAllCompanyEmployees(body).then(({ data: { data } }) => {
                 setEmployeeData(data.content)
-                // console.log(data)
+                console.log(data)
             }).catch(error => {
                 // toast.error("something went wrong.")
             })
@@ -57,7 +64,8 @@ export const CompanyDetails = () => {
             toast.error("something went wrong.")
         })
 
-    }, [])
+    }, [page1, rowsPerPage1])
+
     return (
         <div className='company-detail'>
             <div className='head'>
@@ -89,21 +97,36 @@ export const CompanyDetails = () => {
                 </div>
                 <div className="col-md-3">
                     <img
-                        src={companyImg}
+                        src={`data:${companyDetail?.path};base64,${companyDetail?.image}`}
                         className="img-fluid companyImg"
                         alt="companyImg"
                     />
                 </div>
                 <div className="col-md-6" style={{ zIndex: "0" }}>
-                    <LefletMap />
+                    <LefletMap
+                        latlng={{
+                            lat: companyDetail?.latitud,
+                            lng: companyDetail?.longitud,
+                        }}
+                    />
                 </div>
             </div>
             <div className="row">
                 <div className="col-md-6">
-                    <Employees employeeData={employeeData} />
+                    <Employees
+                        // employeeData={employeeData}
+                        // setPage1={setPage1}
+                        // setRowsPerPage1={setRowsPerPage1}
+                        // page1={page1}
+                        // rowsPerPage1={rowsPerPage1}
+                        noOfEmployees={companyDetail?.noEmployees}
+                    />
                 </div>
                 <div className="col-md-6">
-                    <Vehicles vehicleData={vehicleData} />
+                    <Vehicles
+                        vehicleData={vehicleData}
+                        noVehicles={companyDetail?.noVehicles}
+                    />
                 </div>
             </div>
         </div>

@@ -26,7 +26,7 @@ export const getCompanyData = (id) => {
 }
 
 export const getAllCompaniesData = () => {
-    return axios.get(COMPANY_DATA_URL + endpoints.GETALLCOMPANIESDATA, config);
+    return axios.get(COMPANY_DATA_URL + endpoints.GETCOMPANYDATA, config);
 }
 
 export const getComopanyRestructions = (id) => {
@@ -38,6 +38,13 @@ export const updateComopanyRestructions = (body) => {
     return axios.put(COMPANY_RESTUCTION_URL + endpoints.UPDATECOMPANYRESTRUCTIONS, body, config);
 }
 
-export const updateComopanyImg = (body) => {
-    return axios.put(`${URL + endpoints.UPDATECOMPANYIMG}?id=${body.id}&option=${body.option}`, body, config);
+export const updateComopanyImg = (formData) => {
+    return axios.put(`${URL + endpoints.UPDATECOMPANYIMG}`, formData, {
+        headers: {
+            "Accept": "application/json",
+            "Content-type": "multipart/form-data",
+            "Authorization": "Bearer " + bearerToken,
+        },
+    }
+    );
 }

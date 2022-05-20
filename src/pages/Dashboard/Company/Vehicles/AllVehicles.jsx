@@ -10,35 +10,6 @@ import { getAllCompanyVehicles } from "../../../../Apis/companyVehicle";
 
 const AllVehicles = () => {
   const [modalShow, setModalShow] = useState();
-  const userdata = JSON.parse(sessionStorage.getItem("userdata"));
-  const [vehicleData, setVehicleData] = useState();
-
-  useEffect(() => {
-    getAllCompaniesData().then(({ data: { data } }) => {
-      const body = {
-        companyId: data[0]?.id,
-        email: userdata?.data.email,
-        pagination: {
-          order: true,
-          page: 0,
-          size: 10,
-          sortBy: "id"
-        },
-        userId: userdata?.data.id,
-        userTypes: userdata?.data?.userType.name
-      }
-
-      getAllCompanyVehicles(body).then(({ data: { data } }) => {
-        setVehicleData(data.content)
-        // console.log(data)
-      }).catch(error => {
-        // toast.error("something went wrong.")
-      })
-    }).catch(error => {
-      toast.error("something went wrong.")
-    })
-
-  }, [])
 
   return (
     <>
@@ -49,7 +20,7 @@ const AllVehicles = () => {
           </Link>
           <h2>
             Vehicles
-            <p style={{ color: "#707070", fontWeight: "lighter", fontSize: "18px" }}>Total {vehicleData?.length}</p>
+            {/* <p style={{ color: "#707070", fontWeight: "lighter", fontSize: "18px" }}>Total {vehicleData?.length}</p> */}
           </h2>
         </div>
         <div style={{ display: "flex" }}>
@@ -72,7 +43,7 @@ const AllVehicles = () => {
           {modalShow && <FilterPopus setModalShow={setModalShow} />}
         </div>
       </div>
-      <VehicleCards vehicleData={vehicleData} />
+      <VehicleCards />
     </>
   );
 };

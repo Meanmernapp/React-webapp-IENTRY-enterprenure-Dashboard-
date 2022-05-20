@@ -3,10 +3,11 @@ import TablePagination from '@mui/material/TablePagination';
 
 const Pagination = ({ setPage1, setRowsPerPage1, label }) => {
 
-    const [page, setPage] = useState(2);
+    const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
 
     const handleChangePage = (event, newPage) => {
+        // console.log("handleChangePage")
         setPage(newPage);
     };
 
@@ -22,7 +23,7 @@ const Pagination = ({ setPage1, setRowsPerPage1, label }) => {
     return (
         <TablePagination
             component="div"
-            count={100}
+            count={25}
             page={page}
             onPageChange={handleChangePage}
             labelRowsPerPage={label}

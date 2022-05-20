@@ -47,6 +47,7 @@ import UpdateProvider from "./pages/Dashboard/Providers/UpdateProvider";
 import ProviderDetails from "./pages/Dashboard/Providers/ProviderDetails";
 import ApproveDocument from "./pages/Dashboard/Providers/ApproveDocument";
 import UploadProviderFile from "./pages/Dashboard/Providers/UploadProviderFile";
+import NotificationPanel from "./pages/Dashboard/Company/NotificationPanel";
 
 // lazyLoading import
 const Home = lazy(() => import('./pages/Home/Home'));
@@ -84,6 +85,7 @@ const DashboardRoutes = () => {
                   <Route path="update-data" element={<UpdateData />} />
                   <Route path="workshift-panel" element={<WorkShiftPanel />} />
                   <Route path="roles-panel" element={<RolesPanel />} />
+                  <Route path="notification-panel" element={<NotificationPanel />} />
 
                   <Route path="employees" element={<AllEmployees />} />
                   <Route path="updateemployee" element={<UpdateEmployee />} />

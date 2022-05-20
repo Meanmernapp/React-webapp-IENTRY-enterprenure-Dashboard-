@@ -12,7 +12,7 @@ import { toast } from 'react-toastify';
 const UpdateData = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const companyCreateId = "c0084d15-2ba7-4622-90d6-b20e527e9ae0";
+  const companyId = "bc9789f1-3f16-4759-851d-5501cc37ec97";
   // const [restructionId, setRestructionId] = useState("");
   const [getCompany, setGetCompany] = useState();
   const [showMap, setShowMap] = useState(false);
@@ -43,18 +43,27 @@ const UpdateData = () => {
   // console.log(updateres)
 
   const onImageChange = (e) => {
-    // console.log(e.target.files[0]);
+    console.log(e.target.files[0]);
     setUpdateCompanyImg({ ...updateCompanyImg, ["file"]: e.target.files[0] })
     const [file] = e.target.files;
     setCompanyImg(URL.createObjectURL(file));
 
+    
+    let formData = new FormData();
+    formData.append('id', companyId);
+    formData.append('option', "company");
+    formData.append('file', e.target.files[0]);
+
     const imgObj = {
-      id: "de7d05f1-1e6f-4ef1-a2e4-7bf73cf64bb8",
-      option: "updateCompanyImg",
-      file: updateCompanyImg
+      companyId: companyId,
+      email: "",
+      userId: "de7d05f1-1e6f-4ef1-a2e4-7bf73cf64bb8",
+      id: companyId,
+      option: "company",
+      file: e.target.files[0] 
     }
 
-    updateComopanyImg(imgObj).then((data) => {
+    updateComopanyImg(formData).then((data) => {
       console.log(data);
     }).catch(error => {
       toast.error("something went wrong.")
@@ -63,26 +72,26 @@ const UpdateData = () => {
 
   useEffect(() => {
 
-    getAllCompaniesData().then(({ data: { data } }) => {
-      console.log(data[0]);
-      setGetCompany(data[0]);
+    getCompanyData(companyId).then(({ data: { data } }) => {
+      // console.log(data);
+      setGetCompany(data);
       setCompanyData({
-        id: data[0]?.id,
+        id: data?.id,
         status: {
-          id: data[0]?.status.id
+          id: data?.status.id
         },
-        acronym: data[0]?.acronym,
-        name: data[0]?.name,
-        address: data[0]?.address,
-        latitud: data[0]?.latitud,
-        longitud: data[0]?.longitud,
-        ip: data[0]?.ip
+        acronym: data?.acronym,
+        name: data?.name,
+        address: data?.address,
+        latitud: data?.latitud,
+        longitud: data?.longitud,
+        ip: data?.ip
       })
 
 
-      getComopanyRestructions(data[0]?.id).then(({ data: { data } }) => {
+      getComopanyRestructions(data?.id).then(({ data: { data } }) => {
         // setRestructionId(data.data.id)
-        console.log(data)
+        // console.log(data)
         const resObj = {
           id: data?.id,
           emailService: data?.emailService,
@@ -336,14 +345,14 @@ const UpdateData = () => {
                 <div className="my-3 updateDataDiv">
                   <div className="checkBoxWithText">
                     <h6 id="updatedata">{value.data} </h6>
-                    <label class="container">
+                    <label className="container">
                       <input
                         type="checkbox"
                         name="check"
                         checked={value.check}
                         onChange={(e) => handleCheckBox(e, value)}
                       />
-                      <span class="checkmark"></span>
+                      <span className="checkmark"></span>
                     </label>
 
                     {/* <input

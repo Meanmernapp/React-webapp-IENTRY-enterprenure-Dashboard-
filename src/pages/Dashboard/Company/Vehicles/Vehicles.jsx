@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import EmployeeVehicleCard from '../../../../components/EmployeeVehicleCard';
 import VehicleCard from './VehicleCard';
+import TablePagination from '@mui/material/TablePagination';
 import HashLoader from "react-spinners/HashLoader";
 import { css } from "@emotion/react";
 import Pagination from '../../../../components/Pagination';
@@ -16,10 +17,19 @@ const override = css`
   z-index: 6; 
 `;
 
-export const Vehicles = ({ vehicleData }) => {
-    const [page1, setPage1] = useState();
-    const [rowsPerPage1, setRowsPerPage1] = useState();
-    // console.log(vehicleData)
+export const Vehicles = ({ vehicleData, noVehicles }) => {
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(1);
+
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = event => {
+        setRowsPerPage(parseInt(event.target.value));
+        setPage(0);
+    };
+
     return (
         <>
             <div className='employeeVehicleHead'>
@@ -30,7 +40,7 @@ export const Vehicles = ({ vehicleData }) => {
                             <sub>view more</sub>
                         </Link>
                     </h3>
-                    <p>Total <span>{vehicleData?.length}</span></p>
+                    <p>Total <span>{noVehicles}</span></p>
                 </div>
                 <Link to="/dashboard/company/addupdatevehicle">
                     <button className='addNewEmployeeBtn'>Add new Vehicle</button>
@@ -39,7 +49,7 @@ export const Vehicles = ({ vehicleData }) => {
             <div className="row mb-3">
                 {
                     vehicleData ?
-                        vehicleData?.map(item => (
+                        vehicleData?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(item => (
                             <div className="col-12 col-md-6" style={{ marginTop: "4.5rem" }} key={item.id}>
                                 <VehicleCard vehicleCardData={item} />
                             </div>
@@ -49,10 +59,15 @@ export const Vehicles = ({ vehicleData }) => {
                         </div>
                 }
                 <div className="col-10 mt-2">
-                    <Pagination
-                        setPage1={setPage1}
-                        setRowsPerPage1={setRowsPerPage1}
-                        label="Vehicles per page"
+                    <TablePagination
+                        component="div"
+                        rowsPerPageOptions={[1, 2, 3]}
+                        count={vehicleData?.length}
+                        page={page}
+                        onPageChange={handleChangePage}
+                        labelRowsPerPage="Vehicles per page"
+                        rowsPerPage={rowsPerPage}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
                     />
                 </div>
             </div>

@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { MapContainer, useMapEvents, TileLayer, Marker, Popup } from 'react-leaflet';
 import Geocode from "react-geocode";
 
-function AddMarkerToClick() {
+function AddMarkerToClick({ latlng }) {
+    console.log(latlng)
 
     const [markers, setMarkers] = useState();
+    // console.log(markers)
 
     const map = useMapEvents({
         click(e) {
@@ -17,7 +19,7 @@ function AddMarkerToClick() {
             Geocode.fromLatLng(lat, lng).then(
                 (response) => {
                     const address = response.results[0].formatted_address;
-                    console.log(address)
+                    // console.log(address)
                 },
                 (error) => {
                     console.error(error);
@@ -30,7 +32,7 @@ function AddMarkerToClick() {
         <>
             {
                 markers && (
-                    <Marker position={markers}>
+                    <Marker position={{lat, lng}}>
                         <Popup>Marker is at {markers}</Popup>
                     </Marker>
                 )
@@ -39,7 +41,8 @@ function AddMarkerToClick() {
     )
 }
 
-const LefletMap = () => {
+const LefletMap = ({ latlng }) => {
+    console.log(latlng)
     return (
         <MapContainer
             center={[51.505, -0.09]}
@@ -51,7 +54,7 @@ const LefletMap = () => {
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
-            <AddMarkerToClick />
+            <AddMarkerToClick latlng={latlng} />
         </MapContainer>
     )
 }

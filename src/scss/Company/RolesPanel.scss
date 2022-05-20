@@ -11,41 +11,41 @@
         }
     }
     .btn-bordered {
-        border-bottom: 2px solid #65ABA0;
+        border-bottom: 2px solid #65aba0;
         span {
             text-align: center;
             letter-spacing: 0px;
-            color: #65ABA0 !important;
+            color: #65aba0 !important;
             opacity: 1;
             font-weight: bold;
             font-size: 24px;
         }
     }
+    .employe-log-module {
+        justify-content: end;
+        grid-gap: 5px;
+    }
+    .employee-module,
+    .log-module {
+        height: 27px;
+        /* UI Properties */
+        background: #146f62 0% 0% no-repeat padding-box;
+        color: #fff;
+        text-align: center;
+        border-radius: 4px;
+        opacity: 1;
+    }
+    .log-module {
+        background-color: #146f62d1 !important;
+    }
     .tab-content {
-        .employe-log-module {
-            justify-content: end;
-            grid-gap: 5px;
-        }
-        .employee-module,
-        .log-module {
-            height: 27px;
-            /* UI Properties */
-            background: #146F62 0% 0% no-repeat padding-box;
-            color: #fff;
-            text-align: center;
-            border-radius: 4px;
-            opacity: 1;
-        }
-        .log-module {
-            background-color: #146F62D1 !important;
-        }
         table {
             border-collapse: separate;
             border-spacing: 0 10px;
             th {
                 text-align: left;
                 letter-spacing: 0px;
-                color: #65ABA0 !important;
+                color: #65aba0 !important;
                 opacity: 1;
                 border: none;
                 font-weight: 500;
@@ -63,7 +63,7 @@
             }
             tr {
                 // height: 36px;
-                background: #FFFFFF 0% 0% no-repeat padding-box;
+                background: #ffffff 0% 0% no-repeat padding-box;
                 box-shadow: 0px 0px 4px #00000080;
                 .first-child {
                     text-align: left !important;
@@ -92,8 +92,8 @@
                     position: absolute;
                     opacity: 0;
                     cursor: pointer;
-                    &:checked~.checkmark {
-                        background-color: #178A7B;
+                    &:checked ~ .checkmark {
+                        background-color: #178a7b;
                         &:after {
                             display: block;
                             left: 4px;
@@ -117,7 +117,7 @@
                 width: 15px !important;
                 background-color: $background-color_1;
                 border-radius: 25% !important;
-                border: 1px solid #B4B4B5;
+                border: 1px solid #b4b4b5;
                 &:after {
                     content: "";
                     position: absolute;
@@ -129,7 +129,7 @@
     .roleAssignment {
         .form-control {
             position: relative;
-            background: #FCFCFC 0% 0% no-repeat padding-box;
+            background: #fcfcfc 0% 0% no-repeat padding-box;
             box-shadow: 0px 0px 4px #00000059;
             border-radius: 4px;
             opacity: 1;

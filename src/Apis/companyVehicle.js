@@ -40,3 +40,10 @@ export const getVehicleByVehicleId = (id) => {
         config
     )
 }
+
+export const orderByVehicles = () => {
+    return axios.get(
+        `http://182.176.161.38:8080/corporate-user-pre-prod-v1/assets-service/vehicle-company/get-filters`,
+        config
+    )
+}

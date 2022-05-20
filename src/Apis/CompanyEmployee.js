@@ -106,3 +106,10 @@ export const updateUser = (body) => {
         config
     )
 }
+
+export const orderByEmployees = () => {
+    return axios.get(
+        `http://182.176.161.38:8080/corporate-user-pre-prod-v1/assets-service/employee-user-company/get-filters`,
+        config
+    )
+}

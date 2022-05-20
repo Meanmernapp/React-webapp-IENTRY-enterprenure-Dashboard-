@@ -1,11 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import FilterPopus from "../Vehicles/FilterPopus";
 import EmployeeCards from "./EmployeeCard/EmployeeCards";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
+import SortFilter from "./Modal/SortFilter";
+import FilterModal from "./Modal/FilterModal";
 
 const AllEmployees = (props) => {
-  const [ModalShow, setModalShow] = useState(false);
+  const [modalShow, setModalShow] = useState(false);
+  const [orderBy, setOrderBy] = useState();
+  const [sortBy, setSortBy] = useState();
+  console.log(orderBy, sortBy)
+
+  const handlFilters = (order, sort) => {
+    setOrderBy(order);
+    setSortBy(sort);
+  }
 
   return (
     <>
@@ -31,8 +42,20 @@ const AllEmployees = (props) => {
           </button>
         </div>
       </div>
+      {modalShow &&
+        <SortFilter
+          setModalShow={setModalShow}
+          handlFilters={handlFilters}
+        />}
+      {/* <FilterModal
+        show={ModalShow}
+        onHide={() => setModalShow(false)}
+      /> */}
 
-      <EmployeeCards />
+      <EmployeeCards
+        orderBy={orderBy}
+        sortBy={sortBy}
+      />
     </>
   );
 };
