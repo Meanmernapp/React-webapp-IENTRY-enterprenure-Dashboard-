@@ -3,8 +3,10 @@ import { Nav, Navbar } from "react-bootstrap";
 import logo from './../../assets/images/logo.png';
 import mobile from './../../assets/images/mobile.svg';
 import languageimg from './../../assets/images/language.svg';
-import profile from './../../assets/images/profile.PNG';
+import profile from './../../assets/images/green-profile.PNG';
 import LoginForm from "../../components/LoginForm";
+import LanguageSelector from "../../components/LanguageSelector";
+import LanguageSelectorOption from "../../components/LanguageSelectorOption";
 
 
 const Header = () => {
@@ -44,7 +46,7 @@ const Header = () => {
 
             <Navbar.Collapse id="responsive-navbar-nav" className="justify-content-end">
                 <Nav className="position-absolute">
-                    <div className="link navlinks" onClick={() => handleSelect("download")}>
+                    {/* <div className="link navlinks" onClick={() => handleSelect("download")}>
                         DOWNLOAD <img style={{ marginLeft: "10px" }} src={mobile} alt="mobileimg" />
                         {
                             download && <div className="dropdown_css">
@@ -63,9 +65,10 @@ const Header = () => {
                                 </p>
                             </div>
                         }
-                    </div>
+                    </div> */}
                     <div className="link navlinks" onClick={() => handleSelect("language")}>
-                        LANGUAGES <img style={{ marginLeft: "10px" }} src={languageimg} alt="languageimg" />
+                        <LanguageSelectorOption />
+                        {/* LANGUAGES <img style={{ marginLeft: "10px" }} src={languageimg} alt="languageimg" />
                         {
                             language && <div className="dropdown_css">
                                 <p onClick={() => seticonClick("spanish")}>
@@ -87,7 +90,7 @@ const Header = () => {
                                     </span>
                                 </p>
                             </div>
-                        }
+                        } */}
                     </div>
                     <div className="link navlinks">
                         <button

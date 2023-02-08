@@ -16,6 +16,7 @@ import {
   Select,
   TextField,
 } from "@mui/material";
+import { t } from "i18next";
 const AddUpdateNewProviders = () => {
   const [acronym, setAcronym] = useState();
   const [companyName, setCompanyName] = useState();
@@ -25,7 +26,7 @@ const AddUpdateNewProviders = () => {
   const [status, setStatus] = useState();
   const [gender, setGender] = useState();
   const location = useLocation();
-  const {updateProviderState } = location.state;
+  const { updateProviderState } = location.state;
   const [updateProvider, setUpdateProvider] = useState(false);
 
   useEffect(() => {
@@ -44,7 +45,7 @@ const AddUpdateNewProviders = () => {
               }}
             />
           </Link>
-          {updateProvider ? "UPDATE PROVIDER" : "ADD PROVIDER"}
+          {updateProvider ? "UPDATE PROVIDER" : "ADD PROVIDER fjdkl"}
         </h2>
         <div style={{ display: "flex" }}>
           <Link to="/dashboard/uploademployeefile">
@@ -56,7 +57,7 @@ const AddUpdateNewProviders = () => {
       </div>
       <div className="mt-5  add_provider">
         <div className="col-md-6 add_provider_content">
-          <p className="provider_header">Provider Company</p>
+          <p className="provider_header">{t("company_provider")}</p>
 
           <Box
             className="add_provider_text_field"
@@ -68,10 +69,10 @@ const AddUpdateNewProviders = () => {
               height: "40px",
             }}
           >
-            <TextField
+            <TextField size="small"
               fullWidth
-              placeholder="IBL"
-              label="Acronym"
+
+              label={t("acronym")}
               id="Acronym"
               value={acronym}
               onChange={(e) => setAcronym(e.target.value)}
@@ -87,17 +88,17 @@ const AddUpdateNewProviders = () => {
               height: "40px",
             }}
           >
-            <TextField
+            <TextField size="small"
               fullWidth
-              placeholder="Intelligence Bereau Laboratory"
-              label="Company Name"
+
+              label={t("company_name")}
               id="Company Name"
               value={companyName}
               onChange={(e) => setCompanyName(e.target.value)}
               className=""
             />
           </Box>
-          <p className="provider_header">PROVIDER INFORMATION</p>
+          <p className="provider_header">{t("provider_information")}</p>
           <Box
             className="add_provider_text_field"
             style={{ marginTop: "28.5px" }}
@@ -108,10 +109,10 @@ const AddUpdateNewProviders = () => {
               height: "40px",
             }}
           >
-            <TextField
+            <TextField size="small"
               fullWidth
-              placeholder="Luis Enrique Cornejo Arreola"
-              label="NAME"
+
+              label={t("name")}
               id="NAME"
               value={name}
               onChange={(e) => setName(e.target.value)}
@@ -127,10 +128,10 @@ const AddUpdateNewProviders = () => {
               height: "40px",
             }}
           >
-            <TextField
+            <TextField size="small"
               fullWidth
-              placeholder="lcornejo@ibl.mx"
-              label="Email"
+
+              label={t("email")}
               id="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -152,10 +153,10 @@ const AddUpdateNewProviders = () => {
               height: "40px",
             }}
           >
-            <TextField
+            <TextField size="small"
               fullWidth
-              placeholder="4427065906"
-              label="Phone Number"
+
+              label={t("phone_number")}
               id="Phone Number"
               value={phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value)}
@@ -179,16 +180,16 @@ const AddUpdateNewProviders = () => {
             }}
           >
             <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">Status</InputLabel>
-              <Select
+              <InputLabel id="demo-simple-select-label">{t("status")}</InputLabel>
+              <Select size="small"
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 value={status}
                 onChange={(e) => setStatus(e.target.value)}
-                label="Status"
+                label={t("status")}
               >
-                <MenuItem value={10}>Active</MenuItem>
-                <MenuItem value={20}>InActive</MenuItem>
+                <MenuItem value={10}>{t("active")}</MenuItem>
+                <MenuItem value={20}>{t("inactive")}</MenuItem>
               </Select>
             </FormControl>
           </Box>
@@ -202,16 +203,16 @@ const AddUpdateNewProviders = () => {
             }}
           >
             <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">Gender</InputLabel>
-              <Select
+              <InputLabel id="demo-simple-select-label">{t("gender")}</InputLabel>
+              <Select size="small"
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 value={gender}
                 label="Age"
                 onChange={(e) => setGender(e.target.value)}
               >
-                <MenuItem value={10}>Male</MenuItem>
-                <MenuItem value={20}>Female</MenuItem>
+                <MenuItem value={10}>{t("male")}</MenuItem>
+                <MenuItem value={20}>{t("female")}</MenuItem>
               </Select>
             </FormControl>
           </Box>

@@ -1,0 +1,218 @@
+// not found page
+.notFound {
+    display: flex;
+    justify-content: center;
+    gap: 5rem;
+    padding-top: 3rem;
+    background-image: url(../assets/images/mountain.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    // background-attachment:fixed;
+    height: 100vh;
+    background-position: 0px 120px;
+
+    .notfoundtext {
+
+
+        .item {
+            text-align: center;
+
+            h1 {
+                // text-align: center;
+                font: normal normal 600 92px/112px Montserrat;
+                letter-spacing: 0px;
+                color: #707070;
+                opacity: 1;
+            }
+
+            p {
+                font: normal normal normal 48px/58px Montserrat;
+                letter-spacing: 0px;
+                color: #707070;
+                opacity: 1;
+            }
+
+
+            button {
+                width: 316px;
+                height: 41px;
+                background: #146F62 0% 0% no-repeat padding-box;
+                box-shadow: 0px 0px 4px #00000080;
+                border-radius: 50px;
+                opacity: 1;
+                border: none;
+                font: normal normal 600 14px/18px Montserrat;
+                letter-spacing: 0px;
+                color: #FFFFFF;
+                opacity: 1;
+                margin-top: 1rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 1rem;
+
+                i {
+                    font-size: 1.4rem;
+                }
+
+            }
+
+        }
+
+
+    }
+
+}
+
+// unauthorized page
+.un_authorized_main_container {
+    .un_authorized_container {
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+        padding-top: 2rem;
+
+        img {
+            width: 534px;
+            height: 426px;
+        }
+
+        .un_authorized_info_container {
+            display: flex;
+            align-items: center;
+
+            .un_authorized_info {
+                // text-align: center;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+
+                h1 {
+                    // text-align: center;
+                    font: normal normal 600 92px/112px Montserrat;
+                    letter-spacing: 0px;
+                    color: #BC0000;
+                    opacity: 1;
+                }
+
+                p {
+                    font: normal normal normal 48px/58px Montserrat;
+                    letter-spacing: 0px;
+                    color: #BC0000;
+                    opacity: 1;
+                }
+
+                span {
+                    font: normal normal bold 32px/39px Montserrat;
+                    letter-spacing: 0px;
+                    color: #BC0000;
+                }
+
+                button {
+                    width: 316px;
+                    height: 41px;
+                    background: #BC0000 0% 0% no-repeat padding-box;
+                    box-shadow: 0px 0px 4px #00000080;
+                    border-radius: 50px;
+                    opacity: 1;
+                    border: none;
+                    font: normal normal 600 14px/18px Montserrat;
+                    letter-spacing: 0px;
+                    color: #FFFFFF;
+                    opacity: 1;
+                    margin-top: 1rem;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 1rem;
+
+                    i {
+                        font-size: 1.4rem;
+                    }
+                }
+
+            }
+
+        }
+
+
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-top: 2rem;
+    }
+}
+
+// forbidden page
+.forbidden {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    height: 96vh;
+
+    .forbidden_container {
+        position: relative;
+
+        .forbidden_container_item {
+            position: absolute;
+            top: 25%;
+            right: 18%;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+
+            h4 {
+                text-align: center;
+                font: normal normal normal 38px/58px Montserrat;
+                letter-spacing: 0px;
+                color: #707070;
+                opacity: 1;
+                line-height: 1;
+
+            }
+
+            h3 {
+                text-align: center;
+                font: normal normal 600 120px/219px Montserrat;
+                letter-spacing: 0px;
+                color: #146F62;
+                opacity: 1;
+                line-height: 1;
+            }
+
+            p {
+                text-align: center;
+                font: normal normal 600 18px/27px Montserrat;
+                letter-spacing: 0px;
+                color: #707070;
+                opacity: 1;
+            }
+
+            button {
+                background: #E24C4B 0% 0% no-repeat padding-box;
+                box-shadow: 0px 0px 4px #00000080;
+                border-radius: 4px;
+                opacity: 1;
+                font: normal normal 600 14px/18px Montserrat;
+                letter-spacing: 0px;
+                color: #FFFFFF;
+                opacity: 1;
+                width: 216px;
+                height: 31px;
+                border: none;
+                margin: 0 auto;
+                margin-top: 1rem;
+            }
+
+            img {
+                margin: 0 auto;
+                margin-top: 1.28rem;
+            }
+        }
+    }
+}

@@ -1,0 +1,668 @@
+.events {
+  .steps {
+    width: 100% !important;
+  }
+
+  .tss-58la38-MUIDataTable-paper .tss-tlx3x1-MUIDataTableToolbar-root {
+    display: none !important;
+  }
+
+  .tss-58la38-MUIDataTable-paper .css-1ex1afd-MuiTableCell-root:first-child {
+    color: #707070;
+    text-align: left;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 18px;
+    letter-spacing: 0px;
+    color: #707070;
+  }
+}
+
+.MuiInputLabel-root {
+  text-transform: uppercase;
+}
+
+.records {
+  width: 100%;
+  background: #ffffff;
+  box-shadow: 0px 0px 4px #00000080;
+  border-radius: 6px;
+
+  .not_available {
+    height: 92px;
+    display: flex;
+    grid-gap: 49px;
+    justify-content: center;
+    align-items: center;
+    margin: 15px 0;
+
+    span {
+      font-weight: 300;
+      font-size: 48px;
+      line-height: 58px;
+      letter-spacing: 0px;
+      color: #bc0000;
+      text-transform: uppercase;
+    }
+  }
+}
+
+.manage_others_modal_body {
+  .findPersonDiv {
+    margin-top: 1rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 2px solid #146f62;
+  }
+
+  .bottomText {
+    font-size: 10px;
+    color: #707070;
+    margin: 5px 0;
+
+    span {
+      color: #bc0000;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+  }
+
+  .preRegisterUserFields {
+    margin: 10px 0;
+  }
+}
+
+// incoming page scss
+.onuVistor {
+  height: 15.5rem !important;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  overflow: auto;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.onuVistorOther {
+  height: 15.5rem !important;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  overflow: auto;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.vehicle_table {
+  height: 21rem !important;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  overflow: auto;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.normalVistor {
+  height: 15rem !important;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  overflow: auto;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.eventTables {
+  // -ms-overflow-style: none;
+  // scrollbar-width: none;
+  // overflow: auto;
+  // height: 13rem;
+  // padding: 0 1rem;
+
+
+  table {
+    border-collapse: separate !important;
+    border-spacing: 0 15px;
+    width: 99% !important;
+    margin: 0 auto;
+
+    thead {
+      th {
+        font-size: 14px;
+        color: #65aba0;
+        text-transform: uppercase;
+        text-align: center;
+      }
+    }
+
+    .first-head {
+      text-align: left !important;
+      padding-left: 1rem;
+    }
+
+    .first {
+      text-align: left !important;
+      padding-left: 1rem;
+      font: normal normal bold 14px/18px Montserrat;
+      letter-spacing: 0px;
+      color: #707070;
+      opacity: 1;
+    }
+
+    .last {
+      text-align: right !important;
+      padding-right: 1rem;
+
+      img {
+        cursor: pointer;
+      }
+
+      .dropdown-menu.show {
+        inset: -16% auto auto 11%;
+        transform: translate(0px, 25px);
+        // padding: 20px;
+        // width: 216px;
+        // height: 99px;
+        // border-radius: 15px;
+        // background: #fcfcfc 0% 0% no-repeat padding-box;
+        // box-shadow: 0px 0px 4px #00000099;
+        // border-radius: 4px;
+        // opacity: 1;
+        // padding: 10px 10px;
+        background: #FCFCFC 0% 0% no-repeat padding-box;
+        box-shadow: 0px 0px 4px #00000099;
+        border-radius: 4px;
+        opacity: 1;
+
+        .dropdownDiv {
+          // margin-bottom: 10px;
+          padding: 6px 7px;
+          display: flex;
+          gap: 1rem;
+          align-items: center;
+
+          img {
+            width: 18px;
+            height: 24px;
+          }
+
+          span {
+            font: normal normal normal 14px/18px Montserrat;
+            letter-spacing: 0px;
+            color: #000000;
+            opacity: 1;
+          }
+
+          &:hover {
+            background: #e1e1e1 0% 0% no-repeat padding-box;
+            border-radius: 1px;
+            opacity: 1;
+          }
+        }
+      }
+    }
+
+    tr {
+      box-shadow: 0px 0px 4px #00000099;
+      border-radius: 4px;
+      opacity: 1;
+      height: 36px;
+
+      td {
+        text-align: center;
+      }
+    }
+  }
+}
+
+.CreateEventPanel {
+  .name {
+    margin-top: 18px;
+  }
+
+  .content {
+    width: 77%;
+    margin: 2rem auto;
+
+    // .name {
+    //   margin-left: 150px;
+
+    p {
+      text-transform: uppercase;
+      font-size: 10px;
+      font-weight: 600;
+      color: #707070;
+      margin-bottom: 12px !important;
+    }
+
+    // }
+
+    .inputs {
+      width: 346px;
+    }
+
+    .dateTimeInput {
+      margin: 20px 0px 0 150px;
+
+      input {
+        font-size: 12px;
+        padding: 6px 15px !important;
+      }
+
+      p {
+        text-transform: uppercase;
+        font-size: 10px;
+        font-weight: 600;
+        color: #707070;
+      }
+
+      .dateTimeInput-container {
+        display: flex;
+
+        .dateInput {
+          margin-right: 29px;
+        }
+
+        .timeInput {
+          width: 100% !important;
+        }
+      }
+    }
+  }
+
+  .content2 {
+    margin-top: 40px;
+
+    .headline {
+      font-size: 12px;
+      font-weight: bold;
+      color: #707070;
+      margin-bottom: 11px !important;
+      margin-top: 40px !important;
+    }
+
+    .headline2 {
+      font-size: 12px;
+      font-weight: bold;
+      color: #707070;
+      margin-bottom: 11px !important;
+    }
+
+    margin: 0px 171px;
+
+    .reservationCard {
+
+      background: #fcfcfc;
+      box-shadow: 0px 0px 4px #7070704D;
+      border-radius: 4px;
+      opacity: 1;
+      display: flex;
+      height: 85px;
+      font-size: 14px;
+      margin-bottom: 12px;
+      cursor: pointer;
+
+      .data {
+        padding: 20px 15px;
+      }
+
+      .heading {
+        font-weight: bold;
+      }
+
+      .description {
+        color: #707070;
+      }
+
+      .status {
+        color: #178a7b;
+      }
+
+      .flowerImg {
+        width: 35px;
+        height: 35px;
+        margin: 10px 0 0 10px;
+      }
+
+      .companyImage {
+        width: 92px;
+        margin: 5px 14px;
+      }
+    }
+
+    .unavailableEventParent {
+      box-shadow: 0px 0px 4px #00000080;
+      border-radius: 6px;
+      background: #ffffff;
+      height: 52px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .unavailableEvent {
+        font-size: 20px;
+        color: #bc0000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+.searchItem {
+  max-height: 10rem;
+  overflow-y: scroll;
+
+  .add_some_one_item {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px;
+    cursor: pointer;
+    margin: 5px 0;
+
+    &:hover {
+      background-color: lightgray;
+    }
+  }
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.EventBtns {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 35px;
+
+  .EventNextBtn {
+    background-color: #146f62;
+    border-radius: 4px;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: bold;
+    height: 35px;
+    width: 284px;
+    outline: none;
+    border: none;
+    text-transform: uppercase;
+
+    &:hover {
+      background-color: #65aba0;
+    }
+  }
+
+  .EventPreviousBtn {
+    font-size: 14px;
+    font-weight: 600;
+    color: #bc0000;
+    width: 284px;
+    height: 35px;
+    outline: none;
+    border: none;
+    box-shadow: none !important;
+    background-color: transparent;
+
+    &:hover {
+      background-color: #e1e1e1;
+    }
+  }
+}
+
+.addNewVehicleBtns {
+  display: flex;
+  justify-content: space-between;
+
+  .addNewVehicleCancelBtn {
+    border: none;
+    font-size: 12px;
+    background: white;
+    color: rgb(188, 0, 0);
+    font-weight: bold;
+    width: 100%;
+    height: 30px;
+
+    &:hover {
+      background-color: #e1e1e1;
+      border-radius: 5px 0 0 5px;
+    }
+  }
+
+  .addNewVehicleAddBtn {
+    background: rgb(20, 111, 98);
+    color: white;
+    border-radius: 4px;
+    border: none;
+    box-shadow: 0px 0px 4px #00000080;
+    padding: 0px 2.8rem;
+    font-size: 12px;
+    width: 100%;
+    height: 30px;
+  }
+}
+
+.CreateOnuEventPanel {
+  .HostSection {
+    .checkboxOther {
+      margin: 37px 0 !important;
+
+      input {
+        margin-right: 11px;
+      }
+    }
+  }
+
+  .content {
+    .contentStart {
+      margin-top: 126px;
+      margin-left: 223px;
+      margin-right: 223px;
+    }
+  }
+
+  .content4 {
+    margin-top: 68px;
+    margin-left: 177px;
+    margin-right: 191px;
+
+    .headingText {
+      font-size: 14px;
+      font-weight: bold;
+      color: #707070;
+      margin-top: 28px !important;
+    }
+
+    .yesNoCheckbox {
+      display: flex;
+      font-size: 14px;
+      color: #707070;
+      margin-left: 62px;
+      align-items: center;
+    }
+  }
+}
+
+.css-1u3bzj6-MuiFormControl-root-MuiTextField-root {
+  width: 100% !important;
+}
+
+// Events-modal
+.events_modal {
+  .modal-header {
+    position: relative;
+    height: 2rem;
+
+    img {
+      position: absolute;
+      right: 0;
+      top: 0;
+      cursor: pointer;
+      padding: 5px;
+      border-radius: 3px;
+
+      &:hover {
+        background-color: lightgray;
+      }
+    }
+  }
+
+  .modal-body {
+    padding: 10px 1rem;
+
+    .heading {
+      text-align: center;
+      font-weight: bold;
+      font-size: 20px;
+      line-height: 24px;
+      letter-spacing: 7px;
+      color: #146f62;
+      margin-bottom: 14px;
+    }
+
+    .modal_excerpt {
+      text-align: center;
+      font-weight: normal;
+      font-size: 11px;
+      line-height: 14px;
+      letter-spacing: 0px;
+      color: #707070;
+      margin-bottom: 5px;
+    }
+
+    ul {
+      li {
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 18px;
+        letter-spacing: 0px;
+        color: #000000;
+        margin-bottom: 8px;
+
+        ::marker {
+          color: #146f62 !important;
+        }
+      }
+    }
+  }
+
+  .modal-dialog {
+    max-width: 317px !important;
+  }
+}
+
+.visitors {
+  padding: 38px 80px;
+
+  .tss-58la38-MUIDataTable-paper .tss-tlx3x1-MUIDataTableToolbar-root {
+    display: none !important;
+  }
+
+  .tss-1ork7hi-MUIDataTablePagination-tableCellContainer {
+    display: none !important;
+  }
+}
+
+.head1 {
+  display: flex;
+  // justify-content: space-between;
+  gap: 0.5rem;
+  margin: 40px !important;
+
+
+  .searchVehicles {
+    display: flex;
+    height: 43px;
+    border: 1px solid lightgray;
+    width: 100%;
+    align-items: center;
+    border-radius: 5px;
+
+    input {
+      border: none;
+      width: 100%;
+      height: 100%;
+      padding: 10px;
+      border-radius: 5px;
+      outline: none;
+    }
+  }
+
+  .vehicleBtn {
+    border: none;
+    padding: 7px 0;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 15rem;
+    border-radius: 5px;
+    background-color: #146f62;
+    color: #fff;
+    font-size: 1rem;
+    text-transform: uppercase;
+    font-weight: 450;
+    height: 43px;
+    font-weight: bold;
+    width: 278px;
+  }
+}
+
+.EventIncomingDeatil {
+  margin-top: 2rem;
+}
+
+.EventValidationDeatil {
+  margin-top: 2rem;
+}
+
+.remove_filter_visitor {
+  .tss-58la38-MUIDataTable-paper .tss-tlx3x1-MUIDataTableToolbar-root {
+    display: none;
+  }
+}
+
+.css-1d3z3hw-MuiOutlinedInput-notchedOutline {
+  border: 0.12rem solid #a7a7a7 !important;
+  border-radius: 6px !important;
+}
+
+.css-1sumxir-MuiFormLabel-root-MuiInputLabel-root {
+  font-size: 12px !important;
+  font-weight: 900 !important;
+}
+
+.duration-min {
+  position: absolute;
+  right: 10px;
+  top: 52px;
+  text-align: left;
+  font: normal normal bold 12px/15px Montserrat;
+  letter-spacing: 0px;
+  color: #707070;
+  opacity: 1;
+}
+
+.hostContainer .content {
+  margin-top: 0px;
+}
+
+.hostContainer .content .name {
+  margin-left: 0px;
+}
+
+
+
+
+.hover_effect {
+  margin-left: 1rem !important;
+
+  &:hover {
+    background-color: #0000001A;
+  }
+}

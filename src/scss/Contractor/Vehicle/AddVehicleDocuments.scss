@@ -1,0 +1,102 @@
+.add-vehicle-documents {
+  margin: auto;
+  text-align: center;
+  &__heading {
+    text-align: left;
+    font: normal normal 600 32px/39px Montserrat;
+    letter-spacing: 0px;
+    color: #146f62;
+    text-transform: uppercase;
+    opacity: 1;
+    margin: 90px 0 20px 0;
+    display: inline-block;
+  }
+  &__desc {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font: normal normal normal 14px/18px Montserrat;
+    letter-spacing: 0px;
+    color: #65aba0;
+    opacity: 1;
+    margin: 0 0 30px 0;
+  }
+}
+.add-vehicle-documents .add-new-employe__document {
+  margin: auto;
+  width: 800px;
+}
+
+.all-vehical-modal {
+  text-align: left;
+  font: normal normal bold 14px/18px Montserrat;
+  letter-spacing: 0px;
+  color: #146f62;
+  opacity: 1;
+
+  &--body {
+    border: 1px solid var(--gray-707070);
+    background: #ffffff 0% 0% no-repeat padding-box;
+    border: 1px solid #707070;
+    border-radius: 4px;
+    opacity: 1;
+    padding: 10px;
+    margin: 10px 0;
+    &__item {
+      display: block;
+      text-align: left;
+      font: normal normal 100 12px/15px Montserrat;
+      letter-spacing: 0px;
+      color: #707070;
+      margin: 5px 0;
+      opacity: 1;
+      position: relative;
+      svg {
+        color: red;
+        text-align: end;
+        position: absolute;
+        top: -5px;
+        right: 0;
+      }
+    }
+    &__add {
+      text-align: left;
+      display: block;
+      font: normal normal normal 14px/18px Montserrat;
+      letter-spacing: 0px;
+      color: #707070;
+      opacity: 1;
+      box-shadow: 0px 0px 2px #0000004d;
+      border-radius: 50px;
+      padding: 5px;
+      margin: 5px 0;
+      svg{
+        color: #000;
+        margin-left: 10px;
+        margin-top: -2px;
+      }
+    }
+  }
+ 
+  &__search {
+    display: flex;
+    position: relative;
+    &--input {
+      display: flex;
+      background: #fcfcfc 0% 0% no-repeat padding-box;
+      border-radius: 4px;
+      box-shadow: 0px 0px 4px #000000b3;
+      opacity: 1;
+      
+      border: 1px solid #707070;
+      width: 100%;
+      outline: none;
+    }
+    svg {
+      position: absolute;
+      top: 2px;
+      right: 6px;
+      color: #707070;
+    }
+  }
+}

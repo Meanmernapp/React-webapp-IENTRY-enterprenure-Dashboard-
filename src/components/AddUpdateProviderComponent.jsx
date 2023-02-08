@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import React, { useEffect, useMemo, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import SaveIcon from "@mui/icons-material/Save";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import PhoneIphoneIcon from "@mui/icons-material/PhoneIphone";
-
+import { debounce } from "lodash";
 import { Box } from "@mui/system";
+import { toast } from 'react-toastify';
 import {
   FormControl,
   InputAdornment,
@@ -15,12 +16,21 @@ import {
   Select,
   TextField,
 } from "@mui/material";
+import apiInstance from "../Apis/Axios";
+import { useDispatch } from "react-redux";
+import { GetAllGender } from "../reduxToolkit/Contractor/ContractorApi";
+import { useSelector } from "react-redux";
+import { allGender } from "../reduxToolkit/Contractor/ContractorSlice";
+
+let no;
 const AddUpdateProviderContractor = ({
   addProviderFlag,
   addContractorFlag,
   updateProviderFlag,
   updateContractorFlag,
 }) => {
+  let dispatch = useDispatch()
+  const getAllGender = useSelector(allGender)
   const [acronym, setAcronym] = useState();
   const [companyName, setCompanyName] = useState();
   const [email, setEmail] = useState();
@@ -33,6 +43,12 @@ const AddUpdateProviderContractor = ({
   const [updateContractor, setupdateContractor] = useState(false);
   const [addProvider, setaddProvider] = useState(false);
 
+  const [findEmail, setFindEmail] = useState(false)
+  const [findNo, setFindNo] = useState(false)
+  const [formData, setFormData] = useState();
+
+  const [userID, setUserID] = useState();
+  let navigate = useNavigate();
   useEffect(() => {
     console.log(
       { addProviderFlag },
@@ -44,7 +60,91 @@ const AddUpdateProviderContractor = ({
     setaddContractor(addContractorFlag);
     setUpdateProvider(updateProviderFlag);
     setupdateContractor(updateContractorFlag);
+    dispatch(GetAllGender())
   }, []);
+  no = phoneNumber
+  let eml = "luis.cornejo.2610@gmail.com";
+  const getByEmail = async (vv) => {
+    const result = await apiInstance.get(`user-service​/get-by-email​/${eml}`).then(function (response) {
+      if (response.status == 200) {
+        let id = response?.data?.data?.id;
+        setUserID(id)
+        setFindEmail(true)
+        setName(response?.data?.data?.name)
+        setPhoneNumber(response?.data?.data?.phoneNumber)
+        setGender(response?.data?.data?.gender?.name)
+      }
+    })
+      .catch(function (error) {
+        return error.response;
+      });
+  };
+
+  let phone = "+524427065909"
+  const getByPhone = async () => {
+    const result = await apiInstance.get(`user-service/get-by-phone-number/${no}`).then(function (response) {
+      if (response.status == 200) {
+        let id = response?.data?.data?.id;
+        toast("User Find With Phone Number")
+        setUserID(id)
+        setFindNo(true)
+        setName(response?.data?.data?.name)
+        setGender(response?.data?.data?.gender?.name)
+        setEmail(response?.data?.data?.email)
+      }
+    }).catch(function (error) {
+      // toast("this user has no data")
+      document.getElementById("overlay").style.display = "none"
+    });
+
+  };
+
+
+  const delayedPhoneSearch = useMemo(
+    () => debounce(() => getByPhone(), 100),
+    []
+  );
+
+  const onlyCreateContract = async (id) => {
+    const y = await apiInstance.post(`contractor-service/create`, {
+      "user": {
+        "id": id
+      },
+      "acronym": acronym,
+      "contractorCompanyName": companyName
+    }
+    ).then(function (response) {
+      toast("contractor was created successfully")
+      navigate("/dashboard/employee/contractors", { replace: true });
+    })
+      .catch(function (error) {
+        toast(error?.response?.data?.message)
+        document.getElementById("overlay").style.display = "none"
+      });
+  }
+
+
+
+  const handleSubmit = async () => {
+    if (findNo == false && findEmail == false) {
+      const y = await apiInstance.post(`authentication-service/pre-register-user`, { email, name, phoneNumber }
+      ).then(function (response) {
+        if (response.status == 201) {
+          let id = response?.data?.data?.id;
+          onlyCreateContract(id);
+        }
+      })
+        .catch(function (error) {
+          toast("Pre Register User fail")
+          document.getElementById("overlay").style.display = "none"
+
+        });
+    }
+    else {
+      onlyCreateContract(userID);
+    }
+  }
+
   return (
     <>
       <div className="head">
@@ -65,15 +165,24 @@ const AddUpdateProviderContractor = ({
           {updateProvider && "UPDATE PROVIDER"}
         </h2>
         <div style={{ display: "flex" }}>
-          <Link to="/dashboard/uploademployeefile">
-            <button className="btn btn-lg">
-              {addProvider && "ADD PROVIDER"}
-              {addContractor && "ADD CONTRACTOR"}
-              {updateContractor && "UPDATE CONTRACTOR"}
-              {updateProvider && "UPDATE PROVIDER"}
-              <SaveIcon />
-            </button>
-          </Link>
+          {/* <Link to="/dashboard/uploademployeefile"> */}
+
+
+          <button className="btn btn-lg" onClick={() => {
+            if (acronym && companyName && name && email && phoneNumber) {
+              handleSubmit()
+            }
+            else {
+              toast.info("Please fill all fields")
+            }
+          }}>
+            {addProvider && "ADD PROVIDER"}
+            {addContractor && "ADD CONTRACTOR"}
+            {updateContractor && "UPDATE CONTRACTOR"}
+            {updateProvider && "UPDATE PROVIDER"}
+            <SaveIcon />
+          </button>
+
         </div>
       </div>
       <div className="mt-5  add_provider">
@@ -98,9 +207,9 @@ const AddUpdateProviderContractor = ({
               height: "40px",
             }}
           >
-            <TextField
+            <TextField size="small"
               fullWidth
-              placeholder="IBL"
+
               label="Acronym"
               id="Acronym"
               value={acronym}
@@ -117,9 +226,9 @@ const AddUpdateProviderContractor = ({
               height: "40px",
             }}
           >
-            <TextField
+            <TextField size="small"
               fullWidth
-              placeholder="Intelligence Bereau Laboratory"
+
               label="Company Name"
               id="Company Name"
               value={companyName}
@@ -141,14 +250,15 @@ const AddUpdateProviderContractor = ({
               height: "40px",
             }}
           >
-            <TextField
+            <TextField size="small"
               fullWidth
-              placeholder="Luis Enrique Cornejo Arreola"
+
               label="NAME"
               id="NAME"
               value={name}
               onChange={(e) => setName(e.target.value)}
               className=""
+
             />
           </Box>
           <Box
@@ -160,12 +270,13 @@ const AddUpdateProviderContractor = ({
               height: "40px",
             }}
           >
-            <TextField
+            <TextField size="small"
               fullWidth
-              placeholder="lcornejo@ibl.mx"
+
               label="Email"
               id="Email"
               value={email}
+
               onChange={(e) => setEmail(e.target.value)}
               InputProps={{
                 endAdornment: (
@@ -185,13 +296,19 @@ const AddUpdateProviderContractor = ({
               height: "40px",
             }}
           >
-            <TextField
+            <TextField size="small"
               fullWidth
-              placeholder="4427065906"
+
               label="Phone Number"
               id="Phone Number"
               value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
+
+              onChange={(e) => {
+                setPhoneNumber(e.target.value)
+              }}
+              onBlur={() =>
+                (findEmail ? null : delayedPhoneSearch(phoneNumber))
+              }
               className="NoShadowInput"
               InputProps={{
                 endAdornment: (
@@ -214,7 +331,7 @@ const AddUpdateProviderContractor = ({
             >
               <FormControl fullWidth>
                 <InputLabel id="demo-simple-select-label">Status</InputLabel>
-                <Select
+                <Select size="small"
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
                   value={status}
@@ -240,16 +357,23 @@ const AddUpdateProviderContractor = ({
             }}
           >
             <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">Gender</InputLabel>
-              <Select
+              <InputLabel id="demo-simple-select-label">{gender ? gender : "Gender"}</InputLabel>
+              <Select size="small"
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 value={gender}
+                displayEmpty={false}
                 label="Age"
+                defaultValue={gender}
                 onChange={(e) => setGender(e.target.value)}
               >
-                <MenuItem value={10}>Male</MenuItem>
-                <MenuItem value={20}>Female</MenuItem>
+                {getAllGender && getAllGender?.map((item) => {
+                  return (
+                    <MenuItem value={item?.id}>{item?.name}</MenuItem>
+                  )
+                })}
+
+
               </Select>
             </FormControl>
           </Box>

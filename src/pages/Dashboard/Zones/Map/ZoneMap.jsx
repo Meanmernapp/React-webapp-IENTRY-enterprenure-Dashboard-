@@ -6,6 +6,8 @@ import {
   Marker,
   withLeaflet,
 } from "react-leaflet";
+import { useTranslation } from 'react-i18next';
+import Cookies from 'js-cookie';
 
 const MyMarker = (props) => {
   const initMarker = (ref) => {
@@ -22,6 +24,8 @@ const ZonesMap = ({
   center = { lat: 51.5287718, lng: -0.2416804 },
   zoom = 8,
 }) => {
+  const { t } = useTranslation();
+  const lCode = Cookies.get("i18next") || "en";
   const [currentPos, setcurrentPos] = useState(null);
 
   const handleClick = (e) => {
@@ -33,7 +37,7 @@ const ZonesMap = ({
     <div>
       <MapContainer
         style={{
-          height: "25rem",
+          height: "174px",
           width: "100%",
         }}
         center={center}
@@ -44,7 +48,7 @@ const ZonesMap = ({
         {currentPos && (
           <MyMarker position={currentPos}>
             <Popup position={currentPos}>
-              Current location: <pre>{JSON.stringify(currentPos, null, 2)}</pre>
+              {t("current_location")}: <pre>{JSON.stringify(currentPos, null, 2)}</pre>
             </Popup>
           </MyMarker>
         )}

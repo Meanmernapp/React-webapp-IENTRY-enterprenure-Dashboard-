@@ -1,0 +1,166 @@
+.userPanel {
+    .steps {
+        width: 100%;
+        border-radius: 0;
+        padding-bottom: 0 !important;
+        text-transform: uppercase;
+
+        span {
+            text-align: center;
+            font-size: 24px;
+            letter-spacing: 0px;
+            color: #707070;
+            opacity: 1;
+        }
+    }
+
+    .btn-bordered {
+        border-bottom: 3px solid #146f62;
+        margin-bottom: -24px;
+
+        span {
+            text-align: center;
+            letter-spacing: 0px;
+            color: #146f62 !important;
+            opacity: 1;
+            font-weight: bold;
+            font-size: 20px;
+        }
+    }
+
+    .employe-log-module {
+        justify-content: end;
+        grid-gap: 5px;
+    }
+
+    .employee-module,
+    .log-module {
+        height: 27px;
+        /* UI Properties */
+        background: #146f62 0% 0% no-repeat padding-box;
+        color: #fff;
+        text-align: center;
+        border-radius: 4px;
+        opacity: 1;
+    }
+
+    .log-module {
+        background-color: #146f62d1 !important;
+    }
+
+    .tab-content {
+        table {
+            border-collapse: separate;
+            border-spacing: 0 10px;
+
+            th {
+                text-align: left;
+                letter-spacing: 0px;
+                color: #65aba0 !important;
+                opacity: 1;
+                border: none;
+                font-weight: 500;
+                padding: 8px 0.75rem;
+                text-align: center;
+            }
+
+            td {
+                border: none;
+                padding: 8px 0.75rem;
+                text-align: center;
+                font: normal normal bold 14px/18px Montserrat;
+                letter-spacing: 0px;
+                color: #707070;
+                opacity: 1;
+            }
+
+            tr {
+                // height: 36px;
+                background: #ffffff 0% 0% no-repeat padding-box;
+                box-shadow: 0px 0px 4px #00000080;
+
+                .first-child {
+                    text-align: left !important;
+                }
+            }
+
+            $color_1: #523106;
+            $background-color_1: #fff;
+
+            .radioLabel-container {
+                position: relative;
+                font-weight: normal;
+                font-stretch: normal;
+                font-style: normal;
+                padding-left: 20px;
+                line-height: 2.14;
+                margin-bottom: 12px;
+                cursor: pointer;
+                font-size: 14px !important;
+                color: $color_1;
+                letter-spacing: normal;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+                padding-left: 8% !important;
+
+                input {
+                    position: absolute;
+                    opacity: 0;
+                    cursor: pointer;
+
+                    &:checked~.checkmark {
+                        background-color: #178a7b;
+
+                        &:after {
+                            display: block;
+                            left: 4px;
+                            top: 1px;
+                            width: 5px;
+                            height: 9px;
+                            border: solid #fff;
+                            border-width: 0 2px 2px 0;
+                            -webkit-transform: rotate(45deg);
+                            -ms-transform: rotate(45deg);
+                            transform: rotate(45deg);
+                        }
+                    }
+                }
+            }
+
+            .checkmark {
+                position: absolute;
+                top: 25%;
+                left: 0;
+                height: 15px !important;
+                width: 15px !important;
+                background-color: $background-color_1;
+                border-radius: 25% !important;
+                border: 1px solid #b4b4b5;
+
+                &:after {
+                    content: "";
+                    position: absolute;
+                    display: none;
+                }
+            }
+        }
+    }
+
+    .roleAssignment {
+        .form-control {
+            position: relative;
+            background: #fcfcfc 0% 0% no-repeat padding-box;
+            box-shadow: 0px 0px 4px #00000059;
+            border-radius: 4px;
+            opacity: 1;
+        }
+
+        .input-group-btn {
+            position: absolute;
+            top: 0;
+            right: 2%;
+        }
+    }
+}

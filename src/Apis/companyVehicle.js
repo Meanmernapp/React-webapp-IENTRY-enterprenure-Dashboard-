@@ -1,49 +1,22 @@
-import axios from "axios";
-import { endpoints, URL } from "./Constants";
+import apiInstance from "./Axios";
+import { endpoints } from "./Constants";
+const {
+    CREATE_VEHICLE,
+    UPDATE_VEHICLE,
+    GET_COMPANY_VEHICLES_PAGEABLE,
+    GET_SINGLE_VEHICLE_BY_ID,
+    ORDER_BY_VEHICLES
+} = endpoints;
 
-const config = {
-    headers: {
-        "Accept": "application/json",
-        "Authorization": "Bearer " + sessionStorage.getItem("bearerToken"),
-    }
-}
+export const createVehicle = (body) => apiInstance.post(CREATE_VEHICLE, body.vehicle);
 
-export const createVehicle = (body) => {
-    return axios.post(
-        `http://182.176.161.38:8080/corporate-user-pre-prod-v1/vehicle-service/create?companyId=${body.companyId}&email=${body.email}&userId=${body.userId}`,
-        body.vehicle,
-        config
-    )
-}
+export const updateVehicle = (body) => apiInstance.put(UPDATE_VEHICLE, body.vehicle);
 
-export const updateVehicle = (body) => {
-    return axios.put(
-        `http://182.176.161.38:8080/corporate-user-pre-prod-v1/vehicle-service/update?companyId=${body.companyId}&email=${body.email}&userId=${body.userId}`,
-        body.vehicle,
-        config
-    )
-}
+export const getAllCompanyVehicles = (pagination) => apiInstance.post(
+    GET_COMPANY_VEHICLES_PAGEABLE,
+    pagination
+);
 
-export const getAllCompanyVehicles = (body) => {
+export const getVehicleByVehicleId = (id) => apiInstance.get(GET_SINGLE_VEHICLE_BY_ID + id);
 
-    return axios.post(
-        `http://182.176.161.38:8080/corporate-user-pre-prod-v1/vehicle-company-service/get-all-pageable/by-company-id?companyId=${body.companyId}&email=${body.email}&userId=${body.userId}&userTypes=${body.userTypes}`,
-        body.pagination,
-        config
-    )
-}
-
-export const getVehicleByVehicleId = (id) => {
-
-    return axios.get(
-        `http://182.176.161.38:8080/corporate-user-pre-prod-v1/vehicle-service/get-by-id/${id}`,
-        config
-    )
-}
-
-export const orderByVehicles = () => {
-    return axios.get(
-        `http://182.176.161.38:8080/corporate-user-pre-prod-v1/assets-service/vehicle-company/get-filters`,
-        config
-    )
-}
+export const orderByVehicles = () => apiInstance.get(ORDER_BY_VEHICLES);

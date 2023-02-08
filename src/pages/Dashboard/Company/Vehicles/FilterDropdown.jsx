@@ -100,7 +100,7 @@ const FilterDropDown = () => {
                 >
                   <FormControl fullWidth>
                     <InputLabel id="demo-simple-select-label">WEEK</InputLabel>
-                    <Select
+                     <Select size="small"
                       value={week}
                       label="WEEK"
                       onChange={(e) => setWeek(e.target.value)}
@@ -121,7 +121,7 @@ const FilterDropDown = () => {
                 >
                   <FormControl fullWidth>
                     <InputLabel>YEAR</InputLabel>
-                    <Select
+                     <Select size="small"
                       value={year}
                       label="YEAR"
                       onChange={(e) => setYear(e.target.value)}
@@ -147,7 +147,7 @@ const FilterDropDown = () => {
               >
                 <FormControl fullWidth>
                   <InputLabel>ORDER BY</InputLabel>
-                  <Select
+                   <Select size="small"
                     value={orderby}
                     label="ORDER BY"
                     onChange={(e) => setOrderby(e.target.value)}
@@ -168,7 +168,7 @@ const FilterDropDown = () => {
               >
                 <FormControl fullWidth>
                   <InputLabel id="demo-simple-select-label">sort</InputLabel>
-                  <Select
+                   <Select size="small"
                     value={sort}
                     label="SORT"
                     onChange={(e) => setSort(e.target.value)}

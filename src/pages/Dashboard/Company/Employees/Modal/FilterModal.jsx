@@ -84,7 +84,7 @@ const FilterModal = ({ show, onHide }) => {
                   <div className="usrdata_form">
                     <FormControl fullWidth>
                       <InputLabel id="demo-simple-select-label">Age</InputLabel>
-                      <Select
+                       <Select size="small"
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
                         value={week}

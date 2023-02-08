@@ -1,44 +1,403 @@
 .notifications {
-    margin-top: 70px;
+    margin-top: 25px;
+
     .notificationBox {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
         border-bottom: 3px solid #146f62;
         border-bottom-style: dashed;
         padding: 5px 15px;
-        .notificationBox-main {
+
+        .downloadFileDiv {
+            display: flex;
+            position: relative;
+            align-items: center;
+            width: 40%;
+
+            p {
+                color: #707070;
+                font-size: 14px;
+                font-weight: bold;
+
+                span {
+                    font-weight: normal;
+                }
+            }
+
+            .cancelIcon {
+                position: absolute;
+                top: 0;
+                right: 10rem;
+                cursor: pointer;
+            }
+
+            .demoImg {
+                height: 65px;
+                width: 213px;
+            }
+        }
+    }
+
+    .P1 {
+        display: flex;
+        align-items: center;
+        font-size: 16px !important;
+        color: #707070;
+        text-transform: capitalize;
+
+        .notifyIcon {
+            width: 15px;
+            height: 24px;
+            margin-right: 5px;
+        }
+
+        span {
+            text-transform: uppercase;
+        }
+
+        .main-arrowleft {
+            width: 16px;
+            height: 13px;
+            margin: -2px 10px 0 0;
+        }
+
+        .main-arrowRight {
+            width: 10px;
+            height: 18px;
+            margin: -2px 0 0 10px;
+        }
+    }
+
+    .P2 {
+        font-size: 10px;
+        color: #37474f;
+
+        span {
+            font-weight: normal;
+        }
+    }
+
+    .P3 {
+        font-size: 12px;
+        font-weight: bold;
+        color: #707070;
+        text-transform: uppercase;
+
+        span {
+            font-weight: normal !important;
+            text-transform: capitalize;
+        }
+    }
+
+    .P4 {
+        font-size: 12px;
+        color: #37474f;
+    }
+
+    .dateText {
+        font-weight: bold;
+        color: #146f62;
+        font-size: 12px;
+    }
+
+    .P5 {
+        font-size: 10px;
+        font-weight: bold;
+        color: #146f62;
+    }
+
+    .accessHistory {
+        font-weight: bold;
+        font-size: 20px;
+        text-transform: uppercase;
+        color: #146f62;
+        margin-bottom: 31px !important;
+    }
+
+    .tabBox {
+        border-bottom: 3px solid #146f62;
+        border-bottom-style: dashed;
+        padding: 5px 15px;
+
+        .tabBox-main {
             display: flex;
             justify-content: space-between;
-            .main-arrowleft {
-                width: 16px;
-                height: 13px;
-                margin: -2px 10px 0 0;
-            }
-            .main-arrowRight {
-                width: 10px;
-                height: 18px;
-                margin: -2px 0 0 10px;
-            }
-            .P1 {
-                font-size: 16px;
+            align-items: center;
+        }
+    }
+}
+
+
+.exporBtns {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    .exportDiv {
+        width: 60px;
+        height: 48px;
+        background-color: #ffffff;
+        border: 1px solid #707070;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+
+        &:hover {
+            background-color: #E1E1E1 !important;
+        }
+    }
+
+    .exportExcel {
+        border-radius: 8px 0 0 8px;
+        border-right: none;
+    }
+
+    .exportPtf {
+        border-radius: 0 8px 8px 0;
+    }
+
+    img {
+        width: 24px;
+        height: 24px;
+    }
+}
+
+.createScroll {
+    height: 25rem;
+    overflow-y: scroll;
+
+    &::-webkit-scrollbar {
+        width: 0 !important
+    }
+}
+
+.subTitle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    color: #146f62;
+    font-size: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.notificationDate {
+    // .css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root {
+    //     margin-bottom: 1rem;
+    // }
+}
+
+.empTitle {
+    font-size: 14px;
+    margin: 10px 0 !important;
+    border-bottom: 1px solid;
+    text-transform: uppercase;
+    color: #707070;
+    font-weight: 600;
+}
+
+.chooseEmp {
+    font-size: 12px;
+    color: #000;
+}
+
+.empBox {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+    box-shadow: 0px 0px 4px #000000b3;
+    border-radius: 5px;
+    padding: 5px 10px;
+
+    .leftSide {
+        display: flex;
+        align-items: center;
+
+        .empImg {
+            width: 32px;
+            height: 32px;
+            margin-right: 10px;
+        }
+
+        .textFields {
+            p {
+                font-size: 12px;
+                font-weight: bold;
                 color: #707070;
             }
-            .P2 {
-                font-size: 10px;
-                color: #37474f;
+
+            span {
+                font-weight: normal;
             }
         }
-        .P3 {
-            font-size: 12px;
-            font-weight: bold;
-            color: #707070;
+    }
+
+    .container1 {
+        display: block;
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+
+        input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+
+            &:checked {
+                ~ {
+                    .checkmark {
+                        background-color: #178a7b;
+
+                        &:after {
+                            display: block;
+                        }
+                    }
+                }
+            }
         }
-        .P4 {
-            font-size: 12px;
-            color: #37474f;
+
+        .checkmark {
+            &:after {
+                left: 5px;
+                top: 0;
+                width: 5px;
+                height: 10px;
+                border: solid white;
+                border-width: 0 2px 2px 0;
+                -webkit-transform: rotate(45deg);
+                -ms-transform: rotate(45deg);
+                transform: rotate(45deg);
+            }
         }
-        .P5 {
-            font-size: 10px;
-            font-weight: bold;
-            color: #146f62;
+    }
+
+    .checkmark {
+        position: absolute;
+        right: 2rem;
+        height: 15px;
+        width: 15px;
+        border: 1px solid #178a7b;
+        border-radius: 2px;
+
+        &:after {
+            content: "";
+            position: absolute;
+            display: none;
         }
+    }
+}
+
+.labelBox {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 7px 1rem;
+    cursor: pointer;
+
+    &:hover {
+        background-color: #e1e1e1;
+    }
+
+    p {
+        font-size: 14px;
+        color: #707070;
+    }
+
+    .ic_camera {
+        width: 24.14px;
+        height: 21.12px;
+    }
+}
+
+.previewTitle {
+    margin: 10px 0 !important;
+    font-size: 12px;
+    font-weight: bold;
+    color: #146f62;
+}
+
+.previewImg {
+    width: 332px;
+    height: 165px;
+}
+
+.previewFile {
+    position: relative;
+    box-shadow: 0px 0px 4px #000000b3;
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    margin-top: 3rem;
+    border-radius: 5px;
+
+    p {
+        color: #707070;
+        font-size: 14px;
+        font-weight: bold;
+
+        span {
+            font-weight: normal;
+        }
+    }
+
+    .cancelIcon {
+        position: absolute;
+        top: 2px;
+        right: 2px;
+        width: 22px;
+        height: 22px;
+        cursor: pointer;
+        padding: 5px;
+        border-radius: 3px;
+
+        &:hover {
+            background-color: #e1e1e1;
+        }
+    }
+}
+
+.createBtns {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 3rem;
+
+    .previousBtn {
+        font-size: 14px;
+        font-weight: 600;
+        color: #bc0000;
+        background-color: transparent;
+        width: 284px;
+        outline: none;
+        display: flex;
+        border: none;
+        justify-content: center;
+        align-items: center;
+
+        &:hover {
+            background-color: #e1e1e1;
+        }
+    }
+
+    .nextBtn {
+        background-color: #146f62;
+        border-radius: 5px;
+        color: #ffffff;
+        font-size: 18px;
+        font-weight: bold;
+        width: 284px;
+        box-shadow: 0px 0px 4px #00000080;
+        text-transform: uppercase;
+        outline: none;
+        border: none;
+        height: 40px;
     }
 }

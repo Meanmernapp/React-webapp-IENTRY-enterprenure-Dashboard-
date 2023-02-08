@@ -1,0 +1,46 @@
+.container_add_vehicle {
+
+
+    .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+        border-color: #707070 !important;
+    }
+
+    .css-y8r94r-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root {
+        font-size: 16px !important;
+    }
+
+    .css-1m0mn73-MuiInputBase-input-MuiOutlinedInput-input {
+        font-size: 16px;
+    }
+
+
+    .css-md26zr-MuiInputBase-root-MuiOutlinedInput-root {
+        box-shadow: none;
+    }
+
+
+}
+
+.footer_add_vehicle {
+    position: absolute;
+    top: -12%;
+    right: 0;
+
+    button {
+        background: #146F62 0% 0% no-repeat padding-box;
+        box-shadow: 0px 0px 4px #00000080;
+        border-radius: 4px;
+        opacity: 1;
+        border: none;
+        color: #FFFFFF;
+        font-size: 1rem;
+        padding: 0.3rem 1rem;
+
+        // width: 192px;
+        // height: 19px;
+        span {
+            margin-left: 1rem;
+        }
+
+    }
+}

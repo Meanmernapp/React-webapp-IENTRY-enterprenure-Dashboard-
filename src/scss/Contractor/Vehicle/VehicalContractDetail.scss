@@ -1,0 +1,163 @@
+.vehicle-contract-detail {
+  position: relative;
+  width: 600px;
+
+  box-shadow: 0px 0px 4px #000000b3;
+  margin: 140px auto;
+  border-radius: 4px;
+  padding-bottom: 50px;
+  &__img {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+    border-radius: 50%;
+    background-color: #fff;
+    top: -75px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    box-shadow: 0px 0px 6px #00000066;
+  }
+  &__title {
+    text-align: center;
+    font: normal normal bold 14px/18px Montserrat;
+    letter-spacing: 0px;
+    color: #707070;
+    opacity: 1;
+    display: block;
+  }
+  &__desc {
+    text-align: center;
+    font: normal normal normal 14px/18px Montserrat;
+    letter-spacing: 0px;
+    color: #707070;
+    opacity: 1;
+    display: block;
+    margin-top: 3px;
+  }
+}
+
+.veh-update-btn {
+  position: absolute;
+  line-height: 0;
+  top: 92px;
+  right: -17px;
+  width: 300px;
+  height: 34px;
+  background: #146f62;
+  font-family: Montserrat;
+  font-size: 14px;
+  font-weight: 200;
+  opacity: 1;
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0px 3px 6px #00000080;
+}
+.update-veh-btn-container {
+  position: relative;
+}
+
+.modal-file-upload {
+  display: inline-block;
+  position: absolute;
+  width: 34px;
+  bottom: 7px;
+  right: 2px;
+  height: 34px;
+  border-radius: 100%;
+  background: #146f62;
+  border: 1px solid transparent;
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.12);
+  cursor: pointer;
+  font-weight: normal;
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    background: #000;
+    border-color: #000;
+  }
+  &:after {
+    content: "\021C4";
+    font-family: "FontAwesome";
+    color: #fff;
+    position: absolute;
+    top: 3px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-weight: bolder;
+    margin: auto;
+  }
+}
+
+.custom-primary-btn {
+  border: none;
+  padding: 7px 0;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  border-radius: 5px;
+  font-size: 1rem;
+  text-transform: uppercase;
+  font-weight: 600;
+  height: 38px;
+  word-spacing: 5px;
+}
+
+.create-custom-btn {
+  background-color: #146f62;
+  flex: 0 0 50%;
+  color: #fff;
+}
+
+.cancel-custom-btn {
+  color: #bc0000;
+  flex: 0 0 50%;
+  background: #fff;
+  &:hover {
+    background: rgba(0, 0, 0, 0.1);
+  }
+}
+
+.addcontractor .css-1sumxir-MuiFormLabel-root-MuiInputLabel-root {
+    font-size: 14px !important;
+    font-weight: 800 !important;
+    letter-spacing: 1px!important;
+  
+}
+
+.addcontractor .css-nxo287-MuiInputBase-input-MuiOutlinedInput-input{
+    color: #707070!important;
+    font-size: 14px!important;
+    padding: 5px 15px!important;
+}
+
+.addcontractor .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input {
+    color: #707070!important;
+    font-size: 14px!important;
+    padding: 5px 15px!important;
+}
+
+.addcontractor{
+
+    i{
+        padding-left: 5px;
+        padding-right: 8px;
+        border-radius: 4px;
+        &:hover{
+            background: rgba(0, 0, 0, 0.1);
+        }
+    }
+}
+
+.acces-hover-effect{
+  padding: 3px;
+  border-radius: 4px;
+  &:hover{
+    cursor: pointer;
+    background: rgba(0, 0, 0, 0.1);
+  }
+}

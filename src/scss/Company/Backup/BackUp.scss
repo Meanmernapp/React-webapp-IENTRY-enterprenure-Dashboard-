@@ -1,0 +1,65 @@
+.backup-option {
+    width: 640px;
+    margin: auto;
+    border-bottom: 3px solid #65ABA0;
+
+    &__heading {
+        display: block;
+        text-align: center;
+        font: normal normal 600 24px/29px Montserrat;
+        letter-spacing: 8.4px;
+        color: #146F62;
+    }
+
+    &__checkbox {
+        font: normal normal bold 18px/22px Montserrat;
+        color: #707070;
+    }
+
+    &__fullDB {
+        width: 645px;
+        margin: auto;
+    }
+
+    &__only-data {}
+
+    &__text {
+        display: block;
+        text-align: center;
+        font: normal normal normal 16px/19px Montserrat;
+        letter-spacing: 0px;
+        color: #707070;
+    }
+
+    &__link {
+        cursor: pointer;
+        padding-left: 15px;
+        padding-right: 15px;
+        text-decoration: underline;
+        font: normal normal normal 14px/18px Montserrat;
+        color: #000000;
+
+        &:hover {
+            background: #e1e1e1;
+        }
+    }
+}
+
+.modal-content {
+    margin: auto;
+}
+
+.restore_btn {
+    background: #146F62 0% 0% no-repeat padding-box;
+    box-shadow: 0px 0px 4px #00000080;
+    border-radius: 4px;
+    opacity: 1;
+    width: 588px;
+    height: 35px;
+    font: normal normal bold 14px/18px Montserrat;
+    letter-spacing: 0px;
+    color: #FFFFFF;
+    opacity: 1;
+    border: none;
+    text-transform: uppercase;
+}

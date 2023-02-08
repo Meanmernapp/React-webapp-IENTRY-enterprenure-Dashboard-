@@ -1,11 +1,15 @@
 import React from "react";
 import iccancel from "../../../../assets/images/ic-cancel.svg";
+import { useTranslation } from 'react-i18next';
+import Cookies from 'js-cookie';
 
 const AddBuildingModel = () => {
+  const { t } = useTranslation();
+  const lCode = Cookies.get("i18next") || "en";
   return (
-    <div className="modal buildingadd_card" id="addbuilding_modal">
-      <div className="modal-dialog">
-        <div className="modal-content w-75">
+    <div class="modal buildingadd_card" id="addbuilding_modal">
+      <div class="modal-dialog">
+        <div class="modal-content w-75">
           <div>
             <img
               src={iccancel}
@@ -16,34 +20,34 @@ const AddBuildingModel = () => {
           </div>
 
           {/* <!-- Modal body --> */}
-          <div className="modal-body ">
+          <div class="modal-body ">
             <div className="text-center buildingadd_modal">
-              <h3>BUILDING</h3>
+              <h3>{t("buildinig")}</h3>
             </div>
             <div className="container-fluid input_zones">
-              <div className="form-group">
+              <div class="form-group">
                 <input
                   type="number"
-                  className="form-control"
-                  placeholder="1000000000000002"
+                  class="form-control"
+
                   id="usr"
                 />
               </div>
 
-              <div className="form-group">
+              <div class="form-group">
                 <input
                   type="name"
-                  className="form-control"
-                  placeholder="NAME *"
+                  class="form-control"
+
                   id="usr"
                 />
               </div>
-              <select className="form-select" aria-label="Default select example">
-                <option selected>Status</option>
-                <option value="1">Active</option>
-                <option value="2">Non Active</option>
+              <select class="form-select" aria-label="Default select example">
+                <option selected>{t("status")}</option>
+                <option value="1">{t("active")}</option>
+                <option value="2">{t("non_active")}</option>
               </select>
-              <button className="btn btn-lg">add</button>
+              <button className="btn btn-lg">{t("add")}</button>
             </div>
           </div>
         </div>

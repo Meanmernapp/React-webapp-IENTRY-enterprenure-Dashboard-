@@ -1,15 +1,12 @@
-/////////////////////////////Reall
 .employee_m {
   width: 100%;
-  background: #ffffff 0% 0% no-repeat padding-box;
   box-shadow: 0px 0px 4px #00000099;
-  border-radius: 1rem;
-  width: 328px;
+  border-radius: 5px;
 }
 
 .addNewEmployeeBtn {
   height: 38px;
-  background-color: #65aba0;
+  background-color: #146f62;
   box-shadow: 0px 0px 4px #00000080;
   border: none;
   border-radius: 4px;
@@ -17,19 +14,24 @@
   color: #fff;
   font-weight: 600;
   text-transform: uppercase;
-  font-size: 16px;
-  width: 213px;
+  font-size: 10px;
+  width: 260px;
 }
+
 .overlay {
   position: fixed;
-  width: 100%; 
-  height: 100%; 
+  width: 100%;
+  height: 100%;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.89); 
-  z-index: 2; 
+  background-color: rgba(0, 0, 0, 0.89);
+  z-index: 2;
+  cursor: pointer;
+}
+
+.download_icon {
   cursor: pointer;
 }
 
@@ -45,40 +47,65 @@
 // }
 
 .top_heading_m {
+  height: 24px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
   p {
-    float: right;
     font-size: 12px;
     font-weight: 600;
-    margin-right: 15px !important;
+    // margin-right: 15px !important;
+    text-transform: uppercase;
   }
 }
+
 .emp_card_body {
   width: 100%;
 }
 
 .employee_detail_m {
-  display: "flex";
-  justify-content: "space-between";
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 10px;
+  width: 66%;
+  margin-left: auto;
+
+
+
   p {
-    @include color(#146f62, 12px, normal, uppercase);
-    text-decoration: none;
+    font: normal normal normal 12px/15px Montserrat;
+    letter-spacing: 0px;
+    color: #146F62;
+    opacity: 1;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 0 !important;
   }
-  @include color(#146f62, 12px, normal, uppercase);
-  span {
-    img {
-      margin-left: 10px;
-      width: 10px;
-    }
+
+  img {
+    margin-left: 6px;
+    width: 10px;
+    height: 14px;
+  }
+
+  &:hover {
+    background: #E1E1E1 0% 0% no-repeat padding-box;
+    border-radius: 1px;
+    opacity: 1;
   }
 }
 
 .days_card {
   background: #e1e1e1 0% 0% no-repeat padding-box;
   border-radius: 8px;
-  width: 378px;
+  // width: 378px;
   height: 56px;
+
   .days_card_text {
     padding: 10px;
+
     p {
       @include color(#707070, 18px, normal, uppercase);
       padding: 6px;
@@ -90,104 +117,48 @@
 .from_text {
   padding: 1.5rem 0rem 0rem 2rem;
   line-height: 0rem;
+
   span {
     @include color(#707070, 14px, normal, uppercase);
     margin-right: 10rem;
     line-height: 0rem;
   }
+
   h2 {
     @include color(#65aba0, 14px, bold, uppercase);
     line-height: 0rem;
   }
 }
 
-.type_nfc_card {
-  display: "flex";
-  justify-content: "space-between";
-  .updown_icon {
-    p {
-      @include color(#178a7b, 14px, bold, uppercase);
-    }
-
-    span {
-      svg {
-        height: 10px;
-        width: 10px;
-        margin-left: 5px;
-        margin-bottom: 2px;
-        // margin-top: 0.4rem;
-      }
-    }
-  }
-}
-.access_textt {
-  a {
-    @include color(#178a7b, 20px, bold, uppercase);
-    letter-spacing: 5.6px;
-    color: #178a7b !important;
-    // text-decoration: underline;
-  }
-  button {
-    @include color(#ffffff, 16px, normal, uppercase);
-    background: #146f62 0% 0% no-repeat padding-box;
-    border-radius: 8px;
-    letter-spacing: 0rem !important;
-    width: 15rem;
-  }
-}
-
-.coomon_accessCarsd {
-  box-shadow: 0px 0px 6px #00000099;
-  border-radius: 6px;
-  padding: 6px;
-  padding-left: 15px;
-  padding-right: 15px;
-  .card_content_inline {
-    display: flex;
-    flex-wrap: wrap;
-  }
-  input {
-    width: 13px;
-  }
-  input:checked {
-    color: #146f62;
-    background-color: #146f62;
-  }
-  p {
-    @include color(#707070, 14px, normal, uppercase);
-  }
-  span {
-    @include color(#0c4523, 14px, bold, uppercase);
-  }
-  h5 {
-    @include color(#bc0000, 14px, bold, uppercase);
-  }
-}
-
 .firearms_card {
   box-shadow: 0px 0px 4px #00000080;
   border-radius: 6px;
-}
 
-.firearms_txt {
-  h4 {
-    @include color(#bc0000, 48px, normal, uppercase);
+  .firearms_txt {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     padding: 1rem;
-    span {
-      margin-left: 6rem;
-    }
+    @include color(#bc0000, 48px, normal, uppercase);
   }
-}
-
-.main_all_p {
-  left: 24%;
 }
 
 .exchange_icon {
   position: relative;
+  text-align: center;
+  width: 240px;
+  height: 240px;
+  border-radius: 100%;
+  margin: auto;
+  border: 1px solid;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   a {
     position: relative;
   }
+
   .dot {
     height: 35px;
     width: 35px;
@@ -195,14 +166,16 @@
     border-radius: 50%;
     display: inline-block;
     position: absolute;
-    bottom: -58px;
-    right: 0px;
+    bottom: -88px;
+    right: 20px;
   }
+
   .exchange_alt_m {
     width: 1.6rem;
     padding-top: 5px;
   }
 }
+
 .infoEmpl_text {
   @include color(#146f62, 20px, bold, capitalize);
   letter-spacing: 7px;
@@ -210,99 +183,253 @@
 }
 
 .empdetail_c {
-  .row {
-    margin: 0px 10px 10px 0px;
-    width: 100%;
-  }
   background: #ffffff 0% 0% no-repeat padding-box;
   box-shadow: 0px 0px 6px #00000099;
+  border-radius: 6px;
+  height: 29.6rem;
+  padding: 13px;
+
   p {
     @include color(#707070, 14px, normal, uppercase);
   }
+
   h2 {
-    @include color(#65aba0, 14px, bold, capitalize);
+    @include color(#65aba0, 14px, 600, capitalize);
   }
+
   td {
     padding: 5px !important;
   }
 }
 
-.common_img_emp {
-  // padding: 0rem 1rem 1rem 1rem;
+.empdetail_c1 {
+  background: #ffffff 0% 0% no-repeat padding-box;
+  box-shadow: 0px 0px 6px #00000099;
+  border-radius: 6px;
+  height: 12rem;
+  padding: 13px;
+
+  p {
+    @include color(#707070, 14px, normal, uppercase);
+  }
+
+  h2 {
+    @include color(#65aba0, 14px, 600, capitalize);
+  }
+
+  td {
+    padding: 5px !important;
+  }
 }
 
-.access_right_m p {
-  @include color(#146f62, 20px, bold, capitalize);
-  letter-spacing: 7px;
+.add_workshiftmodal_title {
+  width: 100%;
+  font-weight: 600 !important;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.access_right_m {
+  .access_right_text {
+    @include color(#146f62, 20px, bold, capitalize);
+    letter-spacing: 7px;
+  }
+
+  .accessText {
+    color: #707070;
+    font-size: 14px;
+    text-transform: capitalize;
+    padding-left: 16px;
+    font-weight: 600;
+  }
 }
 
 .access_right_card {
   box-shadow: 0px 0px 6px #00000099;
   border-radius: 6px;
-  padding-right: 15px;
-  padding-left: 15px;
+  padding: 30px 15px;
 
   .separator {
     display: flex;
     align-items: center;
     text-align: center;
-    line-height: 1.5rem;
-    @include color(#707070, 16px, bold, capitalize);
+    @include color(#707070, 14px, normal, capitalize);
   }
+
   .separator::before,
   .separator::after {
     content: "";
     flex: 1;
-    border-bottom: 0.2rem solid #707070;
+    border-bottom: 2.5px solid #707070;
   }
+
   .separator:not(:empty)::before {
     margin-right: 0.25em;
   }
+
   .separator:not(:empty)::after {
     margin-left: 0.25em;
   }
+
+  table {
+    // border-spacing: 0 15px;
+
+    thead {
+      th {
+        font-size: 10px;
+        color: #65aba0;
+        text-transform: uppercase;
+        text-align: center;
+      }
+    }
+
+    .first {
+      text-align: left !important;
+      padding-left: 1rem;
+    }
+
+    .last {
+      text-align: right !important;
+      padding-right: 1rem;
+
+      img {
+        cursor: pointer;
+      }
+    }
+
+    tr {
+      height: 36px;
+
+      td {
+        text-align: center;
+        font-size: 12px;
+      }
+    }
+  }
 }
+
+.detailTitleText {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  letter-spacing: 7px;
+  margin-bottom: 20px !important;
+  @include color(#146f62, 20px, bold, uppercase);
+
+  .updateSectionBtn {
+    border: none;
+    padding: 7px 0;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 213px;
+    border-radius: 5px;
+    background-color: #146f62;
+    color: #fff;
+    font-size: 1rem;
+    text-transform: uppercase;
+    font-weight: 450;
+  }
+
+  img {
+    width: 23px;
+    height: 18px;
+    margin-left: 10px;
+  }
+}
+
+.detailCards {
+  table {
+    border-collapse: separate !important;
+    border-spacing: 0 15px;
+
+    thead {
+      th {
+        font-size: 14px;
+        color: #65aba0;
+        text-transform: uppercase;
+        text-align: center;
+      }
+    }
+
+    .first {
+      text-align: left !important;
+      padding-left: 1rem;
+    }
+
+    .last {
+      text-align: right !important;
+      padding-right: 1rem;
+
+      img {
+        cursor: pointer;
+      }
+    }
+
+    tr {
+      box-shadow: 0px 0px 6px #00000099;
+      border-radius: 5px;
+      height: 42px;
+
+      td {
+        text-align: center;
+      }
+    }
+  }
+}
+
 .access_text {
   p {
     @include color(#178a7b, 16px, bold, uppercase);
     letter-spacing: 5.6px;
     text-decoration: underline;
     color: #178a7b !important;
+    padding-bottom: 1rem;
   }
 }
 
 .checkboxes_m {
   input {
-    margin-left: 12px;
+    // margin-left: 12px;
     width: 13px;
   }
+
   ol {
     list-style: none;
     text-decoration: none;
+
     li {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+
       i {
-        font-size: 14px;
+        font-size: 16px;
         color: #146f62;
         font-weight: 600;
       }
 
       span {
         @include color(#707070, 14px, normal, uppercase);
-        margin-left: 10px;
-        position: absolute;
+        // margin-left: 10px;
+        // position: absolute;
       }
     }
   }
+
   ul {
     list-style: none;
+
     li {
       line-height: 1rem;
       padding-top: 1rem;
+
       &:hover {
         background: white;
       }
     }
   }
+
   .nested_checkbox {
     li {
       margin-left: 20px;
@@ -333,6 +460,7 @@
 .addemp_input_m {
   margin: 0px !important;
   justify-content: space-between;
+
   select {
     box-shadow: 0.4rem 0.4rem 0.4rem #0000001a;
     padding: 0.9rem;
@@ -347,34 +475,30 @@
   padding-left: 30px;
 }
 
-.contract_access_r {
-  .access_text {
-    margin: 2rem 0rem 2rem 0rem;
-  }
-  .alldays_checkbox {
-    margin: 1rem 0rem;
-  }
-}
-
 .c_c_custom_s {
-  margin: 3rem;
+  display: flex;
+  align-items: center;
+
   input {
     @include color(#146f62, 13px, 600, uppercase);
     height: 1rem;
     width: 1rem;
   }
+
   span {
-    margin-left: 2rem;
-    @include color(#707070, 18px, bold, uppercase);
+    margin-left: 12px;
+    @include color(#707070, 14px, bold, uppercase);
   }
 }
 
 .alldays_checkbox {
   padding: 1rem;
+
   label {
     display: flex;
     align-items: center;
   }
+
   span {
     @include color(#707070, 1.4rem, bold, uppercase);
     margin-left: 1.5rem;
@@ -395,44 +519,111 @@
 
 .addemp_dletuser {
   margin-bottom: 2rem;
+
   p {
     @include color(#bc0000, 18px, bold, uppercase);
   }
+
+  span {
+    cursor: pointer;
+    width: 300px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #BC0000;
+    font-weight: bold;
+    font-size: 18px;
+
+    &:hover {
+      background-color: #E1E1E1
+    }
+  }
+
   button {
     @include color(#ffffff, 18px, 500, uppercase);
     background: #0c4523 0% 0% no-repeat padding-box;
     border: 1px solid #707070;
     border-radius: 4px;
-    margin-left: 10rem;
-    width: 15rem;
-    margin-right: 2rem;
+    width: 300px;
+    height: 40px;
+    box-shadow: 0px 0px 4px #00000080;
+    font-weight: bold;
   }
 }
 
-.document_card {
-  display: flex;
-  flex-wrap: wrap;
-  border-radius: 20px !important;
-  padding: 1.25rem;
-  .document_head {
-    color: #707070;
-    font-weight: bold;
-    font-size: 18px;
+.fireArms_model {
+  .modal-content {
+    width: 100% !important;
   }
-  .document_img {
-    align-items: center;
+
+  .fireArmsInput {
+    border: none;
+    width: 100%;
+    height: 100%;
+    outline: none;
     text-align: center;
-    img {
-      position: relative;
-      width: 175px;
-    }
   }
-  .document_name {
+}
+
+.documentDetailCard {
+  position: relative;
+  box-shadow: 0px 0px 4px #000000b3;
+  color: #707070;
+  padding: 5px 17px;
+  text-align: center;
+  border-radius: 8px;
+  // width: 169px;
+  margin: auto auto 10px auto;
+  word-break: break-all;
+  height: 140px;
+  overflow: hidden;
+  line-height: 1;
+
+  .title {
+    @include color(#707070, 14px, bold, uppercase);
+  }
+
+  .pdfpng {
+    width: 30px;
+    height: 34px;
+  }
+
+  .ic_download_file {
+    position: absolute;
+    top: 20%;
+    right: 20%;
+    width: 15px;
+    height: 20px;
+    padding: 2px;
+    cursor: pointer;
+  }
+
+  .name {
     color: #707070;
-    span {
-      color: #707070;
-      font-size: 13px;
-    }
+    font-size: 12px;
+  }
+
+  .date {
+    font-size: 10px;
+  }
+}
+
+.detailFireArmsTable {
+
+  td,
+  th,
+  tr {
+    border: 1px solid black;
+    text-align: center;
+    width: 458px;
+    height: 39px;
+    font-size: 14px;
+    color: #65aba0;
+  }
+
+  .first {
+    width: 87px;
   }
 }
 
@@ -440,11 +631,13 @@
   background: #146f62 0% 0% no-repeat padding-box;
   border-radius: 8px;
   letter-spacing: 0rem !important;
+
   button {
     color: #e1e1e1;
     font-weight: bold;
   }
 }
+
 .instruction_text {
   @include color(red, 0.5rem, bold, uppercase);
   margin-top: 1rem;
@@ -455,9 +648,11 @@
   border-radius: 5px;
   padding: 2rem;
   border: 2px #707070 dashed;
+
   p {
     color: #707070;
   }
+
   span {
     color: #707070;
     font-size: 10px;
@@ -483,6 +678,7 @@
     border-collapse: separate;
     border-spacing: 0px 5px;
     margin-top: -10px;
+
     tbody tr {
       border: solid 1px #000;
       border-style: solid none;
@@ -496,13 +692,25 @@
 .emp_card_content {
   display: flex;
   justify-content: space-between;
+  overflow: hidden;
+
   p {
+
+    font-family: Montserrat;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0px;
     color: #000000;
-    font-size: 12px;
+    opacity: 1;
   }
+
   span {
-    color: #707070;
+
     font-size: 12px;
+
+    letter-spacing: 0px;
+    color: #707070;
+    opacity: 1;
   }
 }
 
@@ -528,6 +736,7 @@
   text-transform: uppercase;
   font-weight: 450;
 }
+
 .all_checkbox {
   margin-top: 1rem;
   font-size: 14px;
@@ -535,47 +744,68 @@
   color: #707070;
   text-transform: uppercase;
   text-align: right;
+
   input {
     width: 13px;
     margin-right: 10px;
   }
 }
 
-.main_content {
+.dottedborderbox {
+  width: 100%;
+  height: 97px;
+  border: 1px #707070b3 dashed;
+  border-radius: 5px;
+  padding: 1rem;
+  margin-top: 10px;
   display: flex;
-  flex-direction: column;
-  background-color: white;
-  background-clip: border-box;
-  border: 1px solid rgba(0, 0, 0, 0.125);
-  border-radius: 0.25rem;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+
+  p {
+    font-size: 14px;
+    text-align: center;
+    color: #a1a1a1;
+    text-transform: uppercase;
+  }
+
+  img {
+    width: 97px;
+    height: 58px;
+  }
+
+  #file-input {
+    display: none;
+  }
 }
 
-.updata_img_m {
-  // box-shadow: 0px 0px 4px #00000099;
-  // border-radius: 5px;
-  // padding: 10px;
+.changeImgBottomDiv {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 36px;
 
-  .dottedborderbox {
-    width: 100%;
-    height: 165px;
-    border: 2px #707070 dashed;
-    border-radius: 5px;
-    padding: 1rem;
-    margin-top: 10px;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    cursor: pointer;
-    p {
-      font-size: 20px;
-      line-height: 28px;
-      text-align: center;
-      color: #a1a1a1;
-      width: 100%;
-      text-transform: uppercase;
+  .changeImgCancelBtn {
+    border: none;
+    background: white;
+    color: rgb(188, 0, 0);
+    font-weight: bold;
+    width: 180px;
+    height: 30px;
+
+    &:hover {
+      background-color: #e1e1e1;
     }
-    #file-input {
-      display: none;
-    }
+  }
+
+  .changeImgChangeBtn {
+    background: rgb(20, 111, 98);
+    color: white;
+    border-radius: 4px;
+    border: none;
+    box-shadow: 0px 0px 4px #00000080;
+    padding: 0px 0.8rem;
+    width: 178px;
+    height: 30px;
   }
 }

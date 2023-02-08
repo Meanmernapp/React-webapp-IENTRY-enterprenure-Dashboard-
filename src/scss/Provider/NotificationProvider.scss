@@ -1,0 +1,105 @@
+.main_conatiner_notificaion_provider {
+    margin-top: 2rem;
+
+    .top_header_provider {
+        display: flex;
+        justify-content: space-between;
+
+        h2 {
+            font: normal normal bold 32px/39px Montserrat;
+            letter-spacing: 0px;
+            color: #178A7B;
+            text-transform: uppercase;
+            opacity: 1;
+        }
+
+        button {
+            background: #146F62 0% 0% no-repeat padding-box;
+            box-shadow: 0px 0px 4px #00000080;
+            border-radius: 4px;
+            opacity: 1;
+            border: none;
+            color: #FFFFFF;
+            font-size: 1rem;
+
+        }
+
+        .add {
+            padding: 0.2rem 1rem;
+            margin-right: 1rem;
+
+        }
+
+
+    }
+
+    .notification_conatiner {
+        padding-right: 1rem;
+
+        .notification_item {
+            .inner_item {
+                display: flex;
+                justify-content: space-between;
+
+                .left {
+                    display: flex;
+
+                    p {
+                        font-size: 16px;
+                        color: #707070;
+
+                    }
+                }
+
+                p {
+                    font-size: 10px;
+                    letter-spacing: 0px;
+                    color: #37474F;
+                }
+            }
+
+            .left_bottom {
+                display: flex;
+                justify-content: space-between;
+
+                h6 {
+                    font-size: 12px;
+                    letter-spacing: 0px;
+                    font-weight: bold;
+                    color: #707070;
+                    opacity: 1;
+                }
+
+                p {
+                    font-size: 10px;
+                    letter-spacing: 0px;
+                    color: #37474F;
+                }
+            }
+
+            p {
+                font-size: 12px;
+                letter-spacing: 0px;
+                color: #37474F;
+                opacity: 1;
+
+            }
+
+            h6 {
+
+                font-size: 10px;
+                font-weight: bold;
+                letter-spacing: 0px;
+                color: #146F62;
+                opacity: 1;
+            }
+
+            margin-bottom: 0.5rem;
+
+            border-bottom: 3px dashed #146F62;
+        }
+
+
+
+    }
+}

@@ -4,7 +4,12 @@
     background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("../assets/images/building_2.png");
     height: 100vh;
 
+
+
     .logout_m {
+        display: flex;
+        gap: 0.8rem;
+
         span {
             color: #ffffff;
             font-size: 20px;
@@ -15,32 +20,290 @@
             cursor: pointer;
         }
     }
+
     .loginop_card {
         background: #ffffff 0% 0% no-repeat padding-box;
         box-shadow: 0px 0px 4px #00000099;
         position: absolute;
-        top: 20%;
+        // top: 34%;
         border-radius: 0.7rem;
         width: 50%;
+        box-shadow: 4px 4px 8px var(--white-ffffff);
+        background: #FFFFFF99 0% 0% no-repeat padding-box;
+        box-shadow: 4px 4px 8px #FFFFFF;
+        border-radius: 12px;
+        opacity: 1;
+
+        top: 50%;
+        left: 50%;
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+
         h3 {
-            margin: 1rem 0;
-            color: #26786c;
-            text-transform: uppercase;
             text-align: center;
+            font: normal normal 600 28px/60px Montserrat;
+            letter-spacing: 0px;
+            color: #146F62;
+            opacity: 1;
+            text-transform: uppercase;
         }
-        .login_crad_body {
-            p {
-                color: #969696;
-                font-weight: bold;
-                margin: 0;
+
+        .loginop_child_card {
+            border: 1px solid var(--gray-707070);
+            background: #FFFFFF 0% 0% no-repeat padding-box;
+            border: 1px solid #707070;
+            border-radius: 8px;
+            opacity: 1;
+            height: 227px;
+
+            img {
+                width: 200px;
+                height: 99px;
             }
-            h6 {
-                color: #26786c;
-                font-weight: normal;
-                span {
+
+            .login_crad_body {
+                p {
+                    font: normal normal bold 12px/15px Montserrat;
+                    letter-spacing: 0px;
+                    color: #707070;
+                    opacity: 1;
+                }
+
+                h6 {
+                    text-align: center;
+                    font: normal normal normal 14px/18px Montserrat;
+                    letter-spacing: 0px;
+                    color: #65ABA0;
+
+                    span {
+                        font-weight: bold;
+                    }
+                }
+            }
+
+        }
+
+    }
+}
+
+
+
+.login_option_container {
+    background: #146F62 0% 0% no-repeat padding-box;
+    opacity: 1;
+
+    .login_option_header {
+        display: flex;
+        justify-content: flex-end;
+        padding: 0.6rem 1rem 0.6rem 0.6rem;
+
+        .dropdown {
+            button {
+                background: #FFFFFF00 0% 0% no-repeat padding-box;
+                opacity: 0.9;
+                font: normal normal normal 14px/18px Montserrat;
+                letter-spacing: 0px;
+                color: #FFFFFF;
+                opacity: 1;
+                display: flex;
+                gap: 1rem;
+                align-items: center;
+                border: none;
+            }
+
+            .show>.btn-success.dropdown-toggle {
+                border-color: none;
+            }
+        }
+
+        // sidebar dropdown
+        .sidebar_option_container {
+            position: absolute;
+            top: 3rem;
+            left: 15px;
+            background: #ffffff 0% 0% no-repeat padding-box;
+            box-shadow: 0px 0px 4px #00000080;
+            border-radius: 5px;
+            opacity: 1;
+            width: 190px;
+
+            // padding: 5px;
+            .dropdown-item {
+                padding: 0 2px !important;
+            }
+
+            .sidebar_option_container_header {
+                display: flex;
+                align-items: center;
+                border-bottom: 2px solid #707070;
+                padding: 5px 0 10px 10px;
+                margin: 0 8px;
+                white-space: break-spaces;
+
+                svg {
+                    color: #707070;
+                    font-size: 2.5rem;
+                }
+
+                h6 {
+                    font-size: 12px;
+                    color: #707070;
+                    line-height: 1.4;
+                    text-transform: capitalize;
+                }
+
+                p {
+                    font-size: 12px;
+                    color: #707070;
                     font-weight: bold;
+                    text-transform: capitalize;
+                }
+            }
+
+            // .sidebar_option_body {
+            .sidebar_option_body_item {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin: 3px 0;
+                padding: 2px 5px;
+                border-radius: 3px;
+
+                &:hover {
+                    background-color: #e1e1e1;
+                }
+
+                p {
+                    font-size: 12px;
+                    color: #000000;
+                    font-weight: normal;
+                }
+
+                svg {
+                    color: black;
+                }
+            }
+
+            // }
+        }
+
+    }
+
+    .login_option_menus {
+        background: #FCFCFC 0% 0% no-repeat padding-box;
+        box-shadow: 0px -4px 6px #00000059;
+        border-radius: 36px 36px 0px 0px;
+        opacity: 1;
+        display: flex;
+        gap: 1rem;
+        padding: 4rem 6rem 1.3rem 13rem;
+        flex-wrap: wrap;
+        position: relative;
+
+        .login_option_menu {
+            background: #FFFFFF 0% 0% no-repeat padding-box;
+            box-shadow: 0px 0px 4px #00000080;
+            border-radius: 4px;
+            opacity: 1;
+            width: 220px !important;
+            height: 220px !important;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            // margin: 2rem;
+            gap: 1rem;
+            // flex: 1 0 21%;
+            cursor: pointer;
+
+            p {
+                font: normal normal normal 24px/29px Montserrat;
+                letter-spacing: 0px;
+                color: #707070;
+                opacity: 1;
+            }
+        }
+
+        .sub_menus {
+            display: flex;
+            width: 220px;
+            height: 220px;
+            flex-wrap: wrap;
+            gap: 0.3rem;
+
+            .sub_menu {
+                background: #65ABA0 0% 0% no-repeat padding-box;
+                box-shadow: 0px 0px 4px #00000059;
+                border-radius: 4px;
+                opacity: 1;
+                width: 70px;
+                height: 70px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                gap: 0.5rem;
+                cursor: pointer;
+
+                p {
+                    text-align: center;
+                    font: normal normal 300 8px/10px Montserrat;
+                    letter-spacing: 0px;
+                    color: #707070;
+                    text-transform: uppercase;
+                    opacity: 1;
                 }
             }
         }
+
+        .footer_logo {
+            position: absolute;
+            bottom: 1.3rem;
+            right: 13px;
+        }
     }
+
+    .overlay {
+        width: 100%;
+        height: 100vh;
+        overflow: hidden;
+        opacity: 1;
+        background-image: url("https://cdn.unenvironment.org/2020-02/sustainable-cities.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
+
+        overflow: -moz-hidden-unscrollable;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .overlay_mask {
+            background: transparent linear-gradient(270deg, #00000000 0%, #000000 100%) 0% 0% no-repeat padding-box;
+            width: 100%;
+            height: 100vh;
+            overflow: -moz-hidden-unscrollable;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 1;
+
+            .menulink {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                gap: 0.7rem;
+
+                p {
+                    font: normal normal 600 24px/29px Montserrat;
+                    letter-spacing: 0px;
+                    color: #FFFFFF;
+                    opacity: 1;
+                }
+            }
+        }
+
+
+    }
+
 }

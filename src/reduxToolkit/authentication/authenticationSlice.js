@@ -1,66 +1,89 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { endpoints, URL } from "../../Apis/Constants";
+import { createSlice } from "@reduxjs/toolkit";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 
-export const loginMiddleware = createAsyncThunk(
-    'users/loginMiddleware',
-    async (authValues, thunkAPI) => {
-        try {
-            // if (bearerToken) {
-            //     console.log(bearerToken)
-                const response = await fetch(
-                    URL + endpoints.LOGIN,
-                    {
-                        method: 'POST',
-                        headers: {
-                            "Accept": "application/json",
-                            "Authorization": "Bearer " + sessionStorage.getItem("bearerToken"),
-                            "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify(authValues),
-                    }
-                );
-            // }
-            let data = await response.json();
-            // console.log('data', data, response.status);
+// export const loginMiddleware = createAsyncThunk('users/loginMiddleware', async (authValues, thunkAPI) => {
+//     try {
+//         let response = await apiInstance.post(endpoints.LOGIN, authValues.values);
+//         console.log("this is response",response)
+//         if (response.status === 200) {
+//           
+//             authValues.navigate('/login-option');
+//             return { ...response.data };
+//         } else {
+//             return thunkAPI.rejectWithValue(response.data);
+//         }
+//     } catch (error) {
+//         return thunkAPI.rejectWithValue(error.response);
+//     }
+// });
 
-            if (response.status === 200) {
-                sessionStorage.setItem("userdata", JSON.stringify(data))
-                return { ...data };
-            } else {
-                return thunkAPI.rejectWithValue(data);
-            }
-        } catch (e) {
-            // console.log('Error', e.response.data);
-            return thunkAPI.rejectWithValue(e.response.data);
-        }
-    }
-);
 
 export const authenticationSlice = createSlice({
     name: "authenticationSlice",
+    reducers: {
+        logOut: (state, action) => {
+            state.user = {}
+            sessionStorage.removeItem("userdata");
+            sessionStorage.removeItem("bearerToken");
+            localStorage.removeItem("companyId")
+            localStorage.removeItem("deleteId")
+            localStorage.removeItem("cId")
+            localStorage.removeItem("pid")
+            localStorage.removeItem("userId")
+            localStorage.removeItem("singlezoneId")
+            localStorage.removeItem("providerId")
+            localStorage.removeItem("provideridfordetail")
+            localStorage.removeItem("vehicleidfordetail")
+            localStorage.removeItem("onBoardingRoleName")
+            localStorage.removeItem("lng")
+            localStorage.removeItem("lat")
+            localStorage.removeItem("onBoardingRoleId")
+            localStorage.removeItem("providerOrderDetail")
+            localStorage.removeItem("employeeProviderDetail")
+            localStorage.removeItem("vehicleProviderDetail")
+
+
+        }
+    },
     initialState: {
-        user: []
+        user: {},
+        permission: []
     },
     extraReducers: {
-        [loginMiddleware.fulfilled]: (state, { payload }) => {
-            if(payload){
-                state.user = payload;
-                console.log(payload)
+        ["authenticationSlice/tokenApi/fulfilled"]: (state, action) => {
+            const { data, status } = action.payload || {}
+            if (status >= 200 && status < 300) {
+                state.user = data
+            } else if (status >= 400 && status < 500) {
+                toast.error(data?.message)
             }
-            // state.value = action.payload;
         },
+        ["authenticationSlice/roleCheck/fulfilled"]: (state, action) => {
+            const { data, status } = action.payload || {}
+            if (status >= 200 && status < 300) {
 
-        [loginMiddleware.pending]: (state) => {
-            // console.log(state)
+                state.permission = data?.data.map(item => {
+                    return item.id
+                })
+
+
+                // sessionStorage.setItem("premission", state.roleCheck)
+
+                console.log(state.permission)
+            } else if (status >= 400 && status < 500) {
+                // toast.error(data?.message)
+            }
         },
-
-        [loginMiddleware.rejected]: (state, { payload }) => {
-            // console.log(payload)
-        }
-    }
+        ["authenticationSlice/loginMiddleware/fulfilled"]: (state, { payload }) => {
+            state.user = payload;
+        },
+    },
 
 })
 
+export const { logOut } = authenticationSlice.actions;
+export const userDetail = (state) => state?.authenticationSlice?.user;
 export default authenticationSlice.reducer;
-export const userSelector = (state) => state.user;
+

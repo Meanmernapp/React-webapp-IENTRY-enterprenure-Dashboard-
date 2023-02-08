@@ -1,8 +1,8 @@
 import React from "react";
-import AddUpdateProviderContractor from "../../../components/AddUpdateProviderComponent";
+import AddUpdateProviderComponent from "../../Dashboard/Providers/AddUpdateProviderComponent";
 
 const UpdateProvider = () => {
-  return <AddUpdateProviderContractor updateProviderFlag={true} />;
+  return <AddUpdateProviderComponent updateProviderFlag={true} />;
 };
 
 export default UpdateProvider;

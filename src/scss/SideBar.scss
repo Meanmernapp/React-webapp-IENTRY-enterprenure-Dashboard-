@@ -1,56 +1,230 @@
+@import "../scss/breakpoint.scss";
+
 .sidebar {
-    .sideLogo {
-        width: 12rem;
-        padding: 0.5rem 0rem 2rem 1rem;
-    }
-    .sideTabs {
-        height: 100vh;
-        background: #146f62;
-        border-radius: 0 4.5rem 0 0;
-        box-shadow: 1px 32px 11px -2px grey;
-        padding-top: 4.5rem;
-        ul {
-            list-style: none;
-            padding: 0;
-            a {
-                &:hover {
-                    text-decoration: none !important;
-                }
-            }
-            .activeLi {
-                background-color: #fff;
-                color: #146f62;
-            }
-            li {
-                display: flex;
-                padding: 0.6rem 1rem;
-                align-items: center;
-                justify-content: space-between;
-                cursor: pointer;
-                font-size: 18px;
-                text-transform: uppercase;
-                color: #fff;
-                span {
-                    font-size: 12px;
-                }
-                &:hover {
-                    background-color: #fff;
-                    color: #146f62 !important;
-                    text-decoration: none !important;
-                }
-                i {
-                    margin-right: 1rem;
-                }
-            }
+  width: 12rem;
+
+  .sideLogo {
+    width: 179px;
+    margin: 10px 0 25px 20px;
+    height: 64px;
+  }
+
+  .sideTabs {
+    height: 100vh;
+    background: #146f62;
+    box-shadow: 3px 0px 4px #00000066;
+    padding-top: 86px;
+
+    ul {
+      list-style: none;
+      padding: 0;
+
+      a {
+        &:hover {
+          text-decoration: none !important;
         }
-        .sideBarFooter {
-            text-align: center;
-            width: 15%;
-            color: #fff;
-            p {
-                margin-bottom: 0;
-                font-size: 12px;
-            }
+      }
+
+      .activeLi {
+        background-color: #65aba0;
+        color: #fff;
+      }
+
+      .hoverLi {
+        background-color: #fff;
+        color: #146f62;
+      }
+
+      li {
+        display: flex;
+        padding: 0 1rem;
+        align-items: center;
+        justify-content: space-between;
+        cursor: pointer;
+        font-size: 18px;
+        text-transform: uppercase;
+        color: #fff;
+        height: 43px;
+
+        .sidBarIcons {
+          width: 21.07px;
+          height: 24.08px;
+          margin: 0 5px;
         }
+
+        .btn-success.dropdown-toggle:focus {
+          box-shadow: none !important;
+        }
+
+        span {
+          font-size: 12px;
+          font-weight: 600;
+        }
+
+        &:hover {
+          // background-color: #65aba0;
+          // color: #fff !important;
+          text-decoration: none !important;
+        }
+
+        i {
+          margin-right: 1rem;
+        }
+
+        .btn-success {
+          background-color: transparent !important;
+          border-color: transparent !important;
+
+          &:hover {
+            background-color: transparent !important;
+            color: #fff !important;
+            border-color: transparent !important;
+          }
+        }
+
+        .btn {
+          padding: 0 !important;
+        }
+
+        .dropdown-toggle::after {
+          display: none;
+        }
+      }
     }
+
+    .sideBarFooter {
+      text-align: center;
+      color: #ffffff;
+      font-size: 12px;
+      margin-top: 4rem;
+
+      p {
+        margin-bottom: 0;
+        font-size: 12px;
+      }
+    }
+  }
+}
+
+// sidebar dropdown
+.sidebar_option_container_side {
+  // position: absolute;
+  // top: 3rem;
+  // left: 15px;
+  background: #ffffff 0% 0% no-repeat padding-box;
+  box-shadow: 0px 0px 4px #00000080;
+  border-radius: 5px;
+  opacity: 1;
+  width: 205px;
+
+
+
+  // padding: 5px;
+  .dropdown-item {
+    padding: 0 2px !important;
+  }
+
+  .sidebar_option_container_header {
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid #707070;
+    padding: 5px 0 10px 10px;
+    margin: 0 8px;
+    white-space: break-spaces;
+
+    svg {
+      color: #707070;
+      font-size: 2.5rem;
+    }
+
+    h6 {
+      font-size: 12px;
+      color: #707070;
+      line-height: 1.4;
+      text-transform: capitalize;
+    }
+
+    p {
+      font-size: 12px;
+      color: #707070;
+      font-weight: bold;
+      text-transform: capitalize;
+    }
+  }
+
+  // .sidebar_option_body {
+  .sidebar_option_body_item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 3px 0;
+    padding: 2px 5px;
+    border-radius: 3px;
+
+    &:hover {
+      background-color: #e1e1e1;
+    }
+
+    p {
+      font-weight: 600;
+      font-family: Montserrat;
+      letter-spacing: 0px;
+      color: #000000;
+      opacity: 1;
+      font-size: 12px;
+      padding: 0px 3px;
+    }
+
+    svg {
+      color: black;
+    }
+  }
+
+  // }
+}
+
+// some media breakpoint
+
+@include media (">=1300px", "<=1400px") {
+
+  .sidebar {
+    width: 13.5rem !important;
+
+  }
+}
+
+@include media (">=1400px", "<=1500px") {
+
+  .sidebar {
+    width: 14.5rem !important;
+
+  }
+}
+
+@include media (">=1500px", "<=1600px") {
+
+  .sidebar {
+    width: 15.5rem !important;
+  }
+}
+
+@include media (">=1600px", "<=1700px") {
+
+  .sidebar {
+    width: 16.5rem !important;
+  }
+}
+
+@include media (">=1700px", "<=1800px") {
+
+  .sidebar {
+    width: 17.8rem !important;
+  }
+}
+
+@include media (">=1800px") {
+
+  .sidebar {
+    width: 17.8rem !important;
+  }
 }

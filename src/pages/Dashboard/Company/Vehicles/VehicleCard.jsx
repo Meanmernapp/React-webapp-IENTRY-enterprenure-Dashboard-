@@ -1,31 +1,43 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import person4 from '../../../../assets/images/person-4.png';
-import ic_edit_outline from '../../../../assets/images/ic-edit-outline-red.svg'
+import ic_edit_outline from '../../../../assets/images/ic-edit-outline-red.svg';
+import { useTranslation } from "react-i18next";
+import { permissionObj } from '../../../../Helpers/permission';
+import { useSelector } from 'react-redux';
 
 const VehicleCard = ({ vehicleCardData }) => {
-    // console.log(vehicleCardData)
+    const { t } = useTranslation();
+    const { permission } = useSelector(state => state.authenticatioauthennSlice);
     return (
         <div className='employeeVehicleCard'>
-            <img src={person4} className="person4Img" alt="person2" />
-            <Link to={`addupdatevehicle/${vehicleCardData?.vehicle.id}`} >
-                <img src={ic_edit_outline} className="pencelIcon" alt="ic_edit_outline" />
-            </Link>
+            <img
+                // src={person4}
+                src={vehicleCardData?.vehicle?.image != null ? `data:image/png;base64,${vehicleCardData?.vehicle?.image}` : person4}
+                className="person4Img"
+                alt="person2"
+            />
+            {
+                permission?.includes(permissionObj?.WEB_VEHICLE_UPDATE) &&
+                <Link to={`/dashboard/employee/all-employees/update-employee/${vehicleCardData?.vehicle.id}`} >
+                    <img src={ic_edit_outline} className="pencelIcon" alt="ic_edit_outline" />
+                </Link>
+            }
             <div className="headName">
-                <p>Brand</p>
+                <p>{t('brand')}</p>
                 <h6>{vehicleCardData?.vehicle.brand}</h6>
             </div>
             <div className="bodyCard">
                 <div className="bodyLeftSide">
-                    <p>sub-brand</p>
+                    <p>{t('sub_brand')}</p>
                     <h6>{vehicleCardData?.vehicle.subBrand}</h6>
-                    <p>model</p>
+                    <p>{t('model')}</p>
                     <h6>{vehicleCardData?.vehicle.model}</h6>
                 </div>
                 <div className="bodyRightSide">
-                    <p>plates</p>
+                    <p>{t('plates')}</p>
                     <h6>{vehicleCardData?.vehicle.plate}</h6>
-                    <p>owner</p>
+                    <p>{t('owner')}</p>
                     <h6>{vehicleCardData?.vehicle.vin}</h6>
                 </div>
             </div>

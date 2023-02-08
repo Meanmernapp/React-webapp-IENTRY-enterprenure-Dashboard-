@@ -1,0 +1,450 @@
+.emloyee-contract-detail-sec {
+  width: 992px;
+  margin: 70px auto;
+}
+
+.emloyee-contract-detail {
+  display: flex;
+
+  &-first {
+    flex: 1 0 25%;
+  }
+
+  &-second {
+    flex: 1 0 25%;
+    border-right: 2px solid #65aba0;
+    border-left: 2px solid #65aba0;
+  }
+
+  &-third {
+    flex: 1 0 25%;
+  }
+}
+
+.emloyee-contract-detail .contract-card__title {
+  display: block;
+  text-align: center;
+}
+
+.emloyee-contract-detail .contract-card__desc {
+  display: block;
+  text-align: center;
+}
+
+.contract-option-label {
+  text-decoration: underline;
+  font: normal normal bold 14px/18px Montserrat;
+  letter-spacing: 0px;
+  color: #65aba0;
+  opacity: 1;
+}
+
+.contract-detail-employe-sec {
+  max-width: 100%;
+}
+
+.contractor-access-table-heading {
+  text-align: center;
+
+  font: normal normal bold 10px/13px Montserrat;
+  letter-spacing: 0px;
+  color: #65aba0;
+  opacity: 1;
+}
+
+.contractor-access-heading {
+  font: normal normal 600 14px/18px Montserrat;
+  letter-spacing: 0px;
+  color: #707070;
+  opacity: 1;
+}
+
+.contractor-access-table-data {
+  text-align: center;
+  font: normal normal 100 12px/15px Montserrat;
+  letter-spacing: 0px;
+  color: #707070;
+  opacity: 1;
+}
+
+.contractor-access-table-first {
+  text-align: left;
+  font: normal normal bold 12px/15px Montserrat;
+  letter-spacing: 0px;
+  color: #707070;
+  opacity: 1;
+}
+
+.add-access-btn {
+  background: #65aba0 0% 0% no-repeat padding-box !important;
+  box-shadow: 0px 0px 4px #00000066;
+  border-radius: 4px;
+  opacity: 1;
+  border: none !important;
+  margin-top: 20px;
+  font-weight: bold;
+}
+
+.access-sec {
+  border-top: 2px dashed #146f62;
+  padding-top: 20px;
+}
+
+.emp-heading {
+  text-align: left;
+  font: normal normal bold 20px/24px Montserrat;
+  letter-spacing: 7px;
+  color: #146f62;
+  opacity: 1;
+}
+
+.contractorTables {
+  table {
+    border-collapse: separate !important;
+    border-spacing: 0 15px;
+
+    thead {
+      th {
+        font-size: 14px;
+        color: #65aba0;
+        text-transform: uppercase;
+        text-align: center;
+      }
+    }
+
+    .first_head {
+      text-align: left !important;
+      padding-left: 1rem;
+    }
+
+    .first {
+      text-align: left !important;
+      padding-left: 1rem;
+      color: #707070;
+      font-weight: bold;
+    }
+
+    .last {
+      text-align: right !important;
+      padding-right: 1rem;
+
+      img {
+        cursor: pointer;
+      }
+
+      // .dropdown-menu.show {
+      //   background: #FFFFFF 0% 0% no-repeat padding-box;
+      //   box-shadow: 0px 0px 4px #000000B3;
+      //   border-radius: 4px;
+      //   opacity: 1;
+      //   padding: 0px 10px;
+      //   // min-width: 14rem;
+
+      //   .dropdownDiv {
+
+      //     &:first-child {
+      //       margin-top: 10px;
+      //     }
+
+      //     margin-bottom: 10px;
+      //     display: flex;
+      //     gap: 0.3rem;
+      //     align-items: center;
+
+      //     &:hover {
+      //       background: #E1E1E1 0% 0% no-repeat padding-box;
+      //       border-radius: 1px;
+      //       opacity: 1;
+
+      //     }
+
+
+      //     img {
+      //       width: 14px;
+      //       height: 14px;
+      //       margin-right: 0.5rem;
+      //     }
+
+      //     span {
+      //       font: normal normal normal 14px/18px Montserrat;
+      //       letter-spacing: 0px;
+      //       color: #000000;
+      //       opacity: 1;
+      //     }
+      //   }
+      // }
+      .dropdown-menu.show {
+        inset: -16% auto auto 11%;
+        transform: translate(0px, 25px);
+        // padding: 20px;
+        // width: 216px;
+        // height: 99px;
+        // border-radius: 15px;
+        background: #FCFCFC 0% 0% no-repeat padding-box;
+        box-shadow: 0px 0px 4px #00000099;
+        border-radius: 4px;
+        opacity: 1;
+        // padding: 10px 10px;
+
+        .dropdownDiv {
+          // margin-bottom: 10px;
+
+          padding: 6px 7px;
+          display: flex;
+          gap: 1rem;
+          align-items: center;
+          min-width: 12rem;
+          justify-content: space-between;
+
+          img {
+            width: 18px;
+            height: 18px;
+          }
+
+          span {
+            font: normal normal normal 14px/18px Montserrat;
+            letter-spacing: 0px;
+            color: #000000;
+            opacity: 1;
+          }
+
+          &:hover {
+            background: #E1E1E1 0% 0% no-repeat padding-box;
+            border-radius: 1px;
+            opacity: 1;
+
+          }
+        }
+      }
+    }
+
+    tr {
+      // box-shadow: 0px 0px 6px 0px black;
+      // border-radius: 5px;
+      // height: 36px;
+      box-shadow: 0px 0px 4px #00000059;
+      border-radius: 4px;
+      opacity: 1;
+      height: 36px;
+
+      td {
+        text-align: center;
+      }
+    }
+  }
+}
+
+.contractor-detail-page-search {
+  background: #fcfcfc 0% 0% no-repeat padding-box;
+  box-shadow: 0px 0px 4px #00000059;
+  border-radius: 4px;
+  opacity: 1;
+  border: none;
+  outline: none;
+  height: 36px;
+  width: 100%;
+  padding: 0px 15px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+.contractor-detail-page-search::placeholder {
+  text-align: left;
+  font: normal normal normal 16px/21px Segoe UI;
+  letter-spacing: 0px;
+  color: #000000;
+  opacity: 1;
+}
+
+.contractor-detail-page-sec {
+  position: relative;
+}
+
+.contractor-detail-page-search__icon {
+  position: absolute;
+  right: 14px;
+  top: 18px;
+}
+
+.contract-custom-checkbox {
+  .days-text-style {
+    color: #000000;
+    font-size: 18px;
+    font-weight: bolder;
+    text-transform: uppercase;
+    padding: 6px;
+    text-align: center;
+  }
+
+  article {
+    position: relative;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    margin: 5px;
+    float: left;
+    box-sizing: border-box;
+  }
+
+  article span {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    line-height: 25px;
+    transition: 0.5s ease;
+  }
+
+  article input {
+    position: absolute;
+    border-radius: 50%;
+    top: 0;
+    left: 0;
+    width: 40px;
+    height: 40px;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  input[type="checkbox"]:checked~span {
+    background-color: #146f62;
+    color: #ffffff;
+  }
+
+  @keyframes slidein {
+    from {
+      margin-top: 100%;
+      width: 300%;
+    }
+
+    to {
+      margin: 0%;
+      width: 100%;
+    }
+  }
+}
+
+.my-custom-modal {
+  position: absolute;
+  top: 50%;
+  height: 300px;
+  width: 300px;
+  right: 50%;
+  z-index: 9999999999;
+  background: red;
+}
+
+.my-custom-modal-hide {
+  visibility: hidden;
+}
+
+.my-custom-modal-show {
+  display: block;
+  visibility: unset;
+}
+
+.warning-msg-style {
+  font-size: 40px;
+  font-weight: 500;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: rgb(226, 76, 75);
+  margin: 10px auto;
+  padding: 15px 0;
+  border: 3px solid rgb(226, 76, 75);
+  width: 100%;
+  text-transform: uppercase;
+  margin-bottom: 2rem !important;
+  margin-right: 10px !important;
+}
+
+.rejection-note-field {
+  border: none;
+  outline: none;
+  font-size: 14px;
+  letter-spacing: 0px;
+  color: #707070;
+  background: #fcfcfc 0% 0% no-repeat padding-box;
+  box-shadow: 4px 4px 4px #0000001a;
+  border: 2px solid #707070;
+  opacity: 1;
+  border-radius: 4px;
+
+  &::placeholder {
+    color: #707070;
+    font-size: 8px;
+  }
+}
+
+.rejection-note-label {
+  position: absolute;
+  top: -8px;
+  background: white;
+  padding: 0 5px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #707070;
+  margin-left: 7px;
+}
+
+.work-shift-add-item {
+  background: var(--white-ffffff) 0% 0% no-repeat padding-box;
+  background: #ffffff 0% 0% no-repeat padding-box;
+  box-shadow: 0px 0px 2px #0000004d;
+  border-radius: 50px;
+  padding: 5px;
+  height: 35px;
+}
+
+.searchItem {
+  height: 150px;
+  overflow-y: scroll;
+}
+
+.work-shift-heading-sec {
+  text-align: left;
+  font: normal normal bold 16px/19px Montserrat;
+  letter-spacing: 0px;
+  color: #146f62;
+  opacity: 1;
+  display: inline-block;
+}
+
+.schedule-heading {
+  text-align: left;
+  font: normal normal 600 14px Montserrat;
+  letter-spacing: 0px;
+  color: #707070;
+  opacity: 1;
+  display: block;
+  margin-bottom: -7px;
+}
+
+.schedule-heading-sub-heading {
+  text-align: left;
+  text-decoration: underline;
+  font: normal normal normal 10px Montserrat;
+  letter-spacing: 0px;
+  color: #707070;
+  opacity: 1;
+  display: inline-block;
+  margin-bottom: 10px;
+}
+
+.accordion-button:not(.collapsed) {
+  background-color: #fff !important;
+}
+
+.uploaod-document-name {
+  position: absolute;
+  right: 1px;
+  top: -1px;
+  background: #146f62;
+  padding: 5px 3px;
+  color: #fff;
+  border-top-right-radius: 7px;
+  border-bottom-right-radius: 7px;
+}

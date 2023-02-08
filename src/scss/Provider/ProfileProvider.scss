@@ -1,0 +1,94 @@
+.profile-sec {
+    width: 667px;
+    // height: 794px;
+    margin: 80px auto 80PX auto;
+    border-radius: 20px;
+    // background: rgb(222, 223, 224);
+    padding: 20px;
+    margin-bottom: 10rem;
+    margin-top: 12rem;
+    padding-top: 5rem;
+    position: relative;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    box-shadow: 0px 0px 4px #00000099;
+    opacity: 1;
+
+    .profile-sec__heading {
+
+        margin: 22px 0 20px 0 !important;
+        color: #146F62;
+        font-weight: bold;
+    }
+
+    .top-m {
+        margin-top: 4rem !important;
+    }
+
+    .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+        border-color: #707070;
+    }
+
+
+
+
+    img {
+        width: 200px;
+        height: 200px;
+        box-shadow: 0px 0px 6px #00000066;
+        opacity: 1;
+        border-radius: 50%;
+    }
+
+    &__photo {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        position: absolute;
+        left: 50%;
+        object-fit: cover;
+        top: 0;
+        transform: translate(-50%, -50%);
+    }
+
+    &__heading {
+        font: normal normal 600 18px/22px Montserrat;
+        letter-spacing: 2.7px;
+        color: #707070;
+        opacity: 1;
+        border-bottom: 2px solid #707070;
+        display: block;
+        padding-bottom: 6PX;
+    }
+}
+
+.input-icons {
+    position: absolute;
+    top: 18px;
+    right: 8px;
+}
+
+.submit-primary-btn {
+    width: 270px;
+    height: 30px;
+    background: #146f62;
+    font-family: Montserrat;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 200;
+    opacity: 1;
+    border: none;
+    color: #fff;
+    display: block;
+
+    svg {
+        font-size: 18px;
+        margin-left: 20px;
+        margin-bottom: 3px;
+    }
+}
+
+.btn-container {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}

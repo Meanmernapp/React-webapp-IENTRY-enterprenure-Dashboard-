@@ -1,0 +1,426 @@
+.departments {
+    margin-top: 50px;
+
+    .accordion-item .accordion-button {
+        padding: 15px !important;
+    }
+
+    .rolesHeader {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+
+        .leftText {
+            display: flex;
+
+            p {
+                font-size: 16px;
+                font-weight: bold;
+                color: #146f62;
+                margin-right: 2rem !important;
+            }
+
+            span {
+                font-size: 14px;
+                text-decoration: underline;
+                color: #000000;
+
+                &:hover {
+                    background-color: #e1e1e1;
+                    opacity: 0.5;
+                }
+            }
+        }
+
+        .rightText {
+            margin-right: 1.5rem;
+
+            span {
+                font-size: 14px;
+                text-decoration: underline;
+                color: red;
+                text-transform: uppercase;
+                margin-right: 10px;
+            }
+
+            img {
+                width: 14px;
+                height: 16px;
+            }
+
+            &:hover {
+                background-color: #e1e1e1;
+                opacity: 0.5;
+            }
+        }
+    }
+
+    .accordion-body {
+        padding: 1rem 1.25rem 0rem 1.25rem;
+    }
+
+    .roleBody {
+        border-top: 2px dashed #178a7b;
+        padding: 1rem 10px 0px 10px;
+
+        .inner_head {
+            font: normal normal bold 12px/15px Montserrat;
+            letter-spacing: 0px;
+            color: #707070;
+            opacity: 1;
+            font-weight: bold;
+            margin-top: 0.5rem !important;
+            padding-left: 0.5rem;
+        }
+
+        .upper {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+
+            .left {
+                font-size: 14px;
+                color: #707070;
+                opacity: 1;
+                font-weight: bold;
+                text-transform: uppercase;
+            }
+
+            .right {
+                text-transform: uppercase;
+                text-decoration: underline;
+                font: normal normal normal 14px/18px Montserrat;
+                letter-spacing: 0px;
+                color: #000000;
+                text-transform: uppercase;
+                opacity: 1;
+
+                &:hover {
+                    background: #E1E1E1 0% 0% no-repeat padding-box;
+                    border-radius: 2px;
+                    opacity: 1;
+                    cursor: pointer;
+                }
+            }
+        }
+
+        .nameList {
+            padding-left: 0.5rem;
+
+            img {
+                width: 15.5px;
+                height: 18px;
+                margin-right: 12px;
+                cursor: pointer;
+
+                &:hover {
+                    background-color: #e1e1e1;
+                    opacity: 0.5;
+                }
+            }
+
+            span {
+                color: #707070;
+                font-size: 12px;
+            }
+        }
+
+        .footer_department {
+            display: flex;
+            justify-content: center;
+            position: relative;
+            align-items: center;
+
+            .delete_user {
+                display: flex;
+                gap: 0.5rem;
+                align-items: center;
+                position: absolute;
+                right: 0;
+                margin-left: auto;
+                margin-right: auto;
+
+                p {
+                    text-decoration: underline;
+                    font: normal normal normal 14px/18px Montserrat;
+                    letter-spacing: 0px;
+                    color: #707070;
+                    text-transform: uppercase;
+                    opacity: 1;
+                }
+
+                &:hover {
+                    background: #E1E1E1 0% 0% no-repeat padding-box;
+                    border-radius: 2px;
+                    opacity: 1;
+                    cursor: pointer;
+                }
+            }
+
+        }
+    }
+}
+
+// manage employee department modal
+.manage_department_modal {
+    .modal-content {
+        .modal-header {
+            position: relative;
+            align-items: center;
+            justify-content: center;
+            margin-top: 1rem;
+
+            .h4 {
+                color: #146f62;
+                letter-spacing: 7px;
+                opacity: 1;
+                font-weight: bold;
+                font-size: 20px;
+            }
+
+            .cross {
+                position: absolute;
+                top: -15px;
+                right: 1px;
+                color: red;
+                cursor: pointer;
+                padding: 3px 4px;
+
+                &:hover {
+                    background-color: #e1e1e1;
+                    opacity: 0.5;
+                    border-radius: 4px;
+                }
+            }
+        }
+    }
+
+    .manage_role_modal_body {
+
+        .modal-body {
+            padding: 0rem 1rem 1rem 1rem;
+
+        }
+
+        p {
+            color: #65aba0;
+            font-size: 14px;
+            text-transform: uppercase;
+        }
+
+        .desciptions {
+            font: normal normal normal 14px/18px Montserrat;
+            letter-spacing: 0px;
+            color: #707070;
+            opacity: 1;
+            text-align: center;
+            padding-bottom: 1rem;
+        }
+
+        .search_btn {
+            position: absolute;
+            top: -5%;
+            right: 3%;
+
+            i {
+                color: gray;
+            }
+        }
+
+        .form-control {
+            box-shadow: none;
+            background: #fcfcfc !important;
+            height: calc(1.5em + 0.4rem + 2px);
+
+            &::placeholder {
+                font-size: 12px;
+            }
+        }
+
+
+
+        .add_some_one {
+            margin-top: 0.4rem;
+            height: 313px;
+            overflow-y: scroll;
+            padding: 0.4rem 0.8rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            background: #FFFFFF 0% 0% no-repeat padding-box;
+            border: 1px solid #707070;
+            border-radius: 4px;
+            opacity: 1;
+            position: relative;
+
+            &::-webkit-scrollbar {
+                display: none;
+            }
+
+            .line_button {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                text-decoration: underline;
+                font: normal normal normal 12px/15px Montserrat;
+                letter-spacing: 0px;
+                color: #707070;
+                opacity: 1;
+                width: 94%;
+                border-top: 2px solid #707070;
+                opacity: 1;
+                position: absolute;
+                bottom: 18px;
+                right: 0px;
+                margin: 0 auto;
+                left: 0px;
+                height: 18px;
+
+                span {
+                    margin-top: 1rem !important;
+
+                    &:hover {
+                        background: #E1E1E1 0% 0% no-repeat padding-box;
+                        border-radius: 1px;
+                        opacity: 1;
+                        cursor: pointer;
+                    }
+
+                }
+
+
+            }
+
+            .add_some_one_item {
+                background: #ffffff 0% 0% no-repeat padding-box;
+                box-shadow: 0px 0px 2px #0000004d;
+                border-radius: 50px;
+                opacity: 1;
+                padding: 0.2rem 0.6rem;
+                color: #707070;
+                font-size: 14px;
+                margin-bottom: 0 0.5rem 0.5rem 0;
+                height: 30px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                i {
+                    background: #000000;
+                    border-radius: 50%;
+                    padding: 0.1rem 0.2rem;
+                    color: #ffffff;
+                    font-size: 12px;
+                    margin-left: 0.5rem;
+                }
+            }
+
+
+        }
+    }
+}
+
+// manage delete department and user modal
+.department_and_user_delete-modal {
+    .modal-content {
+
+        // justify-content: center !important;
+        .modal-header {
+            border-bottom: none;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            .h4 {
+                text-align: center;
+                font: normal normal bold 20px/24px Montserrat;
+                letter-spacing: 7px;
+                color: #146F62;
+                opacity: 1;
+                margin-top: 1.5rem;
+            }
+
+            .modalClose {
+                position: absolute;
+                right: 5px;
+                top: 5px;
+                padding: 2px;
+
+                &:hover {
+                    background: #E1E1E1 0% 0% no-repeat padding-box;
+                    border-radius: 1px;
+                    opacity: 1;
+                    cursor: pointer;
+                }
+            }
+        }
+
+        .department_modal_body {
+
+            .paragraph_deps {
+                text-align: center;
+                font: normal normal normal 14px/18px Montserrat;
+                letter-spacing: 0px;
+                color: #707070;
+                margin-bottom: 1.5rem !important;
+
+                span {
+                    font: normal normal bold 14px/18px Montserrat;
+                    letter-spacing: 0px;
+                    color: #707070;
+                }
+            }
+
+
+        }
+    }
+}
+
+// manage add department 
+.department_add_modal {
+    .modal-content {
+
+        // justify-content: center !important;
+        .modal-header {
+            border-bottom: none;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            .h4 {
+                text-align: center;
+                font: normal normal bold 20px/24px Montserrat;
+                letter-spacing: 7px;
+                color: #146F62;
+                opacity: 1;
+                margin-top: 1.5rem;
+            }
+
+            .modalClose {
+                position: absolute;
+                right: 5px;
+                top: 5px;
+                padding: 2px;
+
+                &:hover {
+                    background: #E1E1E1 0% 0% no-repeat padding-box;
+                    border-radius: 1px;
+                    opacity: 1;
+                    cursor: pointer;
+                }
+            }
+        }
+
+        .department_modal_body {
+            .paragraph_title {
+                font: normal normal normal 14px/18px Montserrat;
+                letter-spacing: 0px;
+                color: #707070;
+                opacity: 1;
+                margin-bottom: 1rem;
+            }
+        }
+    }
+}

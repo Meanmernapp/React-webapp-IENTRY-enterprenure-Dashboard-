@@ -33,9 +33,9 @@ const NewCard = (props) => {
                 // height: "50px",
               }}
             >
-              <TextField
+              <TextField size="small"
                 fullWidth
-                placeholder=""
+
                 label="Description"
                 id="Description"
                 multiline
@@ -50,7 +50,7 @@ const NewCard = (props) => {
                       value={validUntil}
                       onChange={(e) => setvalidUntil(e.target.value)}
                       renderInput={(params) => (
-                        <TextField fullWidth {...params} />
+                        <TextField size="small" fullWidth {...params} />
                       )}
                     />
                   </Stack>

@@ -1,7 +1,11 @@
 import React from "react";
 import iccancel from "../../../../assets/images/ic-cancel.svg";
+import { useTranslation } from 'react-i18next';
+import Cookies from 'js-cookie';
 
 const AuthorizedEmployees = () => {
+  const { t } = useTranslation();
+  const lCode = Cookies.get("i18next") || "en";
   const users = [
     "Luis Enrique Cornejo Arreola",
     "Diego Guerrero Estrad",
@@ -10,9 +14,9 @@ const AuthorizedEmployees = () => {
     "Osiris Danae Villanueva",
   ];
   return (
-    <div className="modal buildingadd_card" id="authorizedEmployee">
-      <div className="modal-dialog modal-lg zonescard_m_center">
-        <div className="modal-content ">
+    <div class="modal buildingadd_card" id="authorizedEmployee">
+      <div class="modal-dialog modal-lg zonescard_m_center">
+        <div class="modal-content ">
           {/* <!-- Modal Header --> */}
           <div>
             <img
@@ -23,21 +27,21 @@ const AuthorizedEmployees = () => {
             />
           </div>
           {/* <!-- Modal body --> */}
-          <div className="modal-body ">
+          <div class="modal-body ">
             <div className="container-fluid ">
               <div className="row">
                 <h1 style={{ textAlign: "center" }}>
-                  <b>AUTHORIZED EMPLOYEE</b>
+                  <b>{t("authorized_employees")}</b>
                 </h1>
                 <br />
                 <h4 className="mt-3 mb-2" style={{ color: "#146f62" }}>
-                  REMOVE USER
+                  {t("remove_user")}
                 </h4>
                 <div>
                   <input
                     type="text"
                     className="form-control form-control-lg"
-                    placeholder="Search"
+
                     style={{
                       background: `url('https://cdn-icons-png.flaticon.com/512/149/149852.png')`,
                       backgroundPosition: "right",
@@ -73,13 +77,13 @@ const AuthorizedEmployees = () => {
                   </div>
                 </div>
                 <h4 className="mt-3 mb-2" style={{ color: "#146f62" }}>
-                  ADD USER
+                  {t("add_user")}
                 </h4>
                 <div>
                   <input
                     type="text"
                     className="form-control form-control-lg"
-                    placeholder="Search"
+
                     style={{
                       background: `url('https://cdn-icons-png.flaticon.com/512/149/149852.png')`,
                       backgroundPosition: "right",
@@ -111,7 +115,7 @@ const AuthorizedEmployees = () => {
                           Muhammad Umair
                           <span>
                             <i
-                              className="fa fa-times-circle"
+                              class="fa fa-times-circle"
                               aria-hidden="true"
                             ></i>
                           </span>
@@ -120,10 +124,9 @@ const AuthorizedEmployees = () => {
                     </div>
                   </div>
                 </div>
-
                 <div className="mt-3 col-md-12">
-                  <button className="btn btn-lg  btn-block" style={{backgroundColor:"#146f62"}}>
-                    APPLY CHANGES
+                  <button className="btn btn-lg  btn-block" style={{ backgroundColor: "#146f62" }}>
+                    {t("apply_changes")}
                   </button>
                 </div>
               </div>

@@ -1,9 +1,10 @@
-// @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600;700&display=swap");
 @import "./scss/index.scss";
 
 body {
-    font-family: "Montserrat", sans-serif !important;
+  font-family: "Montserrat", sans-serif !important;
+  background-color: #fcfcfc;
+  overflow-x: hidden;
 }
 
 h1,
@@ -12,13 +13,37 @@ h3,
 h4,
 h5,
 h6,
-p {
-    margin: 0 !important;
+p,span {
+  margin: 0 !important;
+  text-transform: uppercase;
 }
 
 a {
-    color: #333333 !important;
-    &:hover {
-        text-decoration: none !important;
-    }
+  color: #333333 !important;
+  &:hover {
+    text-decoration: none !important;
+  }
 }
+
+input[type="checkbox"] {
+  accent-color: #146f62;
+}
+
+// .css-1sumxir-MuiFormLabel-root-MuiInputLabel-root {
+//   left: inherit !important;
+//   right: 1.75rem !important;
+//   transform-origin: right!important;
+// }
+// .css-1d3z3hw-MuiOutlinedInput-notchedOutline {
+//   text-align: right !important;
+// }
+
+// .css-1sumxir-MuiFormLabel-root-MuiInputLabel-root {
+//   $left: inherit;
+//   $right: 1.75rem;
+//   $transform-origin: left;
+// }
+
+// .css-1d3z3hw-MuiOutlinedInput-notchedOutline {
+//   $text-align: left;
+// }

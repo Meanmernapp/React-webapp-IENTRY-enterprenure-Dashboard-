@@ -1,7 +1,19 @@
 import React from "react";
 import Dropzone from "react-dropzone";
+import { useTranslation } from 'react-i18next';
+import Cookies from 'js-cookie';
+
+/*
+Author : Arman Ali
+Module: Zone
+github: https://github.com/Arman-Arzoo
+*/
 
 const UploadImage = ({ onPress, dropzone1, imagePreviewUrl }) => {
+  // translation
+  const { t } = useTranslation();
+  const lCode = Cookies.get("i18next") || "en";
+  // image preview
   let $imagePreview = null;
   if (imagePreviewUrl) {
     $imagePreview = <img src={imagePreviewUrl} />;
@@ -14,21 +26,27 @@ const UploadImage = ({ onPress, dropzone1, imagePreviewUrl }) => {
         {({ getRootProps, getInputProps }) => (
           <div {...getRootProps()} className="">
             <input {...getInputProps()} />
-            <div className="custom_inputfile">
-              <span className="fa fa-cloud-upload fill" aria-hidden="true">
-                <span>
-                  DRAG & DROP<br></br>
-                  YOUT IMAGE
-                  <br></br>
-                  SIZE 20 MB MAX
+            <div className="add_new_plane_image_upload">
+              <div className="inner_item">
+                <span className="fa fa-cloud-upload fill" aria-hidden="true">
                 </span>
-              </span>
+                <div className="text-center" >
+                  <h4>{t("drag_and_drop")}</h4>
+                  <h5> {t("your_image")}</h5>
+                  <p>  {t("size_of_image")}</p>
+                </div>
+              </div>
               {dropzone1.map((file) => (
-                <img
-                  className="img_preview_set text-wrap"
-                  src={file.preview}
-                  alt={file.path}
-                />
+                <>
+                  <img
+                    className="img_preview_set text-wrap"
+                    src={file.preview}
+                    alt={file.path}
+
+                  />
+
+                </>
+
               ))}
             </div>
           </div>

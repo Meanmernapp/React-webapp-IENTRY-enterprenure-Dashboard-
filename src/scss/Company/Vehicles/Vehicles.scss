@@ -1,92 +1,124 @@
-
-.vehicle_component{
-    border: 1px solid rgba(0,0,0,.125);
+.vehicle_component {
+    border: 1px solid rgba(0, 0, 0, .125);
     box-shadow: 0px 0px 4px #0000004D;
     font-family: 'Montserrat';
     margin-bottom: 2rem;
     border-radius: 0.25rem;
+    padding: 5px;
+    text-transform: uppercase;
+
+    .statusDiv {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+
+        p {
+            font-size: 12px;
+        }
+
+        i {
+            font-size: 9px;
+            margin: 4px;
+        }
+    }
+
     // width: 268px;
-    .vehicle_card_header{
-        margin-top: 11px;
-        img{
+    .vehicle_card_header {
+        img {
             width: 64px;
             height: 64px;
+            border-radius: 50%;
+            box-shadow: 0px 0px 4px #0000004d;
         }
-        .header_component{
+
+        .header_component {
             margin-left: 10px;
             width: 100%;
             line-height: 1.2;
             margin-bottom: 15px;
-            // border-bottom: 2px solid #0C4523 ;
-            p{
+            border-bottom: 2px solid #65ABA0;
+
+            p {
                 font-size: 18px;
                 font-weight: 600;
                 color: #178A7B;
             }
-            span{
-                font-size: 14px;
-                color:#707070;
+
+            span {
+                font-size: 12px;
+                color: #707070;
                 text-decoration: underline;
             }
         }
     }
-    .vehice_data_card_body{
+
+    .vehice_data_card_body {
         display: "flex";
         justify-content: "center";
         margin: "43px";
     }
-    .vehicle_card_body{
-        margin: 13px 13px 3px 13px;
-        p{
-            font-size: 14px;
-            color: #146F62;
-            font-weight: bold;
-        }
-        span{
+
+
+
+    .vehicle_card_body {
+        border-bottom: 2px solid #65ABA0;
+        margin-left: 5px;
+        margin-top: 10px;
+
+        p {
             font-size: 14px;
             color: #707070;
-        }
-        .status{
-            text-transform: uppercase;
-            font-size: 14px;
             font-weight: bold;
         }
+
+        span {
+            font-size: 12px;
+            color: #707070;
+            margin-left: 12px;
+        }
     }
-    .update_data{
+
+    .update_data {
         font-size: 14px;
         font-weight: bold;
-        color:#178A7B !important;
+        color: #178A7B !important;
         display: flex;
         justify-content: end;
-        text-transform: uppercase;
-        margin-right: 10px !important;
-        margin-bottom: 6px !important;
-        span{
-            margin-left: 10px;
+        text-align: center;
+        padding: 5px;
+
+        span {
+            margin-left: 5px;
         }
     }
 }
 
+.vehicleGallery {
+    width: 100%;
+    height: 210px;
+}
 
 
-.vehice_data_card{
-     padding: 20px 42px;
-    border: 1px solid rgba(0,0,0,.125);
+.vehice_data_card {
+    padding: 20px 42px;
+    border: 1px solid rgba(0, 0, 0, .125);
     box-shadow: 0px 0px 4px #0000004D;
     font-family: 'Montserrat';
     width: 100%;
     border-radius: 12px;
 
-    .vehicle_header{
+    .vehicle_header {
         display: "flex";
         justify-content: "center";
         border-bottom: 3px dashed #178A7B;
-        p{
+
+        p {
             font-size: 24px;
             text-transform: uppercase;
             color: #65ABA0;
         }
-        img{
+
+        img {
             width: 25px;
             position: absolute;
             right: 14px;
@@ -97,26 +129,29 @@
 }
 
 
-.vehicle_images_card{
-    margin-top:1rem ;
-    border: 1px solid rgba(0,0,0,.125);
+.vehicle_images_card {
+    margin-top: 1rem;
+    border: 1px solid rgba(0, 0, 0, .125);
     box-shadow: 0px 0px 4px #0000004D;
     font-family: 'Montserrat';
     width: 100%;
     border-radius: 12px;
     margin-right: "20px";
-    .vehicle_images{
+
+    .vehicle_images {
         margin-top: 20px;
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
-        img{    
+
+        img {
             width: 216px;
             height: 215px;
             // margin-right:21px;
+        }
     }
-    }
-    .vehicle_images_card_title{
+
+    .vehicle_images_card_title {
         font-size: 24px;
         color: #65ABA0;
         text-transform: uppercase;
@@ -124,9 +159,9 @@
         text-align: center;
 
     }
-   
+
 }
- 
+
 .uploadBox {
     width: 100%;
 }
@@ -134,65 +169,53 @@
 
 
 
-.filter_parent{
+.filter_parent {
     position: absolute !important;
     z-index: 1;
     right: 0;
     top: 15px;
     opacity: 1;
     background: #ffffff;
-    border: 1px solid rgba(0,0,0,.125);
+    border: 1px solid rgba(0, 0, 0, .125);
     box-shadow: 0px 0px 4px #0000004D;
     font-family: 'Montserrat';
-    .filter_header{
-        
-            display: flex;
-            justify-content: space-between;
-            font-size: 28px;
-            font-weight: 600;
-            color: #000000;
-            border-bottom: 3px solid #178A7B;
-        
+
+    .filter_header {
+
+        display: flex;
+        justify-content: space-between;
+        font-size: 28px;
+        font-weight: 600;
+        color: #000000;
+        border-bottom: 3px solid #178A7B;
+
     }
-    .filter_body{
+
+    .filter_body {
         font-size: 16px;
         color: #707070;
-       
-        button{
+
+        button {
             font-size: 18px;
             font-weight: 600;
-            color:#707070;
+            color: #707070;
             background-color: #ffffff;
             border: 0.5px solid #707070;
-            border-radius: 8px;            
+            border-radius: 8px;
         }
 
-        button:focus{
-            color:#707070;
+        button:focus {
+            color: #707070;
             background-color: #ffffff;
             border: 0.5px solid #707070;
         }
     }
 }
-.filterIconBtn{
 
-}
+.filterIconBtn {}
 
 // .filter_btn_group{
 //     button:focus {
 //         outline: none;
 //     }
 // }
-
-
-
-
-
-
-
-
-
-
-
-
-

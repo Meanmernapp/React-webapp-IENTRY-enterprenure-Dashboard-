@@ -3,14 +3,31 @@ import iccancel from "../../../../assets/images/ic-cancel.svg";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import ZonesMap from "../Map/ZoneMap";
+import { useTranslation } from 'react-i18next';
+import Cookies from 'js-cookie';
 
 const AddChildZoneModal = () => {
+  const { t } = useTranslation();
+  const lCode = Cookies.get("i18next") || "en";
   const [lat, setLat] = useState("");
   const [lng, setLng] = useState("");
+
+  const textFieldStyle = {
+    textAlign: lCode === "ar" ? "right" : "left",
+    "& 	.MuiOutlinedInput-notchedOutline": {
+      textAlign: lCode === "ar" ? "right" : "left",
+    },
+    "& 	.MuiInputLabel-root": {
+      fontSize: 12,
+      left: lCode === "ar" ? "inherit" : "0",
+      right: lCode === "ar" ? "1.75rem" : "0",
+      transformOrigin: lCode === "ar" ? "right" : "left"
+    }
+  }
   return (
-    <div className="modal buildingadd_card" id="addchildzones_modal">
-      <div className="modal-dialog modal-lg zonescard_m_center">
-        <div className="modal-content ">
+    <div class="modal buildingadd_card" id="addchildzones_modal">
+      <div class="modal-dialog modal-lg zonescard_m_center">
+        <div class="modal-content ">
           {/* <!-- Modal Header --> */}
           <div>
             <img
@@ -22,10 +39,10 @@ const AddChildZoneModal = () => {
           </div>
 
           {/* <!-- Modal body --> */}
-          <div className="modal-body ">
+          <div class="modal-body ">
             <div className="container-fluid input_zones">
               <div className="row">
-                <h1>CHILD ZONE</h1>
+                <h1>{t("child_zone")}</h1>
                 <div className="mt-3 col-lg-6 col-md-6">
                   <div className="row gy-4">
                     <div className="col-lg-12">
@@ -38,11 +55,12 @@ const AddChildZoneModal = () => {
                             height: "40px",
                           }}
                         >
-                          <TextField
+                          <TextField size="small"
                             fullWidth
-                            placeholder="Querétaro"
-                            label="FATHER ZONE*"
+
+                            label={t("father_zone")}
                             id="FATHER ZONE*"
+                            sx={textFieldStyle}
                           />
                         </Box>
                       </div>
@@ -57,11 +75,12 @@ const AddChildZoneModal = () => {
                             height: "40px",
                           }}
                         >
-                          <TextField
+                          <TextField size="small"
                             fullWidth
-                            placeholder="ZonaUNITAD2"
-                            label="NAME *"
+
+                            label={t("name")}
                             id="NAME *"
+                            sx={textFieldStyle}
                           />
                         </Box>
                       </div>
@@ -76,11 +95,12 @@ const AddChildZoneModal = () => {
                             height: "40px",
                           }}
                         >
-                          <TextField
+                          <TextField size="small"
                             fullWidth
-                            placeholder="ACTIVE"
-                            label="STATUS"
+
+                            label={t("status")}
                             id="STATUS"
+                            sx={textFieldStyle}
                           />
                         </Box>
                       </div>
@@ -95,12 +115,13 @@ const AddChildZoneModal = () => {
                             height: "40px",
                           }}
                         >
-                          <TextField
+                          <TextField size="small"
                             value={lat}
                             fullWidth
-                            placeholder="33.3091213235"
-                            label="LATITUDE *"
+
+                            label={t("latitude")}
                             id="LATITUDE *"
+                            sx={textFieldStyle}
                           />
                         </Box>
                       </div>
@@ -115,19 +136,20 @@ const AddChildZoneModal = () => {
                             height: "40px",
                           }}
                         >
-                          <TextField
+                          <TextField size="small"
                             value={lng}
                             fullWidth
-                            placeholder="44.33231213656"
-                            label="LONGITUD *"
+
+                            label={t("longitude")}
                             id="LONGITUD *"
+                            sx={textFieldStyle}
                           />
                         </Box>
                       </div>
                     </div>
                   </div>
 
-                  <button className="btn btn-lg">add</button>
+                  <button className="btn btn-lg">{t("add")}</button>
                 </div>
                 <div className="col-lg-6 col-md-6 col-sm-12">
                   <ZonesMap LatLng={(e) => [setLat(e.lat), setLng(e.lng)]} />

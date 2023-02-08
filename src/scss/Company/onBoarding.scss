@@ -1,0 +1,262 @@
+.on_boarding_container {
+
+    padding-top: 2.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+
+
+
+
+
+    .on_boarding_container_item {
+        background: #FFFFFF 0% 0% no-repeat padding-box;
+        box-shadow: 0px 0px 4px #000000B3;
+        border-radius: 4px;
+        opacity: 1;
+        width: 320px;
+        height: 201px;
+        position: relative;
+        padding: 0.7rem;
+
+        .btn {
+
+            background: #146F62 0% 0% no-repeat padding-box;
+            box-shadow: 0px 0px 4px #00000029;
+            border-radius: 4px;
+            opacity: 1;
+            border: none;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            top: 3px;
+            right: 3px;
+
+            i {
+                color: #fff;
+
+            }
+        }
+
+        .on_boarding_container_header {
+            h4 {
+                font: normal normal bold 14px/18px Montserrat;
+                letter-spacing: 0px;
+                color: #707070;
+                opacity: 1;
+            }
+
+            p {
+                font: normal normal normal 14px/18px Montserrat;
+                letter-spacing: 0px;
+                color: #707070;
+                opacity: 1;
+            }
+
+            ;
+
+        }
+
+        .on_boarding_container_content {
+            .on_boarding_container_content_item {
+                padding-top: 0.3rem;
+
+                h4 {
+                    font: normal normal 600 12px/15px Montserrat;
+                    letter-spacing: 0px;
+                    color: #707070;
+                    opacity: 1;
+                }
+
+                .list {
+                    padding-left: 0.5rem;
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+
+                    .icon {
+                        width: 7px;
+                        height: 7px;
+                        background: #146F62 0% 0% no-repeat padding-box;
+                        opacity: 1;
+                        border-radius: 50%
+                    }
+
+                }
+
+
+                p {
+                    font: normal normal 300 14px/18px Montserrat;
+                    letter-spacing: 0px;
+                    color: #707070;
+                    opacity: 1;
+                }
+            }
+        }
+    }
+}
+
+// update edit
+
+.on_boarding_create_edit {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    padding-top: 2rem;
+
+    .on_boarding_detail {
+        width: 30%;
+
+        h4 {
+            font: normal normal bold 20px/24px Montserrat;
+            letter-spacing: 7px;
+            color: #146F62;
+            opacity: 1;
+        }
+
+        h5 {
+            font: normal normal bold 14px/18px Montserrat;
+            letter-spacing: 0px;
+            color: #707070;
+            opacity: 1;
+            padding-top: 1rem;
+        }
+
+        p {
+            font: normal normal normal 14px/18px Montserrat;
+            letter-spacing: 0px;
+            color: #707070;
+            opacity: 1;
+            padding-bottom: 1rem;
+        }
+
+        .bottom_number {
+            font: normal normal 600 10px/13px Montserrat;
+            letter-spacing: 1px;
+            color: #707070;
+            opacity: 1;
+        }
+
+    }
+
+    .on_boarding_todo {
+
+        width: 70%;
+        padding-left: 1rem;
+        border-left: 3px solid #146F62;
+
+        h4 {
+            font: normal normal bold 20px/24px Montserrat;
+            letter-spacing: 7px;
+            color: #146F62;
+            opacity: 1;
+            text-align: right;
+        }
+
+        h6 {
+            font: normal normal 600 14px/18px Montserrat;
+            letter-spacing: 1.4px;
+            color: #707070;
+            opacity: 1;
+            text-align: right;
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+
+        }
+
+        .add_new_step_btn {
+            background: #FCFCFC 0% 0% no-repeat padding-box;
+            border: 1px dashed #E1E1E1B3;
+            border-radius: 4px;
+            opacity: 1;
+            width: 100%;
+            height: 45px;
+            font: normal normal normal 14px/18px Montserrat;
+            letter-spacing: 0px;
+            color: #707070;
+            opacity: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 3rem;
+            margin-top: 0.5rem;
+
+        }
+
+        .add_new_step_btn:hover {
+            background: #E1E1E1B3;
+        }
+
+        .create_btn {
+            background: #146F62 0% 0% no-repeat padding-box;
+            box-shadow: 0px 0px 4px #00000080;
+            border-radius: 4px;
+            opacity: 1;
+            border: none;
+            font: normal normal bold 14px/18px Montserrat;
+            letter-spacing: 0px;
+            color: #FFFFFF;
+            opacity: 1;
+            width: 568px;
+            height: 39px;
+
+        }
+
+        .plus {
+            font-size: 30px;
+        }
+
+        .on_boarding_todo_list_container {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            height: 350px;
+            padding: 0.4rem;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+            overflow: auto;
+
+            i {
+                font-size: 16px;
+                color: #bc0000;
+                padding: .2rem;
+
+            }
+
+            i:hover {
+                background: #0000001A;
+                border-radius: 5px;
+                padding: .2rem;
+                cursor: pointer;
+                height: 1.5rem;
+            }
+
+            .on_boarding_todo_lists {
+                display: flex;
+                justify-content: space-between;
+                // width: 629px;
+                // height: 76px;
+                background: #FFFFFF 0% 0% no-repeat padding-box;
+                box-shadow: 0px 0px 2px #000000C7;
+                border-radius: 4px;
+                opacity: 1;
+                padding: 0.5rem;
+
+                p {
+                    font: normal normal normal 14px/18px Montserrat;
+                    letter-spacing: 1.4px;
+                    color: #707070;
+                    opacity: 1;
+                }
+            }
+        }
+
+        .on_boarding_todo_list_container::-webkit-scrollbar {
+            display: none;
+        }
+    }
+}

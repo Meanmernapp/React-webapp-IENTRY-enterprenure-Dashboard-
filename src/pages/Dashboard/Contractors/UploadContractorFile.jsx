@@ -1,6 +1,6 @@
 import React from "react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import pdfpng from "../../../assets/images/PDF.PNG";
+import pdfpng from "../../../assets/images/pdf.svg";
 import cloudsvg from "../../../assets/images/cloud.svg";
 import excelpng from "../../../assets/images/excel.png";
 import { Link } from "react-router-dom";
@@ -8,8 +8,9 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { Box, InputAdornment, TextField } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import MUIDataTable from "mui-datatables";
+import i18next from "i18next";
 
-// import pdfpng from "../../../../assets/images/PDF.PNG";
+// import pdfpng from "../../../../assets/images/pdf.svg";
 
 const UploadContractorFile = () => {
   const columns = [
@@ -81,15 +82,18 @@ const UploadContractorFile = () => {
   };
   return (
     <>
-      
+
       <div className='head'>
-                <div className='headLeft'>
-                    <Link to="/dashboard/contractors-outlet/contractor-panel">
-                        <i className="fa fa-arrow-left" aria-hidden="true"></i>
-                    </Link>
-                    <h2>UPLOAD CONTRACTOR'S FILE</h2>
-                </div>
-            </div>
+        <div className='headLeft'>
+          <Link to="/dashboard/employee/contractors">
+            <i className="fa fa-arrow-left" aria-hidden="true" style={{
+              transform: i18next.dir() === "rtl" ? "scaleX(-1)" : "",
+              margin: "0 10px"
+            }}></i>
+          </Link>
+          <h2>UPLOAD CONTRACTOR'S FILE</h2>
+        </div>
+      </div>
       <div className="upload-doc mt-5 col-lg-12" style={{ padding: "15px" }}>
         <p className="infoEmpl_text">DOWNLOAD FORM</p>
         <div className="col-md-4">

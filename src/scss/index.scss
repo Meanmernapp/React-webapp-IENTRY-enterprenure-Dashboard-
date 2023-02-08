@@ -1,22 +1,72 @@
+// Employees section
 @import "./Mixins.scss";
 @import "./global.scss";
+
 @import "./Home.scss";
 @import "./LoginOption.scss";
+
 @import "./SideBar.scss";
+
 @import "./Company/CompanyDetails.scss";
 @import "./Company/Employees/Employees.scss";
 @import "./Company/Vehicles/Vehicles.scss";
 @import "./Company/UpdateData.scss";
 // @import "./Company/WorkShiftPanel.scss";
-@import "./Company/DocumentsPanel.scss";
+@import "./Company/UserDocPanel.scss";
+@import "./Company/VehicleDocPanel.scss";
 @import "./Company/RolesPanel.scss";
 @import "./Company/NotificationPanel.scss";
-@import "./Company/ChartsReports.scss";
+
 @import "./Zones/Zones.scss";
-@import "./Providers/providersPanel.scss";
-@import "./Providers/createOrder.scss";
-@import "./Providers/orderDetails.scss";
-@import"./Providers/addNewProvider.scss";
-@import "./Providers/Provider.scss";
-@import './Contractors/contractorsPanel.scss';
-// @import './Events/events.scss';
+
+@import "./EmployeeProviders/providersPanel.scss";
+@import "./EmployeeProviders/createOrder.scss";
+@import "./EmployeeProviders/orderDetails.scss";
+@import"./EmployeeProviders/addNewProvider.scss";
+@import "./EmployeeProviders/Provider.scss";
+
+@import './EmployeeContractors/contractorsPanel.scss';
+
+@import './Events/events.scss';
+
+@import './Company/Payroll.scss';
+
+@import './Company/onBoarding.scss';
+
+// Providers section
+
+@import "./Provider/AddVehicles.scss";
+@import "./Provider/AllEmployeesProvider.scss";
+@import "./Provider/AllOrderProvider.scss";
+@import "./Provider/AllVehiclesProvider.scss";
+@import "./Provider/completeOrder.scss";
+@import "./Provider/CreateEmployeeProvider.scss";
+@import "./Provider/DocumentUpload.scss";
+@import "./Provider/NotificationProvider.scss";
+@import "./Provider/Orderdetail.scss";
+@import "./Provider/ProfileProvider.scss";
+@import "./Provider/Provider.scss";
+@import "./Provider/providersPanel.scss";
+@import "./Provider/vehicledetail.scss";
+
+// Contractors section
+@import './Contractor/Profile/profile.scss';
+@import './Contractor/Profile/notifications.scss';
+@import './Contractor/Profile/editProfile.scss';
+@import './Contractor/Contracts/unlinkModal.scss';
+@import './Contractor/Contracts/contracts.scss';
+@import './Contractor/Vehicle/SearchVehicle.scss';
+@import './Contractor/Vehicle/ViewCard.scss';
+@import './Contractor/Vehicle/EmployeCard.scss';
+@import './Contractor/Vehicle/AddNewEmploye.scss';
+@import './Contractor/Vehicle/AddVehicleDocuments.scss';
+@import './Contractor/Vehicle/EmployeContractDetail.scss';
+@import './Contractor/Vehicle/VehicalContractDetail.scss';
+
+
+@import './Company/Backup/BackUp.scss';
+
+@import './notFound.scss';
+
+@import './Company/Hospitality.scss';
+@import './Company/Department.scss';

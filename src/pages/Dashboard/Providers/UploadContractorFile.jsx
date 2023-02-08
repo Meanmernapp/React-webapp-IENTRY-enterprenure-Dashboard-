@@ -1,6 +1,6 @@
 import React from "react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import pdfpng from "../../../assets/images/PDF.PNG";
+import pdfpng from "../../../assets/images/pdf.svg";
 import cloudsvg from "../../../assets/images/cloud.svg";
 import excelpng from "../../../assets/images/excel.png";
 import { Link } from "react-router-dom";
@@ -8,8 +8,9 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { Box, InputAdornment, TextField } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import MUIDataTable from "mui-datatables";
+import { t } from "i18next";
 
-// import pdfpng from "../../../../assets/images/PDF.PNG";
+// import pdfpng from "../../../../assets/images/pdf.svg";
 
 const UploadContractorFile = () => {
   const columns = [
@@ -84,11 +85,11 @@ const UploadContractorFile = () => {
       <div className="head">
         <h2>
           <ArrowBackIcon style={{ fontSize: "30px", marginRight: "30px" }} />
-          UPLOAD EMPLOYEE'S FILE
+          {t("upload_file")}
         </h2>
       </div>
       <div className="upload-doc mt-5 col-lg-12" style={{ padding: "15px" }}>
-        <p className="infoEmpl_text">DOWNLOAD FORM</p>
+        <p className="infoEmpl_text">{t("download_form")}</p>
         <div className="col-md-4">
           <div
             className="mt-5 mb-4 main_content document_card"
@@ -106,7 +107,7 @@ const UploadContractorFile = () => {
                 background: "#178A7B",
               }}
             >
-              Download File
+              {t("download_file")}
             </button>
           </div>
         </div>
@@ -114,7 +115,7 @@ const UploadContractorFile = () => {
           Please download file, then fill on it, then upload to process the
           data.
         </div>
-        <p className="infoEmpl_text">LOAD YOUR FILE</p>
+        <p className="infoEmpl_text">{t("load_your_file")}</p>
         <div className="row mt-3 mb-5">
           <div className="col-md-5">
             <div className="updata_img_m" style={{ width: "340px" }}>
@@ -151,7 +152,7 @@ const UploadContractorFile = () => {
                 >
                   <p>employees_form.xlsx</p>
                   <span>
-                    SIZE <span style={{ fontWeight: "bold" }}>513 KB</span>
+                    {t("size")} <span style={{ fontWeight: "bold" }}>513 KB</span>
                   </span>
                   <div className="mt-4">
                     <button
@@ -163,7 +164,7 @@ const UploadContractorFile = () => {
                         width: "223px",
                       }}
                     >
-                      LOAD DOCUMENT
+                      {t("load_document")}
                     </button>
                   </div>
                 </div>
@@ -177,9 +178,9 @@ const UploadContractorFile = () => {
           </div>
         </div>
         <div className="mb-2 ">
-          <p className="infoEmpl_text">EMPLOYEES</p>
+          <p className="infoEmpl_text">{t("employees")}</p>
           <p>
-            Total <span>45</span>
+            {t("total")} <span>45</span>
           </p>
         </div>
         <div className="row">

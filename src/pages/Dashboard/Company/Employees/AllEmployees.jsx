@@ -1,17 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import FilterPopus from "../Vehicles/FilterPopus";
-import EmployeeCards from "./EmployeeCard/EmployeeCards";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import AllEmployeeCards from "./subComponents/AllEmployeeCards";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import SortFilter from "./Modal/SortFilter";
-import FilterModal from "./Modal/FilterModal";
+import Cookies from "js-cookie";
+import { useTranslation } from 'react-i18next'
+import { permissionObj } from "../../../../Helpers/permission";
+import { useDispatch, useSelector } from "react-redux";
+import { handleSelfieImage } from "../../../../reduxToolkit/CompanyEmployees/CompanyEmployeesSlice";
 
 const AllEmployees = (props) => {
+  const dispatch = useDispatch()
+  const { t } = useTranslation();
+  // const lCode = Cookies.get("i18next") || "en";
   const [modalShow, setModalShow] = useState(false);
   const [orderBy, setOrderBy] = useState();
   const [sortBy, setSortBy] = useState();
-  console.log(orderBy, sortBy)
+
+  const { permission } = useSelector(state => state.authenticatioauthennSlice);
+  // console.log(orderBy, sortBy)
+
+  useEffect(() => {
+    dispatch(handleSelfieImage(null))
+  }, [])
 
   const handlFilters = (order, sort) => {
     setOrderBy(order);
@@ -20,25 +31,41 @@ const AllEmployees = (props) => {
 
   return (
     <>
-      <div className="head">
-        <h2>
-          <Link to="/dashboard/company">
-            <ArrowBackIcon style={{ fontSize: "30px", marginRight: "30px" }} />
-          </Link>
-          Employees
-        </h2>
-        <div style={{ display: "flex" }}>
-          <Link to="/dashboard/company/uploademployeefile">
+      <div className='head'>
+        <div className='headLeft'>
+          {/* <Link to="/dashboard/employee/company">
+            <i className="fa fa-arrow-left" aria-hidden="true" style={{
+              transform: lCode === "ar" ? "scaleX(-1)" : "",
+              margin: "0 10px"
+            }}></i>
+          </Link> */}
+          <h2>{t('employees')}</h2>
+        </div>
+        <div
+          style={{
+            display: "flex",
+            gridGap: "10px"
+          }}
+        >
+          {
+            permission?.includes(permissionObj?.WEB_EMPLOYEE_CREATE) &&
+            <Link to="/dashboard/employee/all-employees/add-employee">
+              <button className="btn btn-lg" style={{ backgroundColor: "#65aba0" }} >
+                {(t('add_new_employee'))}
+              </button>
+            </Link>
+          }
+          <Link to="/dashboard/employee/all-employees/uploademployeefile">
             <button className="btn btn-lg" >
-              Upload File
+              {t('upload_file')}
             </button>
           </Link>
           <button
             className="btn"
-            style={{ width: "30px", marginLeft: "10px" }}
+            style={{ width: "48px", height: "48px" }}
             onClick={() => setModalShow(true)}
           >
-            <FilterAltIcon />
+            <FilterAltIcon style={{ fontSize: "32px" }} />
           </button>
         </div>
       </div>
@@ -47,12 +74,7 @@ const AllEmployees = (props) => {
           setModalShow={setModalShow}
           handlFilters={handlFilters}
         />}
-      {/* <FilterModal
-        show={ModalShow}
-        onHide={() => setModalShow(false)}
-      /> */}
-
-      <EmployeeCards
+      <AllEmployeeCards
         orderBy={orderBy}
         sortBy={sortBy}
       />

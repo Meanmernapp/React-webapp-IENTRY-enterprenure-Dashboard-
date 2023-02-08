@@ -1,49 +1,43 @@
 import axios from "axios";
-import { endpoints, URL, COMPANY_DATA_URL, COMPANY_RESTUCTION_URL } from "./Constants";
+import apiInstance from "./Axios";
+import cryptoJs from 'crypto-js';
+import { endpoints, URL } from "./Constants";
+import securekey from "../config";
+const {
+    CREATE_COMPANY_DATA,
+    UPDATE_COMPANY_DATA,
+    GET_COMPANY_DATA,
+    GET_COMPANY_RESTRUCTIONS,
+    UPDATE_COMPANY_RESTRUCTIONS,
+    UPDATE_COMPANY_IMG
+} = endpoints;
 
-const bearerToken = sessionStorage.getItem("bearerToken");
-// const useData = sessionStorage.getItem("userdata");
-// var id = useData.data.id
+const token = sessionStorage.getItem('bearerToken');
 
-const config = {
-    headers: {
-        "Accept": "application/json",
-        "Authorization": "Bearer " + bearerToken,
-    }
-}
-
-
-export const createCompanyData = (body) => {
-    return axios.get(COMPANY_DATA_URL + endpoints.CREATECOMPANYDATA + body, config);
-}
-
-export const updateCompanyData = (body) => {
-    return axios.put(COMPANY_DATA_URL + endpoints.UPDATECOMPANYDATA, body, config);
-}
-
-export const getCompanyData = (id) => {
-    return axios.get(COMPANY_DATA_URL + endpoints.GETCOMPANYDATA + id, config);
-}
-
-export const getAllCompaniesData = () => {
-    return axios.get(COMPANY_DATA_URL + endpoints.GETCOMPANYDATA, config);
-}
-
-export const getComopanyRestructions = (id) => {
-    return axios.get(COMPANY_RESTUCTION_URL + endpoints.GETCOMPANYRESTRUCTIONS + id, config);
-}
+const bytes = cryptoJs?.AES?.decrypt(token || "no", securekey)
+const decryptToken = bytes?.toString(cryptoJs?.enc?.Utf8);
 
 
-export const updateComopanyRestructions = (body) => {
-    return axios.put(COMPANY_RESTUCTION_URL + endpoints.UPDATECOMPANYRESTRUCTIONS, body, config);
-}
+
+export const createCompanyData = (body) => apiInstance.get(CREATE_COMPANY_DATA, body);
+
+export const updateCompanyData = (body) => apiInstance.put(UPDATE_COMPANY_DATA, body);
+
+export const getCompanyData = (id) => apiInstance.get(GET_COMPANY_DATA + id);
+
+export const getAllCompaniesData = () => apiInstance.get(GET_COMPANY_DATA);
+
+export const getComopanyRestructions = (id) => apiInstance.get(GET_COMPANY_RESTRUCTIONS + id);
+
+export const updateComopanyRestructions = (body) => apiInstance.put(UPDATE_COMPANY_RESTRUCTIONS, body);
 
 export const updateComopanyImg = (formData) => {
-    return axios.put(`${URL + endpoints.UPDATECOMPANYIMG}`, formData, {
+    return axios.put(`${URL + UPDATE_COMPANY_IMG}`, formData, {
+
         headers: {
             "Accept": "application/json",
             "Content-type": "multipart/form-data",
-            "Authorization": "Bearer " + bearerToken,
+            "Authorization": `Bearer ${decryptToken}`,
         },
     }
     );

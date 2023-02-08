@@ -1,0 +1,35 @@
+.__form_create_employee {
+    margin-top: 10rem;
+
+    .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+        border-color: #707070 !important;
+    }
+
+    .css-y8r94r-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root {
+        font-size: 16px !important;
+    }
+
+    .css-1m0mn73-MuiInputBase-input-MuiOutlinedInput-input {
+        font-size: 16px;
+    }
+
+
+    .css-md26zr-MuiInputBase-root-MuiOutlinedInput-root {
+        box-shadow: none;
+    }
+}
+
+.img_btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: absolute;
+    top: 4%;
+    right: 32%;
+    width: 48px;
+    height: 48px;
+    background: #146F62;
+    border-radius: 50%;
+    color: white;
+}

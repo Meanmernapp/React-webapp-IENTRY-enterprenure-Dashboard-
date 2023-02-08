@@ -1,0 +1,146 @@
+.complete_order_container {
+    margin-top: 5.5rem;
+
+    .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+        border-color: #707070;
+    }
+
+    .css-y8r94r-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root {
+        font-size: 16px;
+    }
+
+    .complete_order_body {
+        display: flex;
+        // justify-content: space-around;
+        justify-content: center;
+        gap: 1rem;
+
+        .left {
+            h4 {
+                font-size: 20px;
+                letter-spacing: 7px;
+                color: #146F62;
+                opacity: 1;
+                font-weight: bold;
+
+            }
+
+            .left_conatiner {
+                padding: 0.5rem 1rem;
+                padding-top: 1rem;
+                margin-top: 0.5rem;
+                width: 389px;
+                height: 254px;
+                background: #FFFFFF 0% 0% no-repeat padding-box;
+                box-shadow: 0px 0px 6px #00000099;
+                border-radius: 6px;
+                opacity: 1;
+
+
+                .card_header {
+                    border-bottom: 2px solid #146F62;
+                    margin-bottom: 1rem;
+
+                    h4 {
+                        font-size: 10px;
+                        letter-spacing: 0px;
+                        color: #146F62;
+                        opacity: 1
+                    }
+
+                    p {
+                        letter-spacing: 0px;
+                        color: #707070;
+                        font-size: 14px;
+                        opacity: 1;
+
+                        span {
+                            font-weight: bold;
+                        }
+                    }
+
+                    h6 {
+                        font-size: 12px;
+                        letter-spacing: 0px;
+                        color: #707070;
+                        opacity: 1;
+                    }
+
+                }
+
+                .card_body {
+                    border-bottom: 2px solid #146F62;
+
+                    h4 {
+                        font-size: 10px;
+                        letter-spacing: 0px;
+                        color: #146F62;
+                        opacity: 1
+                    }
+
+                    .card_body_item {
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+
+                        h5 {
+                            font-size: 12px;
+                            color: #707070;
+                            opacity: 1;
+                            font-weight: bold;
+
+                        }
+
+
+
+                    }
+
+                }
+
+            }
+        }
+
+        .right {
+            h4 {
+                font-size: 20px;
+                letter-spacing: 7px;
+                color: #146F62;
+                opacity: 1;
+                font-weight: bold;
+
+            }
+
+            .right_container {
+                margin-top: 0.5rem;
+                width: 390px;
+                height: 255px;
+                background: #FFFFFF 0% 0% no-repeat padding-box;
+                box-shadow: 0px 0px 6px #00000099;
+                border-radius: 6px;
+                opacity: 1;
+                padding: 3rem;
+            }
+        }
+    }
+
+    .footer {
+        margin-top: 2rem;
+        display: flex;
+        justify-content: flex-end;
+        // margin-right: 4.8rem;
+
+        button {
+            background: #146F62 0% 0% no-repeat padding-box;
+            box-shadow: 0px 0px 4px #00000080;
+            border-radius: 4px;
+            opacity: 1;
+            border: none;
+            color: #FFFFFF;
+            font-size: 1rem;
+            padding: 0.3rem 2rem;
+            // width: 192px;
+            // height: 19px;
+
+        }
+    }
+}

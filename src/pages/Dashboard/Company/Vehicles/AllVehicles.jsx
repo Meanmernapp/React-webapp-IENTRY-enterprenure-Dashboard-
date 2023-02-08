@@ -1,49 +1,70 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
-import VehicleCards from "./VehicleCards";
 import FilterPopus from "./FilterPopus";
-// import FilterDropDown from "./FilterDropdown";
 import { Link } from "react-router-dom";
-import { getAllCompaniesData } from "../../../../Apis/companydata";
-import { toast } from "react-toastify";
-import { getAllCompanyVehicles } from "../../../../Apis/companyVehicle";
+import AllVehiclesCards from "./subComponents/AllVehiclesCards";
+import Cookies from "js-cookie";
+import { useTranslation } from 'react-i18next'
+import { useSelector } from "react-redux";
+import { permissionObj } from "../../../../Helpers/permission";
+import ic_left_icon from "../../../../assets/ic-left-arrow.svg"
 
 const AllVehicles = () => {
+  const { t } = useTranslation();
+  const lCode = Cookies.get("i18next") || "en";
   const [modalShow, setModalShow] = useState();
+
+  const { permission } = useSelector(state => state.authenticatioauthennSlice);
 
   return (
     <>
       <div className='head'>
         <div className='headLeft'>
-          <Link to="/dashboard/company">
-            <i className="fa fa-arrow-left" aria-hidden="true"></i>
+          <Link to="/dashboard/employee/company">
+            <img src={ic_left_icon} alt="ic_left_icon" style={{
+              transform: lCode === "ar" ? "scaleX(-1)" : "",
+              margin: "0 10px"
+            }} />
+            {/* <i className="fa fa-arrow-left" aria-hidden="true" style={{
+              transform: lCode === "ar" ? "scaleX(-1)" : "",
+              margin: "0 10px"
+            }}
+
+            ></i> */}
           </Link>
           <h2>
-            Vehicles
-            {/* <p style={{ color: "#707070", fontWeight: "lighter", fontSize: "18px" }}>Total {vehicleData?.length}</p> */}
+            {t('vehicles')}
           </h2>
         </div>
-        <div style={{ display: "flex" }}>
-          <Link to="/dashboard/company/addupdatevehicle">
-            <button
-              className="addNewVehicle"
-              style={{ backgroundColor: "#65ABA0" }}
-            >
-              ADD NEW VEHICLE
-            </button>
-          </Link>
-          {/* <FilterDropDown /> */}
+        <div
+          style={{
+            display: "flex",
+            gridGap: "10px"
+          }}
+        >
+          {
+
+            permission?.includes(permissionObj?.WEB_VEHICLE_CREATE) &&
+            <Link to="/dashboard/employee/allVehicles/create-vehicle">
+              <button
+                className="addNewVehicle"
+                style={{ backgroundColor: "#65ABA0" }}
+              >
+                {t('add_new_vehicle')}
+              </button>
+            </Link>
+          }
           <button
-            className="btn filterIconBtn"
-            style={{ width: "30px", marginLeft: "10px" }}
-            onClick={() => setModalShow(!modalShow)}
+            className="btn"
+            style={{ width: "48px", height: "48px" }}
+            onClick={() => setModalShow(true)}
           >
-            <FilterAltIcon />
+            <FilterAltIcon style={{ fontSize: "32px" }} />
           </button>
-          {modalShow && <FilterPopus setModalShow={setModalShow} />}
         </div>
       </div>
-      <VehicleCards />
+      {modalShow && <FilterPopus setModalShow={setModalShow} />}
+      <AllVehiclesCards />
     </>
   );
 };

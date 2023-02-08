@@ -1,0 +1,133 @@
+.profile-sec {
+  width: 600px;
+  margin: 80px auto 80px auto;
+  border-radius: 20px;
+  position: relative;
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  box-shadow: 0px 0px 4px #00000099;
+  padding: 20px;
+  position: relative;
+
+  &__photo {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    position: absolute;
+    left: 50%;
+    object-fit: cover;
+    top: 0;
+    transform: translate(-50%, -50%);
+  }
+
+  &__heading {
+    font: normal normal 600 18px/22px Montserrat;
+    letter-spacing: 2.7px;
+    color: #707070;
+    opacity: 1;
+    border-bottom: 2px solid #707070;
+    display: block;
+    padding-bottom: 6px;
+  }
+}
+
+.input-icons {
+  position: absolute;
+  top: 18px;
+  right: 8px;
+}
+
+.submit-primary-btn {
+  width: 270px;
+  height: 30px;
+  background: #146f62;
+  font-family: Montserrat;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 200;
+  opacity: 1;
+  border: none;
+  color: #fff;
+  display: block;
+
+  svg {
+    font-size: 18px;
+    margin-left: 20px;
+    margin-bottom: 3px;
+  }
+}
+
+.btn-container {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+
+.contract-card {
+  padding: 5px 10px;
+  box-shadow: 0px 0px 4px #00000099;
+  border-radius: 8px;
+  opacity: 1;
+
+  .viewcard-container__status {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+  }
+
+  span {
+    display: block;
+    width: 100%;
+    letter-spacing: 0px;
+    opacity: 1;
+  }
+
+  &__heading {
+    text-align: left;
+    font: normal normal bold 12px/15px Montserrat;
+    color: #146f62;
+  }
+
+  &__no {
+    text-align: left;
+    font: normal normal normal 12px/15px Montserrat;
+    color: #146f62;
+  }
+
+  &__name {
+    display: block;
+    text-align: left;
+    font: normal normal 600 14px/19px Montserrat;
+    color: #707070;
+    opacity: 1;
+  }
+
+  &__contractor {
+    text-align: left;
+    font: normal normal 100 12px/15px Montserrat;
+    color: #707070;
+  }
+
+  &__detail {
+    width: 100%;
+    border-top: 2px solid #65ABA0;
+    border-bottom: 2px solid #65ABA0;
+    padding: 8px 0;
+  }
+
+  &__title {
+    text-align: left;
+    font: normal normal 300 14px/18px Montserrat;
+    color: #707070;
+  }
+
+  &__desc {
+    text-align: right;
+    font: normal normal 600 14px/18px Montserrat;
+    color: #707070;
+  }
+}
+
+.contracts-main-container {
+  max-width: 1700px;
+  width: 100%;
+}

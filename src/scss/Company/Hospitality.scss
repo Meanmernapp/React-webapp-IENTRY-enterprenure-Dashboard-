@@ -1,0 +1,405 @@
+.hospitality_container {
+
+    padding-top: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+
+    .hospitality_card {
+        background: #FFFFFF 0% 0% no-repeat padding-box;
+        box-shadow: 0px 0px 4px #000000B3;
+        border-radius: 4px;
+        opacity: 1;
+        width: 320px;
+        height: 164px;
+        position: relative;
+        padding: 0.7rem;
+
+        .btn {
+
+            background: #146F62 0% 0% no-repeat padding-box;
+            box-shadow: 0px 0px 4px #00000029;
+            border-radius: 4px;
+            opacity: 1;
+            border: none;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            top: 3px;
+            right: 3px;
+
+            i {
+                color: #fff;
+
+            }
+        }
+
+        .on_boarding_container_header {
+            h4 {
+                font: normal normal bold 14px/18px Montserrat;
+                letter-spacing: 0px;
+                color: #707070;
+                opacity: 1;
+            }
+
+            p {
+                font: normal normal normal 14px/18px Montserrat;
+                letter-spacing: 0px;
+                color: #707070;
+                opacity: 1;
+            }
+
+            ;
+
+        }
+
+        .on_boarding_container_content {
+            .on_boarding_container_content_item {
+                padding-top: 0.3rem;
+                padding-left: 1rem;
+
+                h4 {
+                    font: normal normal 600 12px/15px Montserrat;
+                    letter-spacing: 0px;
+                    color: #707070;
+                    opacity: 1;
+                }
+
+                .list {
+                    padding-left: 0.5rem;
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+
+                    .icon {
+                        width: 7px;
+                        height: 7px;
+                        background: #146F62 0% 0% no-repeat padding-box;
+                        opacity: 1;
+                        border-radius: 50%
+                    }
+
+                }
+
+
+                p {
+                    font: normal normal 300 14px/18px Montserrat;
+                    letter-spacing: 0px;
+                    color: #707070;
+                    opacity: 1;
+                }
+            }
+        }
+
+    }
+}
+
+
+.add_update_hospital {
+    padding-top: 2.5rem;
+    padding-left: 9rem;
+    padding-right: 14rem;
+
+    h4 {
+        font: normal normal bold 20px/24px Montserrat;
+        letter-spacing: 7px;
+        color: #146F62;
+        opacity: 1;
+
+
+
+    }
+
+    .span {
+        background-color: #146F62;
+        height: 3px;
+        width: 579px;
+
+    }
+
+    .email_footer {
+
+        display: flex;
+        justify-content: center;
+        margin-top: 3rem;
+
+        .add {
+            background: #146F62 0% 0% no-repeat padding-box;
+            box-shadow: 0px 0px 4px #00000080;
+            border-radius: 4px;
+            opacity: 1;
+            font: normal normal bold 14px/18px Montserrat;
+            letter-spacing: 0px;
+            color: #FFFFFF;
+            opacity: 1;
+            border: none;
+            width: 300px;
+            height: 34px;
+        }
+
+        .cancel {
+            background: #FFFFFF 0% 0% no-repeat padding-box;
+            box-shadow: 0px 0px 4px #00000080;
+            border-radius: 4px;
+            opacity: 1;
+            font: normal normal bold 14px/18px Montserrat;
+            letter-spacing: 0px;
+            color: #BC0000;
+            opacity: 1;
+            border: none;
+            width: 300px;
+            height: 34px;
+
+            &:hover {
+                background-color: #0000001A;
+            }
+        }
+
+    }
+
+    .input-icons {
+        position: absolute;
+        top: 4px;
+        right: 17px;
+    }
+}
+
+.confirm_modal_hospital {
+    .confirm_modal_hospital_item {
+        padding-left: 3rem;
+
+        h4 {
+            font: normal normal bold 12px/15px Montserrat;
+            letter-spacing: 0px;
+            color: #707070;
+            opacity: 1;
+            padding-bottom: 0.5rem;
+        }
+
+        p {
+            font: normal normal normal 14px/18px Montserrat;
+            letter-spacing: 0px;
+            color: #707070;
+            opacity: 1;
+            padding-left: 0.8rem;
+            padding-bottom: 0.3rem;
+
+            span {
+                font: normal normal bold 12px/15px Montserrat;
+            }
+        }
+    }
+}
+
+
+
+.room_details_container {
+
+    // display: flex;
+    // justify-content: center;
+    // flex-direction: column;
+    padding-top: 2.5rem;
+    padding-left: 9rem;
+    padding-right: 14rem;
+
+    h4 {
+        font: normal normal bold 20px/24px Montserrat;
+        letter-spacing: 7px;
+        color: #146F62;
+        opacity: 1;
+    }
+
+    .span {
+        background-color: #146F62;
+        height: 3px;
+        width: 579px;
+    }
+
+    .room_data {
+        padding-bottom: 1rem;
+
+        .room_data_child {
+            display: flex;
+            gap: 10rem;
+        }
+
+        .room_data_item {
+            padding-left: 2rem;
+            padding-top: 1rem;
+
+
+            h5 {
+                font: normal normal bold 12px/15px Montserrat;
+                letter-spacing: 0px;
+                color: #707070;
+                opacity: 1;
+                padding-bottom: 0.3rem;
+            }
+
+            p {
+                font: normal normal normal 14px/18px Montserrat;
+                letter-spacing: 0px;
+                color: #707070;
+                opacity: 1;
+                padding-left: 0.5rem;
+
+                span {
+                    font: normal normal bold 12px/15px Montserrat;
+                    letter-spacing: 0px;
+                    color: #707070;
+                    opacity: 1;
+                }
+            }
+        }
+    }
+
+    .room_sleep_container {
+        .p {
+            text-align: right;
+            padding-right: 3rem;
+            padding-top: 1rem;
+            font: normal normal 600 14px/18px Montserrat;
+            letter-spacing: 0px;
+            color: #65ABA0;
+            opacity: 1;
+        }
+
+        .room_sleep_card_container {
+            display: flex;
+            gap: 1rem;
+            padding-top: 1rem;
+            justify-content: center;
+
+            .room_sleep_card {
+                display: flex;
+                background: #FFFFFF 0% 0% no-repeat padding-box;
+                box-shadow: 0px 0px 4px #00000099;
+                opacity: 1;
+                width: 327px;
+                height: 134px;
+                position: relative;
+                padding: 1rem;
+                justify-content: space-between;
+
+                a {
+                    font: normal normal normal 10px/13px Montserrat;
+                    letter-spacing: 0px;
+                    color: #000000;
+                    opacity: 1;
+                }
+
+                .icon {
+                    position: absolute;
+                    top: 5px;
+                    right: 5px;
+
+                    i {
+                        font-size: 20px;
+                        color: #bc0000;
+                        padding: .2rem;
+
+                    }
+
+                    i:hover {
+                        background: #0000001A;
+                        border-radius: 5px;
+                        padding: .2rem;
+                        cursor: pointer;
+                    }
+                }
+
+                .room_sleep_card_left {
+                    text-align: center;
+
+                    .css-2s90m6-MuiAvatar-root {
+                        width: 70px;
+                        height: 70px;
+                    }
+                }
+
+                .room_sleep_card_right {
+
+                    padding: 0 0 0 1rem;
+
+                    h5 {
+                        font: normal normal 600 10px/19px Montserrat;
+                        letter-spacing: 0px;
+                        color: #192024;
+                        opacity: 1;
+                    }
+
+                    p {
+                        font: normal normal normal 12px/19px Montserrat;
+                        letter-spacing: 0px;
+                        color: #707070;
+                        opacity: 1;
+                        padding-left: 1rem;
+                    }
+
+                    .room_sleep_card_right-divider {
+                        display: flex;
+                        // gap: 1rem;
+                    }
+
+                }
+            }
+        }
+
+    }
+
+    .footer {
+        display: flex;
+        justify-content: center;
+        padding-top: 1rem;
+
+        button {
+            background: #FCFCFC 0% 0% no-repeat padding-box;
+            border: 1px dashed #E1E1E1B3;
+            border-radius: 4px;
+            opacity: 1;
+            width: 672px;
+            height: 50px;
+            font: normal normal normal 14px/18px Montserrat;
+            letter-spacing: 0px;
+            color: #707070;
+            opacity: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 3rem 0 3rem;
+
+            &:hover {
+                background-color: #E1E1E1B3;
+            }
+
+            i {
+                color: #707070CC;
+                font-size: 26px;
+                opacity: 1;
+            }
+
+        }
+    }
+
+}
+
+
+.line {
+    padding-bottom: 1rem;
+
+    h4 {
+        font: normal normal 600 14px/18px Montserrat;
+        letter-spacing: 3.5px;
+        color: #146F62;
+        opacity: 1;
+    }
+
+    .span {
+        background-color: #146F62;
+        height: 3px;
+        width: 579px;
+    }
+}

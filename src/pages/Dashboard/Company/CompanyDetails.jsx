@@ -1,76 +1,63 @@
+/*
+author rizwan ullah
+*/
 import React, { useEffect, useState } from 'react';
-import companyImg from "../../../assets/images/companyImg.png";
 import ic_map_marker from '../../../assets/images/ic-map-market.svg';
 import { Employees } from './Employees/Employees';
 import { Vehicles } from './Vehicles/Vehicles';
 import CustomDropDown from '../../../components/CustomDropDown';
 import LefletMap from '../../../components/LefletMap';
-import { getAllCompaniesData, getCompanyData } from '../../../Apis/companydata';
-import { getAllCompanyEmployees } from '../../../Apis/CompanyEmployee';
-import { toast } from 'react-toastify';
-import { getAllCompanyVehicles } from '../../../Apis/companyVehicle';
-// import { toast } from 'react-toastify';
+import { getCompanyData } from '../../../Apis/companydata';
+
+// language translator import
+import Cookies from "js-cookie";
+import { useTranslation } from 'react-i18next'
+import { mapCoordinates } from '../../../reduxToolkit/UpdateCompany/UpdateCompanySlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 export const CompanyDetails = () => {
-    const userdata = JSON.parse(sessionStorage.getItem("userdata"));
+    const dispatch = useDispatch()
+    const { t } = useTranslation();
+    const lCode = Cookies.get("i18next") || "en";
+    const companyId = "a6bd2887-0f4a-4e5f-b0b5-000d9817ab23";
     const [companyDetail, setCompanyDetail] = useState();
-    const [employeeData, setEmployeeData] = useState();
-    const [vehicleData, setVehicleData] = useState();
-    const companyId = "bc9789f1-3f16-4759-851d-5501cc37ec97";
+    const { latLngObj } = useSelector(
+        (state) => state.UpdateCompanySlice
+    );
 
-    const [page1, setPage1] = useState("0");
-    const [rowsPerPage1, setRowsPerPage1] = useState("8");
-    console.log(page1, rowsPerPage1)
-    // localStorage.setItem("page1", page1)
-    // localStorage.setItem("rowsPerPage1", rowsPerPage1)
+
 
     useEffect(() => {
-
+        /*
+       get company object to show on main
+       */
         getCompanyData(companyId).then(({ data: { data } }) => {
             console.log(data)
             setCompanyDetail(data);
+            dispatch(mapCoordinates({
+                address: data?.address,
+                lat: data?.latitud,
+                lng: data?.longitud
+            }))
             localStorage.setItem("companyId", data[0]?.id)
 
-            const body = {
-                companyId: companyId,
-                email: userdata?.data.email,
-                pagination: {
-                    order: true,
-                    page: Number(page1),
-                    size: Number(rowsPerPage1),
-                    sortBy: "id"
-                },
-                userId: userdata?.data.id,
-                userTypes: userdata?.data?.userType.name
-            }
-
-            getAllCompanyEmployees(body).then(({ data: { data } }) => {
-                setEmployeeData(data.content)
-                console.log(data)
-            }).catch(error => {
-                // toast.error("something went wrong.")
-            })
-
-
-            getAllCompanyVehicles(body).then(({ data: { data } }) => {
-                setVehicleData(data.content)
-                // console.log(data)
-            }).catch(error => {
-                // toast.error("something went wrong.")
-            })
-
-
         }).catch(error => {
-            toast.error("something went wrong.")
+            // toast.error("something went wrong.")
         })
 
-    }, [page1, rowsPerPage1])
+    }, [])
 
     return (
         <div className='company-detail'>
             <div className='head'>
-                <h2>company details</h2>
-                <p>location <img src={ic_map_marker} style={{ width: "18px", height: "24px" }} alt="ic_map_marker" /></p>
+                <h2>{t('company_details')}</h2>
+                <p>{t("location")}
+                    <img
+                        src={ic_map_marker}
+                        style={{ width: "18px", height: "24px" }}
+                        alt="ic_map_marker"
+                    />
+                </p>
             </div>
             <div className="row">
                 <div className="col-md-3">
@@ -79,18 +66,23 @@ export const CompanyDetails = () => {
                             <h4>{companyDetail?.name}</h4>
                             <CustomDropDown />
                         </div>
-                        <div className='mt-2'>
-                            <p>ADDRESS</p>
+                        <div className='mt-2' style={{ textAlign: lCode === "ar" ? "right" : "left" }}>
+                            <p>{t('address')}</p>
                             <ul>
-                                <li>{companyDetail?.address}</li>
+                                {/* slice address so that design should me same */}
+                                <li>{`${companyDetail?.address?.slice(0, 50)}...`}</li>
                             </ul>
-                            <p>Employees</p>
+                            <p>{t('employees')}</p>
                             <ul>
-                                <li>{companyDetail?.noEmployees} Employees</li>
+                                <li>{`${companyDetail?.noEmployees} ${t('employees')}`}</li>
                             </ul>
-                            <p>ZONES</p>
+                            <p>{t('vehicles')}</p>
                             <ul>
-                                <li>{companyDetail?.noZones} Zones</li>
+                                <li>{`${companyDetail?.noVehicles} ${t('vehicles')}`}</li>
+                            </ul>
+                            <p>{t('zone')}</p>
+                            <ul>
+                                <li>{`${companyDetail?.noZones} ${t('zone')}`}</li>
                             </ul>
                         </div>
                     </div>
@@ -102,33 +94,42 @@ export const CompanyDetails = () => {
                         alt="companyImg"
                     />
                 </div>
-                <div className="col-md-6" style={{ zIndex: "0" }}>
-                    <LefletMap
-                        latlng={{
-                            lat: companyDetail?.latitud,
-                            lng: companyDetail?.longitud,
-                        }}
-                    />
+                <div className="col-md-6" style={{ zIndex: "0", position: "relative" }}>
+                    <div style={{
+                        width: "95%",
+                        textAlign: "center",
+                        height: "250px",
+                        left: "0px",
+                        top: "0px",
+                        right: "0px",
+                        overflow: "hidden",
+                        position: "absolute",
+                        zIndex: "1000",
+                        margin: "auto",
+                        borderRadius: "5px",
+                    }}></div>
+                    {
+                        companyDetail?.latitud ?
+                            <LefletMap
+                                latlng={[companyDetail?.latitud, companyDetail?.longitud]}
+                            /> : ""
+                    }
                 </div>
             </div>
             <div className="row">
                 <div className="col-md-6">
-                    <Employees
-                        // employeeData={employeeData}
-                        // setPage1={setPage1}
-                        // setRowsPerPage1={setRowsPerPage1}
-                        // page1={page1}
-                        // rowsPerPage1={rowsPerPage1}
-                        noOfEmployees={companyDetail?.noEmployees}
-                    />
+                    {/* Author: Rizwan ullah
+                        Employess cards component on main 
+                    */}
+                    <Employees />
                 </div>
                 <div className="col-md-6">
-                    <Vehicles
-                        vehicleData={vehicleData}
-                        noVehicles={companyDetail?.noVehicles}
-                    />
+                    {/* Author: Rizwan ullah
+                        Vehicles cards component on main 
+                    */}
+                    <Vehicles />
                 </div>
             </div>
-        </div>
+        </div >
     )
 }

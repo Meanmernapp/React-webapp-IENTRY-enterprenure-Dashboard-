@@ -1,0 +1,201 @@
+.main_container_provider {
+    margin-top: 2rem;
+
+    .top_header_provider {
+        display: flex;
+        justify-content: space-between;
+
+        h2 {
+            font: normal normal bold 32px/39px Montserrat;
+            letter-spacing: 0px;
+            color: #178A7B;
+            text-transform: uppercase;
+            opacity: 1;
+        }
+
+        button {
+            background: #146F62 0% 0% no-repeat padding-box;
+            box-shadow: 0px 0px 4px #00000080;
+            border-radius: 4px;
+            opacity: 1;
+            border: none;
+            color: #FFFFFF;
+            font-size: 1rem;
+
+        }
+
+        .add {
+            padding: 0.2rem 1rem;
+            margin-right: 1rem;
+
+        }
+
+        .filter {
+            width: 48px;
+            height: 48px;
+        }
+
+    }
+
+    .search_btn {
+        position: absolute;
+        top: -5%;
+        right: 3%;
+
+        i {
+            color: gray;
+        }
+    }
+
+    .list_employees {
+
+        display: flex;
+        gap: 1rem;
+        // justify-content: space-between;
+        flex-wrap: wrap;
+
+        .card_container {
+            background: #FFFFFF 0% 0% no-repeat padding-box;
+            box-shadow: 0px 0px 4px #00000099;
+            opacity: 1;
+            width: 225px;
+            height: 265px;
+            border-radius: 5px;
+            padding: 0.5rem;
+
+
+            .card_header {
+
+
+
+                .status_container {
+                    display: flex;
+                    align-items: center;
+                    justify-content: flex-end;
+
+                    p {
+                        // color: #0C4523;
+                        opacity: 1;
+                        font-size: 10px;
+                        font-weight: bold;
+                    }
+
+                    .status_active {
+                        width: 9px;
+                        height: 9px;
+                        // background: #0C4523;
+                        border-radius: 50%;
+                        margin-left: 0.4rem;
+                    }
+                }
+
+                // .left_validating {
+                //     display: flex;
+                //     align-items: center;
+                //     justify-content: flex-end;
+
+                //     p {
+                //         color: #F2A100;
+                //         opacity: 1;
+                //         font-size: 10px;
+                //         font-weight: bold;
+                //     }
+
+                //     .status_validating {
+                //         width: 9px;
+                //         height: 9px;
+                //         background: #F2A100;
+                //         border-radius: 50%;
+                //         margin-left: 0.4rem;
+                //     }
+                // }
+
+                // .left_vacation {
+                //     display: flex;
+                //     align-items: center;
+                //     justify-content: flex-end;
+
+                //     p {
+                //         color: #006594;
+                //         opacity: 1;
+                //         font-size: 10px;
+                //         font-weight: bold;
+                //     }
+
+                //     .status_vacation {
+                //         width: 9px;
+                //         height: 9px;
+                //         background: #006594;
+                //         border-radius: 50%;
+                //         margin-left: 0.4rem;
+                //     }
+                // }
+            }
+
+            .card_body {
+                img {
+                    width: 210px;
+                    height: 117px;
+                    border-radius: 4px;
+                    opacity: 1;
+                }
+
+                .card_body_items {
+
+                    margin-top: 0.5rem;
+
+                    .card_body_item {
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        overflow: hidden;
+
+                        h5 {
+                            font-size: 12px;
+                            color: #000000;
+                            opacity: 1;
+                            font-weight: bold;
+                        }
+
+                        p {
+                            color: #707070;
+                            font-size: 12px;
+                            opacity: 1;
+                        }
+
+                    }
+
+                    .card_footer {
+                        display: flex;
+                        align-items: center;
+
+                        justify-content: flex-end;
+                        margin-top: 0.5rem;
+                        color: #146F62 !important;
+                        gap: 0.3rem;
+
+                        a {
+                            color: #146F62 !important;
+                            font-size: 12px;
+                            font-weight: bold;
+                            cursor: pointer;
+
+
+                        }
+
+                        i {
+                            color: #146F62;
+                            // font-size: 1px;
+                            cursor: pointer;
+                            font-weight: bold
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+
+
+
+}

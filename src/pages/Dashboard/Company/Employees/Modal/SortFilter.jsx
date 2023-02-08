@@ -4,14 +4,21 @@ import { Button, ButtonGroup } from "react-bootstrap";
 import { FormControl } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { orderByEmployees } from "../../../../../Apis/CompanyEmployee";
+import Cookies from "js-cookie";
+import { useTranslation } from 'react-i18next'
 
 
 const SortFilter = ({ setModalShow, handlFilters }) => {
+    const { t } = useTranslation();
+    const lCode = Cookies.get("i18next") || "en";
     // const [week, setWeek] = useState();
     // const [year, setYear] = useState();
-    const [orderby, setOrderby] = useState();
+    const [orderby, setOrderby] = useState("status.id");
     const [orderbyArray, setOrderbyArray] = useState();
-    const [sort, setSort] = useState();
+    const [sort, setSort] = useState("asc");
+
+    // const [orderby, setOrderby] = useState();
+    // const [sort, setSort] = useState();
 
 
     const orderByApi = () => {
@@ -31,9 +38,9 @@ const SortFilter = ({ setModalShow, handlFilters }) => {
 
 
     return (
-        <div className="col-md-3 filter_parent">
+        <div className="col-md-3 filter_parent pb-4">
             <p className="filter_header">
-                FILTERS
+                {t('filters')}
                 <CloseIcon
                     style={{ marginTop: "10px", color: "red", cursor: "pointer" }}
                     onClick={() => setModalShow(false)}
@@ -44,7 +51,7 @@ const SortFilter = ({ setModalShow, handlFilters }) => {
                 style={{ display: "flex", justifyContent: "space-between" }}
             >
                 <div className="col-md-12">
-                    <p>Attributes</p>
+                    <p>{t('attributes')}</p>
                     <Box
                         style={{ marginTop: "20px !important" }}
                         className="mt-2"
@@ -56,10 +63,10 @@ const SortFilter = ({ setModalShow, handlFilters }) => {
                         }}
                     >
                         <FormControl fullWidth>
-                            <InputLabel>ORDER BY</InputLabel>
-                            <Select
+                            <InputLabel>{t('order_by')}</InputLabel>
+                            <Select size="small"
                                 value={orderby}
-                                label="ORDER BY"
+                                label={t('order_by')}
                                 onChange={(e) => setOrderby(e.target.value)}
                             >
                                 {
@@ -80,10 +87,10 @@ const SortFilter = ({ setModalShow, handlFilters }) => {
                         }}
                     >
                         <FormControl fullWidth>
-                            <InputLabel id="demo-simple-select-label">sort</InputLabel>
-                            <Select
+                            <InputLabel id="demo-simple-select-label">{t('sort')}</InputLabel>
+                            <Select size="small"
                                 value={sort}
-                                label="SORT"
+                                label={t('sort')}
                                 onChange={(e) => setSort(e.target.value)}
                             >
                                 <MenuItem value="asc">ASC</MenuItem>
@@ -127,7 +134,7 @@ const SortFilter = ({ setModalShow, handlFilters }) => {
                         >
                             <FormControl fullWidth>
                                 <InputLabel id="demo-simple-select-label">WEEK</InputLabel>
-                                <Select
+                                 <Select size="small"
                                     value={week}
                                     label="WEEK"
                                     onChange={(e) => setWeek(e.target.value)}
@@ -148,7 +155,7 @@ const SortFilter = ({ setModalShow, handlFilters }) => {
                         >
                             <FormControl fullWidth>
                                 <InputLabel>YEAR</InputLabel>
-                                <Select
+                                 <Select size="small"
                                     value={year}
                                     label="YEAR"
                                     onChange={(e) => setYear(e.target.value)}

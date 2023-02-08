@@ -1,9 +1,13 @@
 import React from "react";
+import { useTranslation } from 'react-i18next';
+import Cookies from 'js-cookie';
 
 const RemoveMapModal = () => {
-  <div className="modal buildingadd_card" id="removePLan">
-    <div className="modal-dialog modal-md zonescard_m_center">
-      <div className="modal-content ">
+  const { t } = useTranslation();
+  const lCode = Cookies.get("i18next") || "en";
+  <div class="modal buildingadd_card" id="removePLan">
+    <div class="modal-dialog modal-md zonescard_m_center">
+      <div class="modal-content ">
         {/* <!-- Modal Header --> */}
         <div>
           <img
@@ -14,7 +18,7 @@ const RemoveMapModal = () => {
           />
         </div>
         {/* <!-- Modal body --> */}
-        <div className="modal-body ">
+        <div class="modal-body ">
           <div className="container-fluid ">
             <div
               className="row"
@@ -26,14 +30,14 @@ const RemoveMapModal = () => {
               }}
             >
               <h1>
-                <b>Remove Map</b>
+                <b>{t("remove_map")}</b>
               </h1>
               <br />
 
-              <h4 className="mt-3">DO YOU WANT TO REMOVE THIS MAP?</h4>
+              <h4 className="mt-3">{t("remove_map_text")}</h4>
               <div className="mt-3 col-md-10">
                 <button className="btn btn-danger btn-lg  btn-block">
-                  Confirm 
+                  {t("confirm")}
                 </button>
               </div>
             </div>
