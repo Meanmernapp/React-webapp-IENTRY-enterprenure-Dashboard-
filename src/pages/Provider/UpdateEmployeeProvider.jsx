@@ -99,7 +99,7 @@ const UpdateEmployeeProvider = () => {
                 formData.append('file', file[0]);
                 dispatch(SaveProviderImage(formData))
             }
-            navigate("/dashboard/provider/employees")
+            navigate("/dashboard/supplier/employees")
         })
     }
 
@@ -148,7 +148,7 @@ const UpdateEmployeeProvider = () => {
             <div className="head">
                 <div className="headLeft">
                     <h2>
-                        <Link to="/dashboard/provider/provider-order-detail">
+                        <Link to="/dashboard/supplier/supplier-order-detail">
                             <ArrowBackIcon
                                 style={{
                                     color: "#146F62",
@@ -158,7 +158,7 @@ const UpdateEmployeeProvider = () => {
                             />
                         </Link>
                         {t("update_employee_information")}
-                        {/* {employeeDetails && "Employee PROVIDER Detail"} */}
+                 
                         {/* {approveDocument && "APPROVE DOCUMENTS"} */}
                     </h2>
 

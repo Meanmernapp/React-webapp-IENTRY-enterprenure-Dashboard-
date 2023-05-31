@@ -4,16 +4,15 @@ import { toast } from "react-toastify";
 import cryptoJs from 'crypto-js';
 import securekey from "../config";
 
+
+
+
 // axios.defaults.withCredentials = true;
 
-
-export const apiInstance = axios.create({
+export const apiInstance =  axios.create({
   baseURL: URL,
-  // timeout: 10000,
   headers: {
     Accept: "application/json",
-    // "application": 'web',
-    // "locale": Cookies.get("i18next") || "en"
   },
 });
 
@@ -59,9 +58,6 @@ apiInstance.interceptors.request.use(
     const bytes = cryptoJs.AES.decrypt(token, securekey)
     const tokenDecrpt = bytes.toString(cryptoJs.enc.Utf8);
     config.headers.Authorization = `Bearer ${tokenDecrpt}`;
-
-    // config.headers.application = 'web'
-    // config.headers.locale = Cookies.get("i18next") || "en"
     return config;
   },
   function (error) {

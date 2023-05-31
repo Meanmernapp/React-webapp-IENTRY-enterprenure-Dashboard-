@@ -3,46 +3,16 @@ import { toast } from "react-toastify";
 import { getAllCompanyVehicles } from "../../../../../Apis/companyVehicle";
 import { TablePagination } from "@mui/material";
 import { Card } from "react-bootstrap";
-import car from "../../../../../assets/images/car.png";
+import car from "../../../../../assets/defaultImages/defaultCar.svg";
 import angelright_icon from "../../../../../assets/images/angelright.svg";
 import { Link } from "react-router-dom";
 import Cookies from "js-cookie";
 import { useTranslation } from 'react-i18next'
-const AllVehiclesCards = () => {
+import { useSelector } from "react-redux";
+const AllVehiclesCards = ({ searchVehicle, handleCheckboxChange, selectVehicleForDelete }) => {
     const { t } = useTranslation();
     const lCode = Cookies.get("i18next") || "en";
-
-    const [vehicleData, setVehicleData] = useState();
-    // console.log(vehicleData)
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(8);
-
-    useEffect(() => {
-
-        const body = {
-            order: true,
-            page: page,
-            size: rowsPerPage,
-            sortBy: "id"
-        }
-
-        getAllCompanyVehicles(body).then(({ data: { data } }) => {
-            setVehicleData(data)
-            // console.log(data)
-        }).catch(error => {
-            toast.error("something went wrong.")
-        })
-
-    }, [page, rowsPerPage])
-
-    const handleChangePage = (event, newPage) => {
-        setPage(newPage);
-    };
-
-    const handleChangeRowsPerPage = event => {
-        setRowsPerPage(parseInt(event.target.value));
-        setPage(0);
-    };
+    const { getAllVehicle } = useSelector(state => state.VehicleSlice);
 
     const checkStatus = (id) => {
         if (id === 2) {
@@ -60,47 +30,89 @@ const AllVehiclesCards = () => {
 
     return (
         <>
-            <div className="row mt-5 mr-2">
+            <div className="row mt-3 mr-2">
                 {
-                    vehicleData?.content?.map(item => (
+                    // getAllVehicle?.content?.filter((user) => {
+                    //     if (searchVehicle === "") {
+                    //       return user;
+                    //     } else if (
+                    //       user?.vehicle?.brand
+                    //         ?.toLowerCase()
+                    //         .includes(searchVehicle?.toLowerCase())
+                    //     ) {
+                    //       return user;
+                    //     }
+                    //   })
+                    getAllVehicle?.content?.map(item => (
                         <div className="col-md-3" key={item?.id}>
                             <div className="vehicle_component">
-                                <div
-                                    className="statusDiv"
-                                    style={{
-                                        color: checkStatus(item?.vehicle?.status?.id),
-                                        textTransform: "uppercase",
-                                        fontWeight: "bold"
-                                    }}
-                                >
-                                    <p>
-                                        {item?.vehicle?.status?.name.replace(/\_/g, " ")}
-                                    </p>
-                                    <i
-                                        className="fa fa-circle"
-                                        aria-hidden="true"
-                                    ></i>
+                                <div style={{
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                    alignItems: "center"
+                                }}>
+                                    <input type="checkbox" className="checkbox"
+                                        checked={selectVehicleForDelete?.includes(item?.vehicle?.id)}
+                                        id={item?.vehicle?.id}
+                                        onChange={handleCheckboxChange}
+                                    />
+                                    <div
+                                        className="statusDiv"
+                                        style={{
+                                            color: checkStatus(item?.vehicle?.status?.id),
+                                            textTransform: "uppercase",
+                                            fontWeight: "bold"
+                                        }}
+                                    >
+                                        <p>
+                                            {item?.vehicle?.status?.name.replace(/\_/g, " ")}
+                                        </p>
+                                        <i
+                                            className="fa fa-circle"
+                                            aria-hidden="true"
+                                        ></i>
+                                    </div>
                                 </div>
-                                <div className="vehicle_card_header" style={{ display: "flex" }}>
-                                    <img src={car} />
-                                    <div className="header_component">
+                                <div className="vehicle_card_header" >
+                                    <img src={item?.vehicle?.image ? `data:image/png;base64,${item?.vehicle?.image}`:car} />
+                                    {/* <div className="header_component">
                                         <p>{item?.vehicle?.brand}</p>
                                         <span>{item?.vehicle?.subBrand}</span>
-                                    </div>
+                                    </div> */}
                                 </div>
                                 <div
                                     className="vehicle_card_body"
                                 >
-                                    <p>{t('model')}</p>
-                                    <span>{item?.vehicle?.model}</span>
-                                    <p>{t('color')}</p>
-                                    <span>{item?.vehicle?.color}</span>
-                                    <p>{t('plates')}</p>
-                                    <span>{item?.vehicle?.plate}</span>
-                                    <p>{t('s_n')}</p>
-                                    <span>{item?.vehicle?.serialNumber}</span>
-                                    <p>{t('driver')}</p>
-                                    <span>{item?.user?.name}</span>
+                                    <div className="row_body">
+                                        <p>{t('brand')}</p>
+                                        <span>{item?.vehicle?.brand || "-"}</span>
+                                    </div>
+                                    <div className="row_body">
+                                        <p>{t('sub_Brand')}</p>
+                                        <span>{item?.vehicle?.subBrand || "-"}</span>
+                                    </div>
+                                    <div className="row_body">
+                                        <p>{t('model')}</p>
+                                        <span>{item?.vehicle?.model || "-"}</span>
+                                    </div>
+                                    <div className="row_body">
+                                        <p>{t('color')}</p>
+                                        <span>{item?.vehicle?.color || "-"}</span>
+                                    </div>
+                                    <div className="row_body">
+                                        <p>{t('plates')}</p>
+                                        <span>{item?.vehicle?.plate || "-"}</span>
+                                    </div>
+                                    {/* <div className="row_body">
+                                        <p>{t('type')}</p>
+                                        <span>{item?.vehicle?.type || "-"}</span>
+                                    </div> */}
+                                    <div className="row_body">
+                                        <p>{t('tag')}</p>
+                                        <span>{item?.vehicle?.tag || "-"}</span>
+                                    </div>
+
+
                                 </div>
                                 <Link to={`/dashboard/employee/allVehicles/vehicle-detail/${item?.vehicle?.id}`} className="update_data">
                                     {t('vehicle_details')}
@@ -118,22 +130,7 @@ const AllVehiclesCards = () => {
                     ))
                 }
             </div>
-            <div className="d-flex justify-content-center">
-                <TablePagination
-                    component="div"
-                    size="small"
-                    rowsPerPageOptions={[8, 16, 24, 32]}
-                    count={vehicleData?.totalElements}
-                    page={page}
-                    onPageChange={handleChangePage}
-                    labelRowsPerPage="Vehicles per page"
-                    rowsPerPage={rowsPerPage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                    sx={{
-                        textTransform: "capitalize"
-                    }}
-                />
-            </div>
+
         </>
     )
 }

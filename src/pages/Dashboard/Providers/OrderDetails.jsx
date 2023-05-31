@@ -45,7 +45,7 @@ const OrderDetails = () => {
     <div className="order-details">
       <div className="head">
         <div className="headLeft">
-          <Link to="/dashboard/employee/providers">
+          <Link to="/dashboard/employee/suppliers">
             <i className="fa fa-arrow-left" aria-hidden="true"
               style={{
                 transform: lCode === "ar" ? "scaleX(-1)" : "",
@@ -71,23 +71,23 @@ const OrderDetails = () => {
             </div>
             <div className="content">
               <div className="order">
-                <strong>{t("order")}</strong>
-                <span style={{ color: detailEmployeeProviderOrder?.status?.id == 36 && "red !important" }}>#104-SDAS</span>
+                <strong>{t("folio")}</strong>
+                <span style={{ color: detailEmployeeProviderOrder?.status?.id == 36 && "red !important" }}>#{detailEmployeeProviderOrder?.folio || "-"}</span>
                 <div className="actual-details">
                   {/* Luis Enrique Cornejo Arreola */}
-                  {detailEmployeeProviderOrder?.provider?.user?.name}
+                  {detailEmployeeProviderOrder?.supplier?.user?.name}
                 </div>
                 <div className="faded-headings">{t("contract")}</div>
-                <div className="actual-details">{detailEmployeeProviderOrder?.provider?.user?.email || "-"}</div>
+                <div className="actual-details">{detailEmployeeProviderOrder?.supplier?.user?.email || "-"}</div>
                 <div className="faded-headings">{t("contractor")}</div>
-                <div className="actual-details">{detailEmployeeProviderOrder?.provider?.user?.phoneNumber || "-"}</div>
+                <div className="actual-details">{detailEmployeeProviderOrder?.supplier?.user?.phoneNumber || "-"}</div>
                 <div className="faded-headings">{t("celular")}</div>
               </div>
               <div className="delivery-details">
                 <div className="faded-headings">{t("delivery_date")}</div>
                 <div className="actual-details">{date.toLocaleDateString('en-US' || "-")}</div>
                 <div className="faded-headings">{t("corporate")}</div>
-                <div className="actual-details">{detailEmployeeProviderOrder?.provider?.providerCompanyName || "-"}</div>
+                <div className="actual-details">{detailEmployeeProviderOrder?.supplier?.supplierCompanyName || "-"}</div>
               </div>
               <div className="time-details">
                 <div className="faded-headings">{t("time_of_inverval")}</div>
@@ -95,9 +95,9 @@ const OrderDetails = () => {
                 {/* <div className="faded-headings">18:33</div> */}
                 {/* <div className="actual-details">4427265969</div> */}
                 <div className="faded-headings">{t("departure_time")}</div>
-                <div className="actual-details">{detailEmployeeProviderOrder?.provider?.depature_time || "-"}</div>
+                <div className="actual-details">{detailEmployeeProviderOrder?.supplier?.depature_time || "-"}</div>
                 <div className="faded-headings">{t("total_time")}</div>
-                <div className="actual-details">{detailEmployeeProviderOrder?.provider?.total_time || "-"}</div>
+                <div className="actual-details">{detailEmployeeProviderOrder?.supplier?.total_time || "-"}</div>
 
                 <div className="faded-headings">{t("who_received")}</div>
                 <div className="actual-details">{detailEmployeeProviderOrder?.userReceived?.name || "-"}</div>
@@ -108,16 +108,16 @@ const OrderDetails = () => {
             <div className="card e_card">
               <div className="card-heading">{t("employee")}</div>
               {
-                detailEmployeeProviderOrder?.providerEmployee != null ?
+                detailEmployeeProviderOrder?.supplierEmployee != null ?
                   <div className="card-body" >
                     <img className="card-img-top"
                       // src={employee} 
-                      src={detailEmployeeProviderOrder?.providerVehicle?.vehicle?.selfie != null ? `data:image/png;base64,${detailEmployeeProviderOrder?.providerVehicle?.vehicle?.selfie}` : employee}
+                      src={detailEmployeeProviderOrder?.supplierVehicle?.vehicle?.selfie != null ? `data:image/png;base64,${detailEmployeeProviderOrder?.supplierVehicle?.vehicle?.selfie}` : employee}
                       alt="employee" />
                     <div className="card-content">
                       <div className="card-data-row">
                         <div className="headings">{t("name")}</div>
-                        <div className="details">{detailEmployeeProviderOrder?.providerEmployee?.user?.name || "-"}</div>
+                        <div className="details">{detailEmployeeProviderOrder?.supplierEmployee?.user?.name || "-"}</div>
                       </div>
                       <div className="card-data-row">
                         <div className="headings">{t("job_title")}</div>
@@ -125,21 +125,21 @@ const OrderDetails = () => {
                       </div>
                       <div className="card-data-row">
                         <div className="headings">{t("gender")}</div>
-                        <div className="details">{detailEmployeeProviderOrder?.providerEmployee?.user?.gender?.name || "-"}</div>
+                        <div className="details">{detailEmployeeProviderOrder?.supplierEmployee?.user?.gender?.name || "-"}</div>
                       </div>
                       <div className="card-data-row">
                         <div className="headings">{t("email")}</div>
-                        <div className="details">{detailEmployeeProviderOrder?.providerEmployee?.user?.email || "-"}</div>
+                        <div className="details">{detailEmployeeProviderOrder?.supplierEmployee?.user?.email || "-"}</div>
                       </div>
                       <div className="card-data-row">
                         <div className="headings">{t("number")}</div>
-                        <div className="details">{detailEmployeeProviderOrder?.providerEmployee?.user?.phoneNumber || "-"}</div>
+                        <div className="details">{detailEmployeeProviderOrder?.supplierEmployee?.user?.phoneNumber || "-"}</div>
                       </div>
                       <div className="view-details mt-3" >
 
-                        <Link to="/dashboard/employee/providers/employee-providers-details" onClick={() => {
-                          dispatch(DetailsEmployeeProviderEmployee(detailEmployeeProviderOrder?.providerEmployee?.user?.id))
-                          localStorage.setItem("employeeProviderDetail", detailEmployeeProviderOrder?.providerEmployee?.user?.id)
+                        <Link to="/dashboard/employee/suppliers/employee-providers-details" onClick={() => {
+                          dispatch(DetailsEmployeeProviderEmployee(detailEmployeeProviderOrder?.supplierEmployee?.user?.id))
+                          localStorage.setItem("employeeProviderDetail", detailEmployeeProviderOrder?.supplierEmployee?.user?.id)
                         }}>
                           {t("employee_details")}
                           <i class="fa fa-angle-right" style={{
@@ -158,11 +158,11 @@ const OrderDetails = () => {
             <div className="card v_card">
               <div className="card-heading">{t("vehicles")}</div>
               {
-                detailEmployeeProviderOrder?.providerVehicle != null ?
+                detailEmployeeProviderOrder?.supplierVehicle != null ?
                   <div className="card-body" style={{ width: '225px', height: "286px" }}>
                     <img className="card-img-top"
                       // src={vehicleDefault}
-                      src={detailEmployeeProviderOrder?.providerVehicle?.vehicle?.image != null ? `data:image/png;base64,${detailEmployeeProviderOrder?.providerVehicle?.vehicle?.image}` : vehicleDefault}
+                      src={detailEmployeeProviderOrder?.supplierVehicle?.vehicle?.image != null ? `data:image/png;base64,${detailEmployeeProviderOrder?.supplierVehicle?.vehicle?.image}` : vehicleDefault}
                       alt="employee"
                       width="210px !important"
                       height="117px !important"
@@ -170,23 +170,23 @@ const OrderDetails = () => {
                     <div className="card-content">
                       <div className="card-data-row">
                         <div className="headings">{t("brand")}</div>
-                        <div className="details">{detailEmployeeProviderOrder?.providerVehicle?.vehicle?.brand}</div>
+                        <div className="details">{detailEmployeeProviderOrder?.supplierVehicle?.vehicle?.brand}</div>
                       </div>
                       <div className="card-data-row">
                         <div className="headings">{t("sub_brand")}</div>
-                        <div className="details">{detailEmployeeProviderOrder?.providerVehicle?.vehicle.subBrand}</div>
+                        <div className="details">{detailEmployeeProviderOrder?.supplierVehicle?.vehicle.subBrand}</div>
                       </div>
                       <div className="card-data-row">
                         <div className="headings">{t("model")}</div>
-                        <div className="details">{detailEmployeeProviderOrder?.providerVehicle?.vehicle?.model}</div>
+                        <div className="details">{detailEmployeeProviderOrder?.supplierVehicle?.vehicle?.model}</div>
                       </div>
                       <div className="card-data-row">
                         <div className="headings">{t("color")}</div>
-                        <div className="details">{detailEmployeeProviderOrder?.providerVehicle?.vehicle?.color}</div>
+                        <div className="details">{detailEmployeeProviderOrder?.supplierVehicle?.vehicle?.color}</div>
                       </div>
                       <div className="card-data-row">
                         <div className="headings">{t("plates")}</div>
-                        <div className="details">{detailEmployeeProviderOrder?.providerVehicle?.vehicle?.plate}</div>
+                        <div className="details">{detailEmployeeProviderOrder?.supplierVehicle?.vehicle?.plate}</div>
                       </div>
                       <div className="card-data-row">
                         <div className="headings">{t("type")}</div>
@@ -197,9 +197,9 @@ const OrderDetails = () => {
                         <div className="details">{""}</div>
                       </div>
                       <div className="view-details">
-                        <Link to="/dashboard/employee/providers/vehicle-detail" onClick={() => {
-                          dispatch(DetailsEmployeeProviderVehicle(detailEmployeeProviderOrder?.providerVehicle?.id))
-                          localStorage.setItem("vehicleProviderDetail", detailEmployeeProviderOrder?.providerVehicle?.id)
+                        <Link to="/dashboard/employee/suppliers/vehicle-detail" onClick={() => {
+                          dispatch(DetailsEmployeeProviderVehicle(detailEmployeeProviderOrder?.supplierVehicle?.id))
+                          localStorage.setItem("vehicleProviderDetail", detailEmployeeProviderOrder?.supplierVehicle?.id)
 
                         }}>
 

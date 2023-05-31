@@ -64,7 +64,7 @@ const UpdateEmployee = () => {
   const userdata = sessionStorage.getItem('userdata');
   const bytess = cryptoJs.AES.decrypt(userdata, securekey)
   const userstring = bytess.toString(cryptoJs.enc.Utf8);
-  const user = JSON.parse(userstring).data.data
+  const user = JSON.parse(userstring)
   const { data: { data } } = user
   const companyRestrictionsData = useSelector(state => state?.EmployeeEventsSlice?.companyRestrictionsData);
   const employeeRoles = useSelector(state => state?.CompanyEmployeesSlice?.employeeRoles);

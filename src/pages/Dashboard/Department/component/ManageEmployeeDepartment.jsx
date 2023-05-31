@@ -1,73 +1,60 @@
 import { t } from 'i18next';
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
+import { useEffect } from 'react';
 import { Modal } from "react-bootstrap";
 import { useDispatch, useSelector } from 'react-redux';
-import deleteIcon from '../../../../assets/images/ic-delete-red.svg';
-
+import { toast } from 'react-toastify';
+import { AddDepartmentById } from '../../../../reduxToolkit/Department/DepartmentApi';
 
 
 const ManageEmployeeDepartment = (props) => {
+    console.log(props)
     const dispatch = useDispatch();
-    const { employeesWithRoleList } = useSelector(state => state?.EmployeeRolesSlice);
-
-    const [query, setQuery] = useState("")
     const [addUserquery, setAddUserQuery] = useState("")
-    const [totalEmployees, setTotalEmployees] = useState([]);
-    const [selectedEmployees, setSelectedEmployees] = useState([]);
+    const [selectedUser, setSelectedUser] = useState([])
 
-    // useEffect(() => {
-    //     dispatch(getAllEmployees()).then(({ payload: { data: { data } } }) => {
-    //         let filteredIds = employeesWithRoleList.map(item => { return item.id; });
-    //         const newArr = data.filter(item => !filteredIds.includes(item.id));
-    //         setTotalEmployees(newArr)
-    //     })
-    // }, [])
+    const { getAllNonDepartmentUser, listOfUsersDepartment } = useSelector(state => state.DepartmentSectionSlice);
 
-    // const handleDelete = (userSelectedId) => {
-    //     dispatch(removeRoleToUserById(userSelectedId)).then(() => {
-    //         dispatch(getEmployesWithRole(props?.roleid));
-    //     })
-    // }
+     // add selected user handler function
+    const handleselectedUser = (user) => {
+        const AddedUser = selectedUser?.find(item => item?.userId === user?.userId)
+        const alreadyAdded = listOfUsersDepartment?.content?.find(item => item?.id === user?.userId)
+        if (AddedUser || alreadyAdded) {
+            toast.warn(`${AddedUser?.name || alreadyAdded?.name} is Already Selected`)
+        } else {
+            setSelectedUser((prev) => [...prev, user])
+        }
 
+    }
+     // remove user handler function
+    const handleUserRemove = (remove) => {
+        const filterUser = selectedUser.filter(item => item?.userId !== remove?.userId)
+        setSelectedUser(filterUser)
+    }
+    // add user handler function
+    const handleAddUser = () => {
+        if (selectedUser?.length > 0) {
+            const ids = selectedUser?.map(item => {
+                return item?.userId
 
-    // const handleUserList = (user) => {
-    //     setTotalEmployees([...totalEmployees, user]);
-    //     const filterArray = selectedEmployees.filter(item => item.id !== user.id);
-    //     setSelectedEmployees(filterArray);
-    // }
+            })
+            const data = {
+                id: props?.manageEmploye?.id,
+                userids: ids
+            }
 
-    // const handleselected = (user) => {
-    //     setSelectedEmployees([...selectedEmployees, user]);
-    //     const filterArray = totalEmployees.filter(item => item.id !== user.id)
-    //     setTotalEmployees(filterArray);
-    // }
+            dispatch(AddDepartmentById(data))
+            props.onHide()
+            setAddUserQuery("")
+            setSelectedUser([])
+        } else {
+            toast.warn("Select Atleast One user")
+        }
+    }
 
-    // const handleAddUser = () => {
-    //     dispatch(EmployeesInCreate(selectedEmployees));
-    //     setAddUserQuery("");
-    //     let filteredIds = totalEmployees.map(item => { return item.id; });
+    useEffect(() => {
 
-    //     const body = {
-    //         roleId: props.roleid,
-    //         userIds: filteredIds
-    //     }
-
-    //     if (props.roleid) {
-    //         dispatch(addUsersToRole(body))
-    //         const employeeBody = {
-    //             id: props.roleid,
-    //             pagination: {
-    //                 order: true,
-    //                 page: 0,
-    //                 size: 10,
-    //                 sortBy: "id"
-    //             }
-    //         }
-    //         dispatch(getAllroleEmployeesPageable(employeeBody))
-    //     }
-    //     props.onHide();
-    // }
-
+    }, [])
     return (
         <Modal
             className="manage_department_modal"
@@ -80,7 +67,11 @@ const ManageEmployeeDepartment = (props) => {
                 <Modal.Title id="contained-modal-title-vcenter">
                     {t("employees")}
                 </Modal.Title>
-                <i className="fa fa-times cross" aria-hidden="true" onClick={() => props.onHide()}></i>
+                <i className="fa fa-times cross" aria-hidden="true" onClick={() => {
+                    props.onHide()
+                    setAddUserQuery("")
+                    setSelectedUser([])
+                }}></i>
             </Modal.Header>
             <Modal.Body className="manage_role_modal_body">'
 
@@ -106,22 +97,20 @@ const ManageEmployeeDepartment = (props) => {
                     </div>
                     <div className="col-12 searchItem" style={{ display: addUserquery !== '' ? "block" : "none" }}>
                         {
-                            // totalEmployees?.filter(user => {
-                            //     if (addUserquery === '') {
-                            //         return user;
-                            //     } else if (user.name.toLowerCase().includes(addUserquery.toLowerCase())) {
-                            //         return user;
-                            //     }
-                            // })
-                            [1, 2, 3].map(user => (
+                            getAllNonDepartmentUser?.filter(user => {
+                                if (addUserquery === '') {
+                                    return user;
+                                } else if (user.name.toLowerCase().includes(addUserquery.toLowerCase())) {
+                                    return user;
+                                }
+                            }).map(user => (
                                 <div
                                     className='add_some_one_item'
-                                // key={user.id}
-                                // onClick={() => handleselected(user)}
+                                    key={user?.userId}
+                                    onClick={() => handleselectedUser(user)}
                                 >
                                     <p>
-                                        {/* {user.name} */}
-                                        user name
+                                        {user.name}
                                     </p>
                                 </div>
                             ))
@@ -133,35 +122,42 @@ const ManageEmployeeDepartment = (props) => {
                 <div className='add_some_one'>
                     {
 
-                        // selectedEmployees?.map((item) => (
-                        [1, 2].map((item) => (
+
+                        selectedUser?.map((item) => (
                             <span
-                                // key={item.id}
+                                key={item.userId}
                                 className='add_some_one_item'
                             >
-                                {/* {item.name} */}
-                                dskjflkdjfkld
+                                {item.name}
+
                                 <i
                                     className="fa fa-times"
                                     aria-hidden="true"
-                                // onClick={() => handleUserList(item)}
+                                    onClick={() => handleUserRemove(item)}
                                 ></i>
                             </span>
                         ))
                     }
 
                     <div className='line_button'>
-                        <span>{t("clear_all_the_Selected")}</span>
+                        <span onClick={() => {
+                            setSelectedUser([])
+                            setAddUserQuery("")
+                        }}>{t("clear_all_the_Selected")}</span>
                     </div>
                 </div>
                 <div className="d-flex mt-4">
                     <button className="custom_btn_cancel_gray_hover"
                         style={{ width: "184px" }}
-                        onClick={() => props.onHide()}>{t("cancel")}</button>
+                        onClick={() => {
+                            props.onHide();
+                            setAddUserQuery("")
+                            setSelectedUser([])
+                        }}>{t("cancel")}</button>
                     <button
                         style={{ width: "184px" }}
                         className="custom_primary_btn_dark"
-                    // onClick={handleAddUser}
+                        onClick={() => handleAddUser()}
                     >{t("add_employees")}
                     </button>
                 </div>

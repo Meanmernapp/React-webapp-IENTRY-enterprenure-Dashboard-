@@ -21,11 +21,11 @@ const DashboardLayout = () => {
   const token = sessionStorage.getItem('bearerToken');
   const bytes = cryptoJs.AES.decrypt(token, securekey)
   const isAuthenticated = bytes.toString(cryptoJs.enc.Utf8);
-
+  const [isMenuOpen , setIsMenuOpen]= useState(true)
   // to setProfilebgimage for profile
   useEffect(() => {
     if (
-      location?.pathname == "/dashboard/provider/profile" ||
+      location?.pathname == "/dashboard/supplier/profile" ||
       location?.pathname == "/dashboard/employee/profile" ||
       location?.pathname == "/dashboard/contractor/profile"
     ) {
@@ -47,28 +47,49 @@ const DashboardLayout = () => {
   return (
     <div
       className="container-fluid"
+      
       style={{
-        backgroundImage: profilebgImage ? `url(${bg})` : "",
-        backgroundRepeat: profilebgImage ? "no-repeat" : "",
-        backgroundSize: profilebgImage ? "cover" : "",
+        background:profilebgImage ? "black" : "",
+        position: profilebgImage ? "absolute" : "",
+        width: profilebgImage ? "100%" : "",
+        height: profilebgImage ? "100%" : "",
       }}
     >
+      <div >
+        {
+          profilebgImage &&
+          <img src={bg} alt="img"
+            style={{ position: "absolute", width: "100%", height: '100%', opacity: "0.3" }}
+          />
+        }
       <div className="row">
+        
         <div
-          className="col-md-2 p-0"
+          className={`${isMenuOpen ? "col-md-2" : ""} p-0`}
           style={{
             zIndex: "1",
+            width:isMenuOpen ? "100%":"3.15rem"
           }}
         >
-          <div className="position-fixed">
-            <SideBar />
+          <div 
+          className="position-fixed"
+          >
+            <SideBar 
+            isMenuOpen={isMenuOpen}
+            setIsMenuOpen={setIsMenuOpen}
+
+            />
           </div>
         </div>
-        <main className="col-md-10">
+        <main className={`${isMenuOpen ? "col-md-10" :"col-md-11"}`}
+        style={{ margin:"0 auto" , zIndex:"0" }}
+        >
           <Outlet />
         </main>
       </div>
-    </div>
+      </div>
+      </div>
+    
   );
 };
 

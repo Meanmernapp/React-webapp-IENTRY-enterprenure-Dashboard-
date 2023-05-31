@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import apiInstance from "../../Apis/Axios";
+import apiInstanceV2 from "../../Apis/AxiosV2";
 
 
 export const GetEventFilters = createAsyncThunk("employeeEvents/getEventFilters", async () => {
@@ -208,7 +209,7 @@ export const allowDenyEvent = createAsyncThunk("employeeEvents/allowDenyEvent", 
 
 export const companyRestrictions = createAsyncThunk("employeeEvents/companyRestrictions", async (companyId) => {
 
-    let response = await apiInstance.get(`company-service/company-restriction/get-by-company-id/${companyId}`).then((response) => {
+    let response = await apiInstanceV2.get(`event-service/restriction/get`).then((response) => {
         return response
     }).catch((error) => {
         return error.response

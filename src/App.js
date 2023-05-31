@@ -7,35 +7,29 @@ import jwt from 'jwt-decode'
 import { useNavigate, useLocation } from "react-router-dom";
 import { logOut } from "./reduxToolkit/authentication/authenticationSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { RoleCheck } from "./reduxToolkit/authentication/AuthenticatonApi";
+import { GetUserByIdAtEntry, RoleCheck } from "./reduxToolkit/authentication/AuthenticatonApi";
 import cryptoJs from 'crypto-js';
 import securekey from "./config";
+import FullPageLoader from "./utils/FullPageLoader";
 
 const App = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const location = useLocation();
 
-
-
   const Etoken = sessionStorage.getItem('bearerToken') || "";
   const bytes = cryptoJs.AES.decrypt(Etoken, securekey)
   const token = bytes.toString(cryptoJs.enc.Utf8);
 
+  console.log(token)
 
   // const user = JSON.parse(sessionStorage.getItem("userdata"))?.data?.data;
-
   const userdata = sessionStorage.getItem('userdata');
-
   const bytess = cryptoJs.AES.decrypt(userdata || "", securekey)
   const userstring = bytess.toString(cryptoJs.enc.Utf8);
   const user = userstring ? JSON.parse(userstring)?.data?.data : ""
 
-  console.log(location)
-
-
-
-
+  console.log(user)
   //this useEffect will always monitor the token validation
   useEffect(() => {
     if (token) {
@@ -69,11 +63,19 @@ const App = () => {
         roleId: tokeninfo?.role_id
       }
       dispatch(RoleCheck(data))
+    if(user?.userType?.name === "EMPLOYEE"){
+      dispatch(GetUserByIdAtEntry())
+    }
     }
   }, [])
 
   return (
+    <>
+   
+  <FullPageLoader />
+
     <DndProvider backend={HTML5Backend}>
+ 
       <MainRoutes />
       <ToastContainer position="top-right"
         autoClose={4000}
@@ -86,6 +88,8 @@ const App = () => {
         draggable
         pauseOnHover />
     </DndProvider>
+
+</>
   );
 };
 

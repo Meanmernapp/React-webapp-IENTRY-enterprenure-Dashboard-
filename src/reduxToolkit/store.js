@@ -8,6 +8,8 @@ import EmployeeEventsSlice from "./EmployeeEvents/EmployeeEventsSlice";
 import EmployeeProviderSlice from "./EmployeeProviders/EmployeeProviderSlice";
 import EmployeeContractorsSlice from "./EmployeeContractors/EmployeeContractorsSlice";
 import EmployeeZonesSlice from "./EmployeeZones/EmployeeZoneSlice";
+import DevicesSlice from "./Devices/DevicesSlice";
+import CommonsSlice from "./Commons/CommonsSlice";
 import vehicleDocumentSlice from "./CompanyDocuments/vehicleDocumentSlice";
 import CompanyWorkShiftSlice from "./CompanyWorkShift/CompanyWorkShiftSlice";
 import NotificationsSlice from "./Notifications/NotificationsSlice";
@@ -25,6 +27,10 @@ import BackUpSlice from "./CompanyBackup/backUpSlice";
 import employeeOnBoardingSlice from "./EmployeeOnBoarding/EmployeeOnBoardingSlice";
 import headersSlice from "./headers/headersSlice";
 import DocumentPanelSlice from "./DocumentPanel/DocumentPanelSlice";
+import DepartmentSectionSlice from "./Department/DepartmentSlice";
+import EmployeeSlice from "./Employee/EmployeeSlice";
+import VehicleSlice from "./Vehicle/VehicleSlice";
+import sharedSlice from "./ShareSlice/shareSlice"
 
 const reducers = combineReducers({
   UpdateCompanySlice,
@@ -34,6 +40,8 @@ const reducers = combineReducers({
   EmployeeEventsSlice,
   EmployeeProviderSlice,
   EmployeeZonesSlice,
+  DevicesSlice,
+  CommonsSlice,
   CompanyWorkShiftSlice,
   NotificationsSlice,
   AccessHistorySlice,
@@ -48,7 +56,11 @@ const reducers = combineReducers({
   BackUpSlice,
   employeeOnBoardingSlice,
   headersSlice,
-  DocumentPanelSlice
+  DocumentPanelSlice,
+  DepartmentSectionSlice,
+  EmployeeSlice,
+  sharedSlice,
+  VehicleSlice
 });
 
 const persistConfig = {

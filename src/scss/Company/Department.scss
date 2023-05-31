@@ -374,6 +374,110 @@
 
 
         }
+
+    }
+}
+
+// Log device Modal style
+
+.log-modal {
+    
+    .modal-content {
+        // box-shadow: 0px 0px 4px #00000099;
+        // border-radius: 12px;
+
+        width: 832px !important;
+        height: 80vh;
+        background: #FCFCFC 0% 0% no-repeat padding-box;
+        box-shadow: 0px 0px 4px #00000099;
+        border-radius: 12px;
+
+        // justify-content: center !important;
+        .modal-header {
+            border-bottom: none;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            .h4 {
+                text-align: center;
+                font: normal normal bold 20px/24px Montserrat;
+                letter-spacing: 7px;
+                color: #146F62;
+                opacity: 1;
+                margin-top: 1.5rem;
+            }
+
+            .modalClose {
+                position: absolute;
+                right: 5px;
+                top: 5px;
+                padding: 2px;
+
+                &:hover {
+                    background: #E1E1E1 0% 0% no-repeat padding-box;
+                    border-radius: 1px;
+                    opacity: 1;
+                    cursor: pointer;
+                }
+            }
+        }
+
+        .modal-body {
+            width: auto;
+            // height: 500px !important;
+            background: #E1E1E1 0% 0% no-repeat padding-box;
+            border-radius: 4px;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+            margin-left: 18px;
+            margin-bottom: 12px;
+            margin-right: 18px;
+            overflow: scroll;
+            scrollbar-width: none !important;
+
+            -ms-overflow-style: none !important;
+            scrollbar-width: none !important;
+
+            &::-webkit-scrollbar {
+                display: none !important;
+            }
+
+            li {
+
+                // list-style-position: inside;
+                // margin-top: 0px;
+                color: #146F62;
+                padding: 5px;
+
+                .log-item-text {
+                    text-align: left;
+                    font: normal normal normal 12px/15px Montserrat;
+                    letter-spacing: 0px;
+                    color: #3F4448;
+                    text-transform: uppercase;
+                    display: inline-table;
+                    max-width: 400px;
+                    word-wrap: break-word;
+                }
+
+                .log-item-date {
+                    text-align: right;
+                    font: normal normal 300 12px/15px Montserrat;
+                    letter-spacing: 0px;
+                    color: #3F4448;
+                    text-transform: uppercase;
+                    display: inline-table;
+                    max-width: 90px;
+                    word-wrap: break-word;
+                }
+
+            }
+
+
+        }
     }
 }
 

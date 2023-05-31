@@ -68,6 +68,7 @@ export const CreateContractor = () => {
   const [item, setItem] = useState();
   const [serviceType, setServiceType] = useState();
   const [description, setDescription] = useState("");
+  const [folio, setFolio] = useState("");
   const [checkboxState, setCheckboxState] = useState(false);
   const [startContract, setstartContract] = useState();
   const [endContract, setendContract] = useState();
@@ -169,7 +170,8 @@ export const CreateContractor = () => {
         contractor: { id: contractor },
         starDate: startMilliseconds,
         endDate: endMilliseconds,
-        description: description
+        description: description,
+        folio:folio
       };
       /*author mazhar iqbal
         create contract
@@ -233,8 +235,9 @@ export const CreateContractor = () => {
         <p className="__header">{t("contract_data")}</p>
         <div className="formCard">
           <div className="mt-2 __body">
+            <Box sx={{display:'flex', gap:"4.5rem"}}>
             <Box
-              style={{ width: "45%", marginLeft: "15px" }}
+              sx={{ width: "100%",marginLeft:"15px" }}
               className="inputField"
             >
               <FormControl fullWidth
@@ -275,6 +278,33 @@ export const CreateContractor = () => {
                     })}
                 </Select>
               </FormControl>
+            </Box>
+            <Box  sx={{ width: "100%",marginRight:"15px" }}>
+            <TextField size="small"
+                className="inputField"
+                fullWidth
+                id="outlined-multiline-static"
+                label={t("folio")}
+               
+value={folio}
+                // defaultValue="Type some description if necessary..."
+                style={{ color: "#707070"}}
+                onChange={(e) => setFolio(e.target.value)}
+
+                sx={{
+                  textAlign: i18n.dir() == "rtl" ? "right" : "left",
+                  "& 	.MuiOutlinedInput-notchedOutline": {
+                    textAlign: i18n.dir() == "rtl" ? "right" : "left",
+                  },
+                  "& 	.MuiInputLabel-root": {
+                    fontSize: 12,
+                    left: i18n.dir() == "rtl" ? "inherit" : "0",
+                    right: i18n.dir() == "rtl" ? "1.75rem" : "0",
+                    transformOrigin: i18n.dir() == "rtl" ? "right" : "left"
+                  }
+                }}
+              />
+            </Box>
             </Box>
             <div className="col-md-12 d-flex">
               <Box

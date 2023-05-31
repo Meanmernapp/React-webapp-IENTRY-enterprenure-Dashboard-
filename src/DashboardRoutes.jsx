@@ -179,7 +179,9 @@ const DashboardRoutes = () => {
           <div className="col-md-2 p-0" style={{
             zIndex: "1"
           }}>
-            <div className="position-fixed">
+            <div 
+            className="position-fixed"
+            >
               <SideBar />
             </div>
           </div>
@@ -267,18 +269,18 @@ const DashboardRoutes = () => {
                   <Route path="create-order" element={<CreateOrder />} />
                   <Route path="upload-contractor" element={<UploadContractorFile />} />
                   <Route path="order-details" element={<OrderDetails />} />
-                  <Route path="provider-detail" element={<ProviderDetailsApproveDocuments />} />
+                  <Route path="supplier-detail" element={<ProviderDetailsApproveDocuments />} />
                   <Route path="vehicle-detail" element={<VehicleProviderDetails />} />
-                  <Route path="add-providers" element={<AddProviders />} />
-                  <Route path="update-providers" element={<UpdateProvider />} />
-                  <Route path="employee-providers-details" element={<ProviderDetails />} />
+                  <Route path="add-suppliers" element={<AddProviders />} />
+                  <Route path="update-suppliers" element={<UpdateProvider />} />
+                  <Route path="employee-suppliers-details" element={<ProviderDetails />} />
                   <Route path="approve-documents" element={<ApproveDocument />} />
-                  <Route path="upload-provider" element={<UploadProviderFile />} />
-                  <Route path='providers_deatail_page' element={<ProviderEmployeeDetails />} />
+                  <Route path="upload-supplier" element={<UploadProviderFile />} />
+                  <Route path='suppliers_deatail_page' element={<ProviderEmployeeDetails />} />
                 </Route>
 
                 {/* [provider work flow pages route start] */}
-                <Route path="provider" element={<ProviderOutlet />} >
+                <Route path="supplier" element={<ProviderOutlet />} >
                   <Route index path="providers-outlet" element={<ProvidersPanel />} />
                   <Route path="orders" element={<AllOrderProvider />} />
                   <Route path="employees" element={<AllEmploeesProvider />} />
@@ -287,7 +289,7 @@ const DashboardRoutes = () => {
                   <Route path="vehicle-documents" element={<VehicleDetail approveDocumentVehicle={true} />} />
                   <Route path="complete-order" element={<CompleteOrder isUpdateOrder={false} />} />
                   <Route path="update-order" element={<CompleteOrder isUpdateOrder={true} />} />
-                  <Route path="provider-order-detail" element={<ProviderOrderDetail approveDocument={false} />} />
+                  <Route path="supplier-order-detail" element={<ProviderOrderDetail approveDocument={false} />} />
                   <Route path="complete-document" element={<ProviderOrderDetail approveDocument={true} />} />
                   <Route path="order-detail" element={<OrderDetail />} />
                   <Route path="create-employee" element={<CreateEmployeeProvider />} />

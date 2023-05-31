@@ -239,7 +239,9 @@ const ContractorDetails = () => {
             </div>
             <div className="content">
               <div className="order">
-                <strong>Contract</strong>
+                <strong>{t("folio")}
+                <span> # {contractDetail?.folio || "-"}</span> 
+                </strong>
                 {/* <span>{contractDetail?.status?.id}</span>  */}
                 <div className="actual-details">
                   {contractDetail?.contractor?.user?.name}

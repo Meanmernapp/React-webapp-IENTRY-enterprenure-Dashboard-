@@ -46,7 +46,7 @@ const OnuVisitors = () => {
             />
             {
                 selectedEmployees.length !== 0 ?
-                    <div className="eventTables onuVistor" style={{ height: "13rem" }}>
+                    <div className="eventTables onuVistor animated-div" style={{ height: "13rem" }}>
                         <table style={{ width: "100%" }}>
                             <thead>
                                 <th className='first-head'>name</th>

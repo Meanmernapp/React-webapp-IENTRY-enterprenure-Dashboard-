@@ -8,13 +8,12 @@ import { handlePagination } from '../../../reduxToolkit/EmployeeEvents/EmployeeE
 import Cookies from "js-cookie";
 import { useTranslation } from 'react-i18next'
 
-const Incoming = () => {
+const Incoming = ({ toggleState, selectEventForDelete, isAllChecked, incomingsData, handelDeleteAll, handleCheckboxChange }) => {
   const { t } = useTranslation();
   const lCode = Cookies.get("i18next") || "en";
   const dispatch = useDispatch();
-  const incomingsData = useSelector(state => state?.EmployeeEventsSlice?.incomingEvents);
   // const pageableObj = useSelector(state => state?.EmployeeEventsSlice?.pageableObj);
-  console.log(incomingsData)
+  // console.log(incomingsData)
   let body;
   var today = new Date();
   let time_in_miliseconds = today.getTime();
@@ -87,12 +86,18 @@ const Incoming = () => {
       {
         incomingsData?.content?.length !== 0 ?
           <>
-            <div className="eventTables"
+            <div className="panelTables px-1 animated-div"
             // style={{ height: "25rem" }}
             >
               <table style={{ width: "100%" }}>
                 <thead>
-                  <th className='first-head'>{t('name')}</th>
+                  <th className='first_head'>
+                    <input type="checkbox" className="checkbox"
+                      checked={isAllChecked}
+                      onChange={handelDeleteAll}
+                    />
+                  </th>
+                  <th className='first_head'>{t('name')}</th>
                   <th>{t('zone')}</th>
                   <th>{t('host')}</th>
                   <th>{t('date')}</th>
@@ -101,6 +106,13 @@ const Incoming = () => {
                 {
                   incomingsData?.content?.map(item => (
                     <tr key={item.id}>
+                      <td className='first'>
+                        <input type="checkbox" className="checkbox"
+                          checked={selectEventForDelete?.includes(item?.id)}
+                          id={item?.id}
+                          onChange={handleCheckboxChange}
+                        />
+                      </td>
                       <td className='first'>{item?.name ? item?.name : "-"}</td>
                       <td>{item?.reservation?.zone?.name ? item?.reservation?.zone?.name : "-"}</td>
                       <td>{item?.host?.name ? item?.host?.name : "-"}</td>
@@ -108,7 +120,7 @@ const Incoming = () => {
                         {item?.createdAt ? new Date(item?.createdAt).toJSON().split("T")[0] : "-"}<br />
                         {item?.createdAt ? new Date(item?.createdAt).toJSON().split("T")[1].split(".")[0] : "-"}
                       </td>
-                      <td className='last'>
+                      <td className='tableIcon'>
                         <EventDropDown dropDownProps={dropDownProps} event={item} />
                       </td>
                     </tr>

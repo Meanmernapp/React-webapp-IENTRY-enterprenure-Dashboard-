@@ -16,12 +16,13 @@ const ZoneCardDetail = ({ item }) => {
 
   // a function to calculate total device
   const CalculateTotalDevice = (item) => {
-    const totalDevice = item?.accessDeviceDTO?.noMantra +
-      item?.accessDeviceDTO?.noPda +
-      item?.accessDeviceDTO?.noTelpo450 +
-      item?.accessDeviceDTO?.noTelpo980 +
-      item?.accessDeviceDTO?.noTelpoF6 +
-      item?.accessDeviceDTO?.noTelpoK5
+    const totalDevice = item?.accessDeviceProjection?.noMantra +
+      item?.accessDeviceProjection?.noPda +
+      item?.accessDeviceProjection?.noTelpo450 +
+      item?.accessDeviceProjection?.noTelpo980 +
+      item?.accessDeviceProjection?.noTelpoF6 +
+      item?.accessDeviceProjection?.noTelpoK5 +
+      item?.accessDeviceProjection?.noTelpoF10
 
     return totalDevice
   }
@@ -42,27 +43,31 @@ const ZoneCardDetail = ({ item }) => {
             <tbody>
               <tr >
                 <td>{t("MANTARA")}</td>
-                <td className="text-center">{item?.accessDeviceDTO?.noMantra}</td>
+                <td className="text-center">{item?.accessDeviceProjection?.noMantra}</td>
               </tr>
               <tr >
                 <td> {t("PDA")}</td>
-                <td className="text-center">{item?.accessDeviceDTO?.noPda}</td>
+                <td className="text-center">{item?.accessDeviceProjection?.noPda}</td>
               </tr>
               <tr >
                 <td>{t("TELPO450")}</td>
-                <td className="text-center">{item?.accessDeviceDTO?.noTelpo450}</td>
+                <td className="text-center">{item?.accessDeviceProjection?.noTelpo450}</td>
               </tr>
               <tr >
                 <td>{t("TELPO980")}</td>
-                <td className="text-center">{item?.accessDeviceDTO?.noTelpo980}</td>
+                <td className="text-center">{item?.accessDeviceProjection?.noTelpo980}</td>
               </tr>
               <tr >
                 <td>{t("TELPOF6")}</td>
-                <td className="text-center">{item?.accessDeviceDTO?.noTelpoF6}</td>
+                <td className="text-center">{item?.accessDeviceProjection?.noTelpoF6}</td>
               </tr>
               <tr >
                 <td>{t("TELPOk5")}</td>
-                <td className="text-center">{item?.accessDeviceDTO?.noTelpoK5}</td>
+                <td className="text-center">{item?.accessDeviceProjection?.noTelpoK5}</td>
+              </tr>
+              <tr >
+                <td>{t("TELPOF10")}</td>
+                <td className="text-center">{item?.accessDeviceProjection?.noTelpoF10}</td>
               </tr>
             </tbody>
           </Table>

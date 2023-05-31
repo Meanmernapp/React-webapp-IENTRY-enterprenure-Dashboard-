@@ -65,12 +65,12 @@ const CustomToggle = React.forwardRef(({ children, onClick }, ref) => {
 });
 
 
-const LanguageSelector = () => {
+const LanguageSelector = ({isMenuOpen,menutop}) => {
     const currentLanguageCode = Cookies.get("i18next") || "en";
     const [currentLanguage, setCurrentLanguage] = useState({});
     const [open, setOpen] = useState(false)
     const { t } = useTranslation();
-
+    
     useEffect(() => {
         setCurrentLanguage(languages.find((l) => l.code === currentLanguageCode))
         document.body.dir = currentLanguage?.dir || "ltr";
@@ -98,9 +98,13 @@ const LanguageSelector = () => {
 
     return (
         <div className="languageSelector">
-            <Dropdown drop='end'>
+            <Dropdown drop="end">
                 <Dropdown.Toggle as={CustomToggle} />
                 <Dropdown.Menu
+                className={menutop === false && (currentLanguageCode==="ar"   ? isMenuOpen ? "leftArbicL":"leftArbicLClose" : isMenuOpen ? "notleftL":"notleftLClose")
+                ||menutop === true && ( currentLanguageCode === "ar" ?"leftArbicLM":"notleftLM")
+            }
+                
                     size="sm"
                     title="Change Languages"
                 >

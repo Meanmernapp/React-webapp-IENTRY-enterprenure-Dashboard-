@@ -24,19 +24,42 @@ const ZonesCard = ({ getAllCompanybyProviderId }) => {
                     <p onClick={() => setModalShow(true)}>{item?.user?.name} </p>
                   </div>
                   {/* <div>
-
                     <Link style={{ fontSize: '10px', cursor: 'pointer', marginLeft: '10rem' }} to={"/dashboard/singlezonedetails"}>Manage Zone</Link>
                   </div> */}
-                  <div className="rightText rightSide">
-                    <span>{t("active")} </span>
-                    <div className="circle_status_provide">
+                  <div className="rightText rightSide"
+                  
+                  >
+                    <span
+                    style={
+                      item?.user?.status?.id == 1 && {color:"808080"} ||
+                      item?.user?.status?.id == 2 && {color:"yellow"} ||
+                      item?.user?.status?.id == 3 && {color:"blue"} ||
+                      item?.user?.status?.id == 4 && {color:"green"} ||
+                      item?.user?.status?.id == 5 && {color:"orange"} ||
+                      item?.user?.status?.id == 6 && {color:"red"} 
 
-                    </div>
+                      
+                    }
+                    >{item?.user?.status?.name.replaceAll(
+                      "_",
+                      " "
+                    )} </span>
+                    <div className="circle_status_provider" 
+                    style={
+                      item?.user?.status?.id == 1 && {background:"808080"} ||
+                      item?.user?.status?.id == 2 && {background:"yellow"} ||
+                      item?.user?.status?.id == 3 && {background:"blue"} ||
+                      item?.user?.status?.id == 4 && {background:"green"} ||
+                      item?.user?.status?.id == 5 && {background:"orange"} ||
+                      item?.user?.status?.id == 6 && {background:"red"} 
+                    }
+                    />
+                   
                   </div>
                 </div>
               </Accordion.Header>
               <Accordion.Body>
-                <ProviderCardDetails item={item} />
+                <ProviderCardDetails item={item} doc="employee" />
               </Accordion.Body>
             </Accordion.Item>
           ))

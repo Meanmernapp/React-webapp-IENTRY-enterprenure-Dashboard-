@@ -81,8 +81,8 @@ const LoginOption = () => {
                                                     user?.data?.status?.id == 3 && user?.data?.userType?.name == "EMPLOYEE" && "/dashboard/employee/company/user-Documents" ||
                                                     user?.data?.status?.id != 3 && user?.data?.userType?.name == "EMPLOYEE" && "/dashboard/employee/company" ||
                                                     // for provider
-                                                    user?.data?.status?.id == 3 && user?.data?.userType?.name == "PROVIDER_IN_CHARGE" && "/dashboard/provider/user-Documents" ||
-                                                    user?.data?.status?.id != 3 && user?.data?.userType?.name == "PROVIDER_IN_CHARGE" && "/dashboard/provider/orders" ||
+                                                    user?.data?.status?.id == 3 && user?.data?.userType?.name == "PROVIDER_IN_CHARGE" && "/dashboard/supplier/user-Documents" ||
+                                                    user?.data?.status?.id != 3 && user?.data?.userType?.name == "PROVIDER_IN_CHARGE" && "/dashboard/supplier/orders" ||
                                                     // for contractor
                                                     user?.data?.status?.id == 3 && user?.data?.userType?.name == "CONTRACTOR_IN_CHARGE" && "/dashboard/contractor/contracts/user-Documents" ||
                                                     user?.data?.status?.id != 3 && user?.data?.userType?.name == "CONTRACTOR_IN_CHARGE" && "/dashboard/contractor/contracts"
@@ -116,8 +116,8 @@ const LoginOption = () => {
                                                     user?.data?.status?.id == 3 && user?.data?.userType?.name == "EMPLOYEE" && "/dashboard/employee/company/user-Documents" ||
                                                     user?.data?.status?.id != 3 && user?.data?.userType?.name == "EMPLOYEE" && "/dashboard/employee/company" ||
                                                     // for provider
-                                                    user?.data?.status?.id == 3 && user?.data?.userType?.name == "PROVIDER_IN_CHARGE" && "/dashboard/provider/user-Documents" ||
-                                                    user?.data?.status?.id != 3 && user?.data?.userType?.name == "PROVIDER_IN_CHARGE" && "/dashboard/provider/orders" ||
+                                                    user?.data?.status?.id == 3 && user?.data?.userType?.name == "PROVIDER_IN_CHARGE" && "/dashboard/supplier/user-Documents" ||
+                                                    user?.data?.status?.id != 3 && user?.data?.userType?.name == "PROVIDER_IN_CHARGE" && "/dashboard/supplier/orders" ||
                                                     // for contractor
                                                     user?.data?.status?.id == 3 && user?.data?.userType?.name == "CONTRACTOR_IN_CHARGE" && "/dashboard/contractor/contracts/user-Documents" ||
                                                     user?.data?.status?.id != 3 && user?.data?.userType?.name == "CONTRACTOR_IN_CHARGE" && "/dashboard/contractor/contracts"

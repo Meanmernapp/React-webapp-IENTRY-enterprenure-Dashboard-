@@ -1,6 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { apiInstance } from '../../Apis/Axios';
 import { toast } from "react-toastify";
+import { UploadImage } from "../ShareSlice/shareApi";
+import { UploadProviderImage } from "../Providers/providersApi";
 
 //Update User
 export const UpdateUserExtraData = createAsyncThunk("contractor/UpdateUserExtraData", async (params) => {
@@ -298,11 +300,7 @@ export const UploadExternalDocumentComment = createAsyncThunk("contractor/Upload
   return { data, status }
 })
 
-
-
-
-
-///ApI Releated Vehicle
+///ApI Releated //////////Vehicle   ///////////////////////
 
 //Add Vehicle
 export const AddNewVehicle = createAsyncThunk("contractor/AddNewVehicle", async (param) => {
@@ -336,18 +334,19 @@ export const AddNewVehicle = createAsyncThunk("contractor/AddNewVehicle", async 
 
   //Get List of vehicle by Contractor id
 
-  export const GetVehicleByContractorId = createAsyncThunk("contractor/GetVehicleByContractorId", async (param) => {
-    const {contractorID, contractPagination}=param
-    let result = await apiInstance.post(`contractor-vehicle-service/get-all-pageable/by-contractor-id/${contractorID}`,contractPagination).then(function (response) {
-      if(response.status == 201 || response.status == 200){
-      }
-       return response
-        }).catch(function (error) {
-            return error.response
-        }) 
+  export const ContractorlistOfVehicles = createAsyncThunk("contractor/contractorlistOfVehicles", async (params, { dispatch, getState }) => {
+    const { contractorId } = params
+    let result = await apiInstance.post(`contractor-vehicle-service/get-all-pageable/by-contractor-id/${contractorId}`, params?.pagination).then(function (response) {
+        return response
+    }).catch(function (error) {
+        return error.response
+    })
     const { data, status } = result
+    //console.log(result)
+
     return { data, status }
-})
+});
+
 
 //Get Vehicle Detail By Vehicle Detail
 export const GetVehicleDetailById = createAsyncThunk("contractor/GetVehicleDetailById", async (id) => {
@@ -627,8 +626,6 @@ export const UpdateEmployeData = createAsyncThunk("contractor/GetUserDetailForUp
   return { data, status }
 })
 
-
-
 //Download Docments
 
 export const DownloadCompanyExternalDocuments = createAsyncThunk("contractor/DownloadCompanyExternalDocuments", async(params) => {
@@ -712,12 +709,10 @@ export const CheckCompanyRestriction = createAsyncThunk("contractor/CheckCompany
   return { data, status }
 })
 
+//Documents for contractors
 
-
-//Documents
-
-export const GetAllContractorDocuments = createAsyncThunk("contractor/GetAllContractorDocuments", async (id) => {
-  let result = await apiInstance.get(`document-service/external/get-all/by-user-id/${id}`).then(function (response) {
+export const GetAllContractorDocuments = createAsyncThunk("contractor/getAllContractorDocuments", async (id) => {
+  let result = await apiInstance.get(`document-service/contractor/get-all/by-user-id/${id}`).then(function (response) {
     if(response.status == 201 || response.status == 200){
     console.log("All DOC?????",response)
     }
@@ -729,3 +724,170 @@ export const GetAllContractorDocuments = createAsyncThunk("contractor/GetAllCont
   const { data, status } = result
   return { data, status }
 })
+
+// create contractor document value
+export const CreateContractorDocValue = createAsyncThunk("contractor/createContractorDocValue", async (params, { dispatch, getState }) => {
+
+  let result = await apiInstance.post(`document-service/contractor/create`, params?.data).then(function (response) {
+      if (params?.file) {
+
+          let formData = new FormData();
+          formData.append('id', response?.data?.data?.id);
+          formData.append('option', "contractor_document");
+          formData.append('file', params?.file);
+          dispatch(UploadImage(formData))
+      }
+      return response
+  }).catch(function (error) {
+      return error.response
+  })
+  const { data, status } = result
+  //console.log(result)
+  return { data, status }
+})
+
+// set cotractor document value
+export const SetContractorDocValue = createAsyncThunk("contractor/setContractorDocValue", async (params, { dispatch, getState }) => {
+
+  let result = await apiInstance.put(`document-service/contractor/set-comment`, params).then(function (response) {
+      return response
+  }).catch(function (error) {
+      return error.response
+  })
+  const { data, status } = result
+  //console.log(result)
+  return { data, status }
+})
+
+
+// contractor Employee
+export const ContractorslistOfEmployees = createAsyncThunk("contractor/contractorslistOfEmployees", async (params, { dispatch, getState }) => {
+  const { contractorId } = params
+  let result = await apiInstance.post(`contractor-employee-service/get-all-pageable/by-contractor-id/${contractorId}`, params?.pagination).then(function (response) {
+      return response
+  }).catch(function (error) {
+      return error.response
+  })
+  const { data, status } = result
+  //console.log(result)
+
+  return { data, status }
+});
+// get contractor by user id
+export const GetContractorsByUserId = createAsyncThunk("contractor/getContractorsByUserId", async (params, { dispatch, getState }) => {
+  const { userId } = params
+  let result = await apiInstance.get(`contractor-service/get-by-user-id/${userId}`).then(function (response) {
+      return response
+  }).catch(function (error) {
+      return error.response
+  })
+  const { data, status } = result
+  //console.log(result)
+
+  return { data, status }
+});
+
+// details of contractor employee
+export const GetContractorEmployeeDetail = createAsyncThunk("contractor/getContractorEmployeeDetail", async (params, { dispatch, getState }) => {
+
+  let result = await apiInstance.get(`contractor-employee-service/company/get-by-user-id/${params}`).then(function (response) {
+      return response
+  }).catch(function (error) {
+      return error.response
+  })
+  const { data, status } = result
+  //console.log(result)
+  return { data, status }
+});
+
+// check preregister user 
+
+
+
+// create employee contractor
+export const CreateContractorUserRelationship = createAsyncThunk("contractor/createContractorUserRelationship", async (params, { dispatch, getState }) => {
+
+  let result = await apiInstance.post(`contractor-employee-service/v1/create`, params?.data).then(function (response) {
+      toast.success(" successfully  created")
+      console.log(response?.data?.data?.userId)
+      const imgData = {
+        user: {
+            id: response?.data?.data?.userId,
+        },
+        accessMethod: {
+            id: "5"
+        },
+        description: "Face recognition"
+
+    }
+    // want to update or create image
+    if (params?.file != "") {
+        dispatch(UploadProviderImage({ imgData, file:params?.file }))
+    }
+      return response
+  }).catch(function (error) {
+      return error.response
+  })
+  const { data, status } = result
+  //console.log(result)
+
+  return { data, status }
+});
+
+
+// get contractor status
+export const GetContractorStatus = createAsyncThunk("contractor/getContractorStatus", async (params, { dispatch, getState }) => {
+  
+  let result = await apiInstance.get(`status-service/get-all-to-contractor`).then(function (response) {
+      return response
+  }).catch(function (error) {
+      return error.response
+  })
+  const { data, status } = result
+  return { data, status }
+});
+
+// get contractor info by id
+export const GetContractorInfoById = createAsyncThunk("contractor/getContractorInfoById", async (params, { dispatch, getState }) => {
+  
+  let result = await apiInstance.get(`contractor-employee-service/v1/get-by-user-id/${params}`).then(function (response) {
+      return response
+  }).catch(function (error) {
+      return error.response
+  })
+  const { data, status } = result
+  return { data, status }
+});
+
+
+
+// update employee contractor
+export const UpdateContractorUserRelationship = createAsyncThunk("contractor/updateContractorUserRelationship", async (params, { dispatch, getState }) => {
+
+  let result = await apiInstance.put(`contractor-employee-service/v1/update`, params?.data).then(function (response) {
+      toast.success(" successfully  updated")
+      console.log(response?.data?.data?.userId)
+      const imgData = {
+        user: {
+            id: response?.data?.data?.userId,
+        },
+        accessMethod: {
+            id: "5"
+        },
+        description: "Face recognition"
+
+    }
+    // want to update or create image
+    if (params?.file != "") {
+        dispatch(UploadProviderImage({ imgData, file:params?.file }))
+    }
+      return response
+  }).catch(function (error) {
+      return error.response
+  })
+  const { data, status } = result
+  //console.log(result)
+
+  return { data, status }
+});
+

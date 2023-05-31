@@ -40,7 +40,11 @@ const providersSlice = createSlice({
         getSingleUserProvider: {},
         getUserDocuments: {},
         getUserExtraData: {},
-        getUserCompanyRestrictionData: {}
+        getUserCompanyRestrictionData: {},
+        getAllSupplierDocumentsById:[],
+        createSupplierDocValue:{},
+        setSupplierDocValue:{},
+        saveProviderVehicleImage:{}
 
 
 
@@ -142,7 +146,7 @@ const providersSlice = createSlice({
 
         ["providers/providerslistOfEmployees/fulfilled"]: (state, action) => {
             const { data, status } = action.payload || {}
-            //console.log("from providerslistOfEmployees slice", data)
+            // console.log("from providerslistOfEmployees slice", data)
             if (status >= 200 && status < 300) {
                 // toast(data.message)
                 state.providerslistOfEmployees = data?.data
@@ -261,8 +265,7 @@ const providersSlice = createSlice({
                 state.downloadProviderImage = data
             }
             else if (status >= 400 && status < 500) {
-                //console.log("Fail to downloadProviderImage")
-                // toast("Fail to fetch Zone Devices Lists")
+                toast.error("file not Found")
             }
         },
         ["providers/downloadCompanyFile/fulfilled"]: (state, action) => {
@@ -434,6 +437,19 @@ const providersSlice = createSlice({
                 // toast("Fail to fetch Zone Devices Lists")
             }
         },
+        ["providers/saveProviderVehicleImage/fulfilled"]: (state, action) => {
+            const { data, status } = action.payload || {}
+            //console.log("from saveProviderVehicleImage slice", data)
+            if (status >= 200 && status < 300) {
+                // toast(data.message)
+                state.saveProviderVehicleImage = data
+            }
+            else if (status >= 400 && status < 500) {
+                //console.log("Fail to saveProviderVehicleImage")
+                // toast("Fail to fetch Zone Devices Lists")
+            }
+        },
+        
 
         ["providers/downloadCompanyVehicleFile/fulfilled"]: (state, action) => {
             const { data, status } = action.payload || {}
@@ -538,6 +554,36 @@ const providersSlice = createSlice({
             }
         },
 
+
+        ["providers/getAllSupplierDocumentsById/fulfilled"]: (state, action) => {
+            const { data, status } = action.payload || {}
+            
+            if (status >= 200 && status < 300) {
+                state.getAllSupplierDocumentsById = data?.data
+            }
+            else if (status >= 400 && status < 500) {
+            }
+        },
+
+        ["providers/setSupplierDocValue/fulfilled"]: (state, action) => {
+            const { data, status } = action.payload || {}
+            
+            if (status >= 200 && status < 300) {
+                state.setSupplierDocValue = data
+            }
+            else if (status >= 400 && status < 500) {
+            }
+        },
+        ["providers/createSupplierDocValue/fulfilled"]: (state, action) => {
+            const { data, status } = action.payload || {}
+            
+            if (status >= 200 && status < 300) {
+                state.createSupplierDocValue = data?.data
+            }
+            else if (status >= 400 && status < 500) {
+            }
+        },
+        
 
 
 

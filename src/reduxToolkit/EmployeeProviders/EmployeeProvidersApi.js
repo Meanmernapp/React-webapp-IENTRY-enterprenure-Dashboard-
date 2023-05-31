@@ -2,14 +2,12 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 import { apiInstance } from '../../Apis/Axios';
 import { ClearGetEmployeeProviderByEmail, ClearGetEmployeeProviderByPhoneNumber } from "./EmployeeProviderSlice";
-
+import { apiInstanceV2 } from '../../Apis/AxiosV2';
 //   @create order flow start
 
 // Display orders list with pagination 
 export const GetEmployeeProviderOrders = createAsyncThunk("employeeProvider/getEmployeeProviderOrders", async (params, { dispatch, getState }) => {
 
-    // const { user } = params || {};
-    // alert("hi")
     const date = 1654119668000
     const providerEmployeeId = "34483be8-8e88-4749-b55d-6f16c9a4c721"
 
@@ -32,7 +30,7 @@ export const CreateEmployeeProviderOrders = createAsyncThunk("employeeProvider/c
     try {
 
 
-        let result = await apiInstance.post(`order-service/create`, params?.data).then(function (response) {
+        let result = await apiInstanceV2.post(`order-service/create`, params?.data).then(function (response) {
             return response
         }).catch(function (error) {
             console.log(error.response)
@@ -44,7 +42,7 @@ export const CreateEmployeeProviderOrders = createAsyncThunk("employeeProvider/c
         console.log(result)
 
         if (status == 201) {
-            params.navigate('/dashboard/employee/providers', { replace: true })
+            params.navigate('/dashboard/employee/suppliers', { replace: true })
         }
 
         return { data, status }
@@ -75,7 +73,7 @@ export const UpdateEmployeeProviderOrders = createAsyncThunk("employeeProvider/u
 // see detials order  (provider-module order-controller)  (done  (but need to fix status))
 export const DetailsEmployeeProviderOrder = createAsyncThunk("employeeProvider/detailsEmployeeProviderOrders", async (params, { dispatch, getState }) => {
 
-    let result = await apiInstance.get(`order-service/get-by-id/${params}`).then(function (response) {
+    let result = await apiInstanceV2.get(`order-service/get-by-id/${params}`).then(function (response) {
         return response
     }).catch(function (error) {
         return error.response
@@ -90,7 +88,7 @@ export const DetailsEmployeeProviderOrder = createAsyncThunk("employeeProvider/d
 // in order detail page wanna see detail of  employees   (done but no document found need to fix document mapping)
 export const DetailsEmployeeProviderEmployee = createAsyncThunk("employeeProvider/detailsEmployeeProviderEmployee", async (params, { dispatch, getState }) => {
 
-    let result = await apiInstance.get(`provider-employee-service/company/get-by-user-id/${params}`).then(function (response) {
+    let result = await apiInstance.get(`supplier-employee-service/company/get-by-user-id/${params}`).then(function (response) {
         return response
     }).catch(function (error) {
         return error.response
@@ -101,7 +99,7 @@ export const DetailsEmployeeProviderEmployee = createAsyncThunk("employeeProvide
     return { data, status }
 
 });
-// in order detail page of employeee provider details wanna download files      (done but need to test)
+// in order detail page of employeee supplier details wanna download files      (done but need to test)
 export const DownloadEmployeeProviderOrderFiles = createAsyncThunk("employeeProvider/downloadEmployeeProviderOrderFiles", async (params, { dispatch, getState }) => {
 
     const { id, option } = params || {};
@@ -120,7 +118,7 @@ export const DownloadEmployeeProviderOrderFiles = createAsyncThunk("employeeProv
 //in order detail page wanna see vehicle deatils    (done by need to fix with real data name)
 export const DetailsEmployeeProviderVehicle = createAsyncThunk("employeeProvider/detailsEmployeeProviderVehicle", async (params, { dispatch, getState }) => {
 
-    let result = await apiInstance.get(`provider-vehicle-service/get-by-vehicle-id/${params}`).then(function (response) {
+    let result = await apiInstance.get(`supplier-vehicle-service/get-by-vehicle-id/${params}`).then(function (response) {
         return response
     }).catch(function (error) {
         return error.response
@@ -149,7 +147,7 @@ export const DetailsEmployeeProvider = createAsyncThunk("employeeProvider/detail
 // Get list of provider (done)
 export const GetEmployeeProviderLists = createAsyncThunk("employeeProvider/getEmployeeProviderLists", async (params, { dispatch, getState }) => {
 
-    let result = await apiInstance.get(`provider-service/get-all`).then(function (response) {
+    let result = await apiInstanceV2.get(`supplier-service/get-all`).then(function (response) {
         return response
     }).catch(function (error) {
         return error.response
@@ -163,7 +161,7 @@ export const GetEmployeeProviderLists = createAsyncThunk("employeeProvider/getEm
 //Get all orders requested by employee after date with pagination (incoming) (done )
 export const GetIncomingProvidersPaginable = createAsyncThunk("employeeProvider/getIncomingProvidersPaginable", async (params, { dispatch, getState }) => {
 
-    let result = await apiInstance.post(`order-service/company/get-all-pageable/incoming/${params?.date}`, params?.pagination).then(function (response) {
+    let result = await apiInstanceV2.post(`order-service/company/get-all-pageable/incoming/${params?.date}`, params?.pagination).then(function (response) {
         return response
     }).catch(function (error) {
         return error.response
@@ -177,7 +175,7 @@ export const GetIncomingProvidersPaginable = createAsyncThunk("employeeProvider/
 //Get all orders requested by employee after date with pagination (Records)   (done)
 export const GetRecordsProvidersPaginable = createAsyncThunk("employeeProvider/getRecordsProvidersPaginable", async (params, { dispatch, getState }) => {
 
-    let result = await apiInstance.post(`order-service/company/get-all-pageable/records/${params?.date}`, params?.pagination).then(function (response) {
+    let result = await apiInstanceV2.post(`order-service/company/get-all-pageable/records/${params?.date}`, params?.pagination).then(function (response) {
         return response
     }).catch(function (error) {
         return error.response
@@ -263,9 +261,9 @@ export const GetEmployeeProviderByPhoneNumber = createAsyncThunk("employeeProvid
 export const CreateEmployeeProviderPreUser = createAsyncThunk("employeeProvider/EmployeeProviderPreUser", async (params, { dispatch, getState }) => {
 
 
-    const { email, name, phoneNumber } = params || {};
+    const { email, name, phoneNumber,lastName, secondLastName } = params || {};
 
-    let result = await apiInstance.post(`authentication-service/pre-register-user`, { email, name, phoneNumber }).then(function (response) {
+    let result = await apiInstanceV2.post(`authentication-service/pre-register-user`, { email, name, phoneNumber,lastName, secondLastName }).then(function (response) {
         return response
     }).catch(function (error) {
         console.log(error)
@@ -287,7 +285,7 @@ export const CreateEmployeeProvider = createAsyncThunk("employeeProvider/createE
 
     // const { email, name, phoneNumber } = params || {};
 
-    let result = await apiInstance.post(`provider-service/create`, params?.createprovider).then(function (response) {
+    let result = await apiInstanceV2.post(`supplier-service/create`, params?.createprovider).then(function (response) {
         return response
     }).catch(function (error) {
         console.log(error)
@@ -298,7 +296,7 @@ export const CreateEmployeeProvider = createAsyncThunk("employeeProvider/createE
     console.log(result)
 
     if (status == 201) {
-        params.navigate('/dashboard/employee/providers', { replace: true })
+        params.navigate('/dashboard/employee/suppliers', { replace: true })
     }
 
     return { data, status }
@@ -311,7 +309,7 @@ export const CreateEmployeeProvider = createAsyncThunk("employeeProvider/createE
 //get list of status provider (user-module status controller) (done)
 export const GetStatusListProvider = createAsyncThunk("employeeProvider/getStatusListProvider", async (params, { dispatch, getState }) => {
 
-    let result = await apiInstance.get(`status-service/get-all-to-provider`).then(function (response) {
+    let result = await apiInstanceV2.get(`status-service/get-all-to-supplier`).then(function (response) {
         return response
     }).catch(function (error) {
         return error.response
@@ -327,7 +325,7 @@ export const GetEmployeeProviderById = createAsyncThunk("employeeProvider/getEmp
 
     const { id } = params || {};
 
-    let result = await apiInstance.get(`provider-service/get-by-id/${id}`).then(function (response) {
+    let result = await apiInstanceV2.get(`supplier-service/get-by-id/${id}`).then(function (response) {
         return response
     }
     ).catch(function (error) {
@@ -344,7 +342,7 @@ export const UpdateEmployeeProviderInfo = createAsyncThunk("employeeProvider/upd
 
 
 
-    let result = await apiInstance.put(`user-service/update`, params).then(function (response) {
+    let result = await apiInstanceV2.put(`user-service/update`, params).then(function (response) {
         return response
     }
     ).catch(function (error) {
@@ -361,7 +359,7 @@ export const UpdateEmployeeProviderCompany = createAsyncThunk("employeeProvider/
 
 
 
-    let result = await apiInstance.put(`provider-service/update`, params).then(function (response) {
+    let result = await apiInstanceV2.put(`supplier-service/update`, params).then(function (response) {
 
         return response
     }
@@ -381,7 +379,7 @@ export const UpdateEmployeeProviderCompany = createAsyncThunk("employeeProvider/
 //Get All Pageable Provider /get-all-pageable (provider-module provider-controller) (done)
 export const GetAllPageableProvider = createAsyncThunk("employeeProvider/getAllPageableProvider", async (params, { dispatch, getState }) => {
 
-    let result = await apiInstance.post(`provider-service/get-all-pageable`, params.pagination).then(function (response) {
+    let result = await apiInstanceV2.post(`supplier-service/get-all-pageable`, params.pagination).then(function (response) {
         return response
     }
     ).catch(function (error) {
@@ -394,15 +392,13 @@ export const GetAllPageableProvider = createAsyncThunk("employeeProvider/getAllP
 
 })
 
-
-
 // Approve document
 
 //  /external/get-all/by-user-id/{userId} company-module document-controller (done)
 
 export const GetAllProviderDocuments = createAsyncThunk("employeeProvider/getAllProviderDocuments", async (params, { dispatch, getState }) => {
 
-    let result = await apiInstance.get(`document-service/external/get-all/by-user-id/${params}`).then(function (response) {
+    let result = await apiInstanceV2.get(`document-service/supplier/get-all/by-user-id/${params}`).then(function (response) {
         return response
     }
     ).catch(function (error) {
@@ -420,7 +416,7 @@ export const GetAllProviderDocuments = createAsyncThunk("employeeProvider/getAll
 export const GetAllCompanybyProviderId = createAsyncThunk("employeeProvider/getAllCompanybyProviderId", async (params, { dispatch, getState }) => {
 
 
-    let result = await apiInstance.post(`provider-employee-service/get-all-pageable/company/by-provider-id/${params?.providerId}`, params?.pagination).then(function (response) {
+    let result = await apiInstanceV2.post(`supplier-employee-service/get-all-pageable/company/by-supplier-id/${params?.providerId}`, params?.pagination).then(function (response) {
         return response
     }
     ).catch(function (error) {
@@ -433,13 +429,10 @@ export const GetAllCompanybyProviderId = createAsyncThunk("employeeProvider/getA
 
 })
 
-
-
-
 // /corporate-user-pre-prod-v1/document-service/approve-external-document (done)
 export const ApproveExternalDocument = createAsyncThunk("employeeProvider/approveExternalDocument", async (params, { dispatch, getState }) => {
 
-    let result = await apiInstance.post(`document-service/approve-external-document`, params).then(function (response) {
+    let result = await apiInstance.post(`document-service/supplier/approve-document`, params).then(function (response) {
         return response
     }).catch(function (error) {
         return error.response
@@ -450,14 +443,10 @@ export const ApproveExternalDocument = createAsyncThunk("employeeProvider/approv
     return { data, status }
 });
 
-
-// /corporate-user-pre-prod-v1/provider-vehicle-service/get-all-pageable/company/by-provider-id/{providerId}
-
-
 export const GetAllCompanyVehiclebyId = createAsyncThunk("employeeProvider/getAllCompanyVehiclebyId", async (params, { dispatch, getState }) => {
 
 
-    let result = await apiInstance.post(`provider-vehicle-service/get-all-pageable/company/by-provider-id/${params?.providerId}`, params?.pagination).then(function (response) {
+    let result = await apiInstanceV2.post(`supplier-vehicle-service/get-all-pageable/company/by-supplier-id/${params?.providerId}`, params?.pagination).then(function (response) {
         return response
     }
     ).catch(function (error) {

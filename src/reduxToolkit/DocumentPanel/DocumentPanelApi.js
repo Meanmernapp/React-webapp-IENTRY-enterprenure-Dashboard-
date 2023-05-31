@@ -1,6 +1,6 @@
 /*
 Author : Arman Ali
-Module: Zone
+Module: Document panel
 github: https://github.com/Arman-Arzoo
 */
 
@@ -165,7 +165,7 @@ export const CreateSupplierDoc = createAsyncThunk("documentPanel/createSupplierD
         departmentId:params?.departmentName,
         document:params?.documentName,
         instruction:params?.instructions,
-        isCompanyDocument:true
+        isCompanyDocument:params?.isCompanyDoc
 
     }
     let result = await apiInstanceV2.post(`document-service/supplier-company/create`, payload).then(function (response) {
@@ -193,7 +193,7 @@ export const CreateContractorDoc = createAsyncThunk("documentPanel/createContrac
         departmentId:params?.departmentName,
         document:params?.documentName,
         instruction:params?.instructions,
-        isCompanyDocument:true
+        isCompanyDocument:params?.isCompanyDoc
 
     }
     let result = await apiInstanceV2.post(`document-service/contractor-company/create`, payload).then(function (response) {
@@ -228,3 +228,108 @@ export const UploadDocImg = createAsyncThunk("documentPanel/uploadDocImg", async
 
     return { data, status }
 });
+
+
+// vehicle document api
+
+//List all the contractor document vehicle doc by id
+export const GetAllContractorVehicleDoc = createAsyncThunk("documentPanel/getAllContractorVehicleDoc", async (params, { dispatch, getState }) => {
+
+    let result = await apiInstanceV2.get(`document-service/contractor-vehicle-company/get-all`).then(function (response) {
+        return response
+    }).catch(function (error) {
+        return error.response
+    })
+    const { data, status } = result
+    console.log(result)
+
+    return { data, status }
+});
+
+//List all the supplier document vehicle doc by id
+export const GetAllSupplierVehicleDoc = createAsyncThunk("documentPanel/getAllSupplierVehicleDoc", async (params, { dispatch, getState }) => {
+
+    let result = await apiInstanceV2.get(`document-service/supplier-vehicle-company/get-all`).then(function (response) {
+        return response
+    }).catch(function (error) {
+        return error.response
+    })
+    const { data, status } = result
+    console.log(result)
+
+    return { data, status }
+});
+// delete all docuemnts
+export const DeleteAllVehicleDocument = createAsyncThunk("documentPanel/deleteAllVehicleDocument", async (params, { dispatch, getState }) => {
+
+    const name = params?.name ==="supplier" && "supplier-vehicle-company"||
+    params?.name ==="contractor" && "contractor-vehicle-company"
+        let result = await apiInstanceV2.delete(`document-service/${name}/delete-all`).then(function (response) {
+            return response
+        }).catch(function (error) {
+            return error.response
+        })
+        const { data, status } = result
+        console.log(result)
+    
+        return { data, status }
+    });
+
+// create supplier doc
+
+export const CreateSupplierVehicleDoc = createAsyncThunk("documentPanel/createSupplierVehicleDoc", async (params, { dispatch, getState }) => {
+    const payload = {
+           departmentId:params?.departmentName,
+           document:params?.documentName,
+           instruction:params?.instructions,
+           isCompanyDocument:false
+   
+       }
+       let result = await apiInstanceV2.post(`document-service/supplier-vehicle-company/create`, payload).then(function (response) {
+           
+           if(params?.uploadFile){
+               const formData = new FormData()
+               formData.append("file", params?.uploadFile)
+               formData.append("id",response?.data?.data?.id)
+               formData.append("option","supplier_vehicle_document_company")
+               dispatch(UploadDocImg(formData))
+   
+           }
+           return response
+       }).catch(function (error) {
+           return error.response
+       })
+       const { data, status } = result
+   
+       return { data, status }
+   });
+// create contractor doc
+   
+export const CreateContractorVehicleDoc = createAsyncThunk("documentPanel/createContractorVehicleDoc", async (params, { dispatch, getState }) => {
+       const payload = {
+           departmentId:params?.departmentName,
+           document:params?.documentName,
+           instruction:params?.instructions,
+           isCompanyDocument:false
+   
+       }
+       let result = await apiInstanceV2.post(`document-service/contractor-vehicle-company/create`, payload).then(function (response) {
+           
+           if(params?.uploadFile){
+               const formData = new FormData()
+               formData.append("file", params?.uploadFile)
+               formData.append("id",response?.data?.data?.id)
+               formData.append("option","contractor_vehicle_document_company")
+               dispatch(UploadDocImg(formData))
+   
+           }
+           return response
+       }).catch(function (error) {
+           return error.response
+       })
+       const { data, status } = result
+   
+       return { data, status }
+   });
+
+    

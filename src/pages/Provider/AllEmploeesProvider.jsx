@@ -1,216 +1,297 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import filter from "../../assets/images/filter.svg";
-import TablePagination from '@mui/material/TablePagination';
-import { CheckProviderImage, GetAllStatusProvider, GetProviderEmployeeDetail, GetProvidersEmployeeSortList, ProviderslistOfEmployees } from '../../reduxToolkit/Providers/providersApi';
-import FilterModalEmployee from './Modal/FilterModalEmployee';
-import { GetGenderListProvider } from '../../reduxToolkit/EmployeeProviders/EmployeeProvidersApi';
-import def from '../../assets/images/user-png.png';
-import { Box } from '@mui/material';
-import { useTranslation } from 'react-i18next';
-import NotFoundDataWarning from '../../components/NotFoundDataWarning';
 
+import FilterAltIcon from "@mui/icons-material/FilterAlt";
+import TablePagination from '@mui/material/TablePagination';
+import Cookies from "js-cookie";
+import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import eyeIcon from '../../assets/eye-solid.svg';
+import BoyAvatar from '../../assets/images/boyAvatarT.svg';
+import womanAvatar from '../../assets/images/womanAvatarT.png';
+import DisplayView from '../../components/DisplayView';
+import NotFoundDataWarning from '../../components/NotFoundDataWarning';
+import checkStatus from '../../hooks/checkStausColor';
+import statusId from '../../hooks/statusId';
+import { GetGenderListProvider } from '../../reduxToolkit/EmployeeProviders/EmployeeProvidersApi';
+import { GetAllStatusProvider, ProviderslistOfEmployees } from '../../reduxToolkit/Providers/providersApi';
+import BootstrapTooltip from '../../utils/BootstrapTooltip';
+import AllEmployeeCards from './AllEmployeeCards';
 
 const AllEmploeesProvider = () => {
-    const { t } = useTranslation();
-    // useState
-    const dispatch = useDispatch()
-    const [orderBy, setOrderBy] = useState();
-    const [sortBy, setSortBy] = useState();
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(4);
-    const [showFilter, setShowFilter] = useState(false);
+  const lCode = Cookies.get("i18next") || "en";
+  const { t } = useTranslation();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-    // useSelector
+  const [view, setView] = useState("grid")
+  const [orderBy, setOrderBy] = useState();
+  const [sortBy, setSortBy] = useState();
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(8);
+  const [selectEmployeeForDelete, setSlectEmployeeForDelete] = useState([])
+  const [isAllChecked, setIsAllChecked] = useState(false)
 
-    const { providerslistOfEmployees } = useSelector(state => state?.providersSlice)
-    console.log(providerslistOfEmployees)
+  const { providerslistOfEmployees } = useSelector(state => state?.providersSlice)
+
+  console.log(providerslistOfEmployees)
 
 
-    const handlFilters = (order, sort) => {
-        setOrderBy(order);
-        setSortBy(sort);
+
+
+  // functions
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+  const handleChangeRowsPerPage = event => {
+    setRowsPerPage(parseInt(event.target.value));
+    setPage(0);
+  };
+
+
+  // this function control select all id or unSelect all
+  const handelDeleteAll = (e) => {
+    setIsAllChecked(e.target.checked)
+    if (e.target.checked) {
+      const selectAllIds = providerslistOfEmployees?.content?.map(item => {
+        return item?.id
+      })
+      setSlectEmployeeForDelete(selectAllIds)
+
+
+    } else {
+      setSlectEmployeeForDelete([])
     }
 
-    // functions
-    const handleChangePage = (event, newPage) => {
-        setPage(newPage);
-    };
-    const handleChangeRowsPerPage = event => {
-        setRowsPerPage(parseInt(event.target.value));
-        setPage(0);
-    };
+  }
+  // this function handle only specific id base on selection
+  const handleCheckboxChange = (e) => {
 
-    // useEffect 
-    useEffect(() => {
-        dispatch(GetGenderListProvider())
-        dispatch(GetAllStatusProvider())
+    if (e.target.checked) {
+      setSlectEmployeeForDelete([...selectEmployeeForDelete, e.target.id]);
+    } else {
+      setSlectEmployeeForDelete(selectEmployeeForDelete.filter((removeid) => removeid !== e.target.id));
+    }
+  };
 
-    }, [])
-    // useEffect for api call record with pagination
-    useEffect(() => {
-        const body = {
-            providerId: localStorage.getItem("providerId"),
-            pagination: {
-                "order": sortBy === 'asc' ? true : false,
-                "page": page,
-                "size": rowsPerPage,
-                "sortBy": orderBy ? orderBy : "id"
-            }
-        }
-        dispatch(ProviderslistOfEmployees(body));
-    }, [page, rowsPerPage, orderBy, sortBy])
-    return (
-        <div className="main_container_provider">
-            {/* Header */}
-            <div className="top_header_provider">
-                <h2>{t("employees")} </h2>
-                <div>
-                    <Link to="/dashboard/provider/create-employee">
-                        <button className='add' style={{ margin: "0 5px" }}>{t("add_employee")}</button>
-                    </Link>
-                    <button className="btn btn-primary filter" onClick={() => { setShowFilter(true) }}>
-                        <img src={filter} alt="" />
-                    </button>
-                    {
-                        showFilter &&
-                        <FilterModalEmployee setShowFilter={setShowFilter} handlFilters={handlFilters} />
+  // useEffect 
+  useEffect(() => {
+    dispatch(GetGenderListProvider())
+    dispatch(GetAllStatusProvider())
 
-                    }
+  }, [])
 
+  useEffect(() => {
 
-                </div>
+    const body = {
+      providerId: localStorage.getItem("providerId"),
+      pagination: {
+        "order": sortBy === 'asc' ? true : false,
+        "page": page,
+        "size": rowsPerPage,
+        "sortBy": orderBy ? orderBy : "id"
+      }
+    }
+    dispatch(ProviderslistOfEmployees(body));
+  }, [page, rowsPerPage, orderBy, sortBy])
+  return (
+    <>
+      {/* head with back link */}
+      <div className='head'>
+        <div className='headLeft'>
+          <h2>{t('employees')}</h2>
+          <DisplayView view={view} setView={setView} />
+        </div>
+        <div className="container-top-right-btns"
+        >
 
-            </div>
-            {/* search bar Employeee provider*/}
-            <div className="row  mt-4">
-                <div className="col-12">
-                    <input type="text" class="form-control" name="x" />
-                    <span class="search_btn">
-                        <button class="btn btn-default" type="button">
-                            <i class="fa fa-search" aria-hidden="true"></i>
-                        </button>
-                    </span>
-                </div>
-            </div>
-            {/* body all employee */}
-            <div className='list_employees'>
+          <button className="import-file-btn-1"
+          >
+            {(t('import'))}
+            <br />
+            {(t('file'))}
+          </button>
+          {
+
+            // permission?.includes(permissionObj?.WEB_VEHICLE_CREATE) &&
+            <button className="add-btn-1"
+
+              onClick={() => navigate("/dashboard/supplier/create-employee")}
+            >
+              <i class="fa fa-plus" aria-hidden="true"></i>
+              {t('add')}
+            </button>
+
+          }
+          <button className="delete-btn-1"
+            disabled={selectEmployeeForDelete?.length === 0}
+            onClick={() => {
+              // setDeleteVehicleShow(true)
+            }}
+
+          >
+            <i class="fa fa-trash-o" aria-hidden="true"></i>
+            {t('delete')}
+          </button>
+          <button
+            className="custom_primary_btn_dark"
+            style={{ width: "48px", height: "48px" }}
+          // onClick={() => setModalShow(true)}
+          >
+            <FilterAltIcon style={{ fontSize: "32px" }} />
+          </button>
+        </div>
+      </div>
+
+      {/* main */}
+      {
+        view === "grid" &&
+
+        <div className="d-flex gap-1 pl-2">
+
+          <input type="checkbox" className="checkbox"
+            checked={isAllChecked}
+            onChange={handelDeleteAll}
+          />
+
+          <span className="text_size_12">de/select all</span>
+        </div>
+      }
+      {
+        view === "grid" &&
+        <>
+          {
+            providerslistOfEmployees?.content?.length > 0 ?
+
+              <AllEmployeeCards
+                apidata={providerslistOfEmployees}
+                selectForDelete={selectEmployeeForDelete}
+                handleCheckboxChange={handleCheckboxChange}
+              />
+              :
+              <>
+                <NotFoundDataWarning text={t("no_data")} />
+
+              </>
+          }
+        </>
+      }
+
+      {
+        view === "list" &&
+
+        <div className="panelTables px-1 animated-div"
+        // ref={elementRef}
+        >
+          {
+            providerslistOfEmployees?.content?.length > 0 ?
+              <table style={{ width: "100%" }}>
+                <thead>
+                  <th className='first_head'>
+                    <input type="checkbox" className="checkbox"
+                      checked={isAllChecked}
+                      onChange={handelDeleteAll}
+                    />
+                  </th>
+                  <th className='first_head'>{t("name")}</th>
+                  <th>{t("phone_number")}</th>
+                  <th>{t("email")}</th>
+                  <th>{t("dob")}</th>
+                  <th>{t("status")}</th>
+                  <th>{t("options")}</th>
+                  <th className='last'>{t("update")}</th>
+                </thead>
+
                 {
-                    providerslistOfEmployees?.content?.length > 0 ?
-                        providerslistOfEmployees?.content?.map((item) => {
+                  providerslistOfEmployees?.content?.map((item, index) => {
+                    const dob = item?.dob ? new Date(item?.dob) : ""
 
-                            const jobTitle = item?.userType?.name.split("_").join(' ')
-                            // check email length and cut off
-                            const EmailSlice = item?.email.split("@")
+                    return (
+                      <tr key={item?.id}>
+                        <td className='first'>
+                          <input type="checkbox" className="checkbox"
+                            checked={selectEmployeeForDelete?.includes(item?.id)}
+                            id={item?.id}
+                            onChange={handleCheckboxChange}
+                          />
+                        </td>
+                        < td className='first ' >
+                          <img src={item?.genderId === 1 && BoyAvatar ||
+                            item?.genderId === 2 && womanAvatar ||
+                            item?.genderId === null && BoyAvatar
 
+                          } alt="" className="name_avatar mr-2" />
+                          {
+                            item?.name ?
+                              item?.name
+                              + " " +
+                              item?.secondLastName + " " +
+                              item?.lastName
+                              : "-"
+                          }
+                        </td>
+                        <td>{item?.phoneNumber || "-"}</td>
+                        <td >{item?.email || "-"}</td>
+                        <td> {dob ? dob.toLocaleDateString("en-US") : "" || "-"}</td>
+                        <td style={{ color: checkStatus(item?.statusId), fontWeight: 'bold', fontSize: "12px" }}> {statusId(item?.statusId) || "-"} </td>
 
-                            return (
-                                <div className="card_container mt-4">
-                                    <div className="card_header">
-                                        <div className="status_container">
-                                            <p style={{
-                                                color: item?.status?.id == 2 && "yellow" ||
-                                                    item?.status?.id == 3 && "blue" ||
-                                                    item?.status?.id == 4 && "green" ||
-                                                    item?.status?.id == 5 && "orange" ||
-                                                    item?.status?.id == 6 && "red"
-                                            }}>
-                                                {item?.status?.name.split("_").join(" ")}</p>
-                                            <div className="status_active" style={{
-                                                background: item?.status?.id == 2 && "yellow" ||
-                                                    item?.status?.id == 3 && "blue" ||
-                                                    item?.status?.id == 4 && "green" ||
-                                                    item?.status?.id == 5 && "orange" ||
-                                                    item?.status?.id == 6 && "red"
-                                            }}></div>
-                                        </div>
-                                    </div>
-                                    <div className="card_body">
-                                        <img src={item?.selfie != null ? `data:image/png;base64,${item?.selfie}` : def} alt="" />
-                                        <div className="card_body_items">
-                                            <div className="card_body_item">
-                                                <h5>{t("name")}</h5>
-                                                <p>{item?.name}</p>
-                                            </div>
-                                            <div className="card_body_item">
-                                                <h5>{t("job_title")}</h5>
-                                                <p>{jobTitle}</p>
-                                            </div>
-                                            <div className="card_body_item">
-                                                <h5>{t("gender")}</h5>
-                                                <p>{item?.gender ? item?.gender?.name : "- - - -"}</p>
-                                            </div>
-                                            <div className="card_body_item">
-                                                <h5>{t("email")}</h5>
-                                                <p>{EmailSlice[0]}</p>
-                                            </div>
-                                            <div className="card_body_item">
-                                                <h5>{t("number")}</h5>
-                                                <p>{item?.phoneNumber}</p>
-                                            </div>
-                                            <div className="card_footer">
-                                                {
-                                                    item?.status?.id == 3 ?
-                                                        <>
-                                                            <Link to="/dashboard/provider/complete-document"
-                                                                onClick={() => {
-                                                                    dispatch(GetProviderEmployeeDetail(item?.id));
-                                                                    dispatch(CheckProviderImage(item?.id))
-                                                                    localStorage.setItem("provideridfordetail", item?.id)
+                        <td className='tableIcon'>
+                          <BootstrapTooltip title={item?.statusId == 3 ? t('complete_documents') : t('employee_details')} placement="top">
+                            <button className='btn-option'
+                              onClick={() => {
+                                item?.statusId == 3 ?
 
-                                                                }}
-                                                            >
-                                                                {t("complete_documents")}
-                                                            </Link>
-                                                            <i class="fa fa-angle-right" aria-hidden="true"></i>
-                                                        </> :
-                                                        <>
-                                                            <Link to="/dashboard/provider/provider-order-detail"
-                                                                onClick={() => {
-                                                                    dispatch(GetProviderEmployeeDetail(item?.id));
-                                                                    dispatch(CheckProviderImage(item?.id))
-                                                                    localStorage.setItem("provideridfordetail", item?.id)
+                                  navigate(`/dashboard/supplier/complete-document`) :
+                                  navigate(`/dashboard/supplier/supplier-order-detail`)
 
-                                                                }}
-                                                            >{t("employee_details")}</Link>
-                                                            <i class="fa fa-angle-right" aria-hidden="true"></i>
-                                                        </>
-                                                }
-
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            )
-                        }) :
-                        <NotFoundDataWarning text={t("no_employee_data")} />
-
-
+                              }}>
+                              <img
+                                src={eyeIcon} alt="eye"
+                              />
+                            </button>
+                          </BootstrapTooltip>
+                        </td>
+                        <td className='tableIcon'>
+                          <button className='btn-option'
+                          // onClick={() => navigate(`/dashboard/employee/allVehicles/update-vehicle/${item?.vehicle?.id}`)}
+                          >
+                            <i className="fa fa-pencil" aria-hidden="true"
+                              style={{ color: "#146F62" }}
+                              onClick={() => navigate(`/dashboard/supplier/update-employee`)}
+                            ></i>
+                          </button>
+                        </td>
+                      </tr>
+                    )
+                  })
                 }
 
-
-            </div>
-            {
-                providerslistOfEmployees?.content?.length > 0 &&
-                <div className="d-flex justify-content-center">
-                    <TablePagination
-                        component="div"
-                        rowsPerPageOptions={[2, 4, 6, 8, 12]}
-                        count={providerslistOfEmployees?.totalElements}
-                        page={page}
-                        onPageChange={handleChangePage}
-                        labelRowsPerPage={t("provider_employees_per_page")}
-                        rowsPerPage={rowsPerPage}
-                        onRowsPerPageChange={handleChangeRowsPerPage}
-                    />
-                </div>
-            }
-
+              </table> :
+              <NotFoundDataWarning text={t("no_data")} />
+          }
 
         </div>
-    )
+
+      }
+
+
+      {
+        providerslistOfEmployees?.content?.length > 0 &&
+        <div className="d-flex justify-content-center">
+          <TablePagination
+            component="div"
+            rowsPerPageOptions={[8, 16, 24, 32]}
+            count={providerslistOfEmployees?.totalElements}
+            page={page}
+            onPageChange={handleChangePage}
+            labelRowsPerPage={t('employees_per_page')}
+            rowsPerPage={rowsPerPage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        </div>
+      }
+    </>
+  )
 }
 
 export default AllEmploeesProvider

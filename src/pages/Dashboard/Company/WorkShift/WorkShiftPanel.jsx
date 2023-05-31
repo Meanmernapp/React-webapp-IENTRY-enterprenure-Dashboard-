@@ -26,11 +26,12 @@ const WorkShiftPanel = () => {
     <>
       <div className="head">
         <span className="add-new-employe__heading"  >
-          <ArrowBackIcon onClick={() => { navigate("/dashboard/employee/company") }}
+          {/* <ArrowBackIcon onClick={() => { navigate("/dashboard/employee/company") }}
             style={{
               transform: lCode === "ar" ? "scaleX(-1)" : ""
             }}
-          /> {t('work_shift_panel')}
+          />  */}
+          {t('work_shift_panel')}
         </span>
         {permission?.includes(permissionObj?.WEB_WORK_SHIFT_CREATE) &&
           <button

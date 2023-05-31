@@ -85,10 +85,10 @@ const UploadProviderFile = () => {
 
       <div className='head'>
         <div className='headLeft'>
-          <Link to="/dashboard/employee/providers">
+          <Link to="/dashboard/employee/suppliers">
             <i className="fa fa-arrow-left" aria-hidden="true"></i>
           </Link>
-          <h2>{t("upload_provider_file")}</h2>
+          <h2>{t("upload_supplier_file")}</h2>
         </div>
       </div>
       <div className="upload-doc mt-5 col-lg-12" style={{ padding: "15px" }}>

@@ -17,6 +17,8 @@ import NotFoundAnything from "../../../components/NotFoundAnything";
 import { useTranslation } from 'react-i18next'
 import Cookies from "js-cookie";
 import NotFoundDataWarning from "../../../components/NotFoundDataWarning";
+import ApproveDocument from "./ApproveDocument";
+import DocumentTable from "../../Modals/DocumentTable";
 const ProviderEmployeeDetails = ({ employeeDetailsFlag, approveDocumentFlag }) => {
 
 
@@ -118,7 +120,7 @@ const ProviderEmployeeDetails = ({ employeeDetailsFlag, approveDocumentFlag }) =
             <div className="head">
                 <div className="headLeft">
                     <h2>
-                        <Link to="/dashboard/employee/providers">
+                        <Link to="/dashboard/employee/suppliers">
                             <ArrowBackIcon
                                 style={{
                                     color: "#146F62",
@@ -127,13 +129,13 @@ const ProviderEmployeeDetails = ({ employeeDetailsFlag, approveDocumentFlag }) =
                                 }}
                             />
                         </Link>
-                        {" PROVIDER Detail "}
+                        {t("supplier_detail")}
 
                     </h2>
                 </div>
             </div>
             <div className="row employee_provider_detail">
-                <Link to="/dashboard/employee/providers/update-providers">
+                <Link to="/dashboard/employee/suppliers/update-suppliers">
                     <button className="__update_btn" >
                         {t("update_data")}
                         <i class="fa fa-floppy-o" aria-hidden="true"></i>
@@ -142,15 +144,15 @@ const ProviderEmployeeDetails = ({ employeeDetailsFlag, approveDocumentFlag }) =
                 <div className="col-md-4 __userData">
                     <img src={personPng} className="__userImage" />
                     <div className="__body">
-                        <p>Name</p>
+                        <p>{t("name")}</p>
                         <span>{getEmployeeProviderById?.user?.name}</span>
-                        <p className="ishead">Email</p>
+                        <p className="ishead">{t("email")}</p>
                         <span> {getEmployeeProviderById?.user?.email}</span>
-                        <p className="ishead">Phone Number</p>
+                        <p className="ishead">{t("phone_number")}</p>
                         <span>{getEmployeeProviderById?.user?.phoneNumber}</span>
-                        <p className="ishead">Password</p>
+                        <p className="ishead">{t("password")}</p>
                         <span>**************</span>
-                        <p className="ishead">Gender</p>
+                        <p className="ishead">{t("gender")}</p>
                         <span>{getEmployeeProviderById?.user?.gender?.name}</span>
                     </div>
                 </div>
@@ -158,50 +160,9 @@ const ProviderEmployeeDetails = ({ employeeDetailsFlag, approveDocumentFlag }) =
 
                     {
                         getAllProviderDocuments?.length > 0 ?
-                            <>
-                                <div
-                                    className="__header"
-                                    style={{ paddingRight: "40px" }}
-                                >
-                                    <p>FileName</p>
-                                    <p>File</p>
-
-                                </div>
-                                {
-                                    getAllProviderDocuments?.map((item) => {
-                                        const date = new Date(item?.createdAt);
-                                        return (
-                                            <div className="__body">
-                                                <div className="__file">
-                                                    <div className="__name">
-                                                        <p>{item?.companyDocumentExternal?.document}</p>
-                                                        {item?.document && <span>{item?.document}</span>}
-                                                    </div>
-                                                    {item?.path ? (
-                                                        <div className="__file_icon">
-                                                            <img src={file} />
-                                                            <div style={{ paddingLeft: "10px" }}>
-                                                                <p> {item?.path}</p>
-                                                                <span>{date.toLocaleString('en-GB')}</span>
-                                                            </div>
-                                                            <DownloadIcon className="download_icon" onClick={() => {
-                                                                const data = {
-                                                                    option: 'document_external',
-                                                                    id: item?.id
-                                                                }
-                                                                dispatch(DownloadEmployeeProviderOrderFiles(data))
-                                                            }} />
-                                                        </div>
-                                                    ) : (
-                                                        <p className="noFile">NO FILE</p>
-                                                    )}
-
-                                                </div>
-                                            </div>
-                                        )
-                                    })
-                                }
-                            </> :
+                      
+                        <DocumentTable dataTable={getAllProviderDocuments} approve={false} optionDownload="document_external"/>
+                            :
                             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: "50vh" }}>
 
                                 <NotFoundDataWarning text={"No Documents"} />
@@ -214,7 +175,7 @@ const ProviderEmployeeDetails = ({ employeeDetailsFlag, approveDocumentFlag }) =
             </div>
             {/* employee provider detials */}
             <div className="provider_container">
-                <h4>EMPLOYEES</h4>
+                <h4>{t("employees")}</h4>
                 {
                     getAllCompanybyProviderId?.content?.length > 0 ?
                         <ProvidersCard getAllCompanybyProviderId={getAllCompanybyProviderId} />
@@ -234,7 +195,7 @@ const ProviderEmployeeDetails = ({ employeeDetailsFlag, approveDocumentFlag }) =
                         count={getAllCompanybyProviderId?.totalElements}
                         page={pageIncoming}
                         onPageChange={handleChangePageIcoming}
-                        labelRowsPerPage="Employee per page"
+                        labelRowsPerPage={t("employees_per_page")}
                         rowsPerPage={rowsPerPageIncoming}
                         onRowsPerPageChange={handleChangeRowsPerPageIncoming}
                     />
@@ -243,7 +204,7 @@ const ProviderEmployeeDetails = ({ employeeDetailsFlag, approveDocumentFlag }) =
 
             {/* employee vehicle details */}
             <div className="provider_employee_details">
-                <h4>VEHICLES</h4>
+                <h4>{t("vehicles")}</h4>
                 {
                     getAllCompanyVehiclebyId?.content?.length > 0 ?
                         <VehiclesCard getAllCompanyVehiclebyId={getAllCompanyVehiclebyId} />
@@ -261,7 +222,7 @@ const ProviderEmployeeDetails = ({ employeeDetailsFlag, approveDocumentFlag }) =
                         count={getAllCompanyVehiclebyId?.totalElements}
                         page={pageVehicle}
                         onPageChange={handleChangePageVehicle}
-                        labelRowsPerPage="Vehicles per page"
+                        labelRowsPerPage={t("vehicles_per_page")}
                         rowsPerPage={rowsPerPageVehicle}
                         onRowsPerPageChange={handleChangeRowsPerPageVehicle}
                     />

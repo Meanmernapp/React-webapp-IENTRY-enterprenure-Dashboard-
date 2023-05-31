@@ -83,7 +83,7 @@ const Payroll = () => {
             <div className='custom_head'>
                 <div className='left'>
                     {/* <i className="fa fa-arrow-left" aria-hidden="true" style={iconStyle}></i> */}
-                    <p>{t("payroll")}</p>
+                    <p>{t("attendance")}</p>
                 </div>
                 {
                     permission?.includes(permissionObj?.WEB_PAYROLL_UPDATE) &&

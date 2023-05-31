@@ -229,6 +229,30 @@
 }
 
 .languageSelector {
+  .leftArbicL {
+    inset: auto 400px -73px auto !important;
+  }
+
+  .notleftL {
+    inset: auto -365px -73px auto !important;
+  }
+
+  .leftArbicLClose {
+    inset: auto 400px -216px auto !important;
+  }
+
+  .notleftLClose {
+    inset: auto 26px -215px auto !important;
+  }
+
+  .leftArbicLM {
+    inset: -75px auto auto 11px !important;
+  }
+
+  .notleftLM {
+    inset: -75px 8px auto auto  !important;
+  }
+
   .dropdown-menu {
     padding: 0 !important;
     box-shadow: 0px 0px 5px -1px grey;

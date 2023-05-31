@@ -87,7 +87,7 @@ const NotificationTab = () => {
               aria-controls="pills-home"
               aria-selected="true"
             >
-              <span>{t("notifications")}</span>
+              <span>{t("announcements")}</span>
             </a>
           </div>
           <div className="col-4 tab tab-right" role="presentation">

@@ -14,7 +14,12 @@ const documentPanelSlice = createSlice({
         createEmployeeDoc:{},
         createSupplierDoc:{},
         createContractorDoc:{},
-        uploadDocImg:{}
+        uploadDocImg:{},
+        getAllContractorVehicleDoc:[],
+        getAllSupplierVehicleDoc:[],
+        deleteAllVehicleDocument:{},
+        createSupplierVehicleDoc:{},
+        createContractorVehicleDoc:{}
     },
     reducers: {
         
@@ -154,7 +159,70 @@ const documentPanelSlice = createSlice({
 
                 
             }
-        }
+        },
+        // vehicle  doc
+        ["documentPanel/getAllContractorVehicleDoc/fulfilled"]: (state, action) => {
+            const { data, status } = action.payload || {}
+            // console.log("from getAllContractorVehicleDoc slice ", data)
+            if (status >= 200 && status < 300) {
+                // toast(data.message)
+                state.getAllContractorVehicleDoc = data?.data
+            }
+            else if (status >= 400 && status < 500) {
+
+                
+            }
+        },
+        ["documentPanel/getAllSupplierVehicleDoc/fulfilled"]: (state, action) => {
+            const { data, status } = action.payload || {}
+            // console.log("from getAllSupplierVehicleDoc slice ", data)
+            if (status >= 200 && status < 300) {
+                // toast(data.message)
+                state.getAllSupplierVehicleDoc = data?.data
+            }
+            else if (status >= 400 && status < 500) {
+
+                
+            }
+        },
+        ["documentPanel/deleteAllVehicleDocument/fulfilled"]: (state, action) => {
+            const { data, status } = action.payload || {}
+            // console.log("from deleteAllVehicleDocument slice ", data)
+            if (status >= 200 && status < 300) {
+                // toast(data.message)
+                state.deleteAllVehicleDocument = data
+            }
+            else if (status >= 400 && status < 500) {
+
+               
+            }
+        },
+        ["documentPanel/createSupplierVehicleDoc/fulfilled"]: (state, action) => {
+            const { data, status } = action.payload || {}
+            // console.log("from createSupplierVehicleDoc slice ", data)
+            if (status >= 200 && status < 300) {
+                // toast(data.message)
+                state.createSupplierVehicleDoc = data?.data
+            }
+            else if (status >= 400 && status < 500) {
+
+                
+            }
+        },
+        ["documentPanel/createContractorVehicleDoc/fulfilled"]: (state, action) => {
+            const { data, status } = action.payload || {}
+            // console.log("from createContractorVehicleDoc slice ", data)
+            if (status >= 200 && status < 300) {
+                // toast(data.message)
+                state.createContractorVehicleDoc = data?.data
+            }
+            else if (status >= 400 && status < 500) {
+
+                
+            }
+        },
+        
+        
     },})
 
 export const {  } = documentPanelSlice.actions;

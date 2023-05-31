@@ -1,6 +1,6 @@
 import { Grid, TextField } from '@mui/material'
 import React from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { useState } from 'react';
@@ -41,7 +41,11 @@ const EmailSetting = () => {
 
 
     const navigate = useNavigate();
+    const location = useLocation();
     const goBack = () => navigate(-1);
+
+
+    
 
     // a function for Password toggle handler
     const togglePassword = () => {
@@ -87,12 +91,16 @@ const EmailSetting = () => {
             <div className='custom_head'>
                 <div className='left'>
                     {/* <Link to="/dashboard/employee/payroll/manage-attendence"> */}
-                    <i className="fa fa-arrow-left" aria-hidden="true"
-                        onClick={() => goBack()}
-                        style={{
-                            transform: lCode === "ar" ? "scaleX(-1)" : ""
-                        }}
-                    ></i>
+                    {
+                        location.state === "yes" &&
+                        <i className="fa fa-arrow-left" aria-hidden="true"
+                            onClick={() => goBack()}
+                            style={{
+                                transform: lCode === "ar" ? "scaleX(-1)" : ""
+                            }}
+                        ></i>
+                    }
+
                     {/* </Link> */}
                     <p>{t('email_settings')}</p>
                 </div>
@@ -108,7 +116,7 @@ const EmailSetting = () => {
                     <Grid item xs={12} sx={{ marginTop: '2rem', }} >
                         <TextField size="small"
                             fullWidth
-                          
+
                             type="email"
                             label={t('email')}
                             id="email"
@@ -141,7 +149,7 @@ const EmailSetting = () => {
                         <TextField size="small"
                             fullWidth
                             type={passwordShown ? "text" : "password"}
-                          
+
                             label={t('password')}
                             id="password"
                             value={password}
@@ -181,7 +189,7 @@ const EmailSetting = () => {
                     <Grid item xs={12} >
                         <TextField size="small"
                             fullWidth
-                          
+
                             type="text"
                             label={t('imap_host')}
                             id="IMAP"
@@ -213,7 +221,7 @@ const EmailSetting = () => {
                     <Grid item xs={12} >
                         <TextField size="small"
                             fullWidth
-                          
+
                             type="text"
                             label={t('port')}
                             id="PORT"

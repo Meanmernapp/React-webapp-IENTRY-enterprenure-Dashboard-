@@ -39,6 +39,7 @@ const CreateOnuEvent = () => {
   const onuEmployeeData = useSelector(state => state?.EmployeeEventsSlice?.onuEmployeeData)
   const guestData = useSelector(state => state?.EmployeeEventsSlice?.emailPhoneSearchList);
   const ounVehiclesList = useSelector(state => state?.EmployeeEventsSlice?.ounVehiclesList);
+  const companyRestrictionsData = useSelector(state => state?.EmployeeEventsSlice?.companyRestrictionsData);
 
   const [toggleState, setToggleState] = useState(0);
   const [hostChecked, setHostChecked] = useState(false);
@@ -255,6 +256,12 @@ const CreateOnuEvent = () => {
   //   }]
   // }
 
+  useEffect(()=>{
+    if(companyRestrictionsData?.isOnuEvent === false){
+      navigate("/unauthorized")
+      
+    }
+  })
 
 
   return (
@@ -358,7 +365,7 @@ const CreateOnuEvent = () => {
         </div>
       </div>
       {toggleState === 0 && (
-        <div className="CreateEventPanel">
+        <div className="CreateEventPanel animated-div">
           <Grid
             container
             spacing={2}
@@ -561,7 +568,7 @@ const CreateOnuEvent = () => {
       )}
       {toggleState === 1 && (
         <div
-          className="content2"
+          className="content2 animated-div"
           style={{
             width: "350px",
             margin: "auto",
@@ -808,7 +815,7 @@ const CreateOnuEvent = () => {
       )}
       {toggleState === 2 && (
         <>
-          <OnuVisitors />
+          <OnuVisitors  />
         </>
       )}
       {toggleState === 3 && (
@@ -818,7 +825,7 @@ const CreateOnuEvent = () => {
       )}
       {toggleState === 4 && (
         <>
-          <Box className="content4">
+          <Box className="content4 animated-div">
             <TextField size="small"
               fullWidth
               defaultValue="Hello"

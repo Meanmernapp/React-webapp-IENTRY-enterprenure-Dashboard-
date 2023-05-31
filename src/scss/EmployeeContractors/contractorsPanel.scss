@@ -1,3 +1,7 @@
+
+$distance: var(--top-value);
+$finalDistance: calc(#{$distance} + 65px);
+
 .contractors {
     .ibl {
         &::after {
@@ -45,6 +49,20 @@
 
                 .create-order {
                     height: 100%;
+                }
+            }
+
+            .contract_view_port {
+                height: calc(100vh - #{$finalDistance}) !important;
+                // height: 56vh;
+                // padding-top: 1rem;
+                top: 1rem;
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+                overflow: auto;
+
+                &::-webkit-scrollbar {
+                    display: none;
                 }
             }
         }

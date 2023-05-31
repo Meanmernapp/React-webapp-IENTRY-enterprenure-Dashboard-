@@ -85,7 +85,7 @@ const Vehicles = () => {
       </div>
       {
         ounVehiclesList?.length > 0 ?
-          <div className="eventTables vehicle_table" style={{ height: "25rem", margin: "0px 25px" }}>
+          <div className="eventTables vehicle_table animated-div" style={{ height: "25rem", margin: "0px 25px" }}>
             <table style={{ width: "100%" }}>
               <thead>
                 <th className='first-head'>brand</th>

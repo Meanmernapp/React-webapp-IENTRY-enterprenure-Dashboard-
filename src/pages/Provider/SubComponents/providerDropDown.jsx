@@ -35,15 +35,15 @@ const ProviderDropDown = ({ contractor }) => {
     <Dropdown>
       <Dropdown.Toggle as={CustomToggle} />
       <Dropdown.Menu size="sm" title="go to details">
-        <Link to='/dashboard/provider/provider-order-detail'
-        // to={contractor ? '/dashboard/contractors-outlet/contractor-approve-document' : '/dashboard/provider-order-detail'}
+        <Link to='/dashboard/supplier/supplier-order-detail'
+        // to={contractor ? '/dashboard/contractors-outlet/contractor-approve-document' : '/dashboard/supplier-order-detail'}
         >
           <div className="dropdownDiv">
             <img src={pencil} alt="pencil" />
             <span>{t("employee_contract_detail")}</span>
           </div>
         </Link>
-        <Link to={contractor ? '/dashboard/employee/contractors/update-contractor' : '/dashboard/employee/providers/update-providers'}>
+        <Link to={contractor ? '/dashboard/employee/contractors/update-contractor' : '/dashboard/employee/suppliers/update-suppliers'}>
           <div className="dropdownDiv">
             <img src={pencil} alt="pencil" />
 

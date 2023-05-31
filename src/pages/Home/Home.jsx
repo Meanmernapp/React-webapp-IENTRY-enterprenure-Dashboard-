@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import backgroundimg from './../../assets/images/building_2.png';
 // import ientry from './../../assets/images/ientry.png';
 import whiteLogo from './../../assets/images/whiteLogo.png';
@@ -31,6 +31,9 @@ const Home = () => {
     const [password, setPassword] = useState("");
     const [otp, setOtp] = useState("");
 
+    useEffect(() => {
+        document.getElementById("overlay").style.display = "none";
+    }, [])
 
     const handleLogin = () => {
         params.append('email', email)
@@ -61,120 +64,131 @@ const Home = () => {
             <div className="header" >
                 <div className="card_overly">
                     <img src={backgroundimg} className="bgimg" alt="img" />
-                    <div className='loginContainer'>
-                        <img src={whiteLogo} className="logoImage" alt="logoImage" />
-                        <div className='row justify-content-between'>
-                            <div className="col-sm-12 col-md-6">
-                                <div className="welcomMessage">
-                                    <h3>Wellcome</h3>
-                                    <p>
-                                        iEntry is a technological platform for administration <br />
-                                        and security in offices, industries and business parks.
-                                    </p>
-                                </div>
+
+                    <div className='container-fluid'>
+                        <div className='row'>
+                            <div className='row'>
+                                <img src={whiteLogo} className="logoImage" alt="logoImage" />
                             </div>
-                            <div className="col-sm-12 col-md-4">
-                                <div className="loginBoard">
-                                    <h3>Login</h3>
-                                    <TextField
-                                        size="small"
-                                        fullWidth
-                                        label="User Name"
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
-                                        InputProps={{
-                                            endAdornment: (
-                                                <InputAdornment position="end">
-                                                    <img
-                                                        src={userSolid}
-                                                        width="20px"
-                                                        height="23px"
-                                                        style={{
-                                                            zIndex: "1"
-                                                        }}
-                                                        alt="userSolid"
-                                                    />
-                                                </InputAdornment>
-                                            ),
-                                        }}
-                                        sx={{
-                                            backgroundColor: "white",
-                                            borderRadius: "7px"
-                                        }}
-                                    />
-                                    <TextField
-                                        size="small"
-                                        fullWidth
-                                        label="Password"
-                                        type={passwordShown ? "text" : "password"}
-                                        value={password}
-                                        onChange={(e) => setPassword(e.target.value)}
-                                        InputProps={{
-                                            endAdornment: (
-                                                <InputAdornment position="end">
-                                                    {
-                                                        passwordShown ?
-                                                            <img
-                                                                src={eyeSlashopen}
-                                                                alt="keyimg"
-                                                                style={{
-                                                                    cursor: "pointer"
-                                                                }}
-                                                                onClick={() => setPasswordShown(false)}
-                                                            /> : <img
-                                                                src={eyeSlashClose}
-                                                                alt="keyimg"
-                                                                style={{
-                                                                    cursor: "pointer"
-                                                                }}
-                                                                onClick={() => setPasswordShown(true)}
-                                                            />
-                                                    }
-                                                </InputAdornment>
-                                            ),
-                                        }}
-                                        sx={{
-                                            backgroundColor: "white",
-                                            borderRadius: "7px",
-                                            marginTop: "1rem"
-                                        }}
-                                    />
-                                    <div className='tokenWrapper'>
-                                        <p>TOKEN</p>
-                                        <img
-                                            src={tokenIcon}
-                                            alt="keyimg"
-                                            width="22px"
-                                            height="22px"
-                                        />
+                            <div className='offset'>
+                                <div className='row justify-content-between'>
+                                    <div className="col-md-6 col-sm-12">
+                                        <div className="welcomMessage">
+                                            <h3>Wellcome</h3>
+                                            <p>
+                                                iEntry is a technological platform for administration <br />
+                                                and security in offices, industries and business parks.
+                                            </p>
+                                        </div>
                                     </div>
-                                    <OtpInput
-                                        value={otp}
-                                        containerStyle={{
-                                            justifyContent: "space-between"
-                                        }}
-                                        isInputNum={true}
-                                        inputStyle={{
-                                            width: "60px",
-                                            height: "48px",
-                                            fontWeight: "bold",
-                                            borderRadius: "8px",
-                                            background: "#fff",
-                                            display: "flex",
-                                            justifyContent: "space-between",
-                                            alignItems: "center",
-                                            border: "2px solid #707070",
-                                            outline: "none",
-                                            textAlign: "center",
-                                        }}
-                                        onChange={(newValue) => setOtp(newValue)}
-                                        numInputs={6}
-                                    />
-                                    <button onClick={() => handleLogin()}>
-                                        {
-                                            loading ? "checking..." : "sign in"
-                                        }
-                                    </button>
+                                    {/* <div className="col-md-1"></div> */}
+                                    <div className="col-md-6 col-sm-12">
+                                        <div className='centrar'>
+
+                                            <div className="loginBoard">
+                                                <h3>Login</h3>
+                                                <TextField
+                                                    size="small"
+                                                    fullWidth
+                                                    label="User Name"
+                                                    value={email}
+                                                    onChange={(e) => setEmail(e.target.value)}
+                                                    InputProps={{
+                                                        endAdornment: (
+                                                            <InputAdornment position="end">
+                                                                <img
+                                                                    src={userSolid}
+                                                                    width="20px"
+                                                                    height="23px"
+                                                                    style={{
+                                                                        zIndex: "1"
+                                                                    }}
+                                                                    alt="userSolid"
+                                                                />
+                                                            </InputAdornment>
+                                                        ),
+                                                    }}
+                                                    sx={{
+                                                        backgroundColor: "white",
+                                                        borderRadius: "7px"
+                                                    }}
+                                                />
+                                                <TextField
+                                                    size="small"
+                                                    fullWidth
+                                                    label="Password"
+                                                    type={passwordShown ? "text" : "password"}
+                                                    value={password}
+                                                    onChange={(e) => setPassword(e.target.value)}
+                                                    InputProps={{
+                                                        endAdornment: (
+                                                            <InputAdornment position="end">
+                                                                {
+                                                                    passwordShown ?
+                                                                        <img
+                                                                            src={eyeSlashopen}
+                                                                            alt="keyimg"
+                                                                            style={{
+                                                                                cursor: "pointer"
+                                                                            }}
+                                                                            onClick={() => setPasswordShown(false)}
+                                                                        /> : <img
+                                                                            src={eyeSlashClose}
+                                                                            alt="keyimg"
+                                                                            style={{
+                                                                                cursor: "pointer"
+                                                                            }}
+                                                                            onClick={() => setPasswordShown(true)}
+                                                                        />
+                                                                }
+                                                            </InputAdornment>
+                                                        ),
+                                                    }}
+                                                    sx={{
+                                                        backgroundColor: "white",
+                                                        borderRadius: "7px",
+                                                        marginTop: "1rem"
+                                                    }}
+                                                />
+                                                <div className='tokenWrapper'>
+                                                    <p>TOKEN</p>
+                                                    <img
+                                                        src={tokenIcon}
+                                                        alt="keyimg"
+                                                        width="22px"
+                                                        height="22px"
+                                                    />
+                                                </div>
+                                                <OtpInput
+                                                    value={otp}
+                                                    containerStyle={{
+                                                        justifyContent: "space-between"
+                                                    }}
+                                                    isInputNum={true}
+                                                    inputStyle={{
+                                                        width: "55px",
+                                                        height: "48px",
+                                                        fontWeight: "bold",
+                                                        borderRadius: "8px",
+                                                        background: "#fff",
+                                                        display: "flex",
+                                                        justifyContent: "space-between",
+                                                        alignItems: "center",
+                                                        border: "2px solid #707070",
+                                                        outline: "none",
+                                                        textAlign: "center",
+                                                    }}
+                                                    onChange={(newValue) => setOtp(newValue)}
+                                                    numInputs={6}
+                                                />
+                                                <button id='btnsignin' onClick={() => handleLogin()}>
+                                                    {
+                                                        loading ? "checking..." : "sign in"
+                                                    }
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -4,56 +4,30 @@ import { useDispatch } from "react-redux";
 import cancel from '../../../../assets/images/ic-cancel.svg'
 import Cookies from "js-cookie";
 import { useTranslation } from 'react-i18next'
+import { DeleteDepartment, RemoveAlluserFromDepartment, RemoveUserFromDepartment } from "../../../../reduxToolkit/Department/DepartmentApi";
 
 const ManageDeleteDepartment = (props) => {
-
-    console.log(props)
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
     const { t } = useTranslation();
     const lCode = Cookies.get("i18next") || "en";
+    // delete handler function
+    const handleDelete = () => {
 
+        if (props?.modalis === "department") {
 
-    // const handleDeleteUser = () => {
+            dispatch(DeleteDepartment(props?.data?.id))
+            props.onHide()
 
-    //     if (props.deleteitemname === "role") {
-    //         setLoading(true)
-    //         deleteRole(props.deleteid?.id).then(({ data: { data } }) => {
-    //             toast.success("Role is deleted successfully..!")
-    //             const body = {
-    //                 order: true,
-    //                 page: 0,
-    //                 size: 4,
-    //                 sortBy: "id"
-    //             }
-    //             dispatch(getEmployeeRoles(body));
-
-    //             props.onHide();
-    //             setLoading(false)
-    //         }).catch(error => {
-    //             toast.error("error in deleting role..!")
-    //             setLoading(false)
-    //         })
-    //     } else if (props.deleteitemname === "user") {
-    //         removeUserRole(props.deleteid?.id).then(({ data: { data } }) => {
-    //             const body = {
-    //                 order: true,
-    //                 page: 0,
-    //                 size: 4,
-    //                 sortBy: "id"
-    //             }
-    //             dispatch(getEmployeeRoles(body))
-    //             toast.success("user removed from this role")
-    //             props.onHide();
-    //             setLoading(false)
-    //         }).catch(error => {
-    //             toast.error("something went wrong in removeroletouser")
-    //             setLoading(false)
-    //         })
-    //     }
-    // }
-
-    if (props?.modalis === "department") {
+        }
+        if (props?.modalis === "user") {
+            dispatch(RemoveUserFromDepartment(props?.data?.id))
+            props.onHide()
+        }
+        if (props?.modalis === "users") {
+            dispatch(RemoveAlluserFromDepartment(props?.data?.id))
+            props.onHide()
+        }
 
     }
     return (
@@ -75,18 +49,18 @@ const ManageDeleteDepartment = (props) => {
             <Modal.Body className="department_modal_body">
                 {
                     props.modalis === "department" &&
-                    <p className="paragraph_deps">You are about to delete the department <span>Department Name</span>,
+                    <p className="paragraph_deps">You are about to delete the department <span>{props?.data?.name}</span>,
                         to apply the action. You must confirm the request.
                         All the user belong it will remove from it</p>
                 }
                 {
                     props.modalis === "user" &&
-                    <p className="paragraph_deps">You are about to remove <span>Employee Name</span> from Department
-                        <span>Department Name</span> , to apply the action. You must confirm the request. All the employees no longer have department.</p>
+                    <p className="paragraph_deps">You are about to remove <span>{props?.data?.Ename}</span> from Department
+                        <span> {" "}{props?.data?.Dname}</span> , to apply the action. You must confirm the request. All the employees no longer have department.</p>
                 }
                 {props.modalis === "users" &&
-                    <p className="paragraph_deps">You are about to remove <span> 11</span> Employees from Department
-                        <span> Department Name</span>, to apply the action. You must confirm the request. All the employees no longer have department.</p>
+                    <p className="paragraph_deps">You are about to remove <span> {props?.data?.Tuser}</span> Employees from Department
+                        <span> {" "}{props?.data?.Dname}</span>, to apply the action. You must confirm the request. All the employees no longer have department.</p>
 
                 }
 
@@ -96,7 +70,7 @@ const ManageDeleteDepartment = (props) => {
                         onClick={() => props.onHide()}>{t("cancel")}</button>
                     <button className="custom_primary_btn_dark"
                         style={{ width: '180px' }}
-                    // onClick={handleDeleteUser}
+                        onClick={handleDelete}
                     >
                         {t("confirm")}
                     </button>

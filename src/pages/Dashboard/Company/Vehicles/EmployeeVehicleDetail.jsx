@@ -1,263 +1,327 @@
-import { Link, useParams, useNavigate } from "react-router-dom";
-import VehicleCompanyData from "./subComponents/VehicleCompanyData";
-import { TablePagination } from "@mui/material";
-import vehicle from '../../../../assets/images/ic-car.svg'
-import company from '../../../../assets/images/ic-building-outline.svg'
-import companyImage from '../../../../assets/images/Capture4.PNG'
-import { useEffect, useState } from "react";
-import { ImagesByVehicleId, singleVehicleDetail } from "../../../../reduxToolkit/CompanyVehicles/CompanyVehiclesApi";
-import { useDispatch, useSelector } from "react-redux";
-import NoEvent from "../../Events/NoEvent";
-import { updateCreateVehicleObj } from "../../../../reduxToolkit/CompanyVehicles/CompanyVehiclesSlice";
+/*
+Author : Arman Ali
+Module: create Vehicle
+github: https://github.com/Arman-Arzoo
+*/
+
+import React, { useEffect } from 'react'
 import Cookies from "js-cookie";
 import { useTranslation } from 'react-i18next'
 import { permissionObj } from "../../../../Helpers/permission";
-
+import { Link, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import CustomTextWithLine from '../../../../components/CustomTextWithLine';
+import VehicleStatus from '../../../../components/VehicleStatus';
+import defaultUser from "../../../../assets/defaultImages/defaultUser.png"
+import TablePagination from '@mui/material/TablePagination';
+import DriverModal from './modal/DriverModal';
+import { useState } from 'react';
+import { GetAllDriverRelationship, GetListOfVehicleImages, GetVehicleById, PremmissionType } from '../../../../reduxToolkit/Vehicle/VehicleApi';
+import NotFoundDataWarning from '../../../../components/NotFoundDataWarning';
+import { GetAllEmployee } from '../../../../reduxToolkit/EmployeeOnBoarding/EmployeeOnBoardingApi';
 
 const EmployeeVehicleDetail = () => {
+    // use hook
+    const dispatch = useDispatch()
+    const params = useParams()
     const { t } = useTranslation();
     const lCode = Cookies.get("i18next") || "en";
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-    const singleVehicleData = useSelector(state => state?.CompanyVehiclesSlice?.singleVehicleData);
-    const imagesByVehicleIdList = useSelector(state => state?.CompanyVehiclesSlice?.imagesByVehicleIdList);
+    // useState
+    const [showModal, setShowModal] = useState(false)
+    const [isDriverAdd, setIsDriverAdd] = useState("")
+    const [updateDriverId, setUpdateDriverId] = useState("")
+    const [driverNameUpdate, setDriverNameUpdate] = useState("")
+    const [pageImage, setPageImage] = useState(0);
+    const [rowsPerPageImage, setRowsPerPageImage] = useState(4);
+    const [orderBy, setOrderBy] = useState();
+    const [sortBy, setSortBy] = useState();
+    //  state from store reducer
     const { permission } = useSelector(state => state.authenticatioauthennSlice);
-    console.log(imagesByVehicleIdList)
-    const { id } = useParams();
-    let body;
-
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(4);
+    const { getAllDriverRelationship, getListOfVehicleImages, getVehicleById,
+        addDriver, removeDriverEmployee, updateDriver,updateVehicleEmployee,deleteVehicleImage
+    } = useSelector(state => state.VehicleSlice)
+    const {uploadImage}= useSelector(state => state.sharedSlice)
+    
+    // functions
+    // a funtion to control zone page
+    const handleChangePageImage = (event, newPage) => {
+        setPageImage(newPage);
+    };
+    // a funtion to control row per page 
+    const handleChangeRowsPerPageImage = event => {
+        setRowsPerPageImage(parseInt(event.target.value));
+        setPageImage(0);
+    };
 
     useEffect(() => {
-        dispatch(singleVehicleDetail(id));
-        body = {
-            id: id,
+        dispatch(GetAllEmployee())
+        dispatch(PremmissionType())
+        dispatch(GetVehicleById(params?.id))
+    }, [updateVehicleEmployee])
+    useEffect(() => {
+
+        dispatch(GetAllDriverRelationship(params?.id))
+    }, [addDriver, removeDriverEmployee, updateDriver])
+    useEffect(() => {
+        const data = {
             pagination: {
-                order: true,
-                page: page,
-                size: rowsPerPage,
-                sortBy: "id"
-            }
+                "order": sortBy === 'asc' ? true : false,
+                "page": pageImage,
+                "size": rowsPerPageImage,
+                "sortBy": orderBy ? orderBy : "id"
+            },
+            vehicleId: params?.id
         }
-        dispatch(ImagesByVehicleId(body));
-    }, [])
-
-    const handleChangePage = (event, newPage) => {
-        setPage(newPage);
-        body = {
-            id: id,
-            pagination: {
-                order: true,
-                page: newPage,
-                size: rowsPerPage,
-                sortBy: "id"
-            }
-        }
-        dispatch(ImagesByVehicleId(body));
-    };
-
-    const handleChangeRowsPerPage = event => {
-        setRowsPerPage(parseInt(event.target.value));
-        setPage(0);
-        body = {
-            id: id,
-            pagination: {
-                order: true,
-                page: page,
-                size: parseInt(event.target.value),
-                sortBy: "id"
-            }
-        }
-        dispatch(ImagesByVehicleId(body));
-    };
-
-    const handleVehicle = () => {
-        dispatch(singleVehicleDetail(id)).then(({ payload: { data: { data } } }) => {
-            const { vehicle } = data
-            dispatch(updateCreateVehicleObj({
-                brand: vehicle?.brand,
-                color: vehicle?.color,
-                model: vehicle?.model,
-                plate: vehicle?.plate,
-                serialNumber: vehicle?.serialNumber,
-                subBrand: vehicle?.subBrand,
-                vin: vehicle?.vin
-            }))
-            navigate(`/dashboard/employee/allVehicles/update-vehicle/${vehicle?.id}`);
-        })
-    }
-
-    const checkStatus = (id) => {
-        if (id === 2) {
-            return "yellow"
-        } else if (id === 3) {
-            return "blue"
-        } else if (id === 4) {
-            return "green"
-        } else if (id === 5) {
-            return "orange"
-        } else if (id === 6) {
-            return "red"
-        }
-    }
-
-
+        dispatch(GetListOfVehicleImages(data))
+    }, [sortBy, pageImage, rowsPerPageImage, orderBy,deleteVehicleImage,uploadImage])
     return (
         <>
-            <div className='head'>
-                <div className='headLeft'>
-                    <Link to="/dashboard/employee/allvehicles">
-                        <i className="fa fa-arrow-left" aria-hidden="true" style={{
-                            transform: lCode === "ar" ? "scaleX(-1)" : "",
-                            margin: "0 10px"
-                        }}
+            {/* top header */}
+            <div className="vehicle_detail_container">
+                <div className='head'>
+                    <div className='headLeft'>
+                        <Link to="/dashboard/employee/allvehicles">
+                            <i className="fa fa-arrow-left" aria-hidden="true"
+                                style={{
+                                    transform: lCode === "ar" ? "scaleX(-1)" : "",
+                                    margin: "0 10px"
+                                }}
 
-                        ></i>
-                    </Link>
-                    <h2>
-                        {t('vehicle_details')}
-                    </h2>
-                </div>
-                {
-
-                    permission?.includes(permissionObj?.WEB_VEHICLE_UPDATE) &&
-                    <div
-                        style={{
-                            display: "flex",
-                            gridGap: "10px"
-                        }}
-                    >
-                        <button
-                            className="addNewVehicle"
-                            onClick={handleVehicle}
-                        >
-                            {t('update_vehicle')}
-                        </button>
+                            ></i>
+                        </Link>
+                        <h2>
+                            {t('vehicle_details')}
+                        </h2>
                     </div>
-                }
-            </div>
-            <div className="row" style={{ marginTop: "4rem" }}>
-                <div className="col-12 col-md-12  col-lg-7">
-                    <p className="mb-2 infoEmpl_text">
-                        {t('vehicle_data')}
-                        <img src={vehicle} alt="vehicle" />
-                    </p>
-                    <div className="empdetail_c">
+                    {
+
+                        permission?.includes(permissionObj?.WEB_VEHICLE_UPDATE) &&
                         <div
-                            className="d-flex justify-content-end align-items-center"
                             style={{
-                                color: checkStatus(singleVehicleData?.vehicle?.status?.id),
-                                textTransform: "uppercase",
-                                fontWeight: "bold"
+                                display: "flex",
+                                gridGap: "10px"
                             }}
                         >
-                            <p
-                                className="mr-3 font-weight-bold"
-                                style={{
-                                    color: checkStatus(singleVehicleData?.vehicle?.status?.id),
-                                    textTransform: "uppercase",
-                                    fontWeight: "bold"
-                                }}
-                            >
-                                {singleVehicleData?.vehicle?.status?.name ? singleVehicleData?.vehicle?.status?.name : "-"}
-                            </p>
-                            <i
-                                className="fa fa-circle"
-                                aria-hidden="true"
-                            ></i>
+                            <Link to={`/dashboard/employee/allVehicles/update-vehicle/${params?.id}`}>
+                                <button
+                                    className="custom_primary_btn_dark"
+                                    style={{ width: "230px" }}
+                                // onClick={handleVehicle}
+                                >
+                                    {t('update')}
+                                </button>
+                            </Link>
                         </div>
-                        <div className="row text-center">
-                            <div className="col-md-6 mb-3">
-                                <p className="font-weight-bold">{t('brand')}</p>
-                                <p>{singleVehicleData?.vehicle?.brand ? singleVehicleData?.vehicle?.brand : "-"}</p>
+                    }
+                </div>
+                {/* vehicle detail */}
+                <div className="vehicle_detail_items">
+                    {/* @Data */}
+                    <CustomTextWithLine title={t("data")} />
+                    <div className="data_items">
+                        <VehicleStatus statusName={getVehicleById?.status?.name?.replaceAll("_", " ") || "-"} top={"5px"} right={"25px"} data={getVehicleById} />
+                        <div className="row">
+                            <div className="col-6">
+                                <div className="vehical_data">
+                                    <h4>{t("brand")}</h4>
+                                    <p>{getVehicleById?.brand || "-"}</p>
+                                </div>
                             </div>
-                            <div className="col-md-6 mb-3">
-                                <p className="font-weight-bold">{t('sub_brand')}</p>
-                                <p>{singleVehicleData?.vehicle?.subBrand ? singleVehicleData?.vehicle?.subBrand : "-"}</p>
+                            <div className="col-6">
+                                <div className="vehical_data">
+                                    <h4>{t("sub_brand")}</h4>
+                                    <p>{getVehicleById?.subBrand || "-"}</p>
+                                </div>
                             </div>
-                            <div className="col-md-6 mb-3">
-                                <p className="font-weight-bold">{t('color')}</p>
-                                <p>{singleVehicleData?.vehicle?.color ? singleVehicleData?.vehicle?.color : "-"}</p>
+                        </div>
+                        <div className="row">
+                            <div className="col-6">
+                                <div className="vehical_data">
+                                    <h4>{t("color")}</h4>
+                                    <p>{getVehicleById?.color || "-"}</p>
+                                </div>
                             </div>
-                            <div className="col-md-6 mb-3">
-                                <p className="font-weight-bold">{t('model')}</p>
-                                <p>{singleVehicleData?.vehicle?.model ? singleVehicleData?.vehicle?.model : "-"}</p>
+                            <div className="col-6">
+                                <div className="vehical_data">
+                                    <h4>{t("model")}</h4>
+                                    <p>{getVehicleById?.model || "-"}</p>
+                                </div>
                             </div>
-
-
-                            <div className="col-md-6 mb-3">
-                                <p className="font-weight-bold">{t('plates')}</p>
-                                <p>{singleVehicleData?.vehicle?.plate ? singleVehicleData?.vehicle?.plate : "-"}</p>
+                        </div>
+                        <div className="row">
+                            <div className="col-6">
+                                <div className="vehical_data">
+                                    <h4>{t("plates")}</h4>
+                                    <p>{getVehicleById?.plate || "-"}</p>
+                                </div>
                             </div>
-                            <div className="col-md-6 mb-3">
-                                <p className="font-weight-bold">{t('vehicle_type')}</p>
-                                <p>{singleVehicleData?.vehicle?.vin ? singleVehicleData?.vehicle?.vin : "-"}</p>
+                            <div className="col-6">
+                                <div className="vehical_data">
+                                    <h4>{t("vin")}</h4>
+                                    <p>{getVehicleById?.vin || "-"}</p>
+                                </div>
                             </div>
-                            <div className="col-md-6 mb-3">
-                                <p className="font-weight-bold">{t('status')}</p>
-                                <p>{singleVehicleData?.vehicle?.status?.name ? singleVehicleData?.vehicle?.status?.name : "-"}</p>
+                        </div>
+                        <div className="row">
+                            <div className="col-6">
+                                <div className="vehical_data">
+                                    <h4>S/N</h4>
+                                    <p>{getVehicleById?.serialNumber || "-"}</p>
+                                </div>
+                            </div>
+                            <div className="col-6">
+                                <div className="vehical_data">
+                                    <h4>{t("tag")}</h4>
+                                    <p>{getVehicleById?.tag || "-"}</p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                    {/* @driver */}
+                    <CustomTextWithLine title={t("CONDUCTORES")} />
+                    <div className="driver_items_container">
+                        <div className="driver_item_card">
+                            {
 
-                <div className="col-12 col-md-12  col-lg-5">
-                    <p className="mb-2 infoEmpl_text">
-                        {t('company_data')}
-                        <img src={company} alt="vehicle" />
-                    </p>
-                    <div className="empdetail_c">
-                        <div className="row text-center">
-                            <div className="col-md-12 mb-3">
-                                <p className="font-weight-bold">{t('driver')}</p>
-                                <p>{singleVehicleData?.user?.name ? singleVehicleData?.user?.name : "-"}</p>
-                            </div>
-                            <div className="col-md-12 mb-3">
-                                <p className="font-weight-bold">{t('tag')}</p>
-                                <p>{singleVehicleData?.company?.tag ? singleVehicleData?.company?.tag : "-"}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="col-12 col-md-12 mt-5">
-                    <p className="mb-2 infoEmpl_text">
-                        {t('images')}
-                        <img src={company} alt="vehicle" />
-                    </p>
-                    <div className="row text-center">
-                        {
-                            imagesByVehicleIdList?.content?.length !== 0 ?
-                                <>
-                                    {
-                                        imagesByVehicleIdList?.content?.map(item => (
-                                            <div className="col-md-3 mb-3" key={item}>
-                                                <img src={companyImage} className="vehicleGallery" alt="companyImage" />
+                                getAllDriverRelationship?.map(item => {
+                                    const fromDate = new Date(item?.from);
+                                    const toDate = new Date(item?.to);
+                                    return (
+                                        <div className="driver_item" key={item?.id}>
+                                            <div className="edit" onClick={() => {
+                                                setShowModal(true)
+                                                setIsDriverAdd("update")
+                                                setUpdateDriverId(item?.id)
+                                                setDriverNameUpdate(item)
+                                            }} >
+                                                <i className="fa fa-pencil " aria-hidden="true"></i>
                                             </div>
-                                        ))
-                                    }
-                                    <div className="d-flex justify-content-center">
-                                        <TablePagination
-                                            component="div"
-                                            rowsPerPageOptions={[2, 4, 6, 8]}
-                                            count={imagesByVehicleIdList?.totalElements}
-                                            page={page}
-                                            onPageChange={handleChangePage}
-                                            labelRowsPerPage="Images per page"
-                                            rowsPerPage={rowsPerPage}
-                                            onRowsPerPageChange={handleChangeRowsPerPage}
-                                        />
-                                    </div>
-                                </>
-                                :
-                                <NoEvent title="Images" />
-                        }
+                                            <div className="driver_avatar">
+                                                <img src={item?.selfie ? `data:image/png;base64,${item?.selfie}` : defaultUser} alt="" />
+                                                <Link to="#">{t("see_details")}</Link>
+                                            </div>
+
+                                            <div className="driver_info">
+                                                <div className="row">
+                                                    <div className="col-6">
+                                                        <div className="driver_data">
+                                                            <h4>{t("name")}</h4>
+                                                            <p>{item?.name || "-"}</p>
+                                                        </div>
+                                                    </div>
+                                                    <div className="col-6">
+                                                        <div className="driver_data">
+                                                            <h4>{t("employee_id")}</h4>
+                                                            <p>{item?.employeeId || "-"}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="row">
+                                                    <div className="col-6">
+                                                        <div className="driver_data">
+                                                            <h4>{t("email")}</h4>
+                                                            <p>{item?.email || "-"}</p>
+                                                        </div>
+                                                    </div>
+                                                    <div className="col-6">
+                                                        <div className="driver_data">
+                                                            <h4>{t("phone_number")}</h4>
+                                                            <p>{item?.phoneNumber || "-"}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="row">
+                                                    <div className="col-6">
+                                                        <div className="driver_data">
+                                                            <h4>{t("permission_type")}</h4>
+                                                            <p>{item?.vehiclePermissionTypeName || "-"}</p>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div className="row">
+                                                    <div className="col-6">
+                                                        <div className="driver_data">
+                                                            <h4>{t("from")}</h4>
+                                                            <p>{fromDate?.toLocaleDateString("en-US") || "-"}</p>
+                                                        </div>
+                                                    </div>
+                                                    <div className="col-6">
+                                                        <div className="driver_data">
+                                                            <h4>{t("to")}</h4>
+                                                            <p>{toDate?.toLocaleDateString("en-US") || "-"}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    )
+                                }
+                                )
+
+                            }
+                        </div>
+
+                        <div className="add_driver_container">
+                            <div className="add_driver_item" onClick={() => {
+                                setShowModal(true)
+                                setIsDriverAdd("add")
+                            }}>
+                                <p>AGREGAR CONDUCTOR</p>
+                                <span><i className="fa fa-plus" aria-hidden="true"></i></span>
+                            </div>
+                        </div>
+
+                    </div>
+                    {/* @images */}
+                    <CustomTextWithLine title={t("images")} />
+                    <div className="vehicle_images_container">
+                        <div className="vehicle_images_item">
+
+                            {
+                                getListOfVehicleImages?.content?.length > 0 ?
+                                    getListOfVehicleImages?.content?.map(item => {
+
+                                        return (
+                                            <div className='vehicle_image' key={item?.id}>
+                                                <img src={item?.image ? `data:image/png;base64,${item?.image}` : ""} alt="" />
+                                            </div>
+                                        )
+                                    }) :
+                                    <>
+                                        <NotFoundDataWarning text={t("no_image")} />
+                                    </>
+
+                            }
+                        </div>
+
+                        <div className="d-flex justify-content-center pt-3">
+                            <TablePagination
+                                component="div"
+                                rowsPerPageOptions={[4, 8]}
+                                count={getListOfVehicleImages?.totalElements}
+                                page={pageImage}
+                                onPageChange={handleChangePageImage}
+                                labelRowsPerPage={t("images_per_page")}
+                                rowsPerPage={rowsPerPageImage}
+                                onRowsPerPageChange={handleChangeRowsPerPageImage}
+                            />
+                        </div>
                     </div>
                 </div>
             </div>
+
+            <DriverModal
+                title={isDriverAdd == "add" ? t("add_driver") : t("driver_detail")}
+                checkmodal={isDriverAdd}
+                id={isDriverAdd == "add" ? params?.id : updateDriverId}
+                show={showModal}
+                data={driverNameUpdate}
+                onHide={() => setShowModal(false)}
+            />
         </>
     )
-
 }
-export default EmployeeVehicleDetail;
+
+export default EmployeeVehicleDetail

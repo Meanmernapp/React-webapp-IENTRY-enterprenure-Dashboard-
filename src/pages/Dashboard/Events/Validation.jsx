@@ -8,13 +8,10 @@ import { handlePagination } from '../../../reduxToolkit/EmployeeEvents/EmployeeE
 import Cookies from "js-cookie";
 import { useTranslation } from 'react-i18next'
 
-const Validation = () => {
+const Validation = ({ toggleState, selectEventForDelete, isAllChecked, validationData, handelDeleteAll, handleCheckboxChange }) => {
   const { t } = useTranslation();
   const lCode = Cookies.get("i18next") || "en";
   const dispatch = useDispatch();
-  const validationData = useSelector(state => state?.EmployeeEventsSlice?.validationEvents);
-  // const validationData = useSelector(state => state?.EmployeeEventsSlice?.incomingEvents);
-  console.log(validationData)
   let body;
   var today = new Date();
   let time_in_miliseconds = today.getTime();
@@ -90,9 +87,15 @@ const Validation = () => {
       {
         validationData?.content?.length !== 0 ?
           <>
-            <div className="eventTables" >
+            <div className="panelTables px-1 animated-div" >
               <table style={{ width: "100%" }}>
                 <thead>
+                  <th className='first_head'>
+                    <input type="checkbox" className="checkbox"
+                      checked={isAllChecked}
+                      onChange={handelDeleteAll}
+                    />
+                  </th>
                   <th className='first-head'>{t('name')}</th>
                   <th>{t('zone')}</th>
                   <th>{t('host')}</th>
@@ -102,6 +105,13 @@ const Validation = () => {
                 {
                   validationData?.content?.map(item => (
                     <tr key={item.id}>
+                      <td className='first'>
+                        <input type="checkbox" className="checkbox"
+                          checked={selectEventForDelete?.includes(item?.id)}
+                          id={item?.id}
+                          onChange={handleCheckboxChange}
+                        />
+                      </td>
                       <td className='first'>{item?.name}</td>
                       <td>{item?.reservation?.zone?.name}</td>
                       <td>{item?.host?.name}</td>
@@ -109,7 +119,7 @@ const Validation = () => {
                         {new Date(item?.createdAt).toJSON().split("T")[0]}<br />
                         {new Date(item?.createdAt).toJSON().split("T")[1].split(".")[0]}
                       </td>
-                      <td className='last'>
+                      <td className='tableIcon'>
                         <EventDropDown dropDownProps={dropDownProps} event={item} />
                       </td>
                     </tr>

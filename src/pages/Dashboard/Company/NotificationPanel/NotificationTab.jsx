@@ -19,10 +19,12 @@ import { URL } from '../../../../Apis/Constants';
 import { GetListNotifications } from '../../../../reduxToolkit/Notifications/NotificationsApi';
 import cryptoJs from 'crypto-js';
 import securekey from '../../../../config';
+import { useTranslation } from 'react-i18next'
 
 
-const NotificationsTab = () => {
+const NotificationsTab = ({ handleCheckboxChange, selectAnnouncementForDelete }) => {
 
+  const { t } = useTranslation();
   const token = sessionStorage.getItem('bearerToken');
   const bytes = cryptoJs.AES.decrypt(token, securekey)
   const bearerToken = bytes.toString(cryptoJs.enc.Utf8);
@@ -84,7 +86,7 @@ const NotificationsTab = () => {
     console.log(item)
 
 
-    fetch(`${URL}image-service/download-by-id/${item.id}/option/notification_image`, {
+    fetch(`${URL}image-service/download-by-id/${item.id}/option/anouncement_image`, {
       method: 'GET',
       headers: {
         "Accept": "application/json",
@@ -141,8 +143,8 @@ const NotificationsTab = () => {
   }
 
   return (
-    <div className="col-12 mx-auto notifications">
-      <div className="exporBtns">
+    <div className=" mx-auto notifications">
+      {/* <div className="exporBtns">
         <div
           className='exportExcel exportDiv'
           onClick={() => setValue(true)}
@@ -161,7 +163,7 @@ const NotificationsTab = () => {
         >
           <img src={ic_pdf} style={{ width: "24px", height: "24px" }} alt="ic_pdf" />
         </div>
-      </div>
+      </div> */}
       {
         notificationlist?.content?.length !== 0 ?
           <>
@@ -169,7 +171,14 @@ const NotificationsTab = () => {
               {
                 notificationlist?.content?.map(item => (
                   <div className='notificationBox' key={item?.id}>
-                    <div style={{ width: "35%" }}>
+                    <div className='fisrt_col'>
+                      <input type="checkbox" className="checkbox"
+                        checked={selectAnnouncementForDelete?.includes(item?.id)}
+                        id={item?.id}
+                        onChange={handleCheckboxChange}
+                      />
+                    </div>
+                    <div className='second_col'>
                       <p className='P1'>
                         <img
                           src={
@@ -200,7 +209,7 @@ const NotificationsTab = () => {
                       </p>
                     </div>
                     {
-                      item?.path !== "none" && item?.path.split("_")[1] === "file" ?
+                      (item?.path !== "none" && item?.path.split("_")[1] === "file" )&&
                         <div className='downloadFileDiv'>
 
                           <img
@@ -215,26 +224,26 @@ const NotificationsTab = () => {
                           />
                           <div>
                             <p
-                              style={{
-                                width: "9rem",
-                                wordBreak: "break-all"
-                              }}
+                             
+                              className='paragraph_text'
                             >
                               {item?.path !== "none" ? item?.path : null}
-                            </p>
-                            {/* <p><span>tamaño: </span>4MB.</p> */}
-                          </div>
-                          <img
+                              <img
                             src={ic_download}
                             className="cancelIcon"
                             alt="download"
                             onClick={() => handleDownloadFile(item)}
                           />
-                        </div> : null
+                            </p>
+                            {/* <p><span>tamaño: </span>4MB.</p> */}
+                          </div>
+                          
+                        </div> 
                     }
                     {
-                      item?.path !== "none" && item?.path.split("_")[1] === "image" ?
+                      (item?.path !== "none" && item?.path.split("_")[1] === "image") &&
                         <div className='downloadFileDiv'>
+                          <div className='img_container'>
                           <img
                             src={`data:image/${item?.path.split('.')[1]};base64,${item?.image}`}
                             className="demoImg"
@@ -246,10 +255,18 @@ const NotificationsTab = () => {
                             alt="package"
                             onClick={() => handleDownloadImage(item)}
                           />
+                          </div>
+                          
                         </div>
-                        : null
+                        
                     }
-                    <div className='text-right'>
+                    {
+                      item?.path === "none" && 
+                      <div className='downloadFileDiv'>
+                        {t("no_file")}
+                      </div>
+                    }
+                    <div className='text-right last_col'>
                       <p className='P2'>
                         {new Date(item?.createdAt).toDateString()} <br />
                         {new Date(item?.createdAt).toTimeString().split('G')[0]}
@@ -267,13 +284,13 @@ const NotificationsTab = () => {
                 count={notificationlist?.totalElements}
                 page={page}
                 onPageChange={handleChangePage}
-                labelRowsPerPage="Notifications per page"
+                labelRowsPerPage="Announcements per page"
                 rowsPerPage={rowsPerPage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
               />
             </div>
           </> :
-          <NoEvent title="Notifications" />
+          <NoEvent title="Anouncements" />
       }
     </div>
   )

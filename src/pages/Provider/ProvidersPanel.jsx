@@ -133,7 +133,7 @@ const ProvidersPanel = () => {
     <div className="providersPanel">
       <div className="head">
         <div className="headLeft">
-          <h2>{t("provider_panel")}</h2>
+          <h2>{t("supplier_panel")}</h2>
         </div>
       </div>
       {/* portfolio-grid */}
@@ -168,7 +168,7 @@ const ProvidersPanel = () => {
               aria-controls="pills-home"
               aria-selected="true"
             >
-              <span>{t("providers")}</span>
+              <span>{t("suppliers")}</span>
             </a>
           </div>
         </div>
@@ -231,7 +231,7 @@ const ProvidersPanel = () => {
                       Take care, ítems fragile
                     </div>
                   </div>
-                  <Link to="/dashboard/provider/order-detail">
+                  <Link to="/dashboard/supplier/order-detail">
                     <div className="view-details">
                       <a href="">VIEW DETAILS</a>
                       <i class="fa fa-angle-right"></i>
@@ -275,7 +275,7 @@ const ProvidersPanel = () => {
                       Take care, ítems fragile
                     </div>
                   </div>
-                  <Link to="/dashboard/provider/order-detail">
+                  <Link to="/dashboard/supplier/order-detail">
                     <div className="view-details">
                       <a href="">VIEW DETAILS</a>
                       <i class="fa fa-angle-right"></i>
@@ -319,7 +319,7 @@ const ProvidersPanel = () => {
                       Take care, ítems fragile
                     </div>
                   </div>
-                  <Link to="/dashboard/provider/complete-order">
+                  <Link to="/dashboard/supplier/complete-order">
                     <div className="view-details">
                       <a href="">{t("complete_order")}</a>
                       <i class="fa fa-angle-right"></i>
@@ -348,13 +348,13 @@ const ProvidersPanel = () => {
               <div className="row top-buttons">
                 <div className="col-3 upload-document">
                   <span>{t("upload_document")}</span>
-                  <Link to="/dashboard/provider/upload-doc">
+                  <Link to="/dashboard/supplier/upload-doc">
                     <img src={file} alt="file" />
                   </Link>
                 </div>
                 <div className="col-3 add-provider">
-                  <span>{t("add_new_provider")}</span>
-                  <Link to="add-providers">
+                  <span>{t("add_new_supplier")}</span>
+                  <Link to="add-suppliers">
                     <img src={file} alt="file" />
                   </Link>
                 </div>

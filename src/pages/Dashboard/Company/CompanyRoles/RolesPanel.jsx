@@ -74,13 +74,13 @@ const RolesPanel = () => {
         <>
             <div className='head'>
                 <div className='headLeft'>
-                    <Link to="/dashboard/employee/company">
+                    {/* <Link to="/dashboard/employee/company">
                         <i className="fa fa-arrow-left" aria-hidden="true" style={{
                             transform: lCode === "ar" ? "scaleX(-1)" : "",
                             margin: "0 10px"
                         }}></i>
-                    </Link>
-                    <h2>{t('roles_panel')}</h2>
+                    </Link> */}
+                    <h2>{t('privilage_settings')}</h2>
                 </div>
                 {
                     permission?.includes(permissionObj?.WEB_ROLE_CREATE) &&

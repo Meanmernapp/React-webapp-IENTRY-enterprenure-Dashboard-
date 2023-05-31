@@ -1,0 +1,25 @@
+// hover effect @hover_effect
+@mixin hover_effect {
+    &:hover {
+      background: #E1E1E1 0% 0% no-repeat padding-box;
+      border-radius: 3px;
+    }
+  }
+
+// display flex with center
+@mixin flex_center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+//  text style
+@mixin text_styles($color, $size,$weight) {
+    font-family:  Montserrat;
+    font-size: $size;
+    letter-spacing: 0px;
+    color: $color;
+    font-weight: $weight;
+    opacity: 1;
+}
+

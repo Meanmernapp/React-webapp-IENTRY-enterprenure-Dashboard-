@@ -99,6 +99,15 @@
 }
 
 .contractorTables {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  overflow: auto;
+  height: 52vh;
+  padding: 0.2rem;
+  &::-webkit-scrollbar {
+    display: none;
+}
+
   table {
     border-collapse: separate !important;
     border-spacing: 0 15px;
@@ -109,6 +118,9 @@
         color: #65aba0;
         text-transform: uppercase;
         text-align: center;
+        position: sticky;
+    top: 0;
+    background: white;
       }
     }
 

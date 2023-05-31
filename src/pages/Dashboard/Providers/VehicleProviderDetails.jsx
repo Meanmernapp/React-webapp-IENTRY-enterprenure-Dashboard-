@@ -33,7 +33,7 @@ const VehicleProviderDetails = () => {
     <>
       <div className="head">
         <h2>
-          <Link to="/dashboard/employee/providers/">
+          <Link to="/dashboard/employee/suppliers/">
             <ArrowBackIcon
               style={{
                 color: "#146F62",

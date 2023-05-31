@@ -11,6 +11,7 @@ import SaveIcon from "@mui/icons-material/Save";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import PhoneIphoneIcon from "@mui/icons-material/PhoneIphone";
 
+
 import { Box } from "@mui/system";
 import {
   FormControl,
@@ -26,6 +27,9 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import apiInstance from "../../../Apis/Axios";
+import { useTranslation } from 'react-i18next';
+import Cookies from 'js-cookie';
+
 const AddUpdateProviderComponent = ({
   addProviderFlag,
   addContractorFlag,
@@ -37,6 +41,8 @@ const AddUpdateProviderComponent = ({
   // use hook importer
   const dispatch = useDispatch()
   const navigate = useNavigate();
+  const { t } = useTranslation();
+  const lCode = Cookies.get("i18next") || "en";
 
   // use State hook for local state management
   const { getEmployeeProviderByEmail } = useSelector(state => state.EmployeeProviderSlice)
@@ -52,6 +58,8 @@ const AddUpdateProviderComponent = ({
   const [companyName, setCompanyName] = useState();
   const [email, setEmail] = useState();
   const [name, setName] = useState();
+  const [lastName, setLastName] = useState()
+  const [secondLastName , setSecondLastName] = useState()
   const [phoneNumber, setPhoneNumber] = useState();
   const [statusprovider, setStatusProvider] = useState();
   const [gender, setGender] = useState();
@@ -92,6 +100,7 @@ const AddUpdateProviderComponent = ({
       !companyName ||
       !phoneNumber ||
       !name ||
+      !lastName ||
       !email ||
       !statusprovider) {
       toast.warn("please fill all field")
@@ -100,7 +109,7 @@ const AddUpdateProviderComponent = ({
       // toast.success("all good")
       const createprovider = {
         acronym,
-        providerCompanyName: companyName,
+        supplierCompanyName: companyName,
         user: {
           id: getEmployeeProviderByPhoneNumber?.id || getEmployeeProviderByEmail?.id
         },
@@ -117,13 +126,15 @@ const AddUpdateProviderComponent = ({
         const data = {
           email,
           phoneNumber,
-          name
+          name,
+          lastName,
+          secondLastName
         }
         dispatch(CreateEmployeeProviderPreUser(data)).then((res) => {
           console.log(res)
           const createprovider = {
             acronym,
-            providerCompanyName: companyName,
+            supplierCompanyName: companyName,
             user: {
               id: res?.payload?.data?.data?.id
             },
@@ -150,6 +161,8 @@ const AddUpdateProviderComponent = ({
       phoneNumber,
       name,
       email,
+      lastName,
+      secondLastName,
       password: "1234",
       gender: {
         id: gender
@@ -167,12 +180,12 @@ const AddUpdateProviderComponent = ({
         id: statusprovider
       },
       acronym,
-      providerCompanyName: companyName,
+      supplierCompanyName: companyName,
     }
 
 
     dispatch(UpdateEmployeeProviderInfo(body)).then(() => {
-      navigate("/dashboard/employee/providers")
+      navigate("/dashboard/employee/suppliers")
     })
     dispatch(UpdateEmployeeProviderCompany(updprovider))
   }
@@ -180,6 +193,8 @@ const AddUpdateProviderComponent = ({
   // useEffect  for fetch all data from email or phone number or default
   useEffect(() => {
     setName(!updateProvider && getEmployeeProviderByPhoneNumber?.name || getEmployeeProviderByEmail?.name || name)
+    setLastName(!updateProvider && getEmployeeProviderByPhoneNumber?.lastName || getEmployeeProviderByEmail?.lastName || lastName)
+    setSecondLastName(!updateProvider && getEmployeeProviderByPhoneNumber?.secondLastName || getEmployeeProviderByEmail?.secondLastName || secondLastName)
     setEmail(!updateProvider && getEmployeeProviderByPhoneNumber?.email || getEmployeeProviderByEmail?.email || email)
     setPhoneNumber(!updateProvider && getEmployeeProviderByPhoneNumber?.phoneNumber || getEmployeeProviderByEmail?.phoneNumber || phoneNumber)
   }, [getEmployeeProviderByPhoneNumber?.id, getEmployeeProviderByEmail?.id])
@@ -213,8 +228,10 @@ const AddUpdateProviderComponent = ({
   // useEffect to get updated value before update function
   useEffect(() => {
     setAcronym(updateProvider && getEmployeeProviderById?.acronym || '')
-    setCompanyName(updateProvider && getEmployeeProviderById?.providerCompanyName || '')
+    setCompanyName(updateProvider && getEmployeeProviderById?.supplierCompanyName || '')
     setName(updateProvider && getEmployeeProviderById?.user?.name || '')
+    setLastName(updateProvider && getEmployeeProviderById?.user?.lastName || '')
+    setSecondLastName(updateProvider && getEmployeeProviderById?.user?.secondLastName || '')
     setEmail(updateProvider && getEmployeeProviderById?.user?.email || '')
     setPhoneNumber(updateProvider && getEmployeeProviderById?.user?.phoneNumber || '')
     setGender(updateProvider && getEmployeeProviderById?.user?.gender?.id || '')
@@ -227,7 +244,7 @@ const AddUpdateProviderComponent = ({
     <>
       <div className="head ">
         <h2 style={{ color: "#146F62", font: "normal normal 600 32px/39px Montserrat" }}>
-          <Link to={addProvider || updateProvider ? "/dashboard/employee/providers" : '#'}>
+          <Link to={addProvider || updateProvider ? "/dashboard/employee/suppliers" : '#'}>
             <ArrowBackIcon
               style={{
                 color: "#146F62",
@@ -237,10 +254,10 @@ const AddUpdateProviderComponent = ({
             />
           </Link>
 
-          {addProvider && "ADD PROVIDER"}
+          {addProvider && t("add_supplier")}
           {addContractor && "ADD CONTRACTOR"}
           {updateContractor && "UPDATE CONTRACTOR"}
-          {updateProvider && "UPDATE PROVIDER"}
+          {updateProvider && t('update_supplier')}
         </h2>
 
       </div>
@@ -248,7 +265,7 @@ const AddUpdateProviderComponent = ({
         <div className="col-md-6 add_provider_content">
           <p className="provider_header">
 
-            {(addProvider || updateProvider) && "Company Information"}
+            {(addProvider || updateProvider) && t("company_information")}
             {(addContractor || updateContractor) && "CONTRACTOR COMPANY"}
           </p>
 
@@ -265,7 +282,7 @@ const AddUpdateProviderComponent = ({
             <TextField size="small"
               focused={acronym && updateProvider && getEmployeeProviderById?.acronym}
               fullWidth
-              label="Acronym"
+              label={t("acronym")}
               id="Acronym"
               value={acronym}
               onChange={(e) => setAcronym(e.target.value)}
@@ -285,9 +302,9 @@ const AddUpdateProviderComponent = ({
 
               fullWidth
 
-              label="Company Name"
+              label={t("company_name")}
               id="Company Name"
-              focused={companyName && updateProvider && getEmployeeProviderById?.providerCompanyName}
+              focused={companyName && updateProvider && getEmployeeProviderById?.supplierCompanyName}
               value={companyName}
               onChange={(e) => setCompanyName(e.target.value)}
 
@@ -303,13 +320,13 @@ const AddUpdateProviderComponent = ({
             }}
           >
             <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">Status</InputLabel>
+              <InputLabel id="demo-simple-select-label">{t("status")}</InputLabel>
               <Select size="small"
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 value={statusprovider}
                 onChange={(e) => setStatusProvider(e.target.value)}
-                label="Status"
+                label={t("status")}
                 focused={updateProvider && getEmployeeProviderById?.user?.status?.id}
               >
                 {
@@ -324,7 +341,7 @@ const AddUpdateProviderComponent = ({
             </FormControl>
           </Box>
           <p className="provider_header">
-            {(addProvider || updateProvider) && "Provider Company"}
+            {(addProvider || updateProvider) && t("supplier_company")}
             {(addContractor || updateContractor) && "CONTRACTOR COMPANY"}
           </p>
           <Box
@@ -341,10 +358,52 @@ const AddUpdateProviderComponent = ({
 
               fullWidth
               focused={name && updateProvider && getEmployeeProviderById?.user?.name}
-              label="NAME"
+              label={t("name")}
               id="NAME"
               value={name}
               onChange={(e) => setName(e.target.value)}
+              className=""
+            />
+          </Box>
+          <Box
+            className="add_provider_text_field"
+            style={{ marginTop: "28.5px" }}
+            sx={{
+              width: "100%",
+              maxWidth: "100%",
+              fontSize: "20px",
+              height: "40px",
+            }}
+          >
+            <TextField size="small"
+
+              fullWidth
+              focused={lastName && updateProvider && getEmployeeProviderById?.user?.lastName}
+              label={t("last_name")}
+              id="LASTNAME"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              className=""
+            />
+          </Box>
+          <Box
+            className="add_provider_text_field"
+            style={{ marginTop: "28.5px" }}
+            sx={{
+              width: "100%",
+              maxWidth: "100%",
+              fontSize: "20px",
+              height: "40px",
+            }}
+          >
+            <TextField size="small"
+
+              fullWidth
+              focused={secondLastName && updateProvider && getEmployeeProviderById?.user?.name}
+              label={t("second last name")}
+              id="SECONDLASTNAME"
+              value={secondLastName}
+              onChange={(e) => setSecondLastName(e.target.value)}
               className=""
             />
           </Box>
@@ -361,7 +420,7 @@ const AddUpdateProviderComponent = ({
 
               fullWidth
 
-              label="Email"
+              label={t("email")}
               id="Email"
               focused={email && updateProvider && getEmployeeProviderById?.user?.email}
               value={email}
@@ -391,7 +450,7 @@ const AddUpdateProviderComponent = ({
 
               fullWidth
 
-              label="Phone Number"
+              label={t("phone_number")}
               id="Phone Number"
 
               value={phoneNumber}
@@ -412,12 +471,14 @@ const AddUpdateProviderComponent = ({
           </Box>
 
           <div className="footer">
-            <button className="custom_btn_cancel_gray_hover" style={{ width: "284px" }} >cancel</button>
+            <button className="custom_btn_cancel_gray_hover" style={{ width: "284px" }} 
+            onClick={() => navigate("/dashboard/employee/suppliers")}
+            >{t('cancel')}</button>
             <button
               className="custom_primary_btn_dark"
               style={{ width: "284px" }}
               onClick={() => { addProvider && formHandle(); updateProvider && formHandleUpdate() }}
-            > {updateProvider && "UPDATE "} {addProvider && "ADD"}</button>
+            > {updateProvider && t("UPDATE")} {addProvider && t('add')}</button>
           </div>
         </div>
       </div>

@@ -18,12 +18,20 @@ import franceFlag from '../assets/images/france.png'
 import i18next from 'i18next'
 import Cookies from "js-cookie";
 import { useTranslation } from "react-i18next";
+import profileImg from '../assets/images/women.png'
+import BootstrapTooltip from '../utils/BootstrapTooltip';
+import userDefault from '../assets/images/person-4.png';
 
-const SidebarDropDownOption = ({ changestyle, hovereffect }) => {
+const SidebarDropDownOption = ({ changestyle, hovereffect, isMenuOpen, menutop }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { user } = useSelector(state => state.authenticatioauthennSlice);
     const userType = user?.data?.userType?.name
+
+    console.log(menutop)
+
+
+
 
 
     const languages = [
@@ -58,6 +66,7 @@ const SidebarDropDownOption = ({ changestyle, hovereffect }) => {
     const [currentLanguage, setCurrentLanguage] = useState({});
     const { t } = useTranslation();
 
+    console.log(currentLanguageCode)
     useEffect(() => {
         setCurrentLanguage(languages.find((l) => l.code === currentLanguageCode))
         document.body.dir = currentLanguage?.dir || "ltr";
@@ -82,32 +91,48 @@ const SidebarDropDownOption = ({ changestyle, hovereffect }) => {
         //     currentLanguageCode === "ar" ? "right !important" : "left",
         // );
     }, []);
-
-
     return (
         <>
-            <Dropdown drop='end'>
+            <Dropdown drop='end' >
                 <Dropdown.Toggle variant="success" id="dropdown-basic" style={{
-                    width: "225px",
-                    textAlign: currentLanguageCode === "ar" ? "right" : "left"
-                }} >
-                    {
+                    width: isMenuOpen ? "200px" : menutop ? "200px" : "35px",
+                    textAlign: currentLanguageCode === "ar" ? "right" : "left",
+                }}
+                    className={"profile_option_menutop"}
+                >
+                    <BootstrapTooltip title={!isMenuOpen ? user?.data?.name : ""} placement="right">
+
+                        <img src={userDefault} alt="profile" width={"48px"} height={"48px"}
+                            style={{
+                                margin: isMenuOpen ? "0 5px" : menutop ? "" : "0 -23px",
+                                borderRadius: "5"
+                            }}
+                        />
+                    </BootstrapTooltip>
+                    {/* {
                         hovereffect === 9 && changestyle !== "profile" ?
                             <img src={green_profile} className="sidBarIcons" alt="green_profile" /> :
                             <i className="fa fa-user-circle sidBarIcons" aria-hidden="true"></i>
-                    }
+                    } */}
                     <span
                         // className="ms-1 d-none d-sm-inline"
                         style={{ textTransform: "capitalize", width: "100%" }}
-                        className={changestyle === "profile" ? "activeLi" : hovereffect === 9 ? "hoverLi" : ""}
+                    // className={changestyle === "profile" ? "activeLi" : hovereffect === 9  ? "hoverLi" : ""}
+
                     >
-                        {`${user?.data?.name.slice(0, 15)}...`}
+                        {isMenuOpen &&
+                            `${user?.data?.name.slice(0, 16)} ${user?.data?.name?.length > 16 ? "..." : ""} `
+                        }
+                        {
+                            menutop &&
+                            `${user?.data?.name.slice(0, 16)} ${user?.data?.name?.length > 16 ? "..." : ""} `
+                        }
                     </span>
                 </Dropdown.Toggle>
 
-                <Dropdown.Menu className="sidebar_option_container_side"
-
-
+                <Dropdown.Menu
+                    className={`sidebar_option_container_side ${menutop === false && (currentLanguageCode === "ar" ? isMenuOpen ? "leftArbic" : "leftArbicClose" : "notleft") ||
+                        menutop === true && (currentLanguageCode === "ar" ? "leftArbicM" : "notleftM")}`}
                 >
                     <Dropdown.Item href="#/action-1">
                         <div className="sidebar_option_container_header">
@@ -118,7 +143,7 @@ const SidebarDropDownOption = ({ changestyle, hovereffect }) => {
                             </div>
                         </div>
                     </Dropdown.Item>
-                    {
+                    {/* {
                         user?.data?.status?.id != 3 &&
                         <>
 
@@ -128,13 +153,13 @@ const SidebarDropDownOption = ({ changestyle, hovereffect }) => {
                                 }>
                                     <div className="sidebar_option_body_item">
 
-                                        <p>NOTIFICATIONS</p>
+                                        <p>announcements</p>
                                         <NotificationsIcon />
                                     </div>
                                 </Link>
                             </Dropdown.Item>
                             <Dropdown.Item href="#/action-3">
-                                <Link to={userType === "EMPLOYEE" ? "/dashboard/employee/profile" : "/dashboard/provider/profile"}>
+                                <Link to={userType === "EMPLOYEE" ? "/dashboard/employee/profile" : "/dashboard/supplier/profile"}>
                                     <div className="sidebar_option_body_item">
                                         <p>PROFILE</p>
                                         <PersonIcon />
@@ -142,7 +167,10 @@ const SidebarDropDownOption = ({ changestyle, hovereffect }) => {
                                 </Link>
                             </Dropdown.Item>
                         </>
-                    }
+                    } */}
+                    <div className="sidebar_option_body_item">
+                        <LanguageSelector isMenuOpen={isMenuOpen} menutop={menutop} />
+                    </div>
                     <Dropdown.Item href="#/action-3">
                         <div className="sidebar_option_body_item" onClick={() => logoutUser(navigate, dispatch)}>
                             <p >LOG OUT</p>
@@ -150,9 +178,7 @@ const SidebarDropDownOption = ({ changestyle, hovereffect }) => {
                         </div>
                     </Dropdown.Item>
 
-                    <div className="sidebar_option_body_item">
-                        <LanguageSelector />
-                    </div>
+
                 </Dropdown.Menu>
             </Dropdown>
             {/* <div className="sidebar_option_container">
@@ -166,7 +192,7 @@ const SidebarDropDownOption = ({ changestyle, hovereffect }) => {
                 <div className="sidebar_option_body">
                     <div className="sidebar_option_body_item">
                         <Link to="/dashboard/employee/notification-panel">
-                            <p>NOTIFICATIONS</p>
+                            <p>announcements</p>
                         </Link>
                         <NotificationsIcon />
                     </div>

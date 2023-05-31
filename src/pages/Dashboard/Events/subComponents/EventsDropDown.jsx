@@ -18,20 +18,23 @@ const CustomToggle = React.forwardRef(({ children, onClick }, ref) => {
     // let childId = children?._owner?.memoizedProps?.event?.id
 
     return (
-        <div
-            ref={ref}
-            onClick={(e) => {
-                onClick(e);
-                // dispatch(getEventDetail(childId));
-            }}
-        >
-            {children}
-            <img
-                src={threedotsicon}
-                className="img-fluid providerThreeDots"
-                alt="threedotsicon"
-            />
-        </div>
+
+        <button
+    
+      className="btn-option"
+      ref={ref}
+      onClick={(e) => {
+        onClick(e);
+      }}
+    >
+      {children}
+      <img
+        src={threedotsicon}
+        className="img-fluid providerThreeDots"
+        alt="threedotsicon"
+      />
+    </button>
+
     );
 });
 

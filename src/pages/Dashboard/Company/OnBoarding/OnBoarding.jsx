@@ -8,7 +8,8 @@ import noData from "../../../../assets/images/warning.svg";
 import NotFoundDataWarning from '../../../../components/NotFoundDataWarning';
 import { permissionObj } from '../../../../Helpers/permission';
 import { GetAllOnBoardingProcess, GetOnBoarding } from '../../../../reduxToolkit/EmployeeOnBoarding/EmployeeOnBoardingApi';
-
+import Cookies from "js-cookie";
+import { useTranslation } from 'react-i18next'
 /*
 Author : Arman Ali
 Module: Zone
@@ -30,6 +31,8 @@ const OnBoarding = () => {
     const { permission } = useSelector(state => state.authenticatioauthennSlice);
     const { getOnBoarding } = useSelector(state => state.employeeOnBoardingSlice);
 
+    const { t } = useTranslation();
+    const lCode = Cookies.get("i18next") || "en";
 
     // custom Funtion
     // a funtion to control zone page
@@ -61,10 +64,10 @@ const OnBoarding = () => {
             {/* header */}
             <div className='custom_head'>
                 <div className='left'>
-                    <Link to="/dashboard/employee/company">
+                    {/* <Link to="/dashboard/employee/company">
                         <i className="fa fa-arrow-left" aria-hidden="true"></i>
-                    </Link>
-                    <p>ON BOARDING</p>
+                    </Link> */}
+                    <p>{t("on_boarding")}</p>
                 </div>
             </div>
             {/* content */}

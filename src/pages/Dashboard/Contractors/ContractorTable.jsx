@@ -5,12 +5,15 @@ import emptyList from "../../../assets/images/warning.svg";
 import { getAllEmployeeContractors } from '../../../reduxToolkit/EmployeeContractors/EmployeeContractorsSlice';
 import { GetAllEmployeeContractors } from '../../../reduxToolkit/EmployeeContractors/EmployeeContractorsApi';
 import ContractorOptionMenu from './SubComponents/ContractorOptionMenu';
-
+import SearchIcon from "@mui/icons-material/Search";
 import { useTranslation } from 'react-i18next'
+import threedotsicon from "../../../assets/images/elipse.png";
+
 import Cookies from "js-cookie";
 import NotFoundDataWarning from '../../../components/NotFoundDataWarning';
 
-const ContractorTable = (toggleState) => {
+const ContractorTable = ({ isAllCheckedContractor, selectContractorForDelete, deleteContractorShow,
+  setSelectContractorForDelete, setIsAllCheckedContractor }) => {
   const dispatch = useDispatch();
 
   const lCode = Cookies.get("i18next") || "en";
@@ -20,6 +23,7 @@ const ContractorTable = (toggleState) => {
 
   const [pagePagination, setPagePagination] = useState(0);
   const [rowsPerPageProvider, setRowsPerProvider] = useState(10);
+  const [searchContractor, setSearchContractor] = useState("");
 
   const handleChangePageProvider = (event, newPage) => {
     setPagePagination(newPage);
@@ -36,6 +40,30 @@ const ContractorTable = (toggleState) => {
     secondItem: 'VIEW DETAILS '
   }
 
+  // this function control select all id or unSelect all
+  const handelDeleteAll = (e) => {
+    setIsAllCheckedContractor(e.target.checked)
+    if (e.target.checked) {
+      const selectAllIds = fetchAllContractors?.content?.map(item => {
+        return item?.id
+      })
+      setSelectContractorForDelete(selectAllIds)
+
+
+    } else {
+      setSelectContractorForDelete([])
+    }
+
+  }
+  // this function handle only specific id base on selection
+  const handleCheckboxChange = (e) => {
+
+    if (e.target.checked) {
+      setSelectContractorForDelete([...selectContractorForDelete, e.target.id]);
+    } else {
+      setSelectContractorForDelete(selectContractorForDelete.filter((removeid) => removeid !== e.target.id));
+    }
+  };
   useEffect(() => {
     const body = {
       pagination: {
@@ -53,11 +81,29 @@ const ContractorTable = (toggleState) => {
 
   return (
     <>
+      <div className="contractor-detail-page-sec">
+        <input
+          type="text"
+
+          className="contractor-detail-page-search"
+          value={searchContractor}
+          onChange={(e) => {
+            setSearchContractor(e.target.value);
+          }}
+        />
+        <SearchIcon className="contractor-detail-page-search__icon" />
+      </div>
       {
         fetchAllContractors?.content?.length !== 0 ?
-          <div className="contractorTables">
+          <div className="panelTables px-1">
             <table style={{ width: "100%" }}>
               <thead>
+                <th className='first_head'>
+                  <input type="checkbox" className="checkbox"
+                    checked={isAllCheckedContractor}
+                    onChange={handelDeleteAll}
+                  />
+                </th>
                 <th className='first_head'>{t("company_name")}</th>
                 <th>{t("manager")}</th>
                 <th>{t("status")}</th>
@@ -65,29 +111,49 @@ const ContractorTable = (toggleState) => {
                 <th>NUMBER</th>
                 <th className='last'>{t("options")}</th>
               </thead>
-              {
-                fetchAllContractors?.content?.map((item, index) => (
-                  <tr key={index}>
-                    <td className='first'>{item?.contractorCompanyName}</td>
-                    <td>{item?.user?.name} </td>
-                    <td style={{
-                      fontWeight: "bold",
-                      color: item?.user?.status?.id == 4 && "#0C4523" ||
-                        item?.user?.status?.id === 3 && "#F2A100" ||
-                        item?.user?.status?.id == 25 && "gray" ||
-                        item?.user?.status?.id == 29 && "blue" ||
-                        item?.user?.status?.id == 2 && "red"
+              <tbody>
+                {
+                  fetchAllContractors?.content?.filter((user) => {
+                    if (searchContractor === "") {
+                      return user?.contractorCompanyName;
+                    } else if (
+                      user?.contractorCompanyName
+                        ?.toLowerCase()
+                        .includes(searchContractor?.toLowerCase())
+                    ) {
+                      return user;
+                    }
+                  })?.map((item, index) => (
+                    <tr key={index}>
+                      <td className='first'>
+                        <input type="checkbox" className="checkbox"
+                          checked={selectContractorForDelete?.includes(item?.id)}
+                          id={item?.id}
+                          onChange={handleCheckboxChange}
+                        />
+                      </td>
+                      <td className='first'>{item?.contractorCompanyName}</td>
+                      <td>{item?.user?.name} </td>
+                      <td style={{
+                        fontWeight: "bold",
+                        fontSize: 14,
+                        color: item?.user?.status?.id == 4 && "#0C4523" ||
+                          item?.user?.status?.id === 3 && "#F2A100" ||
+                          item?.user?.status?.id == 25 && "gray" ||
+                          item?.user?.status?.id == 29 && "blue" ||
+                          item?.user?.status?.id == 2 && "red"
 
 
-                    }}>{item?.user?.status?.name.replaceAll('_', ' ')}</td>
-                    <td>{item?.user?.email}</td>
-                    <td>{item?.user?.phoneNumber}</td>
-                    <td className='last'>
-                      <ContractorOptionMenu dropDownProps={dropDownProps} userId={item?.user?.id} cid={item?.id} statusTo={item?.user?.status?.id} data={item} />
-                    </td>
-                  </tr>
-                ))
-              }
+                      }}>{item?.user?.status?.name.replaceAll('_', ' ')}</td>
+                      <td>{item?.user?.email}</td>
+                      <td>{item?.user?.phoneNumber}</td>
+                      <td className='tableIcon'>
+                        <ContractorOptionMenu dropDownProps={dropDownProps} userId={item?.user?.id} cid={item?.id} statusTo={item?.user?.status?.id} data={item} />
+                      </td>
+                    </tr>
+                  ))
+                }
+              </tbody>
             </table>
           </div> :
           (

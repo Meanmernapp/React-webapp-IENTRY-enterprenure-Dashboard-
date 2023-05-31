@@ -1,23 +1,63 @@
 @import "../scss/breakpoint.scss";
 
 .sidebar {
-  width: 12rem;
+  // width: 12rem;
+  position: relative;
 
-  .sideLogo {
-    width: 179px;
-    margin: 10px 0 25px 20px;
-    height: 64px;
+  // .sideLogo {
+  //   width: 179px;
+  //   margin: 10px 0 25px 20px;
+  //   height: 64px;
+  // }
+  .logo_sidebar{
+    .sideLogoL{
+      position: absolute;
+      top: 11px;
+      left: 13px;
+    }
+    .sideLogoS{
+      position: absolute;
+      top: 13px;
+      left: 9px;
+    }
+
+  }
+  .Change_menu_style{
+    color: white;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 0.4rem;
+    i{
+      padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+    &:hover{
+      background: #65ABA0;
+    
+    }
+    }
+    
+   
   }
 
   .sideTabs {
     height: 100vh;
     background: #146f62;
     box-shadow: 3px 0px 4px #00000066;
-    padding-top: 86px;
+    padding-top: 62px;
 
     ul {
       list-style: none;
       padding: 0;
+      height: 75%;
+    margin-top: 2rem;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    overflow: auto;
+    &::-webkit-scrollbar{
+      display: none;
+    }
 
       a {
         &:hover {
@@ -34,6 +74,24 @@
         background-color: #fff;
         color: #146f62;
       }
+      .profile_li{
+        height: 59px;
+        position: absolute;
+        bottom: 0;
+        width:94%;
+        &:hover{
+          background-color: #fff;
+          color: #146f62 !important;
+          
+        }
+      }
+     
+      
+      .profile_li_col{
+        height: 59px;
+        position: absolute;
+        bottom: 0;
+      }
 
       li {
         display: flex;
@@ -44,7 +102,9 @@
         font-size: 18px;
         text-transform: uppercase;
         color: #fff;
-        height: 43px;
+        height: 31px;
+        margin: 6px;
+    border-radius: 5px;
 
         .sidBarIcons {
           width: 21.07px;
@@ -74,10 +134,11 @@
         .btn-success {
           background-color: transparent !important;
           border-color: transparent !important;
+          color:#ffffff ;
 
           &:hover {
             background-color: transparent !important;
-            color: #fff !important;
+            color: #146f62 ;
             border-color: transparent !important;
           }
         }
@@ -116,7 +177,7 @@
   border-radius: 5px;
   opacity: 1;
   width: 205px;
-
+ 
 
 
   // padding: 5px;
@@ -183,12 +244,30 @@
   // }
 }
 
+.leftArbic{
+  inset: 52px auto auto -407px !important;
+
+}
+.notleft{
+  inset: 52px auto auto 0px !important;
+}
+.leftArbicClose{
+  inset: 52px auto auto -242px !important;
+}
+
+.leftArbicM{
+  inset:  63px auto auto -204px !important;
+
+}
+.notleftM{
+  inset: 61px auto auto 200px !important;
+}
 // some media breakpoint
 
 @include media (">=1300px", "<=1400px") {
 
   .sidebar {
-    width: 13.5rem !important;
+    width: 13.5rem ;
 
   }
 }
@@ -196,7 +275,7 @@
 @include media (">=1400px", "<=1500px") {
 
   .sidebar {
-    width: 14.5rem !important;
+    width: 14.5rem ;
 
   }
 }
@@ -204,27 +283,27 @@
 @include media (">=1500px", "<=1600px") {
 
   .sidebar {
-    width: 15.5rem !important;
+    width: 15.5rem ;
   }
 }
 
 @include media (">=1600px", "<=1700px") {
 
   .sidebar {
-    width: 16.5rem !important;
+    width: 16.5rem ;
   }
 }
 
 @include media (">=1700px", "<=1800px") {
 
   .sidebar {
-    width: 17.8rem !important;
+    width: 17.8rem ;
   }
 }
 
 @include media (">=1800px") {
 
   .sidebar {
-    width: 17.8rem !important;
+    width: 17.8rem ;
   }
 }

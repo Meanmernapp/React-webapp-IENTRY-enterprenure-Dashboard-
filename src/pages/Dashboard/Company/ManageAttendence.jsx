@@ -16,6 +16,7 @@ import { permissionObj } from '../../../Helpers/permission';
 import { t } from 'i18next';
 import { iconStyle, textFieldStyle } from '../../../Helpers/arabicStyle';
 import NotFoundDataWarning from '../../../components/NotFoundDataWarning';
+import Cookies from "js-cookie";
 
 
 /*
@@ -29,7 +30,7 @@ const ManageAttendence = () => {
 
     // use hook importer
     const dispatch = useDispatch()
-
+    const lCode = Cookies.get("i18next") || "en";
     //use Selector hook to get state for redux store
     //employee
     const { getAllEmployeesPayroll } = useSelector(state => state.employeePayrollSlice)
@@ -205,13 +206,17 @@ const ManageAttendence = () => {
             <div className='custom_head'>
                 <div className='left custom_hover_back_link'>
                     <Link to='/dashboard/employee/payroll'>
-                        <i className="fa fa-arrow-left" aria-hidden="true" style={iconStyle}></i>
+                        <i className="fa fa-arrow-left" aria-hidden="true" 
+                        // style={iconStyle}
+                        style={{transform:lCode === "ar" ? "scaleX(-1)" : ""}}
+                        ></i>
                     </Link>
 
                     <p>{t("manage_attendance")}</p>
                     {
                         permission?.includes(permissionObj?.WEB_EMAIL_SETTINGS_MENU) &&
-                        <Link className='link' to="/dashboard/employee/payroll/email-setting">{t("go_to_email_settings")?.toUpperCase()}</Link>
+                        
+                        <Link className='link' to="/dashboard/employee/payroll/email-setting" state={'yes'}>{t("go_to_email_settings")?.toUpperCase()}</Link>
                     }
                 </div>
             </div>
@@ -228,7 +233,9 @@ const ManageAttendence = () => {
                                 height: "40px",
                             }}
                         >
-                            <FormControl fullWidth sx={textFieldStyle}>
+                            <FormControl fullWidth 
+                            // sx={textFieldStyle}
+                            >
                                 <InputLabel>{t("device_to_take_attendance")}</InputLabel>
                                 <Select size="small"
                                     // value={orderby}
@@ -290,7 +297,9 @@ const ManageAttendence = () => {
                                 height: "40px",
                             }}
                         >
-                            <FormControl fullWidth sx={textFieldStyle}>
+                            <FormControl fullWidth 
+                            // sx={textFieldStyle}
+                            >
                                 <InputLabel>{t("employee")}</InputLabel>
                                 <Select size="small"
                                     value={employee}
@@ -378,7 +387,9 @@ const ManageAttendence = () => {
                             <LocalizationProvider dateAdapter={AdapterDateFns}>
                                 <TimePicker
                                     renderInput={(props) => <TextField size="small"
-                                        {...props} sx={textFieldStyle} />}
+                                        {...props} 
+                                        // sx={textFieldStyle} 
+                                        />}
                                     ampm={false}
                                     openTo="hours"
                                     views={["hours", "minutes", "seconds"]}

@@ -126,6 +126,20 @@
                     margin-left: 0.4rem;
                 }
             }
+            .folio {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                font: normal normal bold 12px/15px Montserrat;
+                letter-spacing: 0px;
+                color: #146F62;
+                opacity: 1;
+
+                .input_check {
+                    display: flex;
+                    gap: 0.2rem;
+                }
+            }
 
             // .status_d {
             //     display: flex;
@@ -249,19 +263,47 @@
 
             }
 
+            // .link {
+            //     a {
+            //         letter-spacing: 0px;
+            //         color: #146F62 !important;
+            //         opacity: 1;
+            //         font-size: 14px;
+            //         // font-weight: bold;
+
+            //     }
+
+            //     position: absolute;
+            //     bottom: 0;
+            //     right: 0;
+
+            // }
             .link {
                 a {
                     letter-spacing: 0px;
                     color: #146F62 !important;
                     opacity: 1;
-                    font-size: 14px;
-                    // font-weight: bold;
+                    font: normal normal normal 14px/18px Montserrat;
+                    font-weight: bold;
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+
+                    &:hover {
+                        background-color: #0000001A;
+                        border-radius: 5px;
+                        // padding: 0px 5px;
+                    }
 
                 }
 
                 position: absolute;
-                bottom: 0;
-                right: 0;
+                bottom: 10px;
+                right: 10px;
+
+                i {
+                    font-size: 20px;
+                }
 
             }
 

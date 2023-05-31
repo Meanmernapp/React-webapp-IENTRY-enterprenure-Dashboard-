@@ -3,18 +3,39 @@
 
     .notificationBox {
         display: flex;
-        justify-content: space-between;
         align-items: center;
         border-bottom: 3px solid #146f62;
         border-bottom-style: dashed;
-        padding: 5px 15px;
+        padding-top: 0.3rem;
+        padding-bottom: 0.3rem;
+
+
+        .fisrt_col{
+            width: 2%;
+        }
+        .second_col{
+            width: 30%;
+        }
+
 
         .downloadFileDiv {
             display: flex;
-            position: relative;
+            
             align-items: center;
-            width: 40%;
+            justify-content: center;
+            width: 43%;
+            text-align: center;
 
+            .paragraph_text{
+                position: relative;
+                word-break: break-all;
+                width: 9rem;
+
+            }
+            .img_container{
+                position: relative;
+            }
+            
             p {
                 color: #707070;
                 font-size: 14px;
@@ -24,18 +45,24 @@
                     font-weight: normal;
                 }
             }
+            
 
             .cancelIcon {
                 position: absolute;
                 top: 0;
-                right: 10rem;
+                right:-1rem;
                 cursor: pointer;
             }
 
             .demoImg {
+               
                 height: 65px;
                 width: 213px;
+                object-fit: cover;
             }
+        }
+        .last_col{
+            width: 25%;
         }
     }
 
@@ -165,7 +192,7 @@
 }
 
 .createScroll {
-    height: 25rem;
+    height: 69vh;
     overflow-y: scroll;
 
     &::-webkit-scrollbar {

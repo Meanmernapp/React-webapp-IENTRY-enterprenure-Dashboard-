@@ -25,6 +25,7 @@ import CarDemoImg from "../../../assets/images/minicar.png";
 import { useTranslation } from 'react-i18next'
 import Cookies from "js-cookie";
 import NotFoundDataWarning from "../../../components/NotFoundDataWarning";
+import DocumentTable from "../../Modals/DocumentTable";
 
 let docID;
 const ContractorDetail = ({ employeeDetailsFlag, approveDocumentFlag }) => {
@@ -126,7 +127,7 @@ const ContractorDetail = ({ employeeDetailsFlag, approveDocumentFlag }) => {
 
   const getContractorDocument = async () => {
     await apiInstance
-      .get(`document-service/external/get-all/by-user-id/${docID}`)
+      .get(`document-service/contractor/get-all/by-user-id/${docID}`)
       .then(function (response) {
         setContractorDocument(response?.data?.data);
       })
@@ -225,152 +226,16 @@ const ContractorDetail = ({ employeeDetailsFlag, approveDocumentFlag }) => {
           className="col-md-7 employee_files_details"
           style={{ height: "492px" }}
         >
-          <p style={{
-            fontSize: '18px',
-            letterSpacing: "5.4px",
-            color: "#146F62",
-            paddingLeft: '8px',
-            fontWeight: "bold",
-            paddingottom: '1rem'
-
-          }}>DOCUMENTS</p>
-          <div
-            className="__header"
-            style={{ paddingRight: approveDocument === false && "40px" }}
-          >
-
-
-            <Grid container sx={{ display: 'flex', justifyContent: "space-between" }}>
-              <Grid item >
-                <p style={{ width: approveDocument && "40%" }}>{t("filename")}</p>
-              </Grid>
-              <Grid item >
-                <p>{t("file")}</p>
-              </Grid>
-              {/* {
-                approveDocument &&
-                <Grid item xs={3}>
-                  {approveDocument && <p>{t("options")}</p>}
-                </Grid>
-              } */}
-
-            </Grid>
-          </div>
+          
           {contractorDocument && contractorDocument?.length != 0 ? (
-            contractorDocument.map((item) => {
-              const date = new Date(item?.createdAt);
-              return (
-                <div className="__body">
-                  <div className="__file">
-                    <Grid container sx={{ display: "flex", justifyContent: "space-between" }}>
-                      <Grid item >
-                        <div className="__name w-100">
-                          <p>{item?.companyDocumentExternal?.document}</p>
-                          {fileIdPresent && (
-                            <span>
-                              {item?.document ? item?.document : "-"}
-                            </span>
-                          )}
-                        </div>
-                      </Grid>
-                      <Grid item >
-                        {item?.path && item?.id ? (
-                          <div className="__file_icon">
-                            <img src={file} />
-                            <div style={{ paddingLeft: "10px" }}>
-                              <p>{item?.path}</p>
-                              <span>
-                                {item?.createdAt ? (
-                                  date.toLocaleString("en-GB")
-                                ) : (
-                                  <p className="noFile">{t("no_file")}</p>
-                                )}
-                              </span>
-                            </div>
-                            <DownloadIcon
-                              className="download_icon"
-                              onClick={() => {
-                                const data = {
-                                  option: "document_external",
-                                  id: item?.id,
-                                };
-                                dispatch(ContractorDownloadDocuments(data));
-                              }}
-                            />
-                          </div>
-                        ) : (
-                          <p className="noFile">{t("no_file")}</p>
-                        )}
-                      </Grid>
-                      {/* {
-                        approveDocument &&
-                        <Grid item xs={3}>
-                          {item?.status?.id === 19 && (
-                            <>
-                              <i
-                                style={{ color: "green", float: "right" }}
-                                class="fa fa-check"
-                                aria-hidden="true"
-                              ></i>
-                            </>
-                          )}
-                          {item?.status?.id === 20 && (
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                                alignItems: "end",
-                              }}
-                            >
-                              <i
-                                style={{ color: "red", float: "right" }}
-                                class="fa fa-times"
-                                aria-hidden="true"
-                              ></i>
-                              <p
-                                style={{
-                                  color: "red",
-                                  fontSize: "12px",
-                                  width: "75px",
-                                }}
-                              >
-                                {item?.comment?.length > 20
-                                  ? `${item?.comment?.substring(0, 20)}...`
-                                  : item?.comment}
-                              </p>
-                            </div>
-                          )}
-                          {item?.status?.id === 18 && (
-                            <div style={{ textAlign: "end" }}>
-                              <img src={dashIcon} />
-                            </div>
-                          )}
-                          {item?.id == null && (
-                            <p className="">{t("upload_document")}</p>
-                          )}
-                          {item?.path && item?.status?.id === 18 && (
-                            <div style={{ float: "right" }}>
-                              {approveDocument && (
-                                <ApproveContractorDocument data={item?.id} />
-                              )}
-                            </div>
-                          )}
-                        </Grid>
-                      } */}
-                    </Grid>
-                  </div>
-                </div>
-              );
-            })
-          ) : (
+          
+            <DocumentTable dataTable={contractorDocument} approve={false} optionDownload="document_external" />
+          ) 
+          : (
             <div className="mt-3">
               <NotFoundDataWarning text={t("no_file")} />
             </div>
-            // <img
-            //   src={emptyList}
-            //   className="d-flex"
-            //   style={{ width: "100px", height: "100px", margin: "auto" }}
-            // />
+            
           )}
         </div>
         <div className="row">
@@ -490,168 +355,15 @@ const ContractorDetail = ({ employeeDetailsFlag, approveDocumentFlag }) => {
                               className="employee_files_details w-100"
                               style={{ boxShadow: "none" }}
                             >
-                              <div
-                                className="__header"
-                                style={{
-                                  paddingRight: approveDocument === false && "40px",
-                                }}
-                              >
-                                <Grid container>
-                                  <Grid item xs={4}>
-                                    <p>DOCUMENT NAME</p>
-                                  </Grid>
-                                  <Grid item xs={2}>
-                                    <p>value</p>
-                                  </Grid>
-                                  <Grid item xs={3}>
-                                    <p className="d-flex justify-content-end">File</p>
-                                  </Grid>
-                                  <Grid item xs={3}>
-                                    {true && (
-                                      <p className="d-flex justify-content-end">
-                                        Options
-                                      </p>
-                                    )}
-                                  </Grid>
-                                </Grid>
-                              </div>
+                              
                               {item?.documents && item?.documents?.length != 0 ? (
-                                item?.documents.map((itemDoc) => {
-                                  const date = new Date(item?.createdAt);
-                                  return (
-                                    <div className="__body">
-                                      <div className="__file">
-                                        <Grid container>
-                                          <Grid item xs={4}>
-                                            <div className="__name w-100">
-                                              <p>
-                                                {
-                                                  itemDoc?.companyDocumentExternal
-                                                    ?.document
-                                                }
-                                              </p>
-                                            </div>
-                                          </Grid>
-                                          <Grid item xs={2}>
-                                            <div className="__name w-100">
-                                              {fileIdPresent && (
-                                                <span>
-                                                  {itemDoc?.document
-                                                    ? itemDoc?.document
-                                                    : "-"}
-                                                </span>
-                                              )}
-                                            </div>
-                                          </Grid>
-                                          <Grid item xs={3}>
-                                            {itemDoc?.path && itemDoc?.id ? (
-                                              <div
-                                                className="__file_icon text-center w-100"
-                                                style={{ float: "right" }}
-                                              >
-                                                <img src={file} />
-                                                <div style={{ paddingLeft: "10px" }}>
-                                                  <p>{item?.path}</p>
-                                                  <span>
-                                                    {itemDoc?.createdAt &&
-                                                      date.toLocaleString("en-GB")}
-                                                  </span>
-                                                </div>
-                                                <DownloadIcon
-                                                  className="download_icon"
-                                                  onClick={() => {
-                                                    const data = {
-                                                      option: "document_external",
-                                                      id: itemDoc?.id,
-                                                    };
-                                                    dispatch(
-                                                      ContractorDownloadDocuments(
-                                                        data
-                                                      )
-                                                    );
-                                                  }}
-                                                />
-                                              </div>
-                                            ) : (
-                                              <p
-                                                className="noFile"
-                                                style={{ textAlign: "end" }}
-                                              >
-                                                {t("no_file")}
-                                              </p>
-                                            )}
-                                          </Grid>
-                                          <Grid item xs={3}>
-                                            {itemDoc?.status?.id === 19 && (
-                                              <>
-                                                <i
-                                                  style={{
-                                                    color: "green",
-                                                    float: "right",
-                                                  }}
-                                                  class="fa fa-check"
-                                                  aria-hidden="true"
-                                                ></i>
-                                              </>
-                                            )}
-                                            {itemDoc?.status?.id === 20 && (
-                                              <div
-                                                style={{
-                                                  display: "flex",
-                                                  flexDirection: "column",
-                                                  alignItems: "end",
-                                                }}
-                                              >
-                                                <i
-                                                  style={{
-                                                    color: "red",
-                                                    float: "right",
-                                                  }}
-                                                  class="fa fa-times"
-                                                  aria-hidden="true"
-                                                ></i>
-                                                <p
-                                                  style={{
-                                                    color: "red",
-                                                    fontSize: "12px",
-                                                    width: "75px",
-                                                  }}
-                                                >
-                                                  {itemDoc?.comment?.length > 20
-                                                    ? `${item?.comment?.substring(
-                                                      0,
-                                                      20
-                                                    )}...`
-                                                    : item?.comment}
-                                                </p>
-                                              </div>
-                                            )}
-                                            {itemDoc?.status?.id === 18 && (
-                                              <div style={{ textAlign: "end" }}>
-                                                <img src={dashIcon} />
-                                              </div>
-                                            )}
-                                            {itemDoc?.id == null && (
-                                              <p className="d-flex justify-content-end">
-                                                {t("upload_document")}
-                                              </p>
-                                            )}
-                                            {itemDoc?.path &&
-                                              itemDoc?.status?.id === 18 && (
-                                                <div style={{ float: "right" }}>
-                                                  {approveDocument && (
-                                                    <ApproveContractorDocument
-                                                      data={itemDoc?.id}
-                                                    />
-                                                  )}
-                                                </div>
-                                              )}
-                                          </Grid>
-                                        </Grid>
-                                      </div>
-                                    </div>
-                                  );
-                                })
+                                <DocumentTable 
+                                dataTable={item?.documents} 
+                                docValue="valueType"
+                                approve={  item?.user?.status?.id == 3 ? true : false }
+                                optionDownload="document_external"
+                                
+                                />
                               ) : (
                                 <img
                                   src={emptyList}
@@ -829,172 +541,14 @@ const ContractorDetail = ({ employeeDetailsFlag, approveDocumentFlag }) => {
                               className="employee_files_details w-100"
                               style={{ boxShadow: "none" }}
                             >
-                              <div
-                                className="__header"
-                                style={{
-                                  paddingRight: approveDocument === false && "40px",
-                                }}
-                              >
-                                <Grid container>
-                                  <Grid item xs={4}>
-                                    <p>DOCUMENT NAME</p>
-                                  </Grid>
-                                  <Grid item xs={2}>
-                                    <p>value</p>
-                                  </Grid>
-                                  <Grid item xs={3}>
-                                    <p className="d-flex justify-content-end">File</p>
-                                  </Grid>
-                                  <Grid item xs={3}>
-                                    {true && (
-                                      <p className="d-flex justify-content-end">
-                                        Options
-                                      </p>
-                                    )}
-                                  </Grid>
-                                </Grid>
-                              </div>
+                    
                               {item?.documents && item?.documents?.length != 0 ? (
-                                item?.documents.map((itemDoc) => {
-                                  const date = new Date(item?.createdAt);
-                                  return (
-                                    <div className="__body">
-                                      <div className="__file">
-                                        <Grid container>
-                                          <Grid item xs={4}>
-                                            <div className="__name w-100">
-                                              <p>
-                                                {
-                                                  itemDoc
-                                                    ?.companyDocumentExternalVehicle
-                                                    ?.document
-                                                }
-                                              </p>
-                                            </div>
-                                          </Grid>
-                                          <Grid item xs={2}>
-                                            <div className="__name w-100">
-                                              {fileIdPresent && (
-                                                <span>
-                                                  {itemDoc?.document
-                                                    ? itemDoc?.document
-                                                    : "-"}
-                                                </span>
-                                              )}
-                                            </div>
-                                          </Grid>
-                                          <Grid item xs={3}>
-                                            {itemDoc?.path && itemDoc?.id ? (
-                                              <div
-                                                className="__file_icon text-center w-100"
-                                                style={{ float: "right" }}
-                                              >
-                                                <img src={file} />
-                                                <div style={{ paddingLeft: "10px" }}>
-                                                  <p>{item?.path}</p>
-                                                  <span>
-                                                    {itemDoc?.createdAt &&
-                                                      date.toLocaleString("en-GB")}
-                                                  </span>
-                                                </div>
-                                                <DownloadIcon
-                                                  className="download_icon"
-                                                  onClick={() => {
-                                                    const data = {
-                                                      option: "document_external",
-                                                      id: itemDoc?.id,
-                                                    };
-                                                    /*author mazhar iqbal
-                                                      downlaod contractor external documet
-                                                    */
-                                                    dispatch(
-                                                      ContractorDownloadDocuments(
-                                                        data
-                                                      )
-                                                    );
-                                                  }}
-                                                />
-                                              </div>
-                                            ) : (
-                                              <p
-                                                className="noFile"
-                                                style={{ textAlign: "end" }}
-                                              >
-                                                {t("no_file")}
-                                              </p>
-                                            )}
-                                          </Grid>
-                                          <Grid item xs={3}>
-                                            {itemDoc?.status?.id === 19 && (
-                                              <>
-                                                <i
-                                                  style={{
-                                                    color: "green",
-                                                    float: "right",
-                                                  }}
-                                                  class="fa fa-check"
-                                                  aria-hidden="true"
-                                                ></i>
-                                              </>
-                                            )}
-                                            {itemDoc?.status?.id === 20 && (
-                                              <div
-                                                style={{
-                                                  display: "flex",
-                                                  flexDirection: "column",
-                                                  alignItems: "end",
-                                                }}
-                                              >
-                                                <i
-                                                  style={{
-                                                    color: "red",
-                                                    float: "right",
-                                                  }}
-                                                  class="fa fa-times"
-                                                  aria-hidden="true"
-                                                ></i>
-                                                <p
-                                                  style={{
-                                                    color: "red",
-                                                    fontSize: "12px",
-                                                    width: "75px",
-                                                  }}
-                                                >
-                                                  {itemDoc?.comment?.length > 20
-                                                    ? `${item?.comment?.substring(
-                                                      0,
-                                                      20
-                                                    )}...`
-                                                    : item?.comment}
-                                                </p>
-                                              </div>
-                                            )}
-                                            {itemDoc?.status?.id === 18 && (
-                                              <div style={{ textAlign: "end" }}>
-                                                <img src={dashIcon} />
-                                              </div>
-                                            )}
-                                            {itemDoc?.id == null && (
-                                              <p className="d-flex justify-content-end">
-                                                {t("upload_document")}
-                                              </p>
-                                            )}
-                                            {itemDoc?.path &&
-                                              itemDoc?.status?.id === 18 && (
-                                                <div style={{ float: "right" }}>
-                                                  {approveDocument && (
-                                                    <ApproveContractorDocument
-                                                      data={itemDoc?.id}
-                                                    />
-                                                  )}
-                                                </div>
-                                              )}
-                                          </Grid>
-                                        </Grid>
-                                      </div>
-                                    </div>
-                                  );
-                                })
+                
+                                <DocumentTable 
+                                dataTable={item?.documents} 
+                                docValue="valueType"
+                                approve={  item?.vehicle?.status?.id == 3 ? true : false }
+                                optionDownload="document_external"/>
                               ) : (
                                 <img
                                   src={emptyList}

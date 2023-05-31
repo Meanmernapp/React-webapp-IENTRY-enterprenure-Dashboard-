@@ -3,7 +3,6 @@ import ic_map from "../../../assets/images/ic-map.svg";
 import warningImg from "../../../assets/images/warning.svg";
 import { Link } from "react-router-dom";
 import AddZoneModal from "./Modal/AddZoneModal";
-// Materail ui
 import { Table } from "react-bootstrap";
 import AddBuildingModel from "./Modal/AddBuildingModal";
 import RemovePlanModal from "./Modal/RemovePlanModal";
@@ -13,13 +12,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { DeleteZoneUser, GetListZoneMap, ZoneDetailAuthorizedEmployee, ZoneDetailFatherAndChild } from "../../../reduxToolkit/EmployeeZones/EmployeeZonesApi";
 import AuthorizedEmployeesModal from "./Modal/AuthorizedEmployeesModal";
 import { getAllEmployees } from "../../../reduxToolkit/EmployeeEvents/EmployeeEventsApi";
-import AccessDeviceTable from "./AccessDeviceTable";
 import { permissionObj } from "../../../Helpers/permission";
 import { useTranslation } from 'react-i18next';
 import Cookies from 'js-cookie';
-import { borderRight } from "@mui/system";
 import NotFoundDataWarning from "../../../components/NotFoundDataWarning";
-
+import ic_left_arrow from "../../../assets/images/ic_left_arrow.svg"
 
 /*
 Author : Arman Ali
@@ -42,6 +39,8 @@ const SingleZoneDetails = (props) => {
   const [rowsPerPageAuthorizedEmployee, setRowsPerPageAuthorizedEmployee] = useState(4);
   const [orderBy, setOrderBy] = useState();
   const [sortBy, setSortBy] = useState();
+  const [freeadded, setfreeadded] = useState(false);
+  const [devicedeleted, setdevicedeleted] = useState(false);
 
   // use Selector hook to get state for redux store
   const { createUserZoneList, createZonePlane, uploadImgZonePlane, deleteImgZonePlane,
@@ -49,6 +48,8 @@ const SingleZoneDetails = (props) => {
     updateZone, updateCommonAreaZone, deleteZoneUser, setZoneImageCoordinate, createChildZone
 
   } = useSelector(state => state.EmployeeZonesSlice)
+
+  // const { addFreeDevice } = useSelector(state => state.DevicesSlice)  
 
   const { permission } = useSelector(state => state.authenticatioauthennSlice);
 
@@ -82,32 +83,38 @@ const SingleZoneDetails = (props) => {
 
   // a useEffect lifeCycle for dispatch zone detail father and child
   useEffect(() => {
+    setfreeadded(false)
+    setdevicedeleted(false)
     dispatch(ZoneDetailFatherAndChild({ zoneId: localStorage?.getItem("singlezoneId") }))
 
-  }, [updateCommonAreaZone, updateZone, createCommonAreaZone, createZonePlane, uploadImgZonePlane, deleteImgZonePlane, setZoneImageCoordinate, createChildZone, deleteZoneUser])
+  }, [updateCommonAreaZone, updateZone, createCommonAreaZone, createZonePlane, uploadImgZonePlane, deleteImgZonePlane, setZoneImageCoordinate, createChildZone, deleteZoneUser, freeadded, devicedeleted])
 
   // set lng and lng for current zone
   localStorage.setItem("currentZoneLat", zoneDetailFatherAndChild?.latitud);
   localStorage.setItem("currentZoneLng", zoneDetailFatherAndChild?.longitud)
 
 
+
+
   useEffect(() => {
     const data = {
       zoneId: localStorage?.getItem('singlezoneId')
     }
-    console.log(data)
     dispatch(GetListZoneMap(data))
   }, [])
   // return main page 
   return (
     <>
       <div className='head'>
-        <div className='headLeft'>
-          <Link to="/dashboard/employee/zones">
-            <i className="fa fa-arrow-left" aria-hidden="true" style={{
-              transform: lCode === "ar" ? "scaleX(-1)" : "",
-              margin: "0 10px"
-            }}></i>
+        
+        <div className="headLeft">
+          <Link className="top-left-arrow-container" to="/dashboard/employee/zones" style={{width: "32px", marginRight: "15px", paddingLeft: "0px", paddingRight: "10px"}}
+
+          >
+            <button className='btn-left-arrow' style={{width: "32px", marginRight: "15px", paddingLeft: "0px", paddingRight: "10px"}}
+            >
+              <img className="left-arrow" src={ic_left_arrow} alt="ic_left_arrow" />
+            </button>
           </Link>
           <h2>{t('zone_details')}</h2>
         </div>
@@ -213,9 +220,6 @@ const SingleZoneDetails = (props) => {
             {
               permission?.includes(permissionObj?.WEB_ZONE_CREATE) &&
               <span
-                // data-toggle="modal"
-                // data-target="#addchildzones_modal"
-
                 onClick={() => { setModalShow(true); setIsFatherZone({ id: zoneDetailFatherAndChild?.id, name: zoneDetailFatherAndChild?.name }) }}
               >
                 {t("add_sub_zone")}
@@ -230,9 +234,6 @@ const SingleZoneDetails = (props) => {
               {
                 zoneDetailFatherAndChild?.children?.length > 0 ?
                   <Table
-                  // style={{
-                  //   border: "hidden",
-                  // }}
                   >
                     <thead  >
                       <tr>
@@ -318,14 +319,7 @@ const SingleZoneDetails = (props) => {
 
         {
           permission?.includes(permissionObj?.WEB_DEVICE_MENU) &&
-          <TotalAccessService item={zoneDetailFatherAndChild} />
-        }
-
-        {/* a component for access table list */}
-        {
-
-          permission?.includes(permissionObj?.WEB_DEVICE_MENU) &&
-          <AccessDeviceTable />
+          <TotalAccessService item={zoneDetailFatherAndChild} freeadded={freeadded} onfreeadded={() => setfreeadded(true)} devicedeleted={devicedeleted} ondevicedeleted={() => setdevicedeleted(true)} />
         }
 
         {/* authorized employee module */}
@@ -342,15 +336,8 @@ const SingleZoneDetails = (props) => {
                       onClick={() => {
                         setShow(true);
                         dispatch(getAllEmployees());
-                        // const data = {
-                        //   zoneId: localStorage.getItem('singlezoneId'),
-                        // }
-                        // dispatch(ZoneDetailAuthorizedEmployee(data))
-
                       }}>
                       {t("manage_employees")}
-                      {/* <i class="fa fa-plus" aria-hidden="true" /> */}
-
                     </div>
                     <AuthorizedEmployeesModal show={show}
                       onHide={() => setShow(false)} />
@@ -360,7 +347,6 @@ const SingleZoneDetails = (props) => {
               </thead>
               {
                 zoneDetailAuthorizedEmployee?.content?.length > 0 ?
-                  // [].length > 0 ?
                   <tbody>
                     {zoneDetailAuthorizedEmployee?.content?.map((employee) => (
                       <>
@@ -380,14 +366,6 @@ const SingleZoneDetails = (props) => {
 
                               }}
                             >
-                              {/* <img
-                              src={iccancel}
-                              className="close profile_ancel_img"
-                              data-dismiss="modal"
-                              data-toggle="modal"
-                              data-target="#removePLan"
-                              alt=""
-                            /> */}
                               <i class="fa fa-trash profile_ancel_img" aria-hidden="true"
                                 onClick={() => {
                                   const data = {
@@ -413,7 +391,6 @@ const SingleZoneDetails = (props) => {
             </Table>
             {
               zoneDetailAuthorizedEmployee?.content?.length > 0 &&
-              // [].length > 0 &&
               <div className="d-flex justify-content-center">
                 <TablePagination
                   component="div"

@@ -22,7 +22,7 @@ const UpdateOrder = () => {
             <div className="head">
                 <div className="headLeft">
                     <h2>
-                        <Link to="/dashboard/provider/providers-outlet">
+                        <Link to="/dashboard/supplier/providers-outlet">
                             <ArrowBackIcon
                                 style={{
                                     color: "#146F62",
@@ -32,7 +32,7 @@ const UpdateOrder = () => {
                             />
                         </Link>
                         {t("update_order")}
-                        {/* {employeeDetails && "Employee PROVIDER Detail"} */}
+              
                         {/* {approveDocument && "APPROVE DOCUMENTS"} */}
                     </h2>
 
@@ -45,7 +45,7 @@ const UpdateOrder = () => {
                         <h4>{t("data")}</h4>
                         <div className='left_conatiner'>
                             <div className='card_header'>
-                                <h4>{t("provider_information")}</h4>
+                                <h4>{t("supplier_information")}</h4>
                                 <p><span>GMT | </span>Servicios Especializados Agropecuarios</p>
                                 <h6>{t("company")}</h6>
                             </div>

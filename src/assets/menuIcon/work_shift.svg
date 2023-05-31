@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="20.25" height="18.07" viewBox="0 0 20.25 18.07">
+  <g id="Group_168305" data-name="Group 168305" transform="translate(8032.896 18274.031)">
+    <g id="ic-table" transform="translate(-8032.896 -18274.031)">
+      <path id="table-solid" d="M14.5,32H1.5A1.5,1.5,0,0,0,0,33.5v11A1.5,1.5,0,0,0,1.5,46h13A1.5,1.5,0,0,0,16,44.5v-11A1.5,1.5,0,0,0,14.5,32ZM7,44H2V41H7Zm0-5H2V36H7Zm7,5H9V41h5Zm0-5H9V36h5Z" transform="translate(0 -32)" fill="#146f62"/>
+    </g>
+    <g id="ic-clock" transform="translate(-8026.896 -18270.211)">
+      <path id="clock-regular_1_" data-name="clock-regular (1)" d="M15,8a7,7,0,1,0,7,7A7,7,0,0,0,15,8Zm0,12.645A5.645,5.645,0,1,1,20.645,15,5.644,5.644,0,0,1,15,20.645ZM16.744,17.7l-2.4-1.742a.341.341,0,0,1-.138-.274V11.048a.34.34,0,0,1,.339-.339h.9a.34.34,0,0,1,.339.339v4l1.885,1.372a.339.339,0,0,1,.073.474l-.531.731A.341.341,0,0,1,16.744,17.7Z" transform="translate(-8 -8)" fill="#146f62" stroke="#fff" stroke-width="0.5"/>
+    </g>
+  </g>
+</svg>

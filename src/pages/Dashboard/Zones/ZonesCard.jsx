@@ -69,7 +69,7 @@ const ZonesCard = ({ item, index }) => {
                     dispatch(ZoneDetailAuthorizedEmployee(body))
                     dispatch(ZoneDetailListDevice(body))
                   }}
-                >{t("manage_zones")}</Link>
+                >{t("manage_zones").toUpperCase()}</Link>
               </div>
               <div className="rightText">
                 {t("status")} <span>{item?.status?.name.split("_").join(" ")} </span>

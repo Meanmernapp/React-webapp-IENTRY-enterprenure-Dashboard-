@@ -69,6 +69,8 @@ table {
         letter-spacing: 0px;
         color: #000000;
         opacity: 1;
+        font-weight: 600;
+        opacity: 0.5;
       }
 
       a:hover {
@@ -173,7 +175,16 @@ table {
   background: #178a7b 0% 0% no-repeat padding-box;
   box-shadow: 0px 0px 4px #00000099;
   border-radius: 4px;
-  opacity: 1;
+  opacity: 0.3;
+  cursor: default;
+  &:not([disabled]) {
+    opacity: 1; // si no está deshabilitado, opacidad 1
+
+    &:hover {
+      background: #108070 !important;
+      cursor: pointer !important;
+    }
+  }
 }
 
 .cancelBtn {
@@ -735,6 +746,7 @@ table {
 
   .device_button:hover {
     background-color: #e1e1e1;
+    cursor: pointer;
   }
 
   .manage_employee_btn {
@@ -1334,42 +1346,75 @@ table {
 
 // zone update reader
 .zone_update_reader {
-  margin-top: 4rem;
-  text-transform: uppercase;
-  font-size: 12px;
-
-  h1 {
-    @include color(#146f62, 18px, 600, uppercase);
-  }
-
-  input[type="checkbox"] {
-    accent-color: #146f62;
-    margin-right: 0.8rem;
-  }
-
-  label {
-    color: #707070;
-  }
-}
-
-// zone update options
-.zone_update_options {
   margin-top: 1rem;
   text-transform: uppercase;
   font-size: 12px;
 
   h1 {
     @include color(#146f62, 18px, 600, uppercase);
+    letter-spacing: 4.5px;
   }
 
   input[type="checkbox"] {
     accent-color: #146f62;
     margin-right: 0.8rem;
+    width: 18px;
+    height: 18px;
+    vertical-align: middle;
+    cursor: pointer;
+    &:disabled {
+      cursor: default;
+    }
   }
 
   label {
     color: #707070;
+    input:disabled + & {
+      // Cambiar el color de texto
+      color: #E1E1E1;
+    }
   }
+
+  input[type="checkbox"]:disabled + label {
+    color: #E1E1E1; // Cambia el color a gris cuando el checkbox está deshabilitado
+  }
+}
+
+// zone update options
+.zone_update_options {
+  margin-top: 4rem;
+  text-transform: uppercase;
+  font-size: 12px;
+
+  h1 {
+    @include color(#146f62, 18px, 600, uppercase);
+    letter-spacing: 4.5px;
+  }
+
+    input[type="checkbox"] {
+      accent-color: #146f62;
+      cursor: pointer;
+      margin-right: 0.8rem;
+      width: 18px;
+      height: 18px;
+      vertical-align: middle;
+      &:disabled {
+        cursor: default;
+      }
+    }
+
+  label {
+    color: #707070;
+    input:disabled + & {
+      // Cambiar el color de texto
+      color: #E1E1E1;
+    }
+  }
+
+  input[type="checkbox"]:disabled + label {
+    color: grey; // Cambia el color a gris cuando el checkbox está deshabilitado
+  }
+
 }
 
 //zone update lock
@@ -1381,10 +1426,23 @@ table {
   input[type="checkbox"] {
     accent-color: #146f62;
     margin-right: 0.8rem;
+    width: 18px;
+    height: 18px;
+    vertical-align: middle;
+    cursor: pointer;
+    &:disabled {
+      cursor: default;
+      background: #E1E1E1
+    }
+  }
+
+  input[type="checkbox"]:disabled + label {
+    color: #E1E1E1; // Cambia el color a gris cuando el checkbox está deshabilitado
   }
 
   h1 {
     @include color(#146f62, 18px, 600, uppercase);
+    letter-spacing: 4.5px;
   }
 
   .label_unlink {
@@ -1994,6 +2052,28 @@ table {
   }
 }
 
+.add_device_modal {
+  .select_input_field {
+    margin-top: -5px;
+  }
+
+  .device_button {
+    text-decoration: underline;
+    font: normal normal normal 15px/15px Montserrat;
+    letter-spacing: 0px;
+    color: #000000;
+    opacity: 1;
+    display: flex;
+    text-align: center;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .device_button:hover {
+    background-color: #e1e1e1;
+    cursor: pointer;
+  }
+}
 
 .divice_wrapper {
   width: 66%;
@@ -2001,10 +2081,38 @@ table {
 
 }
 
+.formIcon {
+  z-index: 10;
+
+  width: 100%;
+  text-align: right;
+
+  .btn-option {
+    margin-top: 5px;
+    border: none !important;
+    background: #146F62 !important;
+    // padding: 10px !important;
+    padding-right: 2px;
+    padding-left: 2px;
+    border-radius: 4px !important;
+    // height: 24px;
+    width: 24px;
+    // height: 100% !important;
+
+    &:hover {
+      background: #045F52 0% 0% no-repeat padding-box !important;
+
+    }
+
+    img {
+      vertical-align: middle;
+    }
+
+  }
+}
+
 // create Zone Device
 .create_device_data {
-
-
 
   p {
     font: normal normal 600 18px/22px Montserrat;
@@ -2013,9 +2121,15 @@ table {
     opacity: 1;
   }
 
+  .requiredData {
+    .MuiFormHelperText-root {
+      color: $error-text-input !important;
+    }
+  }
+
   .MuiFormHelperText-root {
     font-size: 8px !important;
-    color: #f2a100 !important;
+    color: $help-text-input !important;
     letter-spacing: normal;
   }
 
@@ -2024,14 +2138,45 @@ table {
   .form_field {
     display: flex;
     gap: 1rem;
-    margin-top: 1rem;
+    margin-top: 1.5rem;
+    align-items: center;
+    z-index: 1;
+
+    .MuiTypography-root {
+      text-align: right !important;
+      font: normal normal bold 10px/13px Montserrat !important;
+      letter-spacing: 0px !important;
+      color: #707070 !important;
+    }
+  }
+
+  .select_input_field {
+    margin-top: -5px !important;
   }
 }
 
+// .btn-left-arrow {
+//   border: none !important;
+//   background: white !important;
+//   padding: 4px !important;
+//   border-radius: 4px !important;
+//   height: 100% !important;
+
+//   &:hover {
+//       background: #E1E1E1 0% 0% no-repeat padding-box !important;
+
+//   }
+
+//   img {
+//       vertical-align: middle;
+//   }
+
+// }
 
 .smart_lock_setting {
   h1 {
     @include color(#146f62, 18px, 600, uppercase);
+    letter-spacing: 4.5px;
   }
 }
 

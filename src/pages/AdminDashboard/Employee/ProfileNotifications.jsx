@@ -10,7 +10,7 @@ const ProfileNotifications = () => {
     <>
       <Grid container sx={{ my: "30px" }}>
         <Grid item xs={7}>
-          <span className="add-new-employe__heading">NOTIFICATION PANEL</span>
+          <span className="add-new-employe__heading">{t("announcement_panel")}</span>
         </Grid>
         <Grid item xs={5} sx={{position:"relative"}}>
         <div className="notification-panel-export-btn">

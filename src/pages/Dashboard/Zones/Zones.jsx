@@ -64,8 +64,14 @@ const Zones = () => {
   // return main page 
   return (
     <>
-      <div className='head' style={{ paddingTop: '1rem' }}>
-        <h2 style={{ fontSize: '1.5rem', fontWeight: '600' }}>PANEL DEVICE</h2>
+      <div className='head' 
+      // style={{ paddingTop: '1rem' }}
+      >
+        <div className="headLeft">
+        <h2 
+        // style={{ fontSize: '1.5rem', fontWeight: '600' }}
+        >{t('first_access')}</h2>
+        </div>
         {
           permission?.includes(permissionObj?.WEB_ZONE_CREATE) &&
 

@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 import apiInstance from "../../Apis/Axios";
+import apiInstanceV2 from "../../Apis/AxiosV2";
 
 /*
 Author : Arman Ali
@@ -13,7 +14,7 @@ github: https://github.com/Arman-Arzoo
 
 export const GetAllListOfAccess = createAsyncThunk("employeePayRoll/getAllListOfAccess", async (params) => {
 
-    let response = await apiInstance.post(`log-service/user-access/get-all-pageable/from/${params?.from}/to/${params?.to}`, params.pagination).then((response) => {
+    let response = await apiInstanceV2.post(`log-service/user-access/get-all-pageable/from/${params?.from}/to/${params?.to}`, params.pagination).then((response) => {
         return response
     }).catch((error) => {
         return error.response

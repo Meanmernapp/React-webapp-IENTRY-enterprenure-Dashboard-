@@ -49,19 +49,43 @@
 .top_heading_m {
   height: 24px;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
-
-  p {
-    font-size: 12px;
-    font-weight: 600;
-    // margin-right: 15px !important;
-    text-transform: uppercase;
+  .checkbox{
+    margin-left: 0.5rem;
   }
+
+  .status {
+    display: flex;
+    align-items: center;
+
+    p {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+  }
+
 }
 
 .emp_card_body {
+
   width: 100%;
+
+  .img_body {
+    width: 100%;
+    height: 117px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    img {
+      width: 101px;
+      height: 101px;
+      border-radius: 50%;
+
+    }
+  }
 }
 
 .employee_detail_m {
@@ -545,9 +569,9 @@
     background: #0c4523 0% 0% no-repeat padding-box;
     border: 1px solid #707070;
     border-radius: 4px;
-    width: 300px;
-    height: 40px;
-    box-shadow: 0px 0px 4px #00000080;
+    // width: 300px;
+    // height: 40px;
+    box-shadow: 0px 0px 4px #0000004D;
     font-weight: bold;
   }
 }
@@ -808,4 +832,193 @@
     width: 178px;
     height: 30px;
   }
+}
+
+// list vs grid employee 
+.grid_list {
+  display: flex;
+  margin-left: 1rem;
+
+  .grid {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #FCFCFC 0% 0% no-repeat padding-box;
+    border: 0.5px solid #707070;
+    border-radius: 4px 0px 0px 4px;
+    opacity: 1;
+    width: 39px;
+    cursor: pointer;
+    height: 36px;
+
+    &:hover {
+      background: #E1E1E1 0% 0% no-repeat padding-box;
+    }
+  }
+
+  .gridA {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #FCFCFC 0% 0% no-repeat padding-box;
+    border: 0.5px solid #707070;
+    border-radius: 0px 4px 4px 0px;
+    opacity: 1;
+    width: 39px;
+    cursor: pointer;
+    height: 36px;
+
+    &:hover {
+      background: #E1E1E1 0% 0% no-repeat padding-box;
+    }
+  }
+  .list {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #FCFCFC 0% 0% no-repeat padding-box;
+    border: 0.5px solid #707070;
+    border-radius: 0px 4px 4px 0px;
+    opacity: 1;
+    width: 39px;
+    height: 36px;
+    cursor: pointer;
+
+    &:hover {
+      background: #E1E1E1 0% 0% no-repeat padding-box;
+    }
+  }
+  .listA {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #FCFCFC 0% 0% no-repeat padding-box;
+    border: 0.5px solid #707070;
+    border-radius: 4px 0px 0px 4px;
+    opacity: 1;
+    width: 39px;
+    height: 36px;
+    cursor: pointer;
+
+    &:hover {
+      background: #E1E1E1 0% 0% no-repeat padding-box;
+    }
+  }
+
+  .active {
+    background: #707070B3 0% 0% no-repeat padding-box;
+  }
+
+}
+
+.employee_list_view {
+  padding-top: 1rem;
+
+
+  table {
+    border-collapse: separate !important;
+    border-spacing: 0 15px;
+
+    thead {
+      th {
+        font-size: 14px;
+        color: #65aba0;
+        text-transform: uppercase;
+        text-align: center;
+        position: sticky;
+    top: 0;
+    background: white;
+      }
+    }
+
+    .first_head {
+      text-align: left !important;
+      padding-left: 1rem;
+    }
+
+    .first {
+      text-align: left !important;
+      padding-left: 1rem;
+      color: #707070;
+      font-weight: bold;
+      overflow: hidden;
+    }
+
+    .last {
+      text-align: right !important;
+      padding-right: 1rem;
+    }
+
+    .last_tr {
+      // padding-left: 4rem;
+      width: 8%;
+
+      img {
+        cursor: pointer;
+
+        &:hover {
+          background-color: #e1e1e1;
+          opacity: 0.5;
+          border-radius: 4px;
+        }
+      }
+    }
+
+    tr {
+      background: #FFFFFF 0% 0% no-repeat padding-box !important;
+      box-shadow: 0px 0px 4px #7070704D !important;
+      border-radius: 4px;
+      opacity: 1;
+
+      height: 36px;
+
+      td {
+        text-align: center;
+
+        .name_avatar {
+          width: 24px;
+          height: 24px;
+        }
+      }
+
+      .file_with_name {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        justify-content: center;
+
+
+
+        img {
+          width: 30px;
+          height: 34px;
+        }
+
+        p {
+          font: normal normal normal 12px/15px Montserrat;
+          letter-spacing: 0px;
+          color: #707070;
+          opacity: 1;
+        }
+      }
+    }
+  }
+}
+
+
+.employee_supplier_container{
+  -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+    overflow: scroll;
+    height: 71vh;
+    // height: calc(100vh - 100px);
+    .col-md-3{
+      padding-right: 0px !important;
+  
+    }
+
+
+    &::-webkit-scrollbar {
+        display: none !important;
+    }
 }

@@ -2,50 +2,25 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import TablePagination from '@mui/material/TablePagination';
 import { GoPrimitiveDot } from 'react-icons/go'
-import employee_4 from '../../../../../assets/images/employee-4.png'
+import employee_4 from '../../../../../assets/defaultImages/userDef.svg'
 import { getAllCompanyEmployees } from "../../../../../Apis/CompanyEmployee";
 import angelright_icon from "../../../../../assets/images/angelright.svg";
 import Cookies from "js-cookie";
 import { useTranslation } from 'react-i18next'
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { handleSelfi } from "../../../../../reduxToolkit/CompanyEmployees/CompanyEmployeesSlice";
 
-const AllEmployeeCards = ({ orderBy, sortBy }) => {
+
+const AllEmployeeCards = ({searchEmployee,handleCheckboxChange,selectEmployeeForDelete}) => {
   const { t } = useTranslation();
   const lCode = Cookies.get("i18next") || "en";
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const [employeeData, setEmployeeData] = useState();
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(8);
-  console.log(employeeData)
+  // const [isChecked, setIsChecked] = useState(false);
 
-  useEffect(() => {
-    const body = {
-      order: sortBy === 'asc' ? true : false,
-      page: page,
-      size: rowsPerPage,
-      sortBy: orderBy ? orderBy : "id"
-    }
 
-    getAllCompanyEmployees(body).then(({ data: { data } }) => {
-      setEmployeeData(data)
-      // console.log(data)
-    }).catch(error => {
-      // toast.error("something went wrong.")
-    })
-
-  }, [page, rowsPerPage, orderBy, sortBy])
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = event => {
-    setRowsPerPage(parseInt(event.target.value));
-    setPage(0);
-  };
-
+const {getAllEmployees} =  useSelector(state => state.EmployeeSlice);
+  
   const handleStatus = (paramId) => {
     return paramId === 2 ? "#F2A100" :
       paramId === 3 ? "blue" :
@@ -54,15 +29,32 @@ const AllEmployeeCards = ({ orderBy, sortBy }) => {
             paramId === 6 ? "#BC0000" : "black"
   }
 
+
   return (
     <>
-      <div className="row mt-5 mx-auto">
+      <div className="row mt-3 ">
         {
-          employeeData?.content?.map((character) => (
-            <div className="col-md-3" key={character?.id}>
+          getAllEmployees?.content?.filter((user) => {
+            if (searchEmployee === "") {
+              return user;
+            } else if (
+              user?.name
+                ?.toLowerCase()
+                .includes(searchEmployee?.toLowerCase())
+            ) {
+              return user;
+            }
+          })?.map((character) => (
+            <div className="col-md-3" key={character?.id} id={character?.id}>
               <div className="employee_m mb-3">
                 <div className="top_heading_m">
-                  <p
+                <input type="checkbox" className="checkbox" 
+                checked={selectEmployeeForDelete?.includes(character?.id)}
+                id={character?.id}
+                onChange={handleCheckboxChange}
+                />
+                <div className="status">
+                <p
                     style={{
                       color: handleStatus(character?.status?.id)
                     }}
@@ -76,15 +68,17 @@ const AllEmployeeCards = ({ orderBy, sortBy }) => {
                     }}
                   />
                 </div>
+                 
+                </div>
                 <div className="emp_card_body">
-                  <img
+                 
+                 <div className="img_body">
+                 <img
                     src={character?.selfie != null ? `data:image/png;base64,${character?.selfie}` : employee_4}
-                    style={{
-                      width: "100%",
-                      height: "117px"
-                    }}
+        
                     alt="employee_4"
                   />
+                 </div>
                   <div className="p-2">
                     <div className="emp_card_content">
                       <p>{t('name')}</p>
@@ -96,7 +90,7 @@ const AllEmployeeCards = ({ orderBy, sortBy }) => {
                     </div>
                     <div className="emp_card_content">
                       <p>{t('gender')}</p>
-                      <span>{character?.gender?.name}</span>
+                      <span>{character?.gender?.name || "-"}</span>
                     </div>
                     <div className="emp_card_content">
                       <p>{t('email')}</p>
@@ -117,6 +111,10 @@ const AllEmployeeCards = ({ orderBy, sortBy }) => {
                     <div className="emp_card_content">
                       <p>{t('role')}</p>
                       <span>{character?.role}</span>
+                    </div>
+                    <div className="emp_card_content">
+                      <p>{t('department')}</p>
+                      <span>{character?.department}</span>
                     </div>
 
                     {/* <Link to={`/dashboard/employee/all-employees/employee-Detail/${character?.id}`}> */}
@@ -146,18 +144,7 @@ const AllEmployeeCards = ({ orderBy, sortBy }) => {
           ))
         }
       </div>
-      <div className="d-flex justify-content-center">
-        <TablePagination
-          component="div"
-          rowsPerPageOptions={[8, 16, 24, 32]}
-          count={employeeData?.totalElements}
-          page={page}
-          onPageChange={handleChangePage}
-          labelRowsPerPage={t('user_per_page')}
-          rowsPerPage={rowsPerPage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-      </div>
+     
     </>
   );
 };

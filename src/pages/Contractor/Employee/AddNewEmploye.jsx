@@ -1,722 +1,507 @@
-import React, { useEffect, useState } from "react";
-import {
-  FormControl,
-  Grid,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-} from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import { Modal } from "react-bootstrap";
-import cloudsvg from "../../../assets/images/cloud.svg";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+/*
+Author : Arman Ali
+Module: create/update employee
+github: https://github.com/Arman-Arzoo
+*/
+
+// import libarary and other
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import PhoneIphoneIcon from "@mui/icons-material/PhoneIphone";
-import SaveIcon from "@mui/icons-material/Save";
-import { Box } from "@mui/system";
-import profileDemo from "../../../assets/images/userDemoImg.png";
-import {
-  GetAllGender,
-  AddNewEmployee,
-  AddContractorsEmployee,
-  CreateUserImage,
-  UploadFileToServer,
-} from "../../../reduxToolkit/Contractor/ContractorApi";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  allGender,
-  byUserId,
-} from "../../../reduxToolkit/Contractor/ContractorSlice";
-import { toast } from "react-toastify";
-import i18next, { t } from "i18next";
-const AddNewEmploye = () => {
-  const getAllGender = useSelector(allGender);
-  const dispatch = useDispatch();
-  const [gender, setGender] = useState();
-  let navigate = useNavigate();
-  const [allUser, setAllUser] = useState(false);
-  const getByUserId = useSelector(byUserId);
-  const contactorId = getByUserId?.id;
+import { Box, Divider, FormControl, Grid, InputLabel, MenuItem, Select, TextField } from '@mui/material';
+import Cookies from "js-cookie";
+import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { toast } from 'react-toastify';
+import broomIcon from "../../../assets/icon/broom-solid.svg";
+import defaultImages from "../../../assets/defaultImages/userDef.svg";
+import UploadImageModal from '../../../components/UploadImageModal';
+import useStyle from '../../../hooks/useStyle';
+import { GetGenderListProvider } from '../../../reduxToolkit/EmployeeProviders/EmployeeProvidersApi';
+import { CheckProviderPreUser, GetAllStatusProvider, GetSingleProvider, SaveProviderImage, UpdateProviderData, UploadProviderImage } from '../../../reduxToolkit/Providers/providersApi';
+import BootstrapTooltip from '../../../utils/BootstrapTooltip';
+import CustomTextWithLine from "../../../components/CustomTextWithLine";
+import AdapterDateFns from "@mui/lab/AdapterDateFns";
+import Stack from "@mui/material/Stack";
+import LocalizationProvider from "@mui/lab/LocalizationProvider";
+import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
+import { CheckContractorPreUser, CreateContractorUserRelationship, GetContractorInfoById, GetContractorStatus, UpdateContractorUserRelationship } from "../../../reduxToolkit/Contractor/ContractorApi";
 
-  //image
-  const [companyImg, setCompanyImg] = useState();
-  const [previewSize, setPreviewSize] = useState();
-  const [updateCompanyImg, setUpdateCompanyImg] = useState();
+// Main Component
+const AddNewEmploye = ({ isUpdate }) => {
 
-  const formatBytes = (bytes, decimals = 2) => {
-    if (bytes === 0) return "0 Bytes";
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const params = useParams();
+  const { t } = useTranslation();
+  const lCode = Cookies.get("i18next") || "en";
+  const { textField, smallBoxStyle } = useStyle()
+  const [showModal, setShowModal] = useState(false)
+  const [previewImage, setPreviewImage] = useState("")
+  // form field state
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [gender, setGender] = useState("");
+  const [imageFile, setImageFile] = useState("")
+  const [lastName, setLastName] = useState("")
+  const [secondLastName, setSecondLastName] = useState("")
+  const [isStatus, setIsStatus] = useState("")
+  const [dob, setDob] = useState("")
+  const [contractStatus,setContractStatus] = useState("")
 
-    const k = 1024;
-    const dm = decimals < 0 ? 0 : decimals;
-    const sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
 
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
+  // useSelctor state from store slice employeesupplierSlice
+  const { getGnderListProvider } = useSelector(state => state.EmployeeProviderSlice);
+  const { user } = useSelector(state => state.authenticatioauthennSlice);
+  const { getSingleProvider, getAllStatusProvider, getProviderImage } = useSelector(state => state?.providersSlice)
+  const { getContractorStatus,getContractorInfoById,updateContractorUserRelationship } = useSelector(state => state.ContractorSlice);
+  
+  console.log(getContractorInfoById)
+  const resetForm = () => {
+    setName("")
+    setEmail("")
+    setPhone("")
+    setGender("")
+    // setImageFile("")
+    setLastName("")
+    setSecondLastName("")
+    setPreviewImage("")
 
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i];
-  };
-
-  const onImageChange = async (e) => {
-    const originalFile = e.target.files[0];
-    setUpdateCompanyImg(originalFile);
-
-    let formatedValue = formatBytes(originalFile?.size);
-    setPreviewSize(formatedValue);
-
-    const [file] = e.target.files;
-    setCompanyImg(URL.createObjectURL(file));
-  };
-
-  function AllUser(props) {
-    return (
-      <div className="primary-modal">
-        <Modal
-          {...props}
-          size="md"
-          aria-labelledby="contained-modal-title-vcenter"
-          centered
-          style={{ background: "rgba(0,0,0,0.6)" }}
-        >
-          <button
-            onClick={() => {
-              setCompanyImg();
-              setUpdateCompanyImg();
-              props.onHide();
-            }}
-            className="modal-close-btn"
-          >
-            X
-          </button>
-          <Modal.Header>
-            <Modal.Title class="mt-2 text-center add_workshiftmodal_title d-flex justify-content-center flex-grow-1">
-              <h4 className="text-center">
-                <b>{t("upload_file")}</b>
-              </h4>
-            </Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <div className="row " style={{ width: "100%" }}>
-              <div style={{ width: "100%", margin: "15px" }}>
-                <div className="updata_img_m">
-                  <label htmlFor="file-input" className="dottedborderbox">
-                    <img
-                      src={cloudsvg}
-                      alt="submitupload"
-                      className="submitupload"
-                    />
-                    <input
-                      type="file"
-                      id="file-input"
-                      accept="image/png,image/jpg,image/jpeg"
-                      onChange={onImageChange}
-                    />
-                    <p>
-                      {t("drag_drop")}<br /> {t("your_image")} <br /> {t("size_of_image")}
-                    </p>
-                  </label>
-                </div>
-                <div className="col" style={{ width: "100%" }}>
-                  {companyImg ? (
-                    <img
-                      src={companyImg}
-                      className="previewImg"
-                      alt="imgs"
-                      style={{ width: "100%", height: "200px" }}
-                    />
-                  ) : null}
-                </div>
-              </div>
-            </div>
-          </Modal.Body>
-          <div>
-            <div className="btn-div">
-              <button
-                className="button-sec btn-cancel"
-                style={{ color: "red" }}
-                onClick={() => {
-                  setCompanyImg();
-                  setUpdateCompanyImg();
-                  props.onHide();
-                }}
-              >
-                {t("cancel")}
-              </button>
-              <button
-                className="button-sec btn-confirm"
-                onClick={() => {
-                  if (updateCompanyImg?.size <= 512000) {
-                    props.onHide();
-                  } else {
-                    toast.info("Image Size must be less Than 500kb");
-                  }
-                }}
-              >
-                <b>{t("apply_changes")}</b>
-              </button>
-            </div>
-          </div>
-        </Modal>
-      </div>
-    );
   }
-  useEffect(() => {
-    /*Author  Mazhar iqbal
-      Get Gender list
-    */
-    dispatch(GetAllGender());
-  }, []);
-  // "+524427065909"
-  const [employeObject, setEmployeObject] = useState({
-    name: "",
-    email: "",
-    phoneNo: "",
-  });
-  const handleSubmitEmploye = () => {
-    if (updateCompanyImg !== undefined) {
-      if (updateCompanyImg.size < 512000) {
-        if (
-          employeObject?.name &&
-          employeObject?.email &&
-          employeObject?.phoneNo &&
-          gender
-        ) {
-          const body = {
-            name: employeObject?.name,
-            email: employeObject?.email,
-            phoneNumber: employeObject?.phoneNo,
-            gender: {
-              id: gender,
-              name: "male",
-            },
-          };
-          /*Author  Mazhar iqbal
-                Create New Employee
-            */
-          dispatch(AddNewEmployee({ contactorId, body })).then((res) => {
-            if (res.payload.status >= 400) {
-              toast.error(res.payload.data.message);
-            }
-            if (res.payload.status == 201) {
-              const body = {
-                contractor: {
-                  id: contactorId,
-                },
-                user: {
-                  id: res.payload.data.data.id,
-                },
-              };
-              /*Author  Mazhar iqbal
-                Create Employee Relationnhip with Contractor
-              */
-              dispatch(AddContractorsEmployee({ contactorId, body })).then(
-                () => {
-                  const user = {
-                    user: {
-                      id: res.payload.data.data.id,
-                    },
-                    accessMethod: {
-                      id: 5,
-                    },
-                    description: "Face recognition",
-                  };
-                  /*Author  Mazhar iqbal
-                    Create Employee Selfie Relation
-                  */
-                  dispatch(CreateUserImage(user))
-                    .then((res) => {
-                      let formData = new FormData();
-                      formData.append("id", res.payload.data.data.id);
-                      formData.append("option", "user");
-                      formData.append("file", updateCompanyImg);
-                      /*Author  Mazhar iqbal
-                        Upload Employee Selfie to the server 
-                      */
-                      dispatch(UploadFileToServer(formData));
-                    })
-                    .then(() => {
-                      navigate("/dashboard/contractor/search-employe", { replace: true });
-                    });
-                }
-              );
-            }
-          });
-        } else {
-          toast.info("Must Fill All Inputs");
-        }
-      } else {
-        toast.error("File Size Must me less than 500kB");
-      }
-    } else {
-      toast.error("Select Profile Picture");
-    }
-  };
-  return (
-    <div className="add-new-employe" style={{ marginLeft: "-50px" }}>
-      <Grid container sx={{ my: "30px" }}>
-        <Grid item xs={5}>
-          <span className="add-new-employe__heading">
 
+  // funtions
+  const handelEmployee = () => {
+    if (isUpdate) {
+      const data = {
+        contractorId: localStorage.getItem("contractorId"),
+        dob: typeof dob === "number" ? dob : (dob ? dob.getTime() : undefined),
+        id:getContractorInfoById?.id,
+        email,
+        genderId: gender,
+        lastName,
+        name,
+        secondLastName,
+        statusId:isStatus,
+        phoneNumber: phone,
+        userId: params?.id,
+        contractorEmployeeStatusId:contractStatus
+      }
+      if (!name || !email || !lastName || !phone || !gender) {
+        toast.warn("please Fill all the Data")
+      } else {
+        dispatch(UpdateContractorUserRelationship({data,file:imageFile})).then((res) => {
+          if (res.payload.data.code === 200) {
+            resetForm()
+            navigate(-1)
+          }
+        })
+      }
+
+    } else {
+
+      const data = {
+        contractorId: localStorage.getItem("contractorId"),
+        dob: dob ? dob?.getTime() :"",
+        email,
+        genderId: gender,
+        lastName,
+        name,
+        secondLastName,
+        // statusId:isStatus,
+        phoneNumber: phone,
+        userId: params?.id,
+
+      }
+      console.log(data)
+      if (!name || !email || !lastName || !phone || !gender) {
+        toast.warn("please Fill all the Data")
+      } else {
+        dispatch(CreateContractorUserRelationship({ data, file: imageFile })).then((res) => {
+          if (res.payload.data.code === 201) {
+            resetForm()
+            navigate(-1)
+          }
+        })
+      }
+    }
+  }
+  // get gender 
+  useEffect(() => {
+    dispatch(GetGenderListProvider())
+    dispatch(GetAllStatusProvider())
+    dispatch(GetContractorStatus())
+  
+  }, [])
+
+  useEffect(()=>{
+    dispatch(GetContractorInfoById(params?.id))
+  },[updateContractorUserRelationship])
+
+  // get field data if want to update
+  useEffect(() => {
+    if (isUpdate) {
+      setName(getContractorInfoById?.name || "")
+      setEmail(getContractorInfoById?.email || "")
+      setPhone(getContractorInfoById?.phoneNumber || "")
+      setGender(getContractorInfoById?.genderId || "")
+      setLastName(getContractorInfoById?.lastName || "")
+      setSecondLastName(getContractorInfoById?.secondLastName || "")
+      setIsStatus(getContractorInfoById?.statusId || "")
+      setDob(getContractorInfoById?.dob || "")
+      setContractStatus(getContractorInfoById?.contractorEmployeeStatusId || "")
+      // setPreviewImage(getSingleProvider?.selfie || "")
+    } else {
+      return
+    }
+
+  }, [getContractorInfoById?.id])
+  return (
+    <>
+      {/* head with back link */}
+      <div className='head'>
+        <div className='headLeft'>
+          <Link to="#">
             <i className="fa fa-arrow-left" aria-hidden="true"
+              onClick={() => { navigate(-1) }}
               style={{
-                transform: i18next.dir() == "rtl" ? "scaleX(-1)" : "",
+                transform: lCode === "ar" ? "scaleX(-1)" : "",
                 margin: "0 10px"
               }}
-              onClick={() => {
-                navigate("/dashboard/contractor/search-employe", { replace: true });
-              }}
+
             ></i>
-            {t("create_employee")}
-          </span>
-        </Grid>
-      </Grid>
-      <div className="add-new-employe__detail">
-        <Grid container sx={{ justifyContent: "center" }}>
-          <Grid item xs={4}>
-            <div className="add-new-employe__user">
-              <div className="edit-profile">
-                <div
-                  className="edit-profile--img-container"
-                  onClick={() => setAllUser(true)}
-                >
-                  {companyImg ? (
-                    <img src={companyImg} alt="user image" />
-                  ) : (
-                    <img src={profileDemo} alt="user image" />
-                  )}
+          </Link>
+          <h2>
+            {isUpdate ? t('update_employee') : t('create_employee')}
+          </h2>
+        </div>
+      </div>
+      {/* employee create card */}
+      <div className="employee_supplier_create_container">
+        <div className='employee_create_container_main'>
+          <div className="create_employee_card">
+            <BootstrapTooltip title={t("clean_all_inputs")} placement="right">
+              <button className='clear_all' onClick={() => { resetForm() }}>
+                <img src={broomIcon} alt="" />
+              </button>
+            </BootstrapTooltip>
+            {/* image upload */}
+            <div className='image_upload_container'>
+              <div className='image_upload'>
+                {
+                  isUpdate ?
+                    <img src={previewImage ? previewImage : getSingleProvider?.selfie ? `data:image/png;base64,${getSingleProvider?.selfie}` : defaultImages} />
+                    :
+                    <img src={previewImage ? previewImage : defaultImages} alt="vehicle" />
+                }
+              </div>
+              <div
+                className="upload_icon_btn"
+                onClick={() => setShowModal(true)}
+              >
+                <i className="fa fa-long-arrow-right height" aria-hidden="true"></i>
+                <i className="fa fa-long-arrow-left" aria-hidden="true"></i>
+              </div>
+            </div>
+            <div className='input_form_container p-4' style={{ position: "relative" }}>
+              <div className="row pt-2">
+                {
+                  isUpdate && user?.data?.userType?.name == "CONTRACTOR_IN_CHARGE" &&
+                  <>
+                    <CustomTextWithLine title={t("contract")} spacing={"pb-2"} />
+                    <Grid container spacing={2} sx={{
+                      paddingBottom: "0.5rem"
+                    }}>
 
-                  <span className="modal-file-upload"></span>
-                </div>
-                <div className="name">
-                  <Grid container spacing={2}>
-                    <Grid item xs={12} sx={{ position: "relative" }}>
-                      <TextField size="small"
-                        fullWidth
+                      <Grid item xs={12} >
+                        <Box  >
+                          <FormControl
+
+                            fullWidth
+                            sx={textField}>
+                            <InputLabel id="contractstatusId" >
+                              {t("contract_status")}
+                            </InputLabel >
+                            <Select size="small"
+                              labelId="contractstatusId"
+                              id="demo-simple-select-contract"
+                              // defaultValue="employe"
+                              label={t("contract_status")}
+                              value={contractStatus}
+                              onChange={(e) => setContractStatus(e.target.value)}
+
+                              sx={{
+                                height: "36px",
+                                paddingBottom: "0.5rem"
+                              }}
+                            >
+                              {
+                                getContractorStatus?.map((item, index) => {
+                                  return (
+                                    <MenuItem key={index} sx={{ fontSize: "10px" }} value={item.id}>{item.name}</MenuItem>
+                                  )
+                                })
+                              }
 
 
-                        label={t("name")}
-                        id="NAME"
-                        value={employeObject.name}
-                        onChange={(e) =>
-                          setEmployeObject({
-                            ...employeObject,
-                            ["name"]: e.target.value,
-                          })
-                        }
-                        InputLabelProps={{
-                          style: {
-                            fontSize: "10px",
-                            fontWeight: 600,
-                            background: "#ffffff",
-                            padding: "0px 8px 0px 8px",
-                          },
-                        }} // font size of input label
-                        inputProps={{
-                          sx: {
-                            border: "none",
-                            outline: "none",
-                            fontSize: "10px",
-                            letterSpacing: "0px",
-                            color: "#707070",
-                            "&::placeholder": {
-                              color: "#707070",
-                              fontSize: "8px",
-                            },
-                          },
-                        }}
-                        sx={{
-                          textAlign: i18next.dir() == "rtl" ? "right" : "left",
-                          "& 	.MuiOutlinedInput-notchedOutline": {
-                            textAlign: i18next.dir() == "rtl" ? "right" : "left",
-                          },
-                          "& 	.MuiInputLabel-root": {
-                            fontSize: 12,
-                            left: i18next.dir() == "rtl" ? "inherit" : "0",
-                            right: i18next.dir() == "rtl" ? "1.75rem" : "0",
-                            transformOrigin: i18next.dir() == "rtl" ? "right" : "left"
-                          }
-                        }}
-                      />
+                            </Select>
+                          </FormControl>
+                        </Box>
+                      </Grid>
                     </Grid>
-                    <Grid item xs={12} sx={{ position: "relative" }}>
-                      <TextField size="small"
-                        fullWidth
+                  </>
+                }
+                <CustomTextWithLine title={t("user")} spacing={"pb-2"} />
+                <Grid container spacing={2}>
 
+                  <Grid item xs={12} sx={{ position: "relative" }}>
+                    <TextField size="small"
+                      fullWidth
+                      label={t("name")}
+                      id="NAME"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
 
-                        label={t("email")}
-                        id="Email"
-                        value={employeObject.email}
-                        onChange={(e) =>
-                          setEmployeObject({
-                            ...employeObject,
-                            ["email"]: e.target.value,
-                          })
-                        }
-                        InputLabelProps={{
-                          style: {
-                            fontSize: "10px",
-                            fontWeight: 600,
-                            background: "#ffffff",
-                            padding: "0px 8px 0px 8px",
-                          },
-                        }} // font size of input label
-                        inputProps={{
-                          sx: {
-                            border: "none",
-                            outline: "none",
-                            fontSize: "10px",
-                            letterSpacing: "0px",
+                      // font size of input label
+                      inputProps={{
+                        sx: {
+                          border: "none",
+                          outline: "none",
+                          fontSize: "10px",
+                          letterSpacing: "0px",
+                          color: "#707070",
+                          "&::placeholder": {
                             color: "#707070",
-                            "&::placeholder": {
-                              color: "#707070",
-                              fontSize: "8px",
-                            },
+                            fontSize: "8px",
                           },
-                        }}
-                        sx={{
-                          textAlign: i18next.dir() == "rtl" ? "right" : "left",
-                          "& 	.MuiOutlinedInput-notchedOutline": {
-                            textAlign: i18next.dir() == "rtl" ? "right" : "left",
-                          },
-                          "& 	.MuiInputLabel-root": {
-                            fontSize: 12,
-                            left: i18next.dir() == "rtl" ? "inherit" : "0",
-                            right: i18next.dir() == "rtl" ? "1.75rem" : "0",
-                            transformOrigin: i18next.dir() == "rtl" ? "right" : "left"
-                          }
-                        }}
-                      />
-                      <span className="input-icons">
-                        <MailOutlineIcon />
-                      </span>
-                    </Grid>
-                    <Grid item xs={12} sx={{ position: "relative" }}>
-                      <TextField size="small"
-                        fullWidth
+                        },
+                      }}
+                      sx={textField}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sx={{ position: "relative" }}>
+                    <TextField size="small"
+                      fullWidth
+                      label={t("last_name")}
+                      id="lastName"
+                      value={lastName}
+                      onChange={(e) => setLastName(e.target.value)}
 
-                        label={t("phone_number")}
-                        id="PHONE NUMBER"
-                        value={employeObject.phoneNo}
-                        onChange={(e) =>
-                          setEmployeObject({
-                            ...employeObject,
-                            ["phoneNo"]: e.target.value,
-                          })
-                        }
-                        InputLabelProps={{
-                          style: {
-                            fontSize: "10px",
-                            fontWeight: 600,
-                            background: "#ffffff",
-                            padding: "0px 8px 0px 8px",
-                          },
-                        }} // font size of input label
-                        inputProps={{
-                          sx: {
-                            border: "none",
-                            outline: "none",
-                            fontSize: "10px",
-                            letterSpacing: "0px",
+                      // font size of input label
+                      inputProps={{
+                        sx: {
+                          border: "none",
+                          outline: "none",
+                          fontSize: "10px",
+                          letterSpacing: "0px",
+                          color: "#707070",
+                          "&::placeholder": {
                             color: "#707070",
-                            "&::placeholder": {
-                              color: "#707070",
-                              fontSize: "8px",
-                            },
+                            fontSize: "8px",
                           },
-                        }}
-                        sx={{
-                          textAlign: i18next.dir() == "rtl" ? "right" : "left",
-                          "& 	.MuiOutlinedInput-notchedOutline": {
-                            textAlign: i18next.dir() == "rtl" ? "right" : "left",
+                        },
+                      }}
+                      sx={textField}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sx={{ position: "relative" }}>
+                    <TextField size="small"
+                      fullWidth
+                      label={t("second_last_name")}
+                      id="secondLastName"
+                      value={secondLastName}
+                      onChange={(e) => setSecondLastName(e.target.value)}
+
+                      // font size of input label
+                      inputProps={{
+                        sx: {
+                          border: "none",
+                          outline: "none",
+                          fontSize: "10px",
+                          letterSpacing: "0px",
+                          color: "#707070",
+                          "&::placeholder": {
+                            color: "#707070",
+                            fontSize: "8px",
                           },
-                          "& 	.MuiInputLabel-root": {
-                            fontSize: 12,
-                            left: i18next.dir() == "rtl" ? "inherit" : "0",
-                            right: i18next.dir() == "rtl" ? "1.75rem" : "0",
-                            transformOrigin: i18next.dir() == "rtl" ? "right" : "left"
-                          }
-                        }}
-                      />
-                      <span className="input-icons">
-                        <PhoneIphoneIcon />
-                      </span>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <Box sx={{ mt: "6px" }}>
-                        <FormControl fullWidth
+                        },
+                      }}
+                      sx={textField}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sx={{ position: "relative" }}>
+                    <TextField size="small"
+                      fullWidth
+                      label={t("email")}
+                      id="Email"
+                      value={email}
+                      disabled={isUpdate}
+                      onChange={(e) => setEmail(e.target.value)}
+
+                      // font size of input label
+                      inputProps={{
+                        sx: {
+                          border: "none",
+                          outline: "none",
+                          fontSize: "10px",
+                          letterSpacing: "0px",
+                          color: "#707070",
+                          "&::placeholder": {
+                            color: "#707070",
+                            fontSize: "8px",
+                          },
+                        },
+                      }}
+                      sx={textField}
+                    />
+                    <span className="input-icons">
+                      <MailOutlineIcon />
+                    </span>
+                  </Grid>
+                  <Grid item xs={12} sx={{ position: "relative", }}>
+                    <TextField size="small"
+                      fullWidth
+                      label={t("phone_number")}
+                      id="phone"
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+
+                      // font size of input label
+                      inputProps={{
+                        sx: {
+                          border: "none",
+                          outline: "none",
+                          fontSize: "10px",
+                          letterSpacing: "0px",
+                          color: "#707070",
+                          "&::placeholder": {
+                            color: "#707070",
+                            fontSize: "8px",
+                          },
+                        },
+                      }}
+                      sx={textField}
+                    />
+                    <span className="input-icons">
+                      <PhoneIphoneIcon />
+                    </span>
+                  </Grid>
+                  <Grid item xs={12} >
+                    <Box  >
+                      <FormControl
+                        fullWidth
+                        sx={textField}>
+                        <InputLabel id="genderId" >
+                          {t("gender")}
+                        </InputLabel >
+                        <Select size="small"
+                          labelId="genderId"
+                          id="demo-simple-select"
+                          defaultValue="employe"
+                          label={t("gender")}
+                          value={gender}
+                          onChange={(e) => setGender(e.target.value)}
+
                           sx={{
-                            textAlign: i18next.dir() == "rtl" ? "right" : "left",
-                            "& 	.MuiOutlinedInput-notchedOutline": {
-                              textAlign: i18next.dir() == "rtl" ? "right" : "left",
-                            },
-                            "& 	.MuiInputLabel-root": {
-                              fontSize: 12,
-                              left: i18next.dir() == "rtl" ? "inherit" : "0",
-                              right: i18next.dir() == "rtl" ? "1.75rem" : "0",
-                              transformOrigin: i18next.dir() == "rtl" ? "right" : "left"
-                            }
-                          }}>
-                          <InputLabel id="demo-simple-select-label">
-                            {t("gender")}
-                          </InputLabel>
+                            height: "36px"
+                          }}
+                        >
+                          {
+                            getGnderListProvider?.map((item, index) => {
+                              return (
+                                <MenuItem key={index} sx={{ fontSize: "10px" }} value={item.id}>{item.name}</MenuItem>
+                              )
+                            })
+                          }
+
+
+                        </Select>
+                      </FormControl>
+                    </Box>
+                  </Grid>
+                  {
+                    isUpdate &&
+                    <Grid item xs={12} >
+                      <Box  >
+                        <FormControl
+
+                          fullWidth
+                          sx={textField}>
+                          <InputLabel id="statusId" >
+                            {t("status")}
+                          </InputLabel >
                           <Select size="small"
-                            labelId="demo-simple-select-label"
+                            labelId="statusId"
                             id="demo-simple-select"
-                            defaultValue="gender"
-                            value={gender}
-                            label={t("gender")}
-                            onChange={(e) => setGender(e.target.value)}
+                            defaultValue="employe"
+                            label={t("status")}
+                            value={isStatus}
+                            onChange={(e) => setIsStatus(e.target.value)}
+
                             sx={{
-                              fontSize: "10px",
-                              padding: "3px 3px 3px 10px",
+                              height: "36px",
+                              paddingBottom: "0.5rem"
                             }}
                           >
-                            {getAllGender && getAllGender.length > 0 ? (
-                              getAllGender?.map((item) => {
+                            {
+                              getAllStatusProvider?.map((item, index) => {
                                 return (
-                                  <MenuItem
-                                    value={item?.id}
-                                    sx={{
-                                      fontSize: "10px",
-                                    }}
-                                  >
-                                    {item?.name}
-                                  </MenuItem>
-                                );
+                                  <MenuItem key={index} sx={{ fontSize: "10px" }} value={item.id}>{item.name}</MenuItem>
+                                )
                               })
-                            ) : (
-                              <MenuItem
-                                value={10}
-                                sx={{
-                                  fontSize: "10px",
-                                }}
-                              >
-                                -
-                              </MenuItem>
-                            )}
+                            }
+
+
                           </Select>
                         </FormControl>
                       </Box>
                     </Grid>
-                  </Grid>
-                </div>
-              </div>
-            </div>
-            <button
-              className="edit-profile-save-btn"
-              style={{
-                position: "relative",
-                margin: "70px auto",
-                width: "100%",
-              }}
-              onClick={handleSubmitEmploye}
-            >
-              {t("create_employee")}
-              <span>
-                <SaveIcon />
-              </span>
-            </button>
-          </Grid>
-          {/* <Grid item xs={8}>
-            <div className="add-new-employe__document">
-              <button className="edit-profile-save-btn"   onClick={()=>( navigate(`/dashboard/search-employe`))}>
+                  }
+                  {
+                    user?.data?.userType?.name == "CONTRACTOR_IN_CHARGE" &&
+                    <Grid item xs={12}>
+                      <LocalizationProvider dateAdapter={AdapterDateFns}>
+                        <Stack spacing={3}>
 
-              <span className="add-new-employe__document__heading">
-                DOCUMENTS
-              </span>
-              <Grid container sx={{ my: "10px" }}>
-                <Grid item xs={6}>
-                  <span className="add-new-employe__title">FILE NAME</span>
-                </Grid>
-                <Grid item xs={6}>
-                  <span className="add-new-employe__type">FILE</span>
-                </Grid>
-              </Grid>
-              <div className="add-new-employe__document--detail">
-                <Grid container spacing={3}>
-                  <Grid item xs={6}>
-                    <div className="name">
-                      <TextField size="small"
-                        fullWidth
-         
-                        label="CURP"
-                        id="NAME"
-                        //   value={}
-                        //   onChange={(e) => setName(e.target.value)}
-                        InputLabelProps={{
-                          style: {
-                            fontSize: "12px",
-                            fontWeight: 600,
-                            background: "#ffffff",
-                            padding: "0px 8px 0px 8px",
-                            letterSpacing: "1px",
-                          },
-                        }} // font size of input label
-                        inputProps={{
-                          sx: {
-                            border: "none",
-                            outline: "none",
-                            fontSize: "12px",
-                            letterSpacing: "0px",
-                            color: "#707070",
-                            "&::placeholder": {
-                              color: "#707070",
-                              fontSize: "8px",
-                            },
-                          },
-                        }}
-                      />
-                    </div>
-                  </Grid>
-                  <Grid item xs={3}>
-                    <button
-                      className="add-new-employe__attach"
-                      onClick={() => setAllUser(true)}
-                    >
-                      ATTACH FILE
-                      <AttachFileIcon />
-                    </button>
-                  </Grid>
-                  <Grid item xs={3}>
-                    <button className="add-new-employe__filename">
-                      NO FILE
-                      <GetAppIcon />
-                    </button>
-                  </Grid>
-                </Grid>
-              </div>
-              <div className="add-new-employe__document--detail">
-                <Grid container spacing={3}>
-                  <Grid item xs={6}>
-                    <div className="name">
-                      <TextField size="small"
-                        fullWidth
-                      
-                  
-                        label="CURP"
-                        id="NAME"
-                        //   value={}
-                        //   onChange={(e) => setName(e.target.value)}
-                        InputLabelProps={{
-                          style: {
-                            fontSize: "12px",
-                            fontWeight: 600,
-                            background: "#ffffff",
-                            padding: "0px 8px 0px 8px",
-                            letterSpacing: "1px",
-                          },
-                        }} // font size of input label
-                        inputProps={{
-                          sx: {
-                            border: "none",
-                            outline: "none",
-                            fontSize: "12px",
-                            letterSpacing: "0px",
-                            color: "#707070",
-                            "&::placeholder": {
-                              color: "#707070",
-                              fontSize: "8px",
-                            },
-                          },
-                        }}
-                      />
-                    </div>
-                  </Grid>
-                  <Grid item xs={3}>
-                    <button
-                      className="add-new-employe__attach"
-                      onClick={() => setAllUser(true)}
-                    >
-                      ATTACH FILE
-                      <AttachFileIcon />
-                    </button>
-                  </Grid>
-                  <Grid item xs={3}>
-                    <button className="add-new-employe__filename">
-                      NO FILE
-                      <GetAppIcon />
-                    </button>
-                  </Grid>
-                </Grid>
-              </div>
-              <div className="add-new-employe__document--detail">
-                <Grid container spacing={3}>
-                  <Grid item xs={6}>
-                    <span className="add-new-employe__filelabel">
-                      <b>CONSTANCIA DC3 - A</b>
-                    </span>
-                    <span
-                      className="add-new-employe__filelabel"
-                      style={{
-                        fontSize: "10px",
-                        fontWeight: "400",
-                        letterSpacing: "1px",
-                        marginTop: "-4px",
-                        textDecoration: "underline",
-                      }}
-                    >
-                      DOWNLOAD FORM TO FILL IN IT
-                    </span>
-                  </Grid>
-                  <Grid item xs={3}>
-                    <button
-                      className="add-new-employe__attach"
-                      onClick={() => setAllUser(true)}
-                    >
-                      ATTACH FILE
-                      <AttachFileIcon />
-                    </button>
-                  </Grid>
-                  <Grid item xs={3}>
-                    <button className="add-new-employe__filename">
-                      NO FILE
-                      <GetAppIcon />
-                    </button>
-                  </Grid>
-                </Grid>
-              </div>
-              <div className="add-new-employe__document--detail">
-                <Grid container spacing={3}>
-                  <Grid item xs={6}>
-                    <span className="add-new-employe__filelabel">
-                      <b>CONSTANCIA DC3 - B</b>
-                    </span>
-                    <span
-                      className="add-new-employe__filelabel"
-                      style={{
-                        fontSize: "10px",
-                        fontWeight: "400",
-                        letterSpacing: "1px",
-                        marginTop: "-4px",
-                        textDecoration: "underline",
-                      }}
-                    >
-                      DOWNLOAD FORM TO FILL IN IT
-                    </span>
-                  </Grid>
-                  <Grid item xs={3}>
-                    <button
-                      className="add-new-employe__attach"
-                      onClick={() => setAllUser(true)}
-                    >
-                      ATTACH FILE
-                      <AttachFileIcon />
-                    </button>
-                  </Grid>
-                  <Grid item xs={3}>
-                    <button className="add-new-employe__filename">
-                      NO FILE
-                      <GetAppIcon />
-                    </button>
-                  </Grid>
+                          <DesktopDatePicker
+
+                            label="DOB"
+                            inputFormat="MM/dd/yyyy"
+                            value={dob}
+                            onChange={(e) => setDob(e)}
+                            renderInput={(params) => <TextField size="small" {...params} />}
+                          />
+                        </Stack>
+                      </LocalizationProvider>
+                    </Grid>
+                  }
+
                 </Grid>
               </div>
             </div>
-          </Grid> */}
-        </Grid>
+          </div>
+          <button className='custom_primary_btn_dark mt-3'
+            style={{ width: "650px" }}
+            onClick={() => handelEmployee()}
+          >
+            {isUpdate ? t("update")?.toUpperCase() : t("create")?.toUpperCase()}
+          </button>
+        </div>
       </div>
-      <AllUser show={allUser} onHide={() => setAllUser(false)} />
-    </div>
-  );
-};
 
-export default AddNewEmploye;
+      <UploadImageModal
+        title={t("add_image")}
+        show={showModal}
+        setImage={setImageFile}
+        preview={previewImage}
+        setPreview={setPreviewImage}
+        onHide={() => setShowModal(false)}
+      />
+
+    </>
+  )
+}
+
+export default AddNewEmploye
+

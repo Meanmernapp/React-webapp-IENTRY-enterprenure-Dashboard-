@@ -43,11 +43,23 @@ export const loginMiddleware = createAsyncThunk("authenticationSlice/loginMiddle
     }
 });
 
-
 export const RoleCheck = createAsyncThunk("authenticationSlice/roleCheck", async (params) => {
 
     const { roleId } = params
     let result = await apiInstance.get(`role-service/role-task/get-all/by-role-id/${roleId}`).then(function (response) {
+        return response
+    }).catch(function (error) {
+        return error.response
+    })
+    const { data, status } = result
+
+    return { data, status }
+});
+
+// this api consist of user info Data which is call at app Start.
+export const GetUserByIdAtEntry = createAsyncThunk("authenticationSlice/getUserByIdAtEntry", async (params) => {
+
+    let result = await apiInstance.get(`employee-service/v1/app/get-by-user-id`).then(function (response) {
         return response
     }).catch(function (error) {
         return error.response

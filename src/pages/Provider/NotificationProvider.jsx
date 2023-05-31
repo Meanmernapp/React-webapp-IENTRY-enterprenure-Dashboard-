@@ -9,7 +9,7 @@ const NotificationProvider = () => {
         <div className='main_conatiner_notificaion_provider'>
             {/* header */}
             <div className="top_header_provider">
-                <h2>{t("notification_panel")}</h2>
+                <h2>{t("announcement_panel")}</h2>
                 <div>
                     <button className='add'>{t("export_to_excel_icon")}</button>
                 </div>

@@ -2,7 +2,7 @@
 // const development = "http://localhost:3000";
 // export const URL =
 //     process.env.NODE_ENV === "development" ? development : production;
-export const URL = "http://38.65.139.14:8081/corporate-user-pre-prod-v1/";
+export const URL = "http://38.65.139.14:8081/corporate-user-pre-prod-v2/";
 
 export const endpoints = {
   /* AUTH */

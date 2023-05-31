@@ -13,6 +13,7 @@ import ic_file from '../../../assets/images/ic-file.svg';
 import excel_image from '../../../assets/images/excel-image.png';
 import pdf_image from '../../../assets/images/pdf-image.png';
 import word_image from '../../../assets/images/word-image.png';
+import { t } from "i18next";
 
 import { useState } from 'react';
 import { CreateNotification, GetEmployeesPageable, NotificationTypes, SendByTopicScope, SendToAllScope, SendToSomeEmployees, UploadImgToServer } from '../../../reduxToolkit/Notifications/NotificationsApi';
@@ -154,7 +155,7 @@ const CreateNotifications = () => {
             formData.append('option', "notification_image");
             formData.append('file', updateCompanyImg);
             dispatch(UploadImgToServer(formData)).then(() => {
-                navigate('/dashboard/employee/notification-panel');
+                navigate('/dashboard/employee/announcement-panel');
             })
         }
         if (pdfFile) {
@@ -163,7 +164,7 @@ const CreateNotifications = () => {
             formData.append('option', "notification_file");
             formData.append('file', pdfFile);
             dispatch(UploadImgToServer(formData)).then(() => {
-                navigate('/dashboard/employee/notification-panel');
+                navigate('/dashboard/employee/announcement-panel');
             })
         }
     }
@@ -207,7 +208,7 @@ const CreateNotifications = () => {
                 if (selectedScope === scope[0]) {
                     dispatch(SendToAllScope(data?.id)).then(() => {
                         if (pdfFile === undefined && updateCompanyImg === undefined) {
-                            navigate('/dashboard/employee/notification-panel');
+                            navigate('/dashboard/employee/announcement-panel');
                         } else {
                             uploadImageOrFileToServer(data?.id)
 
@@ -220,7 +221,7 @@ const CreateNotifications = () => {
                     }
                     dispatch(SendByTopicScope(body)).then(() => {
                         if (pdfFile === undefined && updateCompanyImg === undefined) {
-                            navigate('/dashboard/employee/notification-panel');
+                            navigate('/dashboard/employee/announcement-panel');
                         } else {
                             uploadImageOrFileToServer(data?.id)
 
@@ -233,7 +234,7 @@ const CreateNotifications = () => {
                     }
                     dispatch(SendToSomeEmployees(body)).then(() => {
                         if (pdfFile === undefined && updateCompanyImg === undefined) {
-                            navigate('/dashboard/employee/notification-panel');
+                            navigate('/dashboard/employee/announcement-panel');
                         } else {
                             uploadImageOrFileToServer(data?.id)
 
@@ -252,10 +253,10 @@ const CreateNotifications = () => {
         <div className='row createNotification'>
             <div className="head">
                 <div className='headLeft'>
-                    <Link to="/dashboard/employee/notification-panel">
+                    <Link to="/dashboard/employee/announcement-panel">
                         <i className="fa fa-arrow-left" aria-hidden="true"></i>
                     </Link>
-                    <h2>Create Notification</h2>
+                    <h2>{t("create_announcement")}</h2>
                 </div>
             </div>
             <div className="col-8 mx-auto mt-5">
@@ -558,14 +559,14 @@ const CreateNotifications = () => {
                     </div>
                 </div>
                 <div className="createBtns">
-                    <Link to="/dashboard/employee/notification-panel" className="previousBtn">
+                    <Link to="/dashboard/employee/announcement-panel" className="previousBtn">
                         Cancel
                     </Link>
                     <button
                         className="nextBtn"
                         onClick={handleCreate}
                     >
-                        Create Notification
+                        {t("create_announcement")}
                     </button>
                 </div>
             </div>

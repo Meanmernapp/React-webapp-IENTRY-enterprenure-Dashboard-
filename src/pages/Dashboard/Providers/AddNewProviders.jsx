@@ -37,19 +37,19 @@ const AddNewProviders = () => {
               }}
             />
           </Link>
-          {t("add_provider")}
+          {t("add_supplier")}
         </h2>
         <div style={{ display: "flex" }}>
           <Link to="/dashboard/uploademployeefile">
             <button className="btn btn-lg">
-              {t("add_provider")}r <SaveIcon />
+              {t("add_supplier")}r <SaveIcon />
             </button>
           </Link>
         </div>
       </div>
       <div className="mt-5  add_provider">
         <div className="col-md-6 add_provider_content">
-          <p className="provider_header">{t("provider_company")}</p>
+          <p className="provider_header">{t("supplier_company")}</p>
 
           <Box
             className="add_provider_text_field"
@@ -90,7 +90,7 @@ const AddNewProviders = () => {
               className=""
             />
           </Box>
-          <p className="provider_header">{t("provider_information")}</p>
+          <p className="provider_header">{t("supplier_information")}</p>
           <Box
             className="add_provider_text_field"
             style={{ marginTop: "28.5px" }}

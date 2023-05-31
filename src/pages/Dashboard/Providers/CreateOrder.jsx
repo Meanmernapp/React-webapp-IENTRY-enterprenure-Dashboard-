@@ -21,6 +21,7 @@ import { useNavigate } from "react-router-dom";
 import { t } from "i18next";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
+import { FolderZipOutlined } from "@mui/icons-material";
 
 
 
@@ -39,6 +40,7 @@ export const CreateOrder = () => {
   const [serviceType, setServiceType] = useState();
   const [description, setDescription] = useState();
   const [isDelivery, setIsDelivery] = useState(false);
+  const [folio,setFolio]= useState("")
 
 
   // const 
@@ -46,7 +48,7 @@ export const CreateOrder = () => {
   const CreateOrderHandler = () => {
     const data = {
       isDelivery,
-      provider: {
+      supplier: {
         id: provider
       },
       company: {
@@ -54,11 +56,12 @@ export const CreateOrder = () => {
       },
       deliveryDate: deliveryDate?.getTime(),
       item,
+      folio,
 
       description
     }
     console.log(data)
-    if (provider && item && deliveryDate?.getTime) {
+    if (provider && item && folio && deliveryDate?.getTime) {
 
       dispatch(CreateEmployeeProviderOrders({ data, navigate }))
     }
@@ -76,13 +79,13 @@ export const CreateOrder = () => {
     <>
       <div className='head'>
         <div className='headLeft'>
-          <Link to="/dashboard/employee/providers">
+          <Link to="/dashboard/employee/suppliers">
             <i className="fa fa-arrow-left" aria-hidden="true" style={{
               transform: lCode === "ar" ? "scaleX(-1)" : "",
               // margin: "0 10px"
             }}></i>
           </Link>
-          <h2>{t("order_details")}</h2>
+          <h2>{t("create_order")}</h2>
         </div>
       </div>
       <div className="mt-5 row order_data_component">
@@ -94,12 +97,12 @@ export const CreateOrder = () => {
                 <Box className="inputField">
                   <FormControl fullWidth>
                     <InputLabel id="demo-simple-select-label">
-                      {t("choose_a_provider")}
+                      {t("choose_a_supplier")}
                     </InputLabel>
                     <Select size="small"
                       labelId="demo-simple-select-label"
                       id="demo-simple-select"
-                      label={t("choose_a_provider")}
+                      label={t("choose_a_supplier")}
                       value={provider}
                       onChange={(e) => setProvider(e.target.value)}
                     >
@@ -119,18 +122,6 @@ export const CreateOrder = () => {
                     </Select>
                   </FormControl>
                 </Box>
-
-                <TextField size="small"
-                  className="inputField"
-                  fullWidth
-
-                  label={t("item")}
-                  value={item}
-                  onChange={(e) => setItem(e.target.value)}
-                  id="Item"
-                />
-              </div>
-              <div className="mt-3 col-md-6">
                 <Box className="inputField">
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <Stack spacing={3}>
@@ -145,6 +136,11 @@ export const CreateOrder = () => {
                     </Stack>
                   </LocalizationProvider>
                 </Box>
+
+               
+              </div>
+              <div className="mt-3 col-md-6">
+                
                 {/* <TextField size="small"
                   className="inputField"
                   fullWidth
@@ -154,7 +150,16 @@ export const CreateOrder = () => {
                   onChange={(e) => setServiceType(e.target.value)}
                   id="ServiceType"
                 /> */}
-                <div style={{ marginTop: '2rem' }}>
+                 <TextField size="small"
+                  className="inputField"
+                  fullWidth
+
+                  label={t("folio")}
+                  value={folio}
+                  onChange={(e) => setFolio(e.target.value)}
+                  id="folio"
+                />
+                <div style={{ marginTop: '0.5rem' }}>
 
                   <input type="checkbox"
                     value={isDelivery}
@@ -162,7 +167,20 @@ export const CreateOrder = () => {
                   /> {t("is_delivery")}
                 </div>
               </div>
+             
             </div>
+            <div className="mt-1 col-md-12">
+                <TextField size="small"
+                  className="inputField"
+                  fullWidth
+
+                  label={t("item")}
+                  value={item}
+                  onChange={(e) => setItem(e.target.value)}
+                  id="Item"
+                />
+
+              </div>
             <div className="col-md-12">
               <TextField size="small"
                 className="inputField"

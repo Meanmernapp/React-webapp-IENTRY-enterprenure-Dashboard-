@@ -48,13 +48,13 @@ const ProviderDropDown = ({ contractor, dropDownProps }) => {
         }
         {dropDownProps.panel == 'provider' || dropDownProps.panel == 'contractor' &&
           <>
-            <Link to={contractor ? '/dashboard/employee/contractors/contractor-approve-document' : '/dashboard/employee/providers/approve-documents'}>
+            <Link to={contractor ? '/dashboard/employee/contractors/contractor-approve-document' : '/dashboard/employee/suppliers/approve-documents'}>
               <div className="dropdownDiv">
                 <img src={pencil} alt="pencil" />
                 <span>{t("approve_document")}</span>
               </div>
             </Link>
-            <Link to={contractor ? '/dashboard/employee/contractors/update-contractor' : '/dashboard/employee/providers/update-providers'}>
+            <Link to={contractor ? '/dashboard/employee/contractors/update-contractor' : '/dashboard/employee/suppliers/update-suppliers'}>
               <div className="dropdownDiv">
                 <img src={pencil} alt="pencil" />
 

@@ -70,7 +70,7 @@ const ContractorEmployeDetail = () => {
         <div className='order-details'>
             <div className='head'>
                 <div className='headLeft'>
-                    <Link to="/dashboard/employee/providers">
+                    <Link to="/dashboard/employee/suppliers">
                         <i className="fa fa-arrow-left" aria-hidden="true" style={{
                             transform: lCode === "ar" ? "scaleX(-1)" : "",
                             margin: "0 10px"
@@ -278,7 +278,7 @@ const ContractorEmployeDetail = () => {
                                                 </div>
                                             </div>
                                             <div className="view-details">
-                                                <Link to='/dashboard/employee/providers/provider-detail' state={{ approveDocumentState: "false" }} >
+                                                <Link to='/dashboard/employee/suppliers/provider-detail' state={{ approveDocumentState: "false" }} >
                                                     <a href="">EMPLOYEE DETAILS</a>
                                                     <i className="fa fa-angle-right"></i>
                                                 </Link>

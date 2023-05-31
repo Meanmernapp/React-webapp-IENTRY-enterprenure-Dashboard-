@@ -1,0 +1,218 @@
+
+$distance: var(--top-value);
+$finalDistance: calc(#{$distance} + 65px);
+
+.panelTables {
+
+
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+    overflow: scroll;
+
+    height: calc(100vh - #{$finalDistance}) !important;
+    // height: 76vh;
+
+
+    &::-webkit-scrollbar {
+        display: none !important;
+    }
+
+
+    table {
+        border-collapse: separate !important;
+        border-spacing: 0 15px;
+        margin-top: 15px;
+
+
+
+
+        thead {
+            z-index: 50;
+            font-size: 14px;
+            color: #65aba0;
+            text-transform: uppercase;
+            text-align: center;
+            position: sticky;
+            top: 30px;
+            background: white;
+            background-size: auto;
+            width: max-content;
+            box-shadow:0px -10px 0px 21px rgba(255,255,255,1);
+
+            margin: 4em;
+            padding: 2em;
+
+
+
+            th {
+                font-size: 14px;
+                color: #65aba0;
+                text-transform: uppercase;
+                text-align: center;
+                position: sticky;
+
+                background: white;
+                background-size: auto;
+            }
+        }
+
+        .first_head {
+            text-align: left !important;
+            padding-left: 1rem;
+        }
+
+        .first {
+            text-align: left !important;
+            padding-left: 1rem;
+            color: #707070;
+            font-weight: bold;
+            // overflow: hidden;
+        }
+
+        .tableIcon {
+            z-index: 10;
+
+            width: 10%;
+            text-align: center;
+
+            .btn-option {
+                border: none !important;
+                background: white !important;
+                padding: 4px !important;
+                border-radius: 4px !important;
+                height: 100% !important;
+
+                &:hover {
+                    background: #E1E1E1 0% 0% no-repeat padding-box !important;
+
+                }
+
+                img {
+                    vertical-align: middle;
+                }
+
+            }
+
+            .dropdown-menu.show {
+                inset: -16% auto auto 11%;
+                transform: translate(0px, 25px);
+
+                background: white 0% 0% no-repeat padding-box;
+                box-shadow: 0px 0px 4px #fcfcfc;
+                border-radius: 4px;
+                opacity: 1;
+
+                .dropdownDiv {
+
+                    padding: 6px 7px;
+                    display: flex;
+                    gap: 1rem;
+                    align-items: center;
+                    justify-content: space-between;
+                    min-width: 12rem;
+
+                    img {
+                        width: 18px;
+                        height: 18px;
+                    }
+
+                    span {
+                        font: normal normal normal 14px/18px Montserrat;
+                        letter-spacing: 0px;
+                        color: #000000;
+                        opacity: 1;
+                    }
+
+                    &:hover {
+                        background: #E1E1E1 0% 0% no-repeat padding-box;
+                        border-radius: 1px;
+                        opacity: 1;
+
+                    }
+                }
+            }
+        }
+
+        tr {
+            box-shadow: 0px 0px 4px #00000059 !important;
+            
+            border-radius: 4px;
+            opacity: 1;
+            height: 36px;
+
+
+            td {
+                text-align: center;
+                padding: 0rem 0.2rem;
+
+                .name_avatar {
+                    width: 24px;
+                    height: 24px;
+                }
+            }
+
+            .file_with_name {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                justify-content: center;
+
+
+
+                img {
+                    width: 30px;
+                    height: 34px;
+                }
+
+                p {
+                    font: normal normal normal 12px/15px Montserrat;
+                    letter-spacing: 0px;
+                    color: #707070;
+                    opacity: 1;
+                }
+            }
+
+            .img_device_table {
+                align-items: center;
+                gap: 0.5rem;
+                justify-content: center;
+                margin-right: 1em;
+                img {
+                    width: 22px;
+                    height: 24px;
+                }
+                p {
+                    font: normal normal normal 12px/15px Montserrat;
+                    letter-spacing: 0px;
+                    color: #707070;
+                    opacity: 1;
+                }
+            }
+            .img_arrow_table {
+                align-items: center;
+                gap: 0.5rem;
+                justify-content: center;
+                padding-right: 1em;
+                img {
+                    width: auto;
+                    height: 16px;
+                }
+                p {
+                    font: normal normal normal 12px/15px Montserrat;
+                    letter-spacing: 0px;
+                    color: #707070;
+                    opacity: 1;
+                }
+            }
+        }
+    }
+}
+
+div.transparency {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+  }  

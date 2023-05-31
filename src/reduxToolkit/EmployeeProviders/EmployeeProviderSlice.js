@@ -57,7 +57,7 @@ const employeeProviderSlice = createSlice({
             }
             else if (status >= 400 && status < 500) {
 
-                toast("Fail to Create customer")
+                // toast("Fail to Create customer")
             }
         },
         ["employeeProvider/createEmployeeProviderOrders/fulfilled"]: (state, action) => {
@@ -215,7 +215,7 @@ const employeeProviderSlice = createSlice({
             }
             else if (status >= 400 && status < 500) {
 
-                toast("Fail to Create Order")
+                // toast("Fail to Create Order")
             }
         },
         ["employeeProvider/createEmployeeProvider/fulfilled"]: (state, action) => {
@@ -227,7 +227,7 @@ const employeeProviderSlice = createSlice({
             }
             else if (status >= 400 && status < 500) {
                 toast(data.message)
-                toast("Fail to Create Order")
+                toast("Fail to Create Supplier")
             }
 
         },
@@ -277,7 +277,7 @@ const employeeProviderSlice = createSlice({
             }
             else if (status >= 400 && status < 500) {
 
-                toast("Fail to Create Order")
+                // toast("Fail to Create Order")
             }
         },
         ["employeeProvider/getEmployeeProviderById/fulfilled"]: (state, action) => {
@@ -289,7 +289,7 @@ const employeeProviderSlice = createSlice({
             }
             else if (status >= 400 && status < 500) {
 
-                toast("Fail to Create Order")
+                // toast("Fail to Create Order")
             }
         },
         ["employeeProvider/updateEmployeeProviderInfo/fulfilled"]: (state, action) => {
@@ -327,7 +327,7 @@ const employeeProviderSlice = createSlice({
             }
             else if (status >= 400 && status < 500) {
 
-                toast("Fail to Create Order")
+                // toast("Fail to Create Order")
             }
         },
 
@@ -353,7 +353,7 @@ const employeeProviderSlice = createSlice({
             }
             else if (status >= 400 && status < 500) {
 
-                toast("Fail to Create Order")
+                // toast("Fail to Create Order")
             }
         },
         [`employeeProvider/getAllProviderDocument/fulfilled`]: (state, action) => {

@@ -98,7 +98,7 @@ const AddUpdateNewProviders = () => {
               className=""
             />
           </Box>
-          <p className="provider_header">{t("provider_information")}</p>
+          <p className="provider_header">{t("supplier_information")}</p>
           <Box
             className="add_provider_text_field"
             style={{ marginTop: "28.5px" }}

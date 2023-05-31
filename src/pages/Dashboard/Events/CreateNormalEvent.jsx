@@ -34,6 +34,7 @@ const CreateNormalEvent = () => {
   const guestData = useSelector(state => state?.EmployeeEventsSlice?.emailPhoneSearchList);
   const selectedEmployees = useSelector(state => state?.EmployeeEventsSlice?.selectedEmployees);
   const allEmployees = useSelector(state => state?.EmployeeEventsSlice?.allEmployees);
+  const companyRestrictionsData = useSelector(state => state?.EmployeeEventsSlice?.companyRestrictionsData);
   const [toggleState, setToggleState] = useState(0);
   const [hostChecked, setHostChecked] = useState(false);
   const [eventDetail, setEventDetail] = useState({
@@ -151,6 +152,12 @@ const CreateNormalEvent = () => {
     }
   }
 
+  useEffect(()=>{
+    if(companyRestrictionsData?.isOnuEvent === true){
+      navigate("/unauthorized")
+      
+    }
+  })
   return (
     <div className="providersPanel CreateEventPanel">
       <div className="head">
@@ -220,7 +227,7 @@ const CreateNormalEvent = () => {
         </div>
       </div>
       {toggleState === 0 && (
-        <div className="content">
+        <div className="content animated-div">
           <Grid container spacing={2}>
             <Grid item xs={12} md={6} sx={{ position: "relative" }}>
               <p>{t('event_name')}</p>
@@ -550,7 +557,7 @@ const CreateNormalEvent = () => {
         </div>
       )}
       {toggleState === 1 && (
-        <div className="content2">
+        <div className="content2 animated-div">
           <div className="row">
             <p className="headline">{t('choose_a_common_area_to_reservate')}</p>
             {
@@ -653,7 +660,7 @@ const CreateNormalEvent = () => {
         </div>
       )}
       {toggleState === 2 && (
-        <div style={{ width: "75%", margin: "auto" }}>
+        <div style={{ width: "75%", margin: "auto" }} className="animated-div">
           <Visitors />
         </div>
       )}

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="20.021" height="19.738" viewBox="0 0 20.021 19.738">
+  <g id="Group_168306" data-name="Group 168306" transform="translate(8323 18064)">
+    <path id="circle-notch-solid" d="M19.3,15.981v.672a.969.969,0,0,0,.714.931,7.427,7.427,0,1,1-4.011,0,.969.969,0,0,0,.714-.931v-.672a.97.97,0,0,0-1.213-.938,10.011,10.011,0,1,0,5,0A.967.967,0,0,0,19.3,15.981Z" transform="translate(-8331 -18079.01)" fill="#fff"/>
+    <g id="Ellipse_150" data-name="Ellipse 150" transform="translate(-8318.477 -18059.889)" fill="none" stroke="#fff" stroke-width="1">
+      <circle cx="5.551" cy="5.551" r="5.551" stroke="none"/>
+      <circle cx="5.551" cy="5.551" r="5.051" fill="none"/>
+    </g>
+  </g>
+</svg>

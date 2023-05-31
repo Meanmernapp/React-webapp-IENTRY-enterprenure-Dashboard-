@@ -1,23 +1,30 @@
-import React from 'react'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { useSelector } from 'react-redux';
-import defaultCar from '../../assets/images/default-car.png'
-import def from '../../assets/images/user-png.png';
-import { CheckProviderImage, GetProviderEmployeeDetail, GetProviderVehicleDetail } from '../../reduxToolkit/Providers/providersApi';
-import { useDispatch } from 'react-redux';
-import { Box } from '@mui/system';
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import Cookies from 'js-cookie';
-import NotFoundDataWarning from '../../components/NotFoundDataWarning';
+import React, { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useLocation } from 'react-router-dom';
+import defaultCar from '../../assets/defaultImages/defaultCar.svg';
+import def from '../../assets/defaultImages/userDef.svg';
+import NotFoundAnything from '../../components/NotFoundAnything';
+import { CheckProviderImage, GetOrderDetails, GetProviderEmployeeDetail, GetProviderVehicleDetail } from '../../reduxToolkit/Providers/providersApi';
 
 
 const OrderDetail = () => {
     const { t } = useTranslation();
     const lCode = Cookies.get("i18next") || "en";
 
+
     const dispatch = useDispatch();
+    const location = useLocation();
+
+    // const {orderId, supplierId} = location.state
+
+    
+ 
+
+
+    
    
 
     // const [emailSlice, setEmailSlice] = useState("")
@@ -27,13 +34,18 @@ const OrderDetail = () => {
     const date = new Date(getOrderDetails?.eta);
 
     // check email length and cut off
-    const EmailSlice = getOrderDetails?.provider?.user?.email.split("@")
+    const EmailSlice = getOrderDetails?.supplier?.user?.email.split("@")
+
+
+    useEffect(()=>{
+dispatch(GetOrderDetails(localStorage.getItem("supplier_order_id")))
+    },[])
 
     return (
         <div className="order_detail_container">
             <div className="top_header_provider">
                 <h2>
-                    <Link to="/dashboard/provider/orders">
+                    <Link to="/dashboard/supplier/orders">
                         <ArrowBackIcon
                             style={{
                                 color: "#146F62",
@@ -45,11 +57,12 @@ const OrderDetail = () => {
                     {t("order_details")}
                 </h2>
                 <div className='btn_with_icon'>
-                    <Link to="/dashboard/provider/update-order">
-                        <button className='add'
-                        // onClick={() => { navigate("/dashboard/provider/update-order") }}
+                    <Link to="/dashboard/supplier/update-order">
+                        <button className='add-btn-1'
+                        // onClick={() => { navigate("/dashboard/supplier/update-order") }}
                         >
-                            {t("update_order")} <i class="fa fa-floppy-o" aria-hidden="true"></i>
+                            <i class="fa fa-floppy-o" aria-hidden="true"></i>
+                            {t("update")} 
 
                         </button>
                     </Link>
@@ -60,7 +73,7 @@ const OrderDetail = () => {
             <div className='order_info_conatiner'>
                 <div className='order_info_conatiner_header'>
                     <div>
-                        <h5>{t("order")}<span>#{getOrderDetails?.id}</span></h5>
+                        <h5>{t("folio")} #<span >{getOrderDetails?.folio}</span></h5>
                     </div>
                     <div className='status'>
                         <p
@@ -83,16 +96,16 @@ const OrderDetail = () => {
                     <div className='order_info_items_left'>
                         <h5>{t("courier_information")}</h5>
                         <div className='order_info_item_left'>
-                            <p>{t("provider")}</p>
-                            <h4>{getOrderDetails?.provider?.providerCompanyName + "|" + getOrderDetails?.provider?.acronym}</h4>
+                            <p>{t("supplier")}</p>
+                            <h4>{getOrderDetails?.supplier?.supplierCompanyName + "|" + getOrderDetails?.supplier?.acronym}</h4>
                         </div>
                         <div className='order_info_item_left'>
                             <p>{t("email")}</p>
-                            <h4>{getOrderDetails?.provider?.user?.email}</h4>
+                            <h4>{getOrderDetails?.supplier?.user?.email}</h4>
                         </div>
                         <div className='order_info_item_left'>
                             <p>{t("celular")}</p>
-                            <h4>{getOrderDetails?.provider?.user?.phoneNumber}</h4>
+                            <h4>{getOrderDetails?.supplier?.user?.phoneNumber}</h4>
                         </div>
 
                     </div>
@@ -106,10 +119,7 @@ const OrderDetail = () => {
                             <p>{t("item")} </p>
                             <h4>{getOrderDetails?.item}</h4>
                         </div>
-                        <div className='order_info_item_middel'>
-                            <p> {t("decription")}</p>
-                            <h4>{getOrderDetails?.description}</h4>
-                        </div>
+                       
 
                     </div>
                     <div className='order_info_items_right'>
@@ -124,15 +134,12 @@ const OrderDetail = () => {
                         </div>
                     </div>
                     <div className='order_info_items_right_last'>
-                        {/* <h5>DESCRIPTION</h5> */}
+                       
                         <div className='order_info_item-right'>
                             <p>{t("description")}</p>
                             <h4>{getOrderDetails?.description ? getOrderDetails?.description : '-'}</h4>
                         </div>
-                        {/* <div className='order_info_item-right'>
-                            <p>DELIVERY DATE</p>
-                            <h4>23/08/2022</h4>
-                        </div> */}
+                        
                     </div>
 
                 </div>
@@ -143,79 +150,82 @@ const OrderDetail = () => {
             <div className='order_info_section'>
 
                 <div className='order_info_employee'>
-                    <h3>EMPLOYEE</h3>
+                    <h3>{t("employee")}</h3>
                     {
-                        getOrderDetails?.providerEmployee != null ?
+                        getOrderDetails?.supplierEmployee != null ?
                             <div className="card_container mt-4">
                                 <div className="card_header">
 
                                     <div className="left_active">
                                         <p style={{
-                                            color: getOrderDetails?.providerEmployee?.user?.status?.id == 2 && "yellow" ||
-                                                getOrderDetails?.providerEmployee?.user?.status?.id == 3 && "blue" ||
-                                                getOrderDetails?.providerEmployee?.user?.status?.id == 4 && "green" ||
-                                                getOrderDetails?.providerEmployee?.user?.status?.id == 5 && "orange" ||
-                                                getOrderDetails?.providerEmployee?.user?.status?.id == 6 && "red"
-                                        }}>{getOrderDetails?.providerEmployee?.user?.status?.name.split("_").join(" ")}</p>
+                                            color: getOrderDetails?.supplierEmployee?.user?.status?.id == 2 && "yellow" ||
+                                                getOrderDetails?.supplierEmployee?.user?.status?.id == 3 && "blue" ||
+                                                getOrderDetails?.supplierEmployee?.user?.status?.id == 4 && "green" ||
+                                                getOrderDetails?.supplierEmployee?.user?.status?.id == 5 && "orange" ||
+                                                getOrderDetails?.supplierEmployee?.user?.status?.id == 6 && "red"
+                                        }}>{getOrderDetails?.supplierEmployee?.user?.status?.name.split("_").join(" ")}</p>
                                         <div className="status_active" style={{
-                                            background: getOrderDetails?.providerEmployee?.user?.status?.id == 2 && "yellow" ||
-                                                getOrderDetails?.providerEmployee?.user?.status?.id == 3 && "blue" ||
-                                                getOrderDetails?.providerEmployee?.user?.status?.id == 4 && "green" ||
-                                                getOrderDetails?.providerEmployee?.user?.status?.id == 5 && "orange" ||
-                                                getOrderDetails?.providerEmployee?.user?.status?.id == 6 && "red"
+                                            background: getOrderDetails?.supplierEmployee?.user?.status?.id == 2 && "yellow" ||
+                                                getOrderDetails?.supplierEmployee?.user?.status?.id == 3 && "blue" ||
+                                                getOrderDetails?.supplierEmployee?.user?.status?.id == 4 && "green" ||
+                                                getOrderDetails?.supplierEmployee?.user?.status?.id == 5 && "orange" ||
+                                                getOrderDetails?.supplierEmployee?.user?.status?.id == 6 && "red"
                                         }}></div>
                                     </div>
                                 </div>
 
 
                                 <div className="card_body">
-                                    <img src={getOrderDetails?.providerEmployee?.user?.selfie != null ? `data:image/png;base64,${getOrderDetails?.providerEmployee?.user?.selfie}` : def} alt="" />
+                                    <div className="img_round">
+
+                                    <img src={getOrderDetails?.supplierEmployee?.user?.selfie != null ? `data:image/png;base64,${getOrderDetails?.supplierEmployee?.user?.selfie}` : def} alt="" />
+                                    </div>
                                     <div className="card_body_items">
                                         <div className="card_body_item">
-                                            <h5>Name</h5>
-                                            <p>{getOrderDetails?.providerEmployee?.user?.name}</p>
+                                            <h5>{t("name")}</h5>
+                                            <p>{getOrderDetails?.supplierEmployee?.user?.name}</p>
                                         </div>
-                                        <div className="card_body_item">
-                                            <h5>Job title</h5>
+                                        {/* <div className="card_body_item">
+                                            <h5>{t("job_title")}</h5>
                                             <p>Contador</p>
+                                        </div> */}
+                                        <div className="card_body_item">
+                                            <h5>{t("gender")}</h5>
+                                            <p>{getOrderDetails?.supplierEmployee?.user?.gender?.name}</p>
                                         </div>
                                         <div className="card_body_item">
-                                            <h5>Gender</h5>
-                                            <p>{getOrderDetails?.providerEmployee?.user?.gender?.name}</p>
+                                            <h5>{t("email")}</h5>
+                                            <p>{getOrderDetails?.supplierEmployee?.user?.email}</p>
                                         </div>
                                         <div className="card_body_item">
-                                            <h5>Email</h5>
-                                            <p>{EmailSlice[0]}</p>
-                                        </div>
-                                        <div className="card_body_item">
-                                            <h5>Number</h5>
-                                            <p>{getOrderDetails?.providerEmployee?.user?.phoneNumber}</p>
+                                            <h5>{t("number")}</h5>
+                                            <p>{getOrderDetails?.supplierEmployee?.user?.phoneNumber}</p>
                                         </div>
                                         <div className="card_footer">
                                             {
-                                                getOrderDetails?.providerEmployee?.user?.status?.id == 3 ?
+                                                getOrderDetails?.supplierEmployee?.user?.status?.id == 3 ?
                                                     <>
-                                                        <Link to="/dashboard/provider/complete-document"
+                                                        <Link to="/dashboard/supplier/complete-document"
                                                             onClick={() => {
-                                                                dispatch(GetProviderEmployeeDetail(getOrderDetails?.providerEmployee?.user?.id));
-                                                                dispatch(CheckProviderImage(getOrderDetails?.providerEmployee?.user?.id))
-                                                                localStorage.setItem("provideridfordetail", getOrderDetails?.providerEmployee?.user?.id)
+                                                                dispatch(GetProviderEmployeeDetail(getOrderDetails?.supplierEmployee?.user?.id));
+                                                                dispatch(CheckProviderImage(getOrderDetails?.supplierEmployee?.user?.id))
+                                                                localStorage.setItem("provideridfordetail", getOrderDetails?.supplierEmployee?.user?.id)
 
                                                             }}
                                                         >
-                                                            COMPLETE DOCUMENTS
+                                                            {t("complete_documents")}
                                                         </Link>
                                                         <i class="fa fa-angle-right" aria-hidden="true"></i>
                                                     </> :
                                                     <>
-                                                        <Link to="/dashboard/provider/provider-order-detail"
+                                                        <Link to="/dashboard/supplier/supplier-order-detail"
                                                             onClick={() => {
-                                                                dispatch(GetProviderEmployeeDetail(getOrderDetails?.providerEmployee?.user?.id));
-                                                                dispatch(CheckProviderImage(getOrderDetails?.providerEmployee?.user?.id))
-                                                                localStorage.setItem("provideridfordetail", getOrderDetails?.providerEmployee?.user?.id)
+                                                                dispatch(GetProviderEmployeeDetail(getOrderDetails?.supplierEmployee?.user?.id));
+                                                                dispatch(CheckProviderImage(getOrderDetails?.supplierEmployee?.user?.id))
+                                                                localStorage.setItem("provideridfordetail", getOrderDetails?.supplierEmployee?.user?.id)
 
                                                             }}
-                                                        >EMPLOYEE DETAILS</Link>
+                                                        >{t("employee_details")}</Link>
                                                         <i class="fa fa-angle-right" aria-hidden="true"></i>
                                                     </>
                                             }
@@ -224,95 +234,99 @@ const OrderDetail = () => {
                                 </div>
 
                             </div> :
-                            <NotFoundDataWarning text={"NO EMPLOYEE DATA"} />
+                            <NotFoundAnything text={t("no_data")} />
 
                     }
 
                 </div>
 
                 <div className='order_info_vehicle'>
-                    <h3>VEHICLE</h3>
+                    <h3>{t("vehicle")}</h3>
                     {
-                        getOrderDetails?.providerVehicle != null ?
+                        getOrderDetails?.supplierVehicle != null ?
                             <div className="card_container mt-4" >
                                 <div className="card_header">
 
                                     <div className="left_active">
                                         <p style={{
-                                            color: getOrderDetails?.providerVehicle?.vehicle?.status?.id == 2 && "yellow" ||
-                                                getOrderDetails?.providerVehicle?.vehicle?.status?.id == 3 && "blue" ||
-                                                getOrderDetails?.providerVehicle?.vehicle?.status?.id == 4 && "green" ||
-                                                getOrderDetails?.providerVehicle?.vehicle?.status?.id == 5 && "orange" ||
-                                                getOrderDetails?.providerVehicle?.vehicle?.status?.id == 6 && "red"
-                                        }}>{getOrderDetails?.providerVehicle?.vehicle?.status?.name.split("_").join(" ")}</p>
+                                            color: getOrderDetails?.supplierVehicle?.vehicle?.status?.id == 2 && "yellow" ||
+                                                getOrderDetails?.supplierVehicle?.vehicle?.status?.id == 3 && "blue" ||
+                                                getOrderDetails?.supplierVehicle?.vehicle?.status?.id == 4 && "green" ||
+                                                getOrderDetails?.supplierVehicle?.vehicle?.status?.id == 5 && "orange" ||
+                                                getOrderDetails?.supplierVehicle?.vehicle?.status?.id == 6 && "red"
+                                        }}>{getOrderDetails?.supplierVehicle?.vehicle?.status?.name.split("_").join(" ")}</p>
                                         <div className="status_active" style={{
-                                            background: getOrderDetails?.providerVehicle?.vehicle?.status?.id == 2 && "yellow" ||
-                                                getOrderDetails?.providerVehicle?.vehicle?.status?.id == 3 && "blue" ||
-                                                getOrderDetails?.providerVehicle?.vehicle?.status?.id == 4 && "green" ||
-                                                getOrderDetails?.providerVehicle?.vehicle?.status?.id == 5 && "orange" ||
-                                                getOrderDetails?.providerVehicle?.vehicle?.status?.id == 6 && "red"
+                                            background: getOrderDetails?.supplierVehicle?.vehicle?.status?.id == 2 && "yellow" ||
+                                                getOrderDetails?.supplierVehicle?.vehicle?.status?.id == 3 && "blue" ||
+                                                getOrderDetails?.supplierVehicle?.vehicle?.status?.id == 4 && "green" ||
+                                                getOrderDetails?.supplierVehicle?.vehicle?.status?.id == 5 && "orange" ||
+                                                getOrderDetails?.supplierVehicle?.vehicle?.status?.id == 6 && "red"
                                         }}></div>
                                     </div>
                                 </div>
                                 <div className="card_body">
+                                    <div className="img_round">
+
                                     <img src={
-                                        getOrderDetails?.providerVehicle?.vehicle?.image != null ? `data:image/png;base64,${getOrderDetails?.providerVehicle?.vehicle?.image}` :
+                                        getOrderDetails?.supplierVehicle?.vehicle?.image != null ? `data:image/png;base64,${getOrderDetails?.supplierVehicle?.vehicle?.image}` :
                                             defaultCar} alt="" />
+                                    </div>
+
                                     <div className="card_body_items">
                                         <div className="card_body_item">
-                                            <h5>Brand</h5>
-                                            <p>{getOrderDetails?.providerVehicle?.vehicle?.brand}</p>
+                                            <h5>{t("brand")}</h5>
+                                            <p>{getOrderDetails?.supplierVehicle?.vehicle?.brand}</p>
                                         </div>
                                         <div className="card_body_item">
-                                            <h5>Sub-Brand</h5>
-                                            <p>{getOrderDetails?.providerVehicle?.vehicle?.subBrand}</p>
+                                            <h5>{t("sub_brand")}</h5>
+                                            <p>{getOrderDetails?.supplierVehicle?.vehicle?.subBrand}</p>
                                         </div>
                                         <div className="card_body_item">
-                                            <h5>Model</h5>
-                                            <p>{getOrderDetails?.providerVehicle?.vehicle?.model}</p>
+                                            <h5>{t("model")}</h5>
+                                            <p>{getOrderDetails?.supplierVehicle?.vehicle?.model}</p>
                                         </div>
                                         <div className="card_body_item">
-                                            <h5>Color</h5>
-                                            <p>{getOrderDetails?.providerVehicle?.vehicle?.color}</p>
+                                            <h5>{t("color")}</h5>
+                                            <p>{getOrderDetails?.supplierVehicle?.vehicle?.color}</p>
                                         </div>
                                         <div className="card_body_item">
-                                            <h5>Plates</h5>
-                                            <p>{getOrderDetails?.providerVehicle?.vehicle?.plate}</p>
+                                            <h5>{t("plates")}</h5>
+                                            <p>{getOrderDetails?.supplierVehicle?.vehicle?.plate}</p>
                                         </div>
                                         <div className="card_body_item">
-                                            <h5>S/N</h5>
-                                            <p>{getOrderDetails?.providerVehicle?.vehicle?.serialNumber}</p>
+                                            <h5>{t("s/n")}</h5>
+                                            <p>{getOrderDetails?.supplierVehicle?.vehicle?.serialNumber}</p>
                                         </div>
                                         <div className="card_body_item">
-                                            <h5>Vin</h5>
-                                            <p>{getOrderDetails?.providerVehicle?.vehicle?.vin}</p>
+                                            <h5>{t("vin")}</h5>
+                                            <p>{getOrderDetails?.supplierVehicle?.vehicle?.vin}</p>
                                         </div>
                                         <div className="card_footer">
                                             {
-                                                getOrderDetails?.providerVehicle?.vehicle?.status?.id == 3 ?
+                                                getOrderDetails?.supplierVehicle?.vehicle?.status?.id == 3 ?
                                                     <>
-                                                        <Link to="/dashboard/provider/vehicle-documents"
+                                                        <Link to="/dashboard/supplier/vehicle-documents"
 
                                                             onClick={() => {
-                                                                dispatch(GetProviderVehicleDetail(getOrderDetails?.providerVehicle?.vehicle?.id));
-                                                                // dispatch(CheckProviderImage(item?.id))
-                                                                localStorage.setItem("vehicleidfordetail", getOrderDetails?.providerVehicle?.vehicle?.id)
+                                                                dispatch(GetProviderVehicleDetail(getOrderDetails?.supplierVehicle?.vehicle?.id));
+                                                                // dispatch(ChecksupplierImage(item?.id))
+                                                                localStorage.setItem("vehicleidfordetail", getOrderDetails?.supplierVehicle?.vehicle?.id)
 
                                                             }}
                                                         >
-                                                            COMPLETE DOCUMENTS
+                                                            {t("complete_documents")}
                                                         </Link>
                                                         <i class="fa fa-angle-right" aria-hidden="true"></i>
                                                     </> :
                                                     <>
-                                                        <Link to="/dashboard/provider/vehicles-details"
+                                                        <Link to="/dashboard/supplier/vehicles-details"
                                                             onClick={() => {
-                                                                dispatch(GetProviderVehicleDetail(getOrderDetails?.providerVehicle?.vehicle?.id));
-                                                                // dispatch(CheckProviderImage(item?.id))
-                                                                localStorage.setItem("vehicleidfordetail", getOrderDetails?.providerVehicle?.vehicle?.id)
+                                                                dispatch(GetProviderVehicleDetail(getOrderDetails?.supplierVehicle?.vehicle?.id));
+                                                                // dispatch(ChecksupplierImage(item?.id))
+                                                                localStorage.setItem("vehicleidfordetail", getOrderDetails?.supplierVehicle?.vehicle?.id)
 
                                                             }}
-                                                        >VEHICLE DETAILS</Link>
+                                                        >{t("vehicle_details")}</Link>
                                                         <i class="fa fa-angle-right" aria-hidden="true"></i>
                                                     </>
                                             }
@@ -321,7 +335,7 @@ const OrderDetail = () => {
                                 </div>
 
                             </div> :
-                            <NotFoundDataWarning text={"NO VEHICLE DATA"} />
+                            <NotFoundAnything text={t("no_data")} />
                     }
                 </div>
 
@@ -331,3 +345,4 @@ const OrderDetail = () => {
 }
 
 export default OrderDetail
+

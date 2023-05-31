@@ -16,21 +16,21 @@ import { GetEmployeeContractorById } from "../../../../reduxToolkit/EmployeeCont
 const CustomToggle = React.forwardRef(({ children, onClick }, ref) => {
 
   return (
-    <div
-      className="text-center"
-      ref={ref}
-      onClick={(e) => {
-        // e.preventDefault();
-        onClick(e);
-      }}
-    >
-      {children}
-      <img
-        src={threedotsicon}
-        className="img-fluid providerThreeDots"
-        alt="threedotsicon"
-      />
-    </div>
+    <button
+    className="btn-option"
+    ref={ref}
+    onClick={(e) => {
+      // e.preventDefault();
+      onClick(e);
+    }}
+  >
+    {children}
+    <img
+      src={threedotsicon}
+      className="img-fluid providerThreeDots"
+      alt="threedotsicon"
+    />
+  </button>
   );
 });
 
@@ -72,7 +72,7 @@ const ContractorOptionMenu = ({ dropDownProps, userId, cid, statusTo, onShow, do
             <div className="dropdownDiv">
               <img src={pencil} alt="pencil" />
 
-              <span>{t("update_provider")}</span>
+              <span>{t("update_supplier")}</span>
             </div>
           </Link>
 

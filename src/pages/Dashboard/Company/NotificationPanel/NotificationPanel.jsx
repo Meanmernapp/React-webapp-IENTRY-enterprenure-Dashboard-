@@ -5,49 +5,98 @@ import NotificationsTab from './NotificationTab';
 import AccessHistoryTab from './AccessHistoryTab';
 import LogsTab from './LogsTab';
 import { useSelector } from 'react-redux';
+import { t } from "i18next";
+import DeleteVehicleModal from '../Vehicles/modal/DeleteVehicleModal';
+import { useTranslation } from 'react-i18next';
+import DeleteModal from '../../../Modals/DeleteModal';
 
 const NotificationPanel = () => {
-    const [toggleState, setToggleState] = useState(1);
+    // const [toggleState, setToggleState] = useState(1);
+    const { t } = useTranslation();
 
     const { user } = useSelector(state => state.authenticatioauthennSlice);
+    const notificationlist = useSelector(state => state?.NotificationsSlice?.getListNotifications);
     const userType = user?.data?.userType?.name
 
-    const toggleTab = (index) => {
-        setToggleState(index);
+    const [selectAnnouncementForDelete, setSlectAnnouncementForDelete] = useState([])
+    const [isAllChecked, setIsAllChecked] = useState(false)
+    const [deleteAnnouncementShow, setDeleteAnnouncementShow] = useState(false)
+
+    // const toggleTab = (index) => {
+    //     setToggleState(index);
+    // }
+
+    // this function control select all id or unSelect all
+    const handelDeleteAll = (e) => {
+        setIsAllChecked(e.target.checked)
+        if (e.target.checked) {
+            const selectAllIds = notificationlist?.content?.map(item => {
+                return item?.id
+            })
+            setSlectAnnouncementForDelete(selectAllIds)
+
+
+        } else {
+            setSlectAnnouncementForDelete([])
+        }
+
     }
+    // this function handle only specific id base on selection
+    const handleCheckboxChange = (e) => {
+
+        if (e.target.checked) {
+            setSlectAnnouncementForDelete([...selectAnnouncementForDelete, e.target.id]);
+        } else {
+            setSlectAnnouncementForDelete(selectAnnouncementForDelete.filter((removeid) => removeid !== e.target.id));
+        }
+    };
 
     return (
-        <div className="userPanel">
-            <div className='head'>
-                <div className='headLeft'>
-                    {/* {
-                        userType == "EMPLOYEE" &&
-                        <Link to="/dashboard/company">
-                            <i className="fa fa-arrow-left" aria-hidden="true"></i>
-                        </Link>
-                    } */}
-                    <h2 style={{ paddingLeft: userType != "EMPLOYEE" ? '2.5rem' : "" }}>NOTIFICATION PANEL</h2>
+        <>
+            <div className="userPanel">
+                <div className='head'>
+                    <div className='headLeft'>
+
+                        <h2 
+                        // style={{ paddingLeft: userType != "EMPLOYEE" ? '2.5rem' : "" }}
+                        >{t("announcements")}</h2>
+                    </div>
+                    <div className='d-flex gap-3'>
+                        {
+                            // toggleState === 1 && 
+                            userType == "EMPLOYEE" &&
+                            <Link to="/dashboard/employee/company/create-announcement">
+                                <button
+                                    className='add-btn-1'
+                                >
+                                    <i class="fa fa-plus" aria-hidden="true"></i>
+                                    {t("add")}
+                                </button>
+                            </Link>
+                        }
+
+                        <button className="delete-btn-1"
+                            disabled={selectAnnouncementForDelete?.length === 0}
+                            onClick={() => {
+                                setDeleteAnnouncementShow(true)
+                            }}
+
+                        >
+                            <i class="fa fa-trash-o" aria-hidden="true"></i>
+                            {t('delete')}
+                        </button>
+
+                    </div>
                 </div>
-                {
-                    toggleState === 1 && userType == "EMPLOYEE" ?
-                        <Link to="/dashboard/employee/company/create-notification">
-                            <button
-                                className='p-0'
-                                style={{
-                                    height: "38px",
-                                    width: "233px",
-                                    backgroundColor: "#65ABA0",
-                                }}
-                            // onClick={() => setShow(true)}
-                            >
-                                create notification
-                                <img src={ic_bell} style={{ height: "16px" }} alt="ic_bell" />
-                            </button>
-                        </Link> : null
-                }
-            </div>
-            <div className="mt-5">
-                {
+                <div className="d-flex gap-1 pl-2">
+                    <input type="checkbox" className="checkbox"
+                        checked={isAllChecked}
+                        onChange={handelDeleteAll}
+                    />
+                    <span className="text_size_12">de/select all</span>
+                </div>
+                <div className="mt-1">
+                    {/* {
                     userType == "EMPLOYEE" &&
                     <div className="row steps-row justify-content-between m-0" style={{ borderBottom: "1px solid #146f62" }} id="pills-tab" role="tablist">
                         <div className="col-4 text-center p-0" role="presentation">
@@ -62,7 +111,7 @@ const NotificationPanel = () => {
                                 aria-controls="pills-home"
                                 aria-selected="true"
                             >
-                                <span>Notifications</span>
+                                <span>{t("announcements")}</span>
                             </a>
                         </div>
                         <div className="col-4 text-center p-0" role="presentation">
@@ -96,36 +145,51 @@ const NotificationPanel = () => {
                             </a>
                         </div>
                     </div>
-                }
-                <div className="tab-content" id="pills-tabContent">
-                    <div
-                        className={`${toggleState === 1 ? 'tab-pane fade show active ' : 'tab-pane fade'}`}
-                        id="pills-home"
-                        role="tabpanel"
-                        aria-labelledby="pills-home-tab"
-                    >
-                        <NotificationsTab />
-                    </div>
-                    <div
+                } */}
+                    <div className="tab-content" id="pills-tabContent">
+                        <div
+                            // className={`${toggleState === 1 ? 'tab-pane fade show active ' : 'tab-pane fade'}`}
+                            id="pills-home"
+                            role="tabpanel"
+                            aria-labelledby="pills-home-tab"
+                        >
+                            <NotificationsTab
+                                // setSlectAnnouncementForDelete={setSlectAnnouncementForDelete}
+                                selectAnnouncementForDelete={selectAnnouncementForDelete}
+                                handleCheckboxChange={handleCheckboxChange}
+                            />
+                        </div>
+                        {/* accss history tab */}
+                        {/* <div
                         className={`${toggleState === 2 ? 'tab-pane fade show active ' : 'tab-pane fade'}`}
                         id="pills-profile"
                         role="tabpanel"
                         aria-labelledby="pills-profile-tab"
                     >
                         <AccessHistoryTab />
-                    </div>
+                    </div> */}
 
-                    <div
+                        {/* logs tab */}
+                        {/* <div
                         className={`${toggleState === 3 ? 'tab-pane fade show active ' : 'tab-pane fade'}`}
                         id="pills-home"
                         role="tabpanel"
                         aria-labelledby="pills-home-tab"
                     >
                         <LogsTab />
+                    </div> */}
                     </div>
                 </div>
             </div>
-        </div>
+            <DeleteModal
+                onHide={() => setDeleteAnnouncementShow(false)}
+                show={deleteAnnouncementShow}
+                data={selectAnnouncementForDelete}
+                title_modal={"delete announcements"}
+                element_modal={"announcements"}
+
+            />
+        </>
     )
 }
 

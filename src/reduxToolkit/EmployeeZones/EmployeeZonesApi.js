@@ -5,12 +5,13 @@ github: https://github.com/Arman-Arzoo
 */
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { apiInstance } from '../../Apis/Axios';
+import apiInstanceV2 from "../../Apis/AxiosV2";
 
 
 //List all the father zones ( pagination) (done)
 export const GetListFatherZones = createAsyncThunk("employeeZones/getListFatherZones", async (params, { dispatch, getState }) => {
 
-    let result = await apiInstance.post(`zone-service/get-zones-and-children`, params?.pagination).then(function (response) {
+    let result = await apiInstanceV2.post(`zone-service/get-zones-and-children`, params?.pagination).then(function (response) {
         return response
     }).catch(function (error) {
         return error.response

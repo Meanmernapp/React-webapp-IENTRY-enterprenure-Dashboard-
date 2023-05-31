@@ -16,6 +16,8 @@ import { Box } from "@mui/material";
 import { useTranslation } from 'react-i18next';
 import Cookies from 'js-cookie';
 import NotFoundDataWarning from "../../components/NotFoundDataWarning";
+import DisplayView from "../../components/DisplayView";
+import TableViewSuppliers from "../Dashboard/Providers/TableViewSuppliers";
 
 
 const AllOrderProvider = () => {
@@ -33,6 +35,10 @@ const AllOrderProvider = () => {
   const [orderBy, setOrderBy] = useState();
   const [sortBy, setSortBy] = useState();
 
+  const [view, setView]= useState("grid")
+
+  const { user } = useSelector(state => state.authenticatioauthennSlice);
+  console.log(user)
   const dispatch = useDispatch();
 
   // get state from store
@@ -70,7 +76,7 @@ const AllOrderProvider = () => {
 
     const body = {
       date: time_in_miliseconds,
-      providerId: localStorage.getItem("providerId"),
+      providerId:  localStorage.getItem("providerId"),
       pagination: {
         order: sortBy === "asc" ? true : false,
         page: pageIncoming,
@@ -88,7 +94,7 @@ const AllOrderProvider = () => {
 
     const body = {
       date: time_in_miliseconds,
-      providerId: localStorage.getItem("providerId"),
+      providerId:  localStorage.getItem("providerId"),
       pagination: {
         order: sortBy === "asc" ? true : false,
         page: pageRecord,
@@ -104,9 +110,14 @@ const AllOrderProvider = () => {
       {/* Header */}
       <div className="top_header_provider">
         <div className="top_haeder_provider_right">
+          
           <h2>{t("orders")}</h2>
           <div className="order_option">
+            <div className="d-flex align-items-center">
+
             <p>{t("options")}</p>
+            <DisplayView view={view}  setView={setView} />
+            </div>
             <div className="switch">
               <p className={isSwitchOn ? `p_inActive` : "p_active"}>{t("incoming")}</p>
               <Switch
@@ -144,11 +155,24 @@ const AllOrderProvider = () => {
         </div>
       </div>
       {/* order list body */}
+      {
+        view =="grid" ?
       <div className="all_order_body_container ">
         {isSwitchOn == false && getProvidersIncoming?.content?.length > 0
           ? getProvidersIncoming?.content?.map((item) => {
             return (
               <div className="order_list_card">
+                <div className="folio">
+                <div className="input_check">
+                                    {/* <input type="checkbox" className="checkbox"
+                                      checked={selectOrderForDeleteIncoming?.includes(item?.id)}
+                                      id={item?.id}
+                                      onChange={handleCheckboxChangeOrderIncoming}
+                                    /> */}
+                                    {t("Folio")}
+                                    <span style={{ fontSize: "10px" }}>#{item?.folio || "-"}</span>
+                                  </div>
+
                 <div className="status">
                   <p
                     style={{
@@ -172,18 +196,19 @@ const AllOrderProvider = () => {
                     }}
                   ></div>
                 </div>
+                </div>
 
                 <div className="courier_info">
                   <h4>{t("courier_information")}</h4>
                   <h6>
-                    <span>{item?.provider?.acronym} |</span>{" "}
-                    {item?.provider?.providerCompanyName}
+                    <span>{item?.supplier?.acronym} |</span>{" "}
+                    {item?.supplier?.supplierCompanyName || "-"}
                   </h6>
                   <p>{t("company")}</p>
-                  <h6>Luis Enrique Cornejo Arreola</h6>
+                  <h6 style={{fontWeight:'bold'}} >{item?.supplierEmployee?.user?.name || "-"}</h6>
                   <p>{t("employee")}</p>
                   <h6>
-                    <span>KIA Rio 2018 |</span> ULX-562-8C
+                    <span>{item?.supplierVehicle?.vehicle?.brand || "-"}|</span> {item?.supplierVehicle?.vehicle?.plate || "-"}
                   </h6>
                   <p>{t("vehicle")}</p>
                 </div>
@@ -192,15 +217,15 @@ const AllOrderProvider = () => {
                   <div className="item_container">
                     <div className="item_name">
                       <p>{t("eta")}</p>
-                      <p>Corporate</p>
-                      <p>Item</p>
-                      <p>Description </p>
+                      {/* <p>Corporate</p> */}
+                      <p>{t("item")}</p>
+                      <p>{t("description")} </p>
                     </div>
                     <div className="item_data">
-                      <h4>26/08/2023 11:30</h4>
-                      <h4>IBL Corporate</h4>
+                      <h4>{item?.eta || "-"}</h4>
+                      {/* <h4>IBL Corporate</h4> */}
                       <h4>{item?.item}</h4>
-                      <h4>{item?.description}</h4>
+                      <h4>{item?.description.slice(0,15) } {item?.description?.length > 15 && "..."}</h4>
                     </div>
                   </div>
                 </div>
@@ -223,30 +248,21 @@ const AllOrderProvider = () => {
                 <div className="link">
                   {item?.status?.id == 28 ? (
                     <Link
-                      to="/dashboard/provider/complete-order"
+                      to="/dashboard/supplier/complete-order"
+
                       onClick={() => {
-                        dispatch(GetOrderDetails(item?.id));
-                        dispatch(
-                          GetAllProviderVehicleListDown(item?.provider?.id)
-                        );
-                        dispatch(
-                          GetAllProviderEmployeeListDown(item?.provider?.id)
-                        );
+                        localStorage.setItem("supplier_order_id", item?.id)
+                        
+                       
                       }}
                     >
                       {t("complete_order")}<i className="fa fas-arrow-right"></i>
                     </Link>
                   ) : (
                     <NavLink
-                      to="/dashboard/provider/order-detail"
+                      to="/dashboard/supplier/order-detail"
                       onClick={() => {
-                        dispatch(
-                          GetAllProviderVehicleListDown(item?.provider?.id)
-                        );
-                        dispatch(
-                          GetAllProviderEmployeeListDown(item?.provider?.id)
-                        );
-                        dispatch(GetOrderDetails(item?.id));
+                        localStorage.setItem("supplier_order_id", item?.id)    
                       }}
                     >
                       {t("view_details")} <i className="fa fas-arrow-right"></i>
@@ -263,6 +279,16 @@ const AllOrderProvider = () => {
           ? getProvidersRecord?.content?.map((item) => {
             return (
               <div className="order_list_card">
+                <div className="folio pb-2">
+                <div className="input_check">
+                                    {/* <input type="checkbox" className="checkbox"
+                                      checked={selectOrderForDeleteIncoming?.includes(item?.id)}
+                                      id={item?.id}
+                                      onChange={handleCheckboxChangeOrderIncoming}
+                                    /> */}
+                                    {t("Folio")}
+                                    <span style={{ fontSize: "10px" }}>#{item?.folio || "-"}</span>
+                                  </div>
                 <div className="status">
                   <p
                     style={{
@@ -286,18 +312,21 @@ const AllOrderProvider = () => {
                     }}
                   ></div>
                 </div>
+                </div>
 
                 <div className="courier_info">
                   <h4>{t("courier_information")}</h4>
                   <h6>
-                    <span>{item?.provider?.acronym} |</span>{" "}
-                    {item?.provider?.providerCompanyName}
+                    <span>{item?.supplier?.acronym} |</span>{" "}
+                    {item?.supplier?.supplierCompanyName || "-"}
                   </h6>
                   <p>{t("company")}</p>
-                  <h6>Luis Enrique Cornejo Arreola</h6>
+                  <h6 style={{fontWeight:'bold'}}>
+                    {item?.supplierEmployee?.user?.name || "-"}
+                  </h6>
                   <p>{t("employee")}</p>
                   <h6>
-                    <span>KIA Rio 2018 |</span> ULX-562-8C
+                    <span>{item?.supplierVehicle?.vehicle?.brand || "-"} |</span> {item?.supplierVehicle?.vehicle?.plate || "-"}
                   </h6>
                   <p>{t("vehicle")}</p>
                 </div>
@@ -306,15 +335,15 @@ const AllOrderProvider = () => {
                   <div className="item_container">
                     <div className="item_name">
                       <p>{t("eta")}</p>
-                      <p>Corporate</p>
+                      {/* <p>Corporate</p> */}
                       <p>Item</p>
                       <p>{t("description")} </p>
                     </div>
                     <div className="item_data">
-                      <h4>26/08/2023 11:30</h4>
-                      <h4>IBL Corporate</h4>
+                      <h4>{item?.eta || "-"}</h4>
+                      {/* <h4>IBL Corporate</h4> */}
                       <h4>{item?.item}</h4>
-                      <h4>{item?.description}</h4>
+                      <h4>{item?.description.slice(0,15)}{item?.description?.length > 15 && "..."}</h4>
                     </div>
                   </div>
                 </div>
@@ -337,34 +366,23 @@ const AllOrderProvider = () => {
                 <div className="link">
                   {item?.status?.id == 28 ? (
                     <Link
-                      to="/dashboard/provider/complete-order"
+                      to="/dashboard/supplier/complete-order"
                       onClick={() => {
-                        dispatch(GetOrderDetails(item?.id));
-                        dispatch(
-                          GetAllProviderVehicleListDown(item?.provider?.id)
-                        );
-                        dispatch(
-                          GetAllProviderEmployeeListDown(item?.provider?.id)
-                        );
+                        localStorage.setItem("supplier_order_id", item?.id)
+                      
                       }}
                     >
                       {t("complete_order")} <i className="fa fas-arrow-right"></i>
                     </Link>
                   ) : (
-                    <NavLink
-                      to="/dashboard/provider/order-detail"
+                    <Link
+                      to="/dashboard/supplier/order-detail"
                       onClick={() => {
-                        dispatch(GetOrderDetails(item?.id));
-                        dispatch(
-                          GetAllProviderVehicleListDown(item?.provider?.id)
-                        );
-                        dispatch(
-                          GetAllProviderEmployeeListDown(item?.provider?.id)
-                        );
+                        localStorage.setItem("supplier_order_id", item?.id)
                       }}
                     >
                       {t("view_details")} <i className="fa fas-arrow-right"></i>
-                    </NavLink>
+                    </Link>
                   )}
                 </div>
               </div>
@@ -374,7 +392,38 @@ const AllOrderProvider = () => {
 
             <NotFoundDataWarning text={"no_records_data"} />
           )}
-      </div>
+      </div>:
+      <>
+      {
+        isSwitchOn == false && getProvidersIncoming?.content?.length > 0 ?
+        <TableViewSuppliers
+        dataApi={getProvidersIncoming}
+        userFor="supplier"
+        // selectOrderForDelete={selectOrderForDeleteIncoming}
+        // isAllCheckedOrder={isAllCheckedOrderIncoming}
+        // handelDeleteAllOrders={handelDeleteAllOrderIncoming}
+        // handleCheckboxChangeOrder={handelDeleteAllOrderIncoming}
+      />: isSwitchOn == false && (
+        <NotFoundDataWarning text={"no_incoming_data"} />
+      )
+
+      }
+       {
+        isSwitchOn == true && getProvidersRecord?.content?.length > 0 ?
+        <TableViewSuppliers
+        userFor="supplier"
+        dataApi={getProvidersRecord}
+        // selectOrderForDelete={selectOrderForDeleteIncoming}
+        // isAllCheckedOrder={isAllCheckedOrderIncoming}
+        // handelDeleteAllOrders={handelDeleteAllOrderIncoming}
+        // handleCheckboxChangeOrder={handelDeleteAllOrderIncoming}
+      />: isSwitchOn == true && (
+        <NotFoundDataWarning text={"no_records_data"} />
+      )
+
+      }
+      </>
+}
 
       {isSwitchOn == false && getProvidersIncoming?.content?.length > 0 && (
         <div className="d-flex justify-content-center">
@@ -384,7 +433,7 @@ const AllOrderProvider = () => {
             count={getProvidersIncoming?.totalElements}
             page={pageIncoming}
             onPageChange={handleChangePageIcoming}
-            labelRowsPerPage={t("providers_incoming_per_page")}
+            labelRowsPerPage={t("suppliers_incoming_per_page")}
             rowsPerPage={rowsPerPageIncoming}
             onRowsPerPageChange={handleChangeRowsPerPageIncoming}
           />
@@ -399,7 +448,7 @@ const AllOrderProvider = () => {
             count={getProvidersRecord?.totalElements}
             page={pageRecord}
             onPageChange={handleChangePageRecord}
-            labelRowsPerPage={t("providers_records_per_page")}
+            labelRowsPerPage={t("suppliers_records_per_page")}
             rowsPerPage={rowsPerPageIncoming}
             onRowsPerPageChange={handleChangeRowsPerPageRecord}
           />

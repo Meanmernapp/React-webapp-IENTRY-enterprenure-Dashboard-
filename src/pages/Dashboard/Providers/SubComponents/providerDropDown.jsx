@@ -15,11 +15,12 @@ import { t } from "i18next";
 const CustomToggle = React.forwardRef(({ children, onClick }, ref) => {
 
   return (
-    <div
-      className="text-center"
+
+    <button
+    
+      className="btn-option"
       ref={ref}
       onClick={(e) => {
-        // e.preventDefault();
         onClick(e);
       }}
     >
@@ -29,7 +30,7 @@ const CustomToggle = React.forwardRef(({ children, onClick }, ref) => {
         className="img-fluid providerThreeDots"
         alt="threedotsicon"
       />
-    </div>
+    </button>
   );
 });
 
@@ -47,7 +48,7 @@ const ProviderDropDown = ({ dropDownProps, userId, pid, statusTo, onShow, docume
 
           {
             statusTo == 3 &&
-            <Link to={'/dashboard/employee/providers/approve-documents'} onClick={() => {
+            <Link to={'/dashboard/employee/suppliers/approve-documents'} onClick={() => {
               const data = {
                 id: pid
               }
@@ -67,7 +68,7 @@ const ProviderDropDown = ({ dropDownProps, userId, pid, statusTo, onShow, docume
           }
 
 
-          <Link to={'/dashboard/employee/providers/update-providers'} onClick={() => {
+          <Link to={'/dashboard/employee/suppliers/update-suppliers'} onClick={() => {
             const data = {
               id: pid
             };
@@ -78,11 +79,11 @@ const ProviderDropDown = ({ dropDownProps, userId, pid, statusTo, onShow, docume
             <div className="dropdownDiv">
               <img src={pencil} alt="pencil" />
 
-              <span>{t("update_provider")}</span>
+              <span>{t("update_supplier")}</span>
             </div>
           </Link>
 
-          <Link to={'/dashboard/employee/providers/providers_deatail_page'} onClick={() => {
+          <Link to={'/dashboard/employee/suppliers/suppliers_deatail_page'} onClick={() => {
             const data = {
               id: pid
             };

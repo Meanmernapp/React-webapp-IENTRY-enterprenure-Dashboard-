@@ -12,6 +12,7 @@ export const apiInstanceV2 = axios.create({
   // timeout: 10000,
   headers: {
     Accept: "application/json",
+    // "Access-Control-Allow-Origin":"*"
     
     // "application": 'web',
     // "locale": Cookies.get("i18next") || "en"

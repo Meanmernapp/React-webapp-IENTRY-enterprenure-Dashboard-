@@ -139,33 +139,33 @@ const UpdateData = () => {
           author rizwan ullah
           get company restrictions from database.
           */
-          dispatch(getCompanyRestrictionObj(data?.id)).then(
-            ({
-              payload: {
-                data: { data },
-              },
-            }) => {
+          // dispatch(getCompanyRestrictionObj(data?.id)).then(
+          //   ({
+          //     payload: {
+          //       data: { data },
+          //     },
+          //   }) => {
 
-              setEmail(data?.emailService);
-              setSms(data?.smsService);
-              setDrive(data?.driveService);
+          //     setEmail(data?.emailService);
+          //     setSms(data?.smsService);
+          //     setDrive(data?.driveService);
 
-              setIsOnu(data?.isOnuEvent);
-              setFireArms(data?.fireArmsModule);
+          //     setIsOnu(data?.isOnuEvent);
+          //     setFireArms(data?.fireArmsModule);
 
-              setExtraData(data?.extraDataExternal);
-              setBiocrValidation(data?.biocrValidationExternal);
-              // setContractorCheck(data?.)
-              // setProviderCheck(data?.)
-              setContractorOption(data?.contractorRestriction?.id || "");
-              setProviderOption(data?.providerRestriction?.id || "");
+          //     setExtraData(data?.extraDataExternal);
+          //     setBiocrValidation(data?.biocrValidationExternal);
+          //     // setContractorCheck(data?.)
+          //     // setProviderCheck(data?.)
+          //     setContractorOption(data?.contractorRestriction?.id || "");
+          //     setProviderOption(data?.providerRestriction?.id || "");
 
-              // setAlertInvitation(data?.)
-              // setAlertEvent(data?.)
-              setAlertInvitationOption(data?.alertTimeIncomingInvitation || "");
-              setAlertEventOption(data?.alertTimeIncomingEvent || "");
-            }
-          );
+          //     // setAlertInvitation(data?.)
+          //     // setAlertEvent(data?.)
+          //     setAlertInvitationOption(data?.alertTimeIncomingInvitation || "");
+          //     setAlertEventOption(data?.alertTimeIncomingEvent || "");
+          //   }
+          // );
         }
       );
     }
@@ -446,9 +446,9 @@ const UpdateData = () => {
           <FormHelperText id="outlined-weight-helper-text">0/500 MAX.</FormHelperText>
         </div>
       </div>
-      <div className="row restrictions_text">
+      {/* <div className="row restrictions_text">
         <h4>{t('restrictios')}</h4>
-        {/* services */}
+        
         <h4 className="restrictionParts part1">{t('services')}</h4>
         <div className="col-md-6">
           <div className="my-3 updateDataDiv">
@@ -521,7 +521,7 @@ const UpdateData = () => {
             </p>
           </div>
         </div>
-        {/* Extra Modules */}
+       
         <h4 className="restrictionParts part2">{t('extra_modules')}</h4>
         <div className="col-md-6">
           <div className="my-3 updateDataDiv">
@@ -570,7 +570,7 @@ const UpdateData = () => {
             </p>
           </div>
         </div>
-        {/* EXTERNAL */}
+        
         <h4 className="restrictionParts part3">{t('for_external')}</h4>
         <div className="col-md-6">
           <div className="my-3 updateDataDiv">
@@ -669,7 +669,7 @@ const UpdateData = () => {
         <div className="col-md-6">
           <div className="my-3 updateDataDiv">
             <div className="checkBoxWithText">
-              <h6 id="updatedata">{t('provider_option')}</h6>
+              <h6 id="updatedata">{t('supplier_option')}</h6>
             </div>
             <FormControl
               fullWidth
@@ -709,7 +709,7 @@ const UpdateData = () => {
             </p>
           </div>
         </div>
-        {/* ALERTS */}
+       
         <h4 className="restrictionParts part4">{t('alerts')}</h4>
         <div className="col-md-6">
           <div className="my-3 updateDataDiv">
@@ -760,7 +760,7 @@ const UpdateData = () => {
             </p>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

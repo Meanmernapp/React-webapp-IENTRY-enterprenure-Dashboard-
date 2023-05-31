@@ -5,57 +5,29 @@ import cancel from '../../../../assets/images/ic-cancel.svg'
 import Cookies from "js-cookie";
 import { useTranslation } from 'react-i18next'
 import { Box, TextField } from "@mui/material";
+import { CreateDepartment } from "../../../../reduxToolkit/Department/DepartmentApi";
+import { toast } from "react-toastify";
 
 const AddNewDepartmentModal = (props) => {
 
-    console.log(props)
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
     const { t } = useTranslation();
     const lCode = Cookies.get("i18next") || "en";
     const [department, setDepartment] = useState("")
+    // add department  handler function
+    const handleAddDepartment = () => {
 
-
-    // const handleDeleteUser = () => {
-
-    //     if (props.deleteitemname === "role") {
-    //         setLoading(true)
-    //         deleteRole(props.deleteid?.id).then(({ data: { data } }) => {
-    //             toast.success("Role is deleted successfully..!")
-    //             const body = {
-    //                 order: true,
-    //                 page: 0,
-    //                 size: 4,
-    //                 sortBy: "id"
-    //             }
-    //             dispatch(getEmployeeRoles(body));
-
-    //             props.onHide();
-    //             setLoading(false)
-    //         }).catch(error => {
-    //             toast.error("error in deleting role..!")
-    //             setLoading(false)
-    //         })
-    //     } else if (props.deleteitemname === "user") {
-    //         removeUserRole(props.deleteid?.id).then(({ data: { data } }) => {
-    //             const body = {
-    //                 order: true,
-    //                 page: 0,
-    //                 size: 4,
-    //                 sortBy: "id"
-    //             }
-    //             dispatch(getEmployeeRoles(body))
-    //             toast.success("user removed from this role")
-    //             props.onHide();
-    //             setLoading(false)
-    //         }).catch(error => {
-    //             toast.error("something went wrong in removeroletouser")
-    //             setLoading(false)
-    //         })
-    //     }
-    // }
-
-    if (props?.modalis === "department") {
+        const data = {
+            name: department
+        }
+        if (department) {
+            dispatch(CreateDepartment(data))
+            props.onHide();
+            setDepartment("")
+        } else {
+            toast.warn("Name is required")
+        }
 
     }
     return (
@@ -92,12 +64,11 @@ const AddNewDepartmentModal = (props) => {
                 >
                     <TextField size="small"
                         fullWidth
-
                         label={t("department")}
                         id="department"
                         value={department}
                         onChange={(e) => setDepartment(e.target.value)}
-                    // sx={textField}
+                     // sx={textField}
                     />
                 </Box>
 
@@ -110,8 +81,7 @@ const AddNewDepartmentModal = (props) => {
                         }}>{t("cancel")}</button>
                     <button className="custom_primary_btn_dark"
                         style={{ width: '180px' }}
-
-                    // onClick={handleDeleteUser}
+                        onClick={handleAddDepartment}
                     >
                         {t("create")}
                     </button>
@@ -122,4 +92,4 @@ const AddNewDepartmentModal = (props) => {
     )
 }
 
-export default AddNewDepartmentModal
+export default AddNewDepartmentModal    

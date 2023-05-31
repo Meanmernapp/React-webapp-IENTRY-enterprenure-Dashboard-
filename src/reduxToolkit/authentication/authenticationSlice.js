@@ -1,29 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-
-
-// export const loginMiddleware = createAsyncThunk('users/loginMiddleware', async (authValues, thunkAPI) => {
-//     try {
-//         let response = await apiInstance.post(endpoints.LOGIN, authValues.values);
-//         console.log("this is response",response)
-//         if (response.status === 200) {
-//           
-//             authValues.navigate('/login-option');
-//             return { ...response.data };
-//         } else {
-//             return thunkAPI.rejectWithValue(response.data);
-//         }
-//     } catch (error) {
-//         return thunkAPI.rejectWithValue(error.response);
-//     }
-// });
-
+import cryptoJs from 'crypto-js';
+import securekey from "../../config";
 
 export const authenticationSlice = createSlice({
     name: "authenticationSlice",
     reducers: {
-        logOut: (state, action) => {
+        logOut: (state) => {
             state.user = {}
             sessionStorage.removeItem("userdata");
             sessionStorage.removeItem("bearerToken");
@@ -43,13 +26,13 @@ export const authenticationSlice = createSlice({
             localStorage.removeItem("providerOrderDetail")
             localStorage.removeItem("employeeProviderDetail")
             localStorage.removeItem("vehicleProviderDetail")
-
-
+        
         }
     },
     initialState: {
         user: {},
-        permission: []
+        permission: [],
+        getUserByIdAtEntry: {}
     },
     extraReducers: {
         ["authenticationSlice/tokenApi/fulfilled"]: (state, action) => {
@@ -78,6 +61,17 @@ export const authenticationSlice = createSlice({
         },
         ["authenticationSlice/loginMiddleware/fulfilled"]: (state, { payload }) => {
             state.user = payload;
+        },
+        ["authenticationSlice/getUserByIdAtEntry/fulfilled"]: (state, action) => {
+            const { data, status } = action.payload || {}
+            if (status >= 200 && status < 300) {
+                console.log("datainside",data)
+                const employeeEntryData = cryptoJs.AES.encrypt(JSON.stringify(data?.data), securekey)
+                sessionStorage.setItem("employeeEntryData", employeeEntryData)
+                // sessionStorage.setItem("premission", state.getUserByIdAtEntry)
+            } else if (status >= 400 && status < 500) {
+                // toast.error(data?.message)
+            }
         },
     },
 

@@ -7,6 +7,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { logoutUser } from '../../../Apis/Authentication';
 import { Dropdown } from 'react-bootstrap';
 import LanguageSelector from '../../../components/LanguageSelector';
+import { t } from "i18next";
 
 const ProfileDropDown = () => {
     const navigate = useNavigate();
@@ -33,8 +34,8 @@ const ProfileDropDown = () => {
                     </Dropdown.Item>
                     <Dropdown.Item href="#/action-2">
                         <div className="sidebar_option_body_item">
-                            <Link to="/dashboard/notification-panel">
-                                <p>NOTIFICATIONS</p>
+                            <Link to="/dashboard/announcement-panel">
+                                <p>{t("announcements")}</p>
                             </Link>
                             <NotificationsIcon />
                         </div>

@@ -91,6 +91,8 @@
 .login_option_container {
     background: #146F62 0% 0% no-repeat padding-box;
     opacity: 1;
+    // position: relative;
+    height: 88vh;
 
     .login_option_header {
         display: flex;
@@ -193,13 +195,43 @@
         background: #FCFCFC 0% 0% no-repeat padding-box;
         box-shadow: 0px -4px 6px #00000059;
         border-radius: 36px 36px 0px 0px;
-        opacity: 1;
-        display: flex;
-        gap: 1rem;
-        padding: 4rem 6rem 1.3rem 13rem;
-        flex-wrap: wrap;
-        position: relative;
+       
+        
+        .overlay_mask_menu{
+            border-radius: 36px 36px 0px 0px;
+            opacity: 1;
+            display: flex;
+            gap: 1rem;
+            // padding: 3rem 3rem 1rem 3rem;
+            flex-wrap: wrap;
+            position: relative;
+            height: 88vh !important;
+            // overflow-y: scroll;
+         
+            .menu_overflow_control{
+                display: flex;
+                gap: 1rem;
+                padding: 3rem 3rem 2rem 3rem;
+                flex-wrap: wrap;
+                height: 77vh;
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+                overflow: auto;
+                // justify-content: center;
+                // padding-top: 3rem;
+                // padding-bottom: 3rem;
 
+                &::-webkit-scrollbar {
+                    display: none;
+                }
+    
+            }
+            
+            /* margin: 0 auto; */
+            // justify-content: center;
+            // align-items: center;
+           
+           
         .login_option_menu {
             background: #FFFFFF 0% 0% no-repeat padding-box;
             box-shadow: 0px 0px 4px #00000080;
@@ -211,13 +243,15 @@
             justify-content: center;
             align-items: center;
             flex-direction: column;
+            text-align: center;
+            overflow: hidden;
             // margin: 2rem;
             gap: 1rem;
             // flex: 1 0 21%;
             cursor: pointer;
 
             p {
-                font: normal normal normal 24px/29px Montserrat;
+                font: normal normal normal 18px/29px Montserrat;
                 letter-spacing: 0px;
                 color: #707070;
                 opacity: 1;
@@ -256,11 +290,8 @@
             }
         }
 
-        .footer_logo {
-            position: absolute;
-            bottom: 1.3rem;
-            right: 13px;
-        }
+      
+    }
     }
 
     .overlay {
@@ -302,8 +333,27 @@
                 }
             }
         }
-
-
+    }
+    .footer_logo {
+        position: absolute;
+        bottom: 0rem;
+        right: 33px;
     }
 
 }
+
+ .profile_option_menutop{
+    background: transparent  !important;
+    border: none !important;
+    display: flex !important;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: center;
+    
+    &:hover{
+        background-color: #fff !important;
+        color: #146f62 !important;
+      }
+         
+}
+
