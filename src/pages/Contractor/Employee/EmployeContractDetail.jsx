@@ -473,13 +473,14 @@ const EmployeContractDetail = ({ approveDocument }) => {
   const [unlinkShow, setUnlinkShow] = useState(false)
   // use Selector
   const { getContractorEmployeeDetail,updateContractorUserRelationship,
-    createContractorDocValue,setContractorDocValue
+    createContractorDocValue,setContractorDocValue,createContractorUserRelationship
    } = useSelector(state => state?.ContractorSlice)
-  const { uploadImg, changeCount } = useSelector(state => state.sharedSlice)
+  const {  saveProviderImage,imageChangeCheck } = useSelector(state => state.providersSlice)
 
   useEffect(() => {
     dispatch(GetContractorEmployeeDetail(id))
-  }, [createContractorDocValue,setContractorDocValue, uploadImg, changeCount,updateContractorUserRelationship])
+  }, [createContractorDocValue,setContractorDocValue, saveProviderImage,imageChangeCheck,
+    updateContractorUserRelationship])
 
 
   return (

@@ -44,7 +44,9 @@ const providersSlice = createSlice({
         getAllSupplierDocumentsById:[],
         createSupplierDocValue:{},
         setSupplierDocValue:{},
-        saveProviderVehicleImage:{}
+        saveProviderVehicleImage:{},
+        saveProviderImage:{},
+        imageChangeCheck:""
 
 
 
@@ -468,29 +470,42 @@ const providersSlice = createSlice({
 
         ["providers/createToExternalVehicle/fulfilled"]: (state, action) => {
             const { data, status } = action.payload || {}
-            //console.log("from createToExternalVehicle slice", data)
+           
             if (status >= 200 && status < 300) {
-                // toast(data.message)
+                
                 toast.success("created value successfully")
                 state.createToExternalVehicle = data
             }
             else if (status >= 400 && status < 500) {
-                //console.log("Fail to createToExternalVehicle")
-                // toast("Fail to fetch Zone Devices Lists")
+          
             }
         },
 
         ["providers/setToExternalVehicle/fulfilled"]: (state, action) => {
             const { data, status } = action.payload || {}
-            //console.log("from setToExternalVehicle slice", data)
+            
             if (status >= 200 && status < 300) {
-                // toast(data.message)
+                
                 toast.success("set value successfully")
                 state.setToExternalVehicle = data
             }
             else if (status >= 400 && status < 500) {
-                //console.log("Fail to setToExternalVehicle")
-                // toast("Fail to fetch Zone Devices Lists")
+              
+            }
+        },
+
+        
+        ["providers/saveProviderImage/fulfilled"]: (state, action) => {
+            const { data, status } = action.payload || {}
+            
+            if (status >= 200 && status < 300) {
+                
+                let change=0
+                state.saveProviderImage = data
+                state.imageChangeCheck= change + 1
+            }
+            else if (status >= 400 && status < 500) {
+              
             }
         },
 

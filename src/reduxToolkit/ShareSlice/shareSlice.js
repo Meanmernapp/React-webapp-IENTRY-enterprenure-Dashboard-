@@ -25,7 +25,7 @@ const vehicleSlice = createSlice({
             let count = 0;
             if (status >= 200 && status < 300) {
                 // toast(data.message)
-                state.changeCount = count + 1;
+                state.changeCount = count ++;
                 state.uploadImage = data
             }
             else if (status >= 400 && status < 500) {

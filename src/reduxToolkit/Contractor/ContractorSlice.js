@@ -23,6 +23,8 @@ const contractorSlice = createSlice({
         vehicleWorkOnContract: [],
         getlistofcontractorEmployees: [],
         getlistofEmployeWorkOnContract: [],
+        createToExternalVehicle:{},
+        setToExternalVehicle:{},
         //Employe
         getAllGender: [],
         getAllEmployeeFilter: [],
@@ -192,6 +194,31 @@ const contractorSlice = createSlice({
                 state.getlistofEmployeWorkOnContract = data.data
             }
             else if (status >= 400 && status < 500) {
+            }
+        },
+        ["contractor/createToExternalVehicle/fulfilled"]: (state, action) => {
+            const { data, status } = action.payload || {}
+           
+            if (status >= 200 && status < 300) {
+                
+                toast.success("created value successfully")
+                state.createToExternalVehicle = data
+            }
+            else if (status >= 400 && status < 500) {
+          
+            }
+        },
+
+        ["contractor/setToExternalVehicle/fulfilled"]: (state, action) => {
+            const { data, status } = action.payload || {}
+            
+            if (status >= 200 && status < 300) {
+                
+                toast.success("set value successfully")
+                state.setToExternalVehicle = data
+            }
+            else if (status >= 400 && status < 500) {
+              
             }
         },
 

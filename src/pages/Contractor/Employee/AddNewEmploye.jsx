@@ -191,7 +191,7 @@ const AddNewEmploye = ({ isUpdate }) => {
               <div className='image_upload'>
                 {
                   isUpdate ?
-                    <img src={previewImage ? previewImage : getSingleProvider?.selfie ? `data:image/png;base64,${getSingleProvider?.selfie}` : defaultImages} />
+                    <img src={previewImage ? previewImage : getContractorInfoById?.selfie ? `data:image/png;base64,${getContractorInfoById?.selfie}` : defaultImages} />
                     :
                     <img src={previewImage ? previewImage : defaultImages} alt="vehicle" />
                 }

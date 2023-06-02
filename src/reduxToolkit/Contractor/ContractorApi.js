@@ -2,7 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { apiInstance } from '../../Apis/Axios';
 import { toast } from "react-toastify";
 import { UploadImage } from "../ShareSlice/shareApi";
-import { UploadProviderImage } from "../Providers/providersApi";
+import { UploadProviderImage, UploadProviderVehicleImage } from "../Providers/providersApi";
 
 //Update User
 export const UpdateUserExtraData = createAsyncThunk("contractor/UpdateUserExtraData", async (params) => {
@@ -361,6 +361,70 @@ export const GetVehicleDetailById = createAsyncThunk("contractor/GetVehicleDetai
   const { data, status } = result
   return { data, status }
 });
+
+// create document exernal value
+export const CreateToExternalVehicle = createAsyncThunk("contractor/createToExternalVehicle", async (params, { dispatch, getState }) => {
+
+  let result = await apiInstance.post(`document-service/contractor-vehicle/create `, params?.data).then(function (response) {
+      if (params?.file) {
+
+          let formData = new FormData();
+          formData.append('id', response?.data?.data?.id);
+          formData.append('option', "contractor_vehicle_document");
+          formData.append('file', params?.file);
+          dispatch(UploadImage(formData))
+      }
+      return response
+  }).catch(function (error) {
+      return error.response
+  })
+  const { data, status } = result
+  //console.log(result)
+  return { data, status }
+})
+
+// create a vehicle and relationship with provider
+export const CreateVehicleAndRelation = createAsyncThunk("contractor/createVehicleAndRelation", async (params, { dispatch, getState }) => {
+    
+  let result = await apiInstance.post(`vehicle-service/create-for-contractor/${localStorage.getItem('contractorId')}`, params?.vehicleData).then(function (response) {
+      
+      const imgData = {
+          vehicle: {
+              id: response?.data?.data?.vehicle?.id,
+          },
+          accessMethod: {
+              id: "5"
+          },
+          description: "Face recognition"
+
+      }
+      // want to update or create image
+      if (params?.imageFile != "") {
+          dispatch(UploadProviderVehicleImage({ imgData, file: params?.imageFile }))
+      }
+      return response
+  }).catch(function (error) {
+      return error.response
+  })
+  const { data, status } = result
+
+
+  return { data, status }
+});
+
+// set document exernal value
+export const SetToExternalVehicle = createAsyncThunk("contractor/setToExternalVehicle", async (params, { dispatch, getState }) => {
+
+  let result = await apiInstance.put(`document-service/contractor-vehicle/set-comment`, params).then(function (response) {
+     
+      return response
+  }).catch(function (error) {
+      return error.response
+  })
+  const { data, status } = result
+  //console.log(result)
+  return { data, status }
+})
 
 
 export const GetVehicleStatus = createAsyncThunk("contractor/GetVehicleStatus", async () => {

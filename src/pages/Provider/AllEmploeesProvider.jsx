@@ -105,12 +105,7 @@ const AllEmploeesProvider = () => {
         <div className="container-top-right-btns"
         >
 
-          <button className="import-file-btn-1"
-          >
-            {(t('import'))}
-            <br />
-            {(t('file'))}
-          </button>
+          
           {
 
             // permission?.includes(permissionObj?.WEB_VEHICLE_CREATE) &&
