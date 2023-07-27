@@ -368,9 +368,9 @@ const SearchEmploye = () => {
   const [rowsPerPage, setRowsPerPage] = useState(8);
   const [selectEmployeeForDelete, setSlectEmployeeForDelete] = useState([])
   const [isAllChecked, setIsAllChecked] = useState(false)
-  const [deleteShow,setDeleteShow]= useState(false)
+  const [deleteShow, setDeleteShow] = useState(false)
 
-  const { contractorslistOfEmployees,updateContractorUserRelationship } = useSelector(state => state?.ContractorSlice)
+  const { contractorslistOfEmployees, updateContractorUserRelationship } = useSelector(state => state?.ContractorSlice)
 
   console.log(contractorslistOfEmployees)
 
@@ -431,7 +431,7 @@ const SearchEmploye = () => {
       }
     }
     dispatch(ContractorslistOfEmployees(body));
-  }, [page, rowsPerPage, orderBy, sortBy,updateContractorUserRelationship])
+  }, [page, rowsPerPage, orderBy, sortBy, updateContractorUserRelationship])
   return (
     <>
       {/* head with back link */}
@@ -448,7 +448,7 @@ const SearchEmploye = () => {
             // permission?.includes(permissionObj?.WEB_VEHICLE_CREATE) &&
             <button className="add-btn-1"
 
-            onClick={() => navigate("/dashboard/contractor/add-new-employe")}
+              onClick={() => navigate("/dashboard/contractor/add-new-employe")}
             >
               <i class="fa fa-plus" aria-hidden="true"></i>
               {t('add')}
@@ -555,23 +555,12 @@ const SearchEmploye = () => {
 
                           } alt="" className="name_avatar mr-2" />
                           {
-                            item?.secondLastName != null &&
-                            
+                            item?.name ?
                               item?.name
                               + " " +
-                              item?.secondLastName + " " +
-                              item?.lastName
-                        
-
-                          }
-                          {
-                            item?.secondLastName == null &&
-                              item?.name ?
-                              item?.name
-                              + " " +
+                              (item?.secondLastName != null ? item?.secondLastName : " ") + " " +
                               item?.lastName
                               : "-"
-
                           }
                         </td>
                         <td>{item?.phoneNumber || "-"}</td>
@@ -635,14 +624,16 @@ const SearchEmploye = () => {
         </div>
       }
 
-      
+
       <DeleteModal
-          show={deleteShow}
-          onHide={() => setDeleteShow(false)}
-          data={selectEmployeeForDelete}
-          title_modal={"contractor"}
-          element_modal={"employees"}
-        />
+        show={deleteShow}
+        onHide={() => setDeleteShow(false)}
+        data={selectEmployeeForDelete}
+        title_modal={"contractor"}
+        element_modal={"employees"}
+        isReset={setSlectEmployeeForDelete}
+        isAllReset={setIsAllChecked}
+      />
     </>
   )
 }

@@ -1,5 +1,11 @@
 export const TABLES = {
     DEVICES: 'device',
-    USERS: 'users',
-    // Agrega más tablas aquí
+    EMPLOYEES: 'employee',
+    CONTRACTORS: 'contractor',
+    CONTRACTS: 'contract',
+    ORDERS: 'purchase',
+    SUPPLIERS: 'supplier',
+    VEHICLES: 'vehicle_company'
+
+    // Add more tables here
   };

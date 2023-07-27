@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import SaveIcon from "@mui/icons-material/Save";
 import personPng from "../../../assets/images/person.png";
@@ -8,34 +8,31 @@ import DownloadIcon from "@mui/icons-material/Download";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { DetailsEmployeeProviderEmployee, DownloadEmployeeProviderOrderFiles, GetAllProviderDocuments } from "../../../reduxToolkit/EmployeeProviders/EmployeeProvidersApi";
+import { DetailsEmployeeProviderEmployee, DownloadEmployeeProviderOrderFiles } from "../../../reduxToolkit/EmployeeProviders/EmployeeProvidersApi";
 import { useDispatch } from "react-redux";
 import { t } from "i18next"
 // import ApproveDenyModal from "./ProviderModels/ApproveDenyModal";
 // import ProviderDropDown from "./SubComponents/providerDropDown";
 import NotFoundAnything from "../../../components/NotFoundAnything";
 import NotFoundDataWarning from "../../../components/NotFoundDataWarning";
-import { GetEmployeeContractorById } from "../../../reduxToolkit/EmployeeContractors/EmployeeContractorsApi";
+import { DetailsEmployeeContractorEmployee, GetAllContractorDocuments, GetEmployeeContractorById } from "../../../reduxToolkit/EmployeeContractors/EmployeeContractorsApi";
 import DocumentTable from "../../Modals/DocumentTable";
 
 const ProviderOrderDetail = ({ employeeDetailsFlag, approveDocumentFlag }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const params = useParams()
   const goBack = () => navigate(-1);
 
   const [filePresent, setfilePresent] = useState(true);
   const [fileIdPresent, setfileIdPresent] = useState(true);
   const [employeeDetails, setEmployeeDetails] = useState(false);
   const [approveDocument, setapproveDocument] = useState(false);
-  console.log({ employeeDetailsFlag }, { approveDocumentFlag });
 
-  const { detailEmployeeProviderEmployee } = useSelector(state => state.EmployeeProviderSlice);
-  console.log(detailEmployeeProviderEmployee);
-  const { getAllProviderDocuments } = useSelector(state => state.EmployeeProviderSlice);
-  console.log(getAllProviderDocuments);
-  const { getEmployeeContractorById } = useSelector(state => state.EmployeeContractorsSlice);
-  console.log(getEmployeeContractorById);
 
+  const { getEmployeeContractorById,detailsEmployeeContractorEmployee,getAllContractorDocuments } = useSelector(state => state.EmployeeContractorsSlice);
+
+  console.log(getAllContractorDocuments)
   const [showModal, setShowModal] = useState(false);
 
   const onHide = () => {
@@ -46,23 +43,15 @@ const ProviderOrderDetail = ({ employeeDetailsFlag, approveDocumentFlag }) => {
     setShowModal(false)
   }
 
-
-  const dropDownProps = {
-    panel: 'providerFileOption',
-    firstItem: 'DOWNLOAD FILE',
-    secondItem: 'VIEW DETAILS '
-  }
-
   useEffect(() => {
     setEmployeeDetails(employeeDetailsFlag);
     setapproveDocument(approveDocumentFlag);
     const data = {
-      id: localStorage.getItem("cid")
+      id: params?.id
     }
-    dispatch(GetAllProviderDocuments(localStorage.getItem("userId")));
+    dispatch(GetAllContractorDocuments(localStorage.getItem("userId")));
     dispatch(GetEmployeeContractorById(data))
-
-    // dispatch(DetailsEmployeeProviderEmployee(localStorage.getItem("employeeProviderDetail")))
+    dispatch(DetailsEmployeeContractorEmployee(params?.id))
 
   }, []);
 
@@ -91,23 +80,23 @@ const ProviderOrderDetail = ({ employeeDetailsFlag, approveDocumentFlag }) => {
           <img src={personPng} className="__userImage" />
           <div className="__body">
             <p>Name</p>
-            <span>{employeeDetails && detailEmployeeProviderEmployee?.user?.name || approveDocument && getEmployeeContractorById?.user?.name}</span>
+            <span>{employeeDetails && detailsEmployeeContractorEmployee?.user?.name || approveDocument && getEmployeeContractorById?.user?.name}</span>
             <p className="ishead">Email</p>
-            <span> {employeeDetails && detailEmployeeProviderEmployee?.user?.email || approveDocument && getEmployeeContractorById?.user?.email}</span>
+            <span> {employeeDetails && detailsEmployeeContractorEmployee?.user?.email || approveDocument && getEmployeeContractorById?.user?.email}</span>
             <p className="ishead">Phone Number</p>
-            <span>{employeeDetails && detailEmployeeProviderEmployee?.user?.phoneNumber || approveDocument && getEmployeeContractorById?.user?.phoneNumber}</span>
+            <span>{employeeDetails && detailsEmployeeContractorEmployee?.user?.phoneNumber || approveDocument && getEmployeeContractorById?.user?.phoneNumber}</span>
             <p className="ishead">Password</p>
             <span>**************</span>
             <p className="ishead">Gender</p>
-            <span>{employeeDetails && detailEmployeeProviderEmployee?.user?.gender?.name || approveDocument && getEmployeeContractorById?.user?.gender?.name}</span>
+            <span>{employeeDetails && detailsEmployeeContractorEmployee?.user?.gender?.name || approveDocument && getEmployeeContractorById?.user?.gender?.name}</span>
           </div>
         </div>
         <div className="col-md-7 employee_files_details">
           {
 
-            !approveDocument && detailEmployeeProviderEmployee?.documents?.length > 0 ?
+            !approveDocument && detailsEmployeeContractorEmployee?.documents?.length > 0 ?
               <>
-                <DocumentTable dataTable={detailEmployeeProviderEmployee?.documents} approve={false} optionDownload="document_external"/>
+                <DocumentTable dataTable={detailsEmployeeContractorEmployee?.documents} approve={false} optionDownload="document_external"/>
               </>
               : !approveDocument &&
               <div className="no_document">
@@ -118,9 +107,9 @@ const ProviderOrderDetail = ({ employeeDetailsFlag, approveDocumentFlag }) => {
 
           {
 
-            !employeeDetails && getAllProviderDocuments?.length > 0 ?
+            !employeeDetails && getAllContractorDocuments?.length > 0 ?
               <>
-                <DocumentTable dataTable={getAllProviderDocuments} approve={true} optionDownload="document_external"/>
+                <DocumentTable dataTable={getAllContractorDocuments} approve={true} optionDownload="document_external"/>
                 {/* <ApproveDenyModal show={showModal} onHide={() => setShowModal(false)} documentId={item?.id} /> */}
               </>
               :

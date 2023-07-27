@@ -77,7 +77,21 @@ export const ZoneDetailFatherAndChild = createAsyncThunk("employeeZones/zoneDeta
 // Retrieve the information (Zone Detail) Autorized Employees (done)
 export const ZoneDetailAuthorizedEmployee = createAsyncThunk("employeeZones/zoneDetailAuthorizedEmployee", async (params, { dispatch, getState }) => {
     const { zoneId } = params
-    let result = await apiInstance.post(`zone-service/get-all/authorized-employees/${zoneId}`, params?.pagination).then(function (response) {
+    let result = await apiInstance.post(`zone-service/get-all-pageable/authorized-employees/${zoneId}`
+    // zone-service/get-all/authorized-employees/${zoneId}`
+    , params?.pagination).then(function (response) {
+        return response
+    }).catch(function (error) {
+        return error.response
+    })
+    const { data, status } = result
+
+    return { data, status }
+});
+// without pagination
+export const ZoneDetailAuthorizedEmployeeNoPagination = createAsyncThunk("employeeZones/zoneDetailAuthorizedEmployeeNoPagination", async (params, { dispatch, getState }) => {
+
+    let result = await apiInstance.get(`zone-service/get-all/authorized-employees/${localStorage.getItem("singlezoneId")}`).then(function (response) {
         return response
     }).catch(function (error) {
         return error.response
@@ -274,7 +288,8 @@ export const UpdateDeviceSmartlock = createAsyncThunk("employeeZones/updateDevic
 
 export const DeleteZoneUser = createAsyncThunk("employeeZones/deleteZoneUser", async (params, { dispatch, getState }) => {
     const { userId, zoneId } = params
-    let result = await apiInstance.delete(`zone-service/user-zone/delete-by-user-id/${userId}/by-zone-id/${zoneId}`, params).then(function (response) {
+    // let result = await apiInstance.delete(`zone-service/user-zone/delete-by-user-id/${userId}/by-zone-id/${zoneId}`, params).then(function (response) {
+    let result = await apiInstance.post(`zone-service/user-zone/delete-by-user-id-list/by-zone-id/${zoneId}`, params?.userIds).then(function (response) {
         return response
     }).catch(function (error) {
         return error.response

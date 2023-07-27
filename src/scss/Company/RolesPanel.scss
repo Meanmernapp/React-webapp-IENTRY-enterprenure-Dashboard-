@@ -1,17 +1,28 @@
 .rolesPanel {
-  margin-top: 50px;
+  margin-top: 1rem;
 
-  .accordion-item .accordion-button {
-    padding: 15px !important;
-  }
+  // .accordion-item .accordion-button {
+  //   padding: 15px !important;
+  // }
 
   .rolesHeader {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     width: 100%;
+
+    .edit {
+      margin-right: 1.3rem;
+      color: #146F62;
+      @include hover_effect;
+    }
 
     .leftText {
       display: flex;
+      align-items: center;
+
+
+
 
       p {
         font-size: 16px;
@@ -57,7 +68,35 @@
 
   .roleBody {
     border-top: 2px dashed #178a7b;
-    padding: 1rem 10px;
+    padding-top: 1rem;
+    position: relative;
+
+    .remove_selected_role {
+      cursor: pointer;
+      position: absolute;
+      bottom: 1rem;
+      right: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #707070;
+      font-size: 14px;
+
+      p {
+        font-weight: normal;
+        letter-spacing: 0px;
+        text-transform: uppercase;
+        opacity: 1;
+        text-decoration: underline;
+      }
+
+      i {
+        font-size: 18px;
+      }
+
+      @include hover_effect;
+
+    }
 
     .upper {
       display: flex;
@@ -66,6 +105,26 @@
       p {
         font-size: 14px;
         color: #000000;
+      }
+
+      .heading {
+        font: normal normal 600 14px/18px Montserrat;
+        letter-spacing: 0px;
+        color: #707070;
+
+      }
+
+      .manage {
+        font: normal normal normal 14px/18px Montserrat;
+        letter-spacing: 0px;
+        color: #000000;
+        text-transform: uppercase;
+        opacity: 1;
+        font-weight: 600;
+        padding: 0.3rem;
+        text-decoration: underline;
+        cursor: pointer;
+        @include hover_effect;
       }
     }
 
@@ -159,15 +218,27 @@
   .create_new_role_data {
     border-right: 2px solid #146f62;
 
+    .header_clear {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .clearIcon {
+        padding-right: 1rem !important;
+      }
+    }
+
     h3 {
       font-size: 20px;
       font-weight: 600;
       color: #146f62;
+      letter-spacing: 7px;
       text-transform: uppercase;
     }
 
     .create_new_role_data_item {
       margin-top: 1rem;
+      padding-right: 0.5rem;
 
       .css-wb57ya-MuiFormControl-root-MuiTextField-root {
         width: 96%;
@@ -176,10 +247,11 @@
 
     .create_new_role_data_restrictions {
       margin-top: 1rem;
-      box-shadow: 0px 0px 4px #00000099;
       margin-right: 0.8rem;
-      border-radius: 5px;
+      border-radius: 4px;
       padding: 0.4rem 0.4rem;
+      background: #FFFFFF 0% 0% no-repeat padding-box;
+      box-shadow: 0px 0px 4px #15223214;
 
       .roleInfo {
         font-size: 10px;
@@ -262,6 +334,31 @@
   }
 
   .new_role_available {
+    position: relative;
+
+    .accodion_footer_role {
+
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 0.3rem 0rem;
+
+      span {
+        font: normal normal normal 12px/15px Montserrat;
+        letter-spacing: 0px;
+        padding: 0.2rem;
+        cursor: pointer;
+        color: #707070;
+        text-decoration: underline;
+        opacity: 1;
+        @include hover_effect;
+      }
+
+
+    }
+
     h3 {
       font-size: 20px;
       font-weight: 600;
@@ -285,10 +382,15 @@
       padding: 9px;
       height: 37rem;
       overflow-y: scroll;
+      position: relative;
 
       .accordion {
         width: 100%;
       }
+
+
+
+
 
       .mainAccordionBody {
         width: 100% !important;
@@ -468,7 +570,7 @@
 
   .manage_role_modal_body {
     p {
-      color: #65aba0;
+      color: #707070;
       font-size: 14px;
       text-transform: uppercase;
     }

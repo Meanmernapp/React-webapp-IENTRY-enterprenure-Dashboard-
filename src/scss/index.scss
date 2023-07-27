@@ -3,6 +3,9 @@
 @import "./Mixins.scss";
 @import "./global.scss";
 @import "./DashboardTable.scss";
+@import "./DashboardGrid.scss";
+@import "./SearchWindow.scss";
+@import "./MenuIconGrid.scss";
 
 @import "./Home.scss";
 @import "./LoginOption.scss";
@@ -13,7 +16,7 @@
 @import "./Company/Employees/Employees.scss";
 @import "./Company/Vehicles/Vehicles.scss";
 @import "./Company/UpdateData.scss";
-// @import "./Company/WorkShiftPanel.scss";
+@import "./Company/WorkShiftPanel.scss";
 @import "./Company/UserDocPanel.scss";
 @import "./Company/VehicleDocPanel.scss";
 @import "./Company/RolesPanel.scss";
@@ -72,3 +75,4 @@
 
 @import './Company/Hospitality.scss';
 @import './Company/Department.scss';
+@import './Restrictions/Restrictions.scss'

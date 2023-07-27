@@ -44,61 +44,61 @@ const theme = createTheme({
         }),
       },
     },
-    MuiFormControl: {
-      styleOverrides: {
-        root: ({ theme }) => ({
-          "& label": {
-            color: `${theme.palette.gray.main} !important`,
-            fontWeight: "bold",
-            textTransform: "uppercase",
-            fontFamily: "Montserrat",
-            fontSize: "14px",
-            // transform: "translate(14px, 10px) scale(1)"
-          },
-          ".css-1d3z3hw-MuiOutlinedInput-notchedOutline": {
-            border: "2px solid #707070 !important",
+    // MuiFormControl: {
+    //   styleOverrides: {
+    //     root: ({ theme }) => ({
+    //       "& label": {
+    //         color: `${theme.palette.gray.main} !important`,
+    //         fontWeight: "bold",
+    //         textTransform: "uppercase",
+    //         fontFamily: "Montserrat",
+    //         fontSize: "14px",
+    //         // transform: "translate(14px, 10px) scale(1)"
+    //       },
+    //       ".css-1d3z3hw-MuiOutlinedInput-notchedOutline": {
+    //         border: "2px solid #707070 !important",
             
-          },
-          ".css-bo2ymy-MuiFormLabel-root-MuiInputLabel-root.Mui-focused": {
-            color: `${theme.palette.gray.main} !important`,
-            fontWeight: "bold",
-            textTransform: "uppercase",
-            fontFamily: "Montserrat",
-            fontSize: "14px",
-          },
-          ".css-1r6jbka-MuiInputBase-input-MuiOutlinedInput-input":{
-            fontSize:"14px !important"
-          },
-          ".css-1t0qkoj-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input":{
-            fontSize:"14px !important",
-            // paddingTop:"1rem"
-          },
-          ".MuiInputLabel-root":{
-            fontSize:"14px !important",
+    //       },
+    //       ".css-bo2ymy-MuiFormLabel-root-MuiInputLabel-root.Mui-focused": {
+    //         color: `${theme.palette.gray.main} !important`,
+    //         fontWeight: "bold",
+    //         textTransform: "uppercase",
+    //         fontFamily: "Montserrat",
+    //         fontSize: "14px",
+    //       },
+    //       ".css-1r6jbka-MuiInputBase-input-MuiOutlinedInput-input":{
+    //         fontSize:"14px !important"
+    //       },
+    //       ".css-1t0qkoj-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input":{
+    //         fontSize:"14px !important",
+    //         // paddingTop:"1rem"
+    //       },
+    //       ".MuiInputLabel-root":{
+    //         fontSize:"14px !important",
             
-          }
+    //       }
 
-        }),
-      },
-    },
+    //     }),
+    //   },
+    // },
 
-    MuiOutlinedInput: {
-      styleOverrides: {
-        root: ({ theme }) => ({
-          // fontSize: "10px",
-          // marginBottom: "1rem !important",
-          color: `${theme.palette.gray.main} !important`,
-          "& fieldset": {
-            borderColor: `${theme.palette.gray.main} !important`,
-            // fontSize: ".75rem",
-          },
-          boxShadow: "4px 4px 4px #0000001A",
-          "& .Mui-disabled": {
-            backgroundColor: "#e6e6e6",
-          },
-        }),
-      },
-    },
+    // MuiOutlinedInput: {
+    //   styleOverrides: {
+    //     root: ({ theme }) => ({
+    //       // fontSize: "10px",
+    //       // marginBottom: "1rem !important",
+    //       color: `${theme.palette.gray.main} !important`,
+    //       "& fieldset": {
+    //         borderColor: `${theme.palette.gray.main} !important`,
+    //         // fontSize: ".75rem",
+    //       },
+    //       boxShadow: "4px 4px 4px #0000001A",
+    //       "& .Mui-disabled": {
+    //         backgroundColor: "#e6e6e6",
+    //       },
+    //     }),
+    //   },
+    // },
     MuiTablePagination: {
       styleOverrides: {
         root: ({ theme }) => ({
@@ -110,6 +110,17 @@ const theme = createTheme({
           },
         }),
       },
+    },
+    MuiAutocomplete: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          "& .MuiOutlinedInput-root .MuiAutocomplete-input": {
+            padding:"0rem"
+          },
+          
+        }),
+      },
+      
     },
   },
 });

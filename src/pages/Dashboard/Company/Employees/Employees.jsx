@@ -50,7 +50,7 @@ export const Employees = () => {
       <div className="employeeVehicleHead">
         <div>
           {
-            permission?.includes(permissionObj?.WEB_EMPLOYEE_MENU) &&
+            permission?.includes(permissionObj?.WEB_EMPLOYEE_READ) &&
             <h3>
               {t('employees')}
               <Link to="/dashboard/employee/all-employees">

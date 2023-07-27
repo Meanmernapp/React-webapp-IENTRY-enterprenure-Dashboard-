@@ -31,22 +31,23 @@ const employeePayrollSlice = createSlice({
         changeTimeAndSelectedDaysUpdate: {},
         getAllListOfAccess: {
             content: []
-        }
+        },
+        removeEmployeeAttendance:false,
+        removeDeviceAttendance:false
 
     },
     reducers: {
         ClearDeleteEmployeesToListPayroll: (state, action) => {
-            state.deleteEmployeesToListPayroll = false
+            state.removeEmployeeAttendance = false
         },
         ClearDeleteDeviceToListPayroll: (state, action) => {
-            state.deleteDeviceToListPayroll = false
+            state.removeDeviceAttendance = false
         },
     },
     extraReducers: {
 
         ['employeePayRoll/getAllListOfAccess/fulfilled']: (state, action) => {
             const { data: { data }, status } = action.payload || {}
-            console.log(data)
             if (status >= 200 && status < 300) {
                 state.getAllListOfAccess = data
             } else if (status >= 400 && status < 500) {
@@ -56,7 +57,6 @@ const employeePayrollSlice = createSlice({
         // employee payroll slice
         ['employeePayRoll/getAllEmployeesPayroll/fulfilled']: (state, action) => {
             const { data: { data }, status } = action.payload || {}
-            console.log(data)
             if (status >= 200 && status < 300) {
                 state.getAllEmployeesPayroll = data
             } else if (status >= 400 && status < 500) {
@@ -65,7 +65,6 @@ const employeePayrollSlice = createSlice({
         },
         ['employeePayRoll/getAllSelectedEmployees/fulfilled']: (state, action) => {
             const { data: { data }, status } = action.payload || {}
-            console.log(data)
             if (status >= 200 && status < 300) {
                 state.getAllSelectedEmployees = data
             } else if (status >= 400 && status < 500) {
@@ -74,16 +73,15 @@ const employeePayrollSlice = createSlice({
         },
         ['employeePayRoll/addEmployeesToListPayroll/fulfilled']: (state, action) => {
             const { data: { data }, status } = action.payload || {}
-            console.log(data)
             if (status >= 200 && status < 300) {
                 state.addEmployeesToListPayroll = data
+                // toast.success("Employee Add Successfully")
             } else if (status >= 400 && status < 500) {
                 toast("Something went wrong in addEmployeesToListPayroll")
             }
         },
         ['employeePayRoll/deleteEmployeesToListPayroll/fulfilled']: (state, action) => {
             const { data: { data }, status } = action.payload || {}
-            console.log(data)
             if (status >= 200 && status < 300) {
                 state.deleteEmployeesToListPayroll = data
             } else if (status >= 400 && status < 500) {
@@ -94,7 +92,6 @@ const employeePayrollSlice = createSlice({
         //device payroll slice
         ['employeePayRoll/getAllDevicePayroll/fulfilled']: (state, action) => {
             const { data: { data }, status } = action.payload || {}
-            console.log(data)
             if (status >= 200 && status < 300) {
                 state.getAllDevicePayroll = data
             } else if (status >= 400 && status < 500) {
@@ -103,7 +100,6 @@ const employeePayrollSlice = createSlice({
         },
         ['employeePayRoll/getAllSelectedDevice/fulfilled']: (state, action) => {
             const { data: { data }, status } = action.payload || {}
-            console.log(data)
             if (status >= 200 && status < 300) {
                 state.getAllSelectedDevice = data
             } else if (status >= 400 && status < 500) {
@@ -112,16 +108,15 @@ const employeePayrollSlice = createSlice({
         },
         ['employeePayRoll/addDeviceToListPayroll/fulfilled']: (state, action) => {
             const { data: { data }, status } = action.payload || {}
-            console.log(data)
             if (status >= 200 && status < 300) {
                 state.addDeviceToListPayroll = data
+                // toast.success("Device Add Successfully")
             } else if (status >= 400 && status < 500) {
                 toast("Something went wrong in addDeviceToListPayroll")
             }
         },
         ['employeePayRoll/deleteDeviceToListPayroll/fulfilled']: (state, action) => {
             const { data: { data }, status } = action.payload || {}
-            console.log(data)
             if (status >= 200 && status < 300) {
                 state.deleteDeviceToListPayroll = data
             } else if (status >= 400 && status < 500) {
@@ -132,7 +127,6 @@ const employeePayrollSlice = createSlice({
         // email setting payroll slice
         ['employeePayRoll/getEmailSetting/fulfilled']: (state, action) => {
             const { data: { data }, status } = action.payload || {}
-            console.log(data)
             if (status >= 200 && status < 300) {
                 state.getEmailSetting = data
             } else if (status >= 400 && status < 500) {
@@ -141,7 +135,6 @@ const employeePayrollSlice = createSlice({
         },
         ['employeePayRoll/updateEmailSetting/fulfilled']: (state, action) => {
             const { data: { data }, status } = action.payload || {}
-            console.log(data)
             if (status >= 200 && status < 300) {
                 state.updateEmailSetting = data
             } else if (status >= 400 && status < 500) {
@@ -151,13 +144,37 @@ const employeePayrollSlice = createSlice({
         // change the time or checkbox payroll
         ['employeePayRoll/changeTimeAndSelectedDaysUpdate/fulfilled']: (state, action) => {
             const { data: { data }, status } = action.payload || {}
-            console.log(data)
             if (status >= 200 && status < 300) {
                 state.changeTimeAndSelectedDaysUpdate = data
+                toast.success("Updated Successfully")
             } else if (status >= 400 && status < 500) {
                 toast("Something went wrong in changeTimeAndSelectedDaysUpdate")
             }
+        },
+           // remove device
+           ['employeePayRoll/removeDeviceAttendance/fulfilled']: (state, action) => {
+            const { data: { data }, status } = action.payload || {}
+            if (status >= 200 && status < 300) {
+                state.removeDeviceAttendance = data
+                // toast.success("Removed Successfully")
+
+            } else if (status >= 400 && status < 500) {
+                toast("Something went wrong in removeDeviceAttendance")
+            }
+        },
+          // remove employee
+          ['employeePayRoll/removeEmployeeAttendance/fulfilled']: (state, action) => {
+            const { data: { data }, status } = action.payload || {}
+            if (status >= 200 && status < 300) {
+                state.removeEmployeeAttendance = data
+                // toast.success("Removed Successfully")
+             
+            } else if (status >= 400 && status < 500) {
+                toast("Something went wrong in removeEmployeeAttendance")
+            }
         }
+
+
 
     }
 })

@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import { apiInstance } from '../../Apis/Axios';
 import { ClearGetEmployeeProviderByEmail, ClearGetEmployeeProviderByPhoneNumber } from "./EmployeeProviderSlice";
 import { apiInstanceV2 } from '../../Apis/AxiosV2';
+import { UploadProviderImage } from "../Providers/providersApi";
 //   @create order flow start
 
 // Display orders list with pagination 
@@ -261,9 +262,9 @@ export const GetEmployeeProviderByPhoneNumber = createAsyncThunk("employeeProvid
 export const CreateEmployeeProviderPreUser = createAsyncThunk("employeeProvider/EmployeeProviderPreUser", async (params, { dispatch, getState }) => {
 
 
-    const { email, name, phoneNumber,lastName, secondLastName } = params || {};
+    const { email, name, phoneNumber, lastName, secondLastName } = params || {};
 
-    let result = await apiInstanceV2.post(`authentication-service/pre-register-user`, { email, name, phoneNumber,lastName, secondLastName }).then(function (response) {
+    let result = await apiInstanceV2.post(`authentication-service/pre-register-user`, { email, name, phoneNumber, lastName, secondLastName }).then(function (response) {
         return response
     }).catch(function (error) {
         console.log(error)
@@ -333,7 +334,7 @@ export const GetEmployeeProviderById = createAsyncThunk("employeeProvider/getEmp
     }
     )
     const { data, status } = result
-    console.log(result)
+
     return { data, status }
 })
 
@@ -539,3 +540,74 @@ export const DownloadEmployeeFile = createAsyncThunk("employeeProvider/downloadE
     console.log(result)
     return { data, status }
 });
+
+//  create supplier Employee
+export const CreateEmployeeSupplier = createAsyncThunk("employeeProvider/createEmployeeSupplier", async (params, { dispatch, getState }) => {
+
+    let result = await apiInstance.post(`supplier-service/v1/create`, params?.data).then(function (response) {
+        const imgData = {
+            user: {
+                id: response?.data?.data?.userId,
+            },
+            accessMethod: {
+                id: "5"
+            },
+            description: "Face recognition"
+
+        }
+        // want to update or create image
+        if (params?.file != "") {
+            dispatch(UploadProviderImage({ imgData, file: params?.file }))
+        }
+        return response
+    }
+    ).catch(function (error) {
+        return error.response
+    }
+    )
+    const { data, status } = result
+    console.log(result)
+    return { data, status }
+})
+//  get supplier data by it id
+export const GetEmployeeSupplierByItId = createAsyncThunk("employeeProvider/getEmployeeSupplierByItId", async (params, { dispatch, getState }) => {
+
+    let result = await apiInstance.get(`supplier-service/v1/get-by-id/${params}`).then(function (response) {
+        return response
+    }
+    ).catch(function (error) {
+        return error.response
+    }
+    )
+    const { data, status } = result
+    return { data, status }
+})
+
+//  update supplier employee
+export const UpdateEmployeeSupplier = createAsyncThunk("employeeProvider/updateEmployeeSupplier", async (params, { dispatch, getState }) => {
+
+    let result = await apiInstance.put(`supplier-service/v1/update`, params?.data).then(function (response) {
+        const imgData = {
+            user: {
+                id: response?.data?.data?.userId,
+            },
+            accessMethod: {
+                id: "5"
+            },
+            description: "Face recognition"
+
+        }
+        // want to update or create image
+        if (params?.file != "") {
+            dispatch(UploadProviderImage({ imgData, file: params?.file }))
+        }
+        return response
+    }
+    ).catch(function (error) {
+        return error.response
+    }
+    )
+    const { data, status } = result
+    console.log(result)
+    return { data, status }
+})

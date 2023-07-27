@@ -185,6 +185,8 @@ const {getVehicleDetailById,setToExternalVehicle,createToExternalVehicle}= useSe
         data={selectDocumentsForDelete}
         show={deleteDocShow}
         onHide={() => setDeleteDocShow(false)}
+        isReset={setSelectDocumentsForDelete}
+        isAllReset={setIsAllChecked}
       />
       <UnlinkDeviceChangeModal
         show={unlinkShow}

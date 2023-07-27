@@ -32,50 +32,8 @@ const ManageRoleEmployeesModal = (props) => {
             </Modal.Header>
             <Modal.Body className="manage_role_modal_body">'
 
-                <p>{t("remove_user")}</p>
-                {/* search bar role panel */}
-                <div className="row">
-                    <div className="col-12">
-                        <input
-                            type="text"
-                            class="form-control"
-                            value={query}
-                            onChange={(e) => setQuery(e.target.value)}
 
-                        />
-                        <span class="search_btn">
-                            <button class="btn btn-default" type="button">
-                                <i class="fa fa-search mx-2" aria-hidden="true"></i>
-                            </button>
-                        </span>
-                    </div>
-                </div>
-                {/* serach option */}
-                <div className='delete_some_one'>
-                    {
-                        employeesWithRoleList && employeesWithRoleList?.filter(user => {
-                            if (query === '') {
-                                return user;
-                            } else if (user.name.toLowerCase().includes(query.toLowerCase())) {
-                                return user;
-                            }
-                        }).map(user => (
-                            <div className='delte_some_one_item' key={user.id}>
-                                <p>{user.name}</p>
-                                <img
-                                    src={deleteIcon}
-                                    alt="deleteimg"
-                                    onClick={() => handleDelete(user.id)}
-                                    style={{
-                                        cursor: "pointer"
-                                    }}
-                                />
-                            </div>
-                        ))
-                    }
-                </div>
-
-                <p className='mt-3'>{t("add_user")}</p>
+            <p className='mt-3'>{t("add_user")}</p>
                 {/* search bar role panel */}
                 <div className="row">
                     <div className="col-12">
@@ -133,6 +91,50 @@ const ManageRoleEmployeesModal = (props) => {
                     }
 
                 </div>
+                <p>{t("remove_user")}</p>
+                {/* search bar role panel */}
+                <div className="row">
+                    <div className="col-12">
+                        <input
+                            type="text"
+                            class="form-control"
+                            value={query}
+                            onChange={(e) => setQuery(e.target.value)}
+
+                        />
+                        <span class="search_btn">
+                            <button class="btn btn-default" type="button">
+                                <i class="fa fa-search mx-2" aria-hidden="true"></i>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+                {/* serach option */}
+                <div className='delete_some_one'>
+                    {
+                        employeesWithRoleList && employeesWithRoleList?.filter(user => {
+                            if (query === '') {
+                                return user;
+                            } else if (user.name.toLowerCase().includes(query.toLowerCase())) {
+                                return user;
+                            }
+                        }).map(user => (
+                            <div className='delte_some_one_item' key={user.id}>
+                                <p>{user.name}</p>
+                                <img
+                                    src={deleteIcon}
+                                    alt="deleteimg"
+                                    onClick={() => handleDelete(user.id)}
+                                    style={{
+                                        cursor: "pointer"
+                                    }}
+                                />
+                            </div>
+                        ))
+                    }
+                </div>
+
+               
                 <div className="buttonArea mt-4">
                     <button className="btns btn btn-light" onClick={() => props.onHide()}>{t("cancel")}</button>
                     <button

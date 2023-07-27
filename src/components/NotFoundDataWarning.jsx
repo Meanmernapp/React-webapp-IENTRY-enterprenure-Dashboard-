@@ -3,12 +3,9 @@ import warning from '../assets/warningImage.svg'
 
 const NotFoundDataWarning = ({ text }) => {
     return (
-        <div className="not_found_waring mb-3 mt-3">
-            <p> {text}</p>
-            <img src={warning} alt="" />
-            {/* <div className="warning">
-                <i class="fa fa-exclamation" aria-hidden="true"></i>
-            </div> */}
+        <div className="not_found_waring mb-3 mt-2">
+            <img className='mr-2' src={warning} alt="" />
+            <p className='text-center'> {text}</p>
         </div>
     )
 }

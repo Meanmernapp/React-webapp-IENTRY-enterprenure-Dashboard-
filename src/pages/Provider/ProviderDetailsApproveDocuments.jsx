@@ -23,11 +23,12 @@ const ProviderOrderDetail = ({ approveDocument }) => {
   // use Selector
   const { getProviderEmployeeDetail } = useSelector(state => state?.providersSlice)
   const { setSupplierDocValue, createSupplierDocValue } = useSelector(state => state?.providersSlice)
-  const { uploadImg, changeCount } = useSelector(state => state.sharedSlice)
+
+  const { saveProviderImage, imageChangeCheck } = useSelector(state => state.providersSlice)
 
   useEffect(() => {
     dispatch(GetProviderEmployeeDetail(localStorage.getItem("provideridfordetail")))
-  }, [setSupplierDocValue, createSupplierDocValue, uploadImg, changeCount])
+  }, [setSupplierDocValue, createSupplierDocValue, saveProviderImage, imageChangeCheck])
 
 
   return (
@@ -72,7 +73,7 @@ const ProviderOrderDetail = ({ approveDocument }) => {
             approveDocument &&
             <button className="delete-btn-1"
 
-              
+
               onClick={() => {
                 // setDeleteDocShow(true)
               }}
@@ -98,12 +99,13 @@ const ProviderOrderDetail = ({ approveDocument }) => {
           <div className="__body">
             <p>{t("name")}</p>
             <span>
+
               {
                 getProviderEmployeeDetail?.user?.name ?
                   getProviderEmployeeDetail?.user?.name
                   + " " +
-                  getProviderEmployeeDetail?.user?.secondLastName + " " +
-                  getProviderEmployeeDetail?.user?.lastName
+                  (getProviderEmployeeDetail?.user?.secondLastName != null ? getProviderEmployeeDetail?.user?.secondLastName : " ") + " " +
+                  getProviderEmployeeDetail?.user.lastName
                   : "-"
               }
             </span>
@@ -157,6 +159,8 @@ const ProviderOrderDetail = ({ approveDocument }) => {
         data={selectDocumentsForDelete}
         show={deleteDocShow}
         onHide={() => setDeleteDocShow(false)}
+        isReset={setSelectDocumentsForDelete}
+        isAllReset={setIsAllChecked}
       />
       <UnlinkDeviceChangeModal
         show={unlinkShow}

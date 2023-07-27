@@ -18,10 +18,20 @@ function useStyle() {
             textAlign: lCode === "ar" ? "right" : "left",
         },
         "& 	.MuiInputLabel-root": {
-            fontSize: 12,
+            fontSize: 14,
             left: lCode === "ar" ? "inherit" : "0",
             right: lCode === "ar" ? "1.75rem" : "0",
             transformOrigin: lCode === "ar" ? "right" : "left"
+        },
+        "& .css-m2l569-MuiInputBase-root-MuiOutlinedInput-root":{
+            fontSize: 14
+        },
+        "& .css-k4qjio-MuiFormHelperText-root":{
+            fontSize:"0.55rem",
+            marginTop:'4px !important'
+        },
+        "& .css-u30uf2-MuiInputBase-root-MuiOutlinedInput-root":{
+            fontSize:14
         }
     }
 

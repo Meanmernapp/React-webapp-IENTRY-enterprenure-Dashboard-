@@ -3,9 +3,9 @@ import { Outlet } from "react-router-dom";
 
 const ContratorLayout = () => {
   return (
-    <main>
+    // <main>
       <Outlet />
-    </main>
+    // </main>
   );
 };
 

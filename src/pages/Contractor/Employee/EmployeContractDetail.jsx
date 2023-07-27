@@ -552,11 +552,13 @@ const EmployeContractDetail = ({ approveDocument }) => {
           <div className="__body">
             <p>{t("name")}</p>
             <span>
+             
+              
               {
                 getContractorEmployeeDetail?.user?.name ?
                   getContractorEmployeeDetail?.user?.name
                   + " " +
-                  getContractorEmployeeDetail?.user?.secondLastName + " " +
+                  (getContractorEmployeeDetail?.user?.secondLastName != null ? getContractorEmployeeDetail?.user?.secondLastName : " ") + " " +
                   getContractorEmployeeDetail?.user?.lastName
                   : "-"
               }
@@ -611,6 +613,9 @@ const EmployeContractDetail = ({ approveDocument }) => {
         data={selectDocumentsForDelete}
         show={deleteDocShow}
         onHide={() => setDeleteDocShow(false)}
+        element_modal={"assigned_employee"}
+        isReset={selectDocumentsForDelete}
+        isAllReset={setIsAllChecked}
       />
       <UnlinkDeviceChangeModal
         show={unlinkShow}

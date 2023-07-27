@@ -45,7 +45,7 @@ const DevicesSlice = createSlice({
             }
             else if (status >= 400 && status < 500) {
 
-                toast("Fail to update Zone Data")
+                toast("Fail to fetch AntiPassBack Type")
             }
         },
 

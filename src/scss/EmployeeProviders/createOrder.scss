@@ -16,17 +16,17 @@
 
         .__body {
             width: 100%;
-            box-shadow: 0px 0px 4px #000000B3;
-            border-radius: 8px;
+            box-shadow: 0px 0px 6px #15223214;
+            border-radius: 6px;
             background: #ffffff;
-            padding: 32px 91px 32px 87px;
+            padding: 1rem;
 
             .fourInputs {
                 display: flex;
             }
 
             .inputField {
-                margin-bottom: 24px !important;
+                margin-bottom: 1rem !important;
             }
         }
     }

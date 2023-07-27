@@ -85,6 +85,8 @@ const UserDocuments = ({ docType }) => {
           data={selectDocumentsForDelete}
           title_modal={t("delete_documents")}
           element_modal={t("documents")}
+          isReset={setSelectDocumentsForDelete}
+          isAllReset={setIsAllChecked}
         />
         </>
     )

@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { apiInstance } from '../../Apis/Axios';
 import { toast } from "react-toastify";
+import { UploadProviderImage } from "../Providers/providersApi";
 
 // Create Contract Api's
 export const CreateContract = createAsyncThunk("employeeContractor/CreateContract", async (getVal) => {
@@ -11,7 +12,6 @@ export const CreateContract = createAsyncThunk("employeeContractor/CreateContrac
     return response
   }).catch(function (error) {
     toast.error(error.response.data.message);
-    debugger
     return error.response
   })
   const { data, status } = result
@@ -288,3 +288,104 @@ export const GetEmployeeContractorById = createAsyncThunk("employeeContractor/ge
   console.log(result)
   return { data, status }
 })
+
+//  create contractor
+export const CreateEmployeeContractor = createAsyncThunk("employeeContractor/createEmployeeContractor", async (params, { dispatch, getState }) => {
+
+  let result = await apiInstance.post(`contractor-service/v1/create`,params?.data).then(function (response) {
+    const imgData = {
+      user: {
+          id: response?.data?.data?.userId,
+      },
+      accessMethod: {
+          id: "5"
+      },
+      description: "Face recognition"
+
+  }
+  // want to update or create image
+  if (params?.file != "") {
+      dispatch(UploadProviderImage({ imgData, file:params?.file }))
+  }
+    return response
+  }
+  ).catch(function (error) {
+    return error.response
+  }
+  )
+  const { data, status } = result
+  console.log(result)
+  return { data, status }
+})
+//  get contractor data by it id
+export const GetEmployeeContractorByItId = createAsyncThunk("employeeContractor/getEmployeeContractorByItId", async (params, { dispatch, getState }) => {
+
+  let result = await apiInstance.get(`contractor-service/v1/get-by-id/${params}`).then(function (response) {
+    return response
+  }
+  ).catch(function (error) {
+    return error.response
+  }
+  )
+  const { data, status } = result
+  return { data, status }
+})
+
+//  update contractor
+export const UpdateEmployeeContractor = createAsyncThunk("employeeContractor/updateEmployeeContractor", async (params, { dispatch, getState }) => {
+
+  let result = await apiInstance.put(`contractor-service/v1/update`,params?.data).then(function (response) {
+    console.log(response?.data?.data?.userId)
+    const imgData = {
+      user: {
+          id: response?.data?.data?.userId,
+      },
+      accessMethod: {
+          id: "5"
+      },
+      description: "Face recognition"
+
+  }
+  // want to update or create image
+  if (params?.file != "") {
+      dispatch(UploadProviderImage({ imgData, file:params?.file }))
+  }
+    return response
+  }
+  ).catch(function (error) {
+    return error.response
+  }
+  )
+  const { data, status } = result
+  console.log(result)
+  return { data, status }
+})
+// approve docuemnt
+export const GetAllContractorDocuments = createAsyncThunk("employeeContractor/getAllContractorDocuments", async (params, { dispatch, getState }) => {
+
+  let result = await apiInstance.get(`document-service/contractor/get-all/by-user-id/${params}`).then(function (response) {
+      return response
+  }
+  ).catch(function (error) {
+      return error.response
+  }
+  )
+  const { data, status } = result
+
+  return { data, status }
+
+})
+// deatil employee contractor
+export const DetailsEmployeeContractorEmployee = createAsyncThunk("employeeContractor/detailsEmployeeContractorEmployee", async (params, { dispatch, getState }) => {
+
+  let result = await apiInstance.get(`contractor-employee-service/company/get-by-user-id/${params}`).then(function (response) {
+      return response
+  }).catch(function (error) {
+      return error.response
+  })
+  const { data, status } = result
+ 
+
+  return { data, status }
+
+});

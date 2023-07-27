@@ -20,17 +20,26 @@ import { Modal } from "react-bootstrap";
 
 import { useDispatch, useSelector } from "react-redux";
 import DeleteIcon from "../../../../assets/images/redTrash.svg";
-import { Grid } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import emptyList from "../../../../assets/images/warning.svg";
 import apiInstance from "../../../../Apis/Axios";
 import { toast } from "react-toastify";
 import { permissionObj } from "../../../../Helpers/permission";
 import NotFoundDataWarning from "../../../../components/NotFoundDataWarning";
-
+import Cookies from 'js-cookie';
+import { useTranslation } from 'react-i18next';
+import NotFoundAnything from "../../../../components/NotFoundAnything";
+import DeleteModal from "../../../Modals/DeleteModal";
+import dayId from "../../../../hooks/dayId";
+import { DeleteItemsApi } from "../../../../reduxToolkit/Commons/CommonsApi";
+import Tooltip from '@mui/material/Tooltip';
+import { Checkbox, FormControlLabel } from "@mui/material";
 const WorkShiftCardDetails = ({ setRemoveUserModal, id }) => {
 
   // use hook importer
   const dispatch = useDispatch();
+  const { t } = useTranslation();
+  const lCode = Cookies.get("i18next") || "en";
 
   // use state hook  for local state managment
   const [addUserModal, setaddUserModal] = useState(false);
@@ -42,6 +51,12 @@ const WorkShiftCardDetails = ({ setRemoveUserModal, id }) => {
 
   // Pagination
   const [page, setPage] = useState(0);
+  const [selectZoneWorkShift, setSelectZoneWorkShift] = useState([])
+  const [isAllChecked, setIsAllChecked] = useState(false)
+  const [selectManageUser, setSelectManageUser] = useState([])
+  const [isAllCheckedManageUser, setIsAllCheckedManageUser] = useState(false)
+  const [deleteManageUser, setDeleteManageUser] = useState(false)
+  const [deleteAccessWorkShift, setDeleteAccessWorkShift] = useState(false)
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -50,7 +65,7 @@ const WorkShiftCardDetails = ({ setRemoveUserModal, id }) => {
     setRowsPerPage(parseInt(event.target.value));
     setPage(0);
   };
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const [orderby, setOrderby] = useState("id");
   let contractPagination = {
     order: true,
@@ -70,7 +85,7 @@ const WorkShiftCardDetails = ({ setRemoveUserModal, id }) => {
     setUserRowsPerPage(parseInt(event.target.value));
     setUserPage(0);
   };
-  const [rowsUserPerPage, setUserRowsPerPage] = useState(5);
+  const [rowsUserPerPage, setUserRowsPerPage] = useState(10);
   const [userOrderby, setUserOrderby] = useState("id");
   let UsercontractPagination = {
     order: true,
@@ -81,10 +96,62 @@ const WorkShiftCardDetails = ({ setRemoveUserModal, id }) => {
   // End Pagination
   const [selIndex, setSelIndex] = useState(null);
 
+
+  // this function control select all id or unSelect all
+  const handelDeleteAll = (e) => {
+    setIsAllChecked(e.target.checked)
+    if (e.target.checked) {
+      const selectAllIds = WorkTimeAccess?.content?.map(item => {
+        return item?.id
+      })
+      setSelectZoneWorkShift(selectAllIds)
+
+
+    } else {
+      setSelectZoneWorkShift([])
+    }
+
+  }
+  // this function handle only specific id base on selection
+  const handleCheckboxChange = (e) => {
+
+    if (e.target.checked) {
+      setSelectZoneWorkShift([...selectZoneWorkShift, e.target.id]);
+    } else {
+      setSelectZoneWorkShift(selectZoneWorkShift.filter((removeid) => removeid !== e.target.id));
+    }
+  };
+
+  // this function control select all id or unSelect all for manage user
+  const handelDeleteAllManageUser = (e) => {
+    setIsAllCheckedManageUser(e.target.checked)
+    if (e.target.checked) {
+      const selectAllIds = AllUserWithThisWorkAccess?.content?.map(item => {
+        return item?.userId
+      })
+      setSelectManageUser(selectAllIds)
+
+
+    } else {
+      setSelectManageUser([])
+    }
+
+  }
+  // this function handle only specific id base on selection for manage user
+  const handleCheckboxChangeManageUser = (e) => {
+
+    if (e.target.checked) {
+      setSelectManageUser([...selectManageUser, e.target.id]);
+    } else {
+      setSelectManageUser(selectManageUser.filter((removeid) => removeid !== e.target.id));
+    }
+  };
+
+
   useEffect(() => {
     //get work shift access time with pagination
     dispatch(UserWorkSchedule({ id, UsercontractPagination }));
-  }, []);
+  }, [rowsUserPerPage]);
 
   const [userRemoveModal, setuserRemoveModal] = useState(false);
   const [timeRemoveModal, setTimeRemoveModal] = useState(false);
@@ -129,7 +196,7 @@ const WorkShiftCardDetails = ({ setRemoveUserModal, id }) => {
               <button
                 className="button-sec btn-confirm"
                 onClick={() => {
-                  removeShift();
+                  // removeShift();
                   setuserRemoveModal(false);
                 }}
               >
@@ -193,14 +260,13 @@ const WorkShiftCardDetails = ({ setRemoveUserModal, id }) => {
     );
   }
 
-  const removeShift = () => {
-    //delete user from work shift
-    dispatch(DeleteUserFromWorkShift({ id, delId })).then(() => {
-      dispatch(GetAllByWorkShiftId(id))
-      dispatch(UserWorkSchedule({ id, UsercontractPagination }));
-    })
-  };
-
+  // const removeShift = () => {
+  //   //delete user from work shift
+  //   dispatch(DeleteUserFromWorkShift({ id, delId })).then(() => {
+  //     dispatch(GetAllByWorkShiftId(id))
+  //     dispatch(UserWorkSchedule({ id, UsercontractPagination }));
+  //   })
+  // };
   //delete access time from work shift
   const removeCurrentShift = async () => {
     let result = await apiInstance
@@ -216,6 +282,30 @@ const WorkShiftCardDetails = ({ setRemoveUserModal, id }) => {
         return error.response;
       });
   };
+
+  const deleteSelectedWorkShift = (deleteItem) => {
+    const tableName = "work_shift_schedule"
+    const body = deleteItem
+    dispatch(DeleteItemsApi({ tableName, body })).
+      then(() => {
+        dispatch(GetWorkTimeAccess({ id, contractPagination }));
+        setSelectZoneWorkShift([])
+        setIsAllChecked(false)
+        toast.success("Deleted Successfully")
+      })
+
+
+  }
+  const deleteSelectedManageUser = (deleteItem) => {
+    const data = {
+      userIds: deleteItem,
+      workShiftIds: [id]
+    }
+    dispatch(DeleteUserFromWorkShift(data)).then(() => {
+      dispatch(GetAllByWorkShiftId(id))
+      dispatch(UserWorkSchedule({ id, UsercontractPagination }));
+    })
+  }
   useEffect(() => {
     //  get work shift access time with pagination
     dispatch(GetWorkTimeAccess({ id, contractPagination }));
@@ -226,153 +316,176 @@ const WorkShiftCardDetails = ({ setRemoveUserModal, id }) => {
       <div>
         <WorkShiftAccessCard id={id} />
         <div>
-          {WorkTimeAccess.totalElements !== 0 ? (
-            <>
-              <div className="">
-                <div className="access-sec mt-3">
-                  <span className="contractor-access-heading">ACCESS</span>
-                  <Grid container sx={{ mt: 1 }}>
-                    <Grid
-                      item
-                      xs={4}
-                      className="contractor-access-table-heading"
-                      sx={{ textAlign: "left" }}
-                    >
-                      NAME
-                    </Grid>
-                    <Grid
-                      item
-                      xs={2}
-                      className="contractor-access-table-heading"
-                    >
-                      DAY
-                    </Grid>
-                    <Grid
-                      item
-                      xs={2}
-                      className="contractor-access-table-heading"
-                    >
-                      FROM
-                    </Grid>
-                    <Grid
-                      item
-                      xs={2}
-                      className="contractor-access-table-heading"
-                    >
-                      TO
-                    </Grid>
-                    {/* {permission?.includes(permissionObj?.WEB_WORK_SHIFT_DELETE) && */}
-                    <Grid
-                      item
-                      xs={1}
-                      className="contractor-access-table-heading"
-                    >
-                      REMOVE
-                    </Grid>
-                    {/* } */}
-                  </Grid>
-                </div>
-                {WorkTimeAccess &&
-                  WorkTimeAccess?.content?.map((item) => {
-                    return (
-                      <Grid container sx={{ mt: 1 }}>
-                        <Grid
-                          item
-                          xs={4}
-                          className="contractor-access-table-first"
-                        >
-                          {item?.zone?.name}
-                        </Grid>
-                        <Grid
-                          item
-                          xs={2}
-                          className="contractor-access-table-data"
-                        >
-                          {item?.day?.name}
-                        </Grid>
-                        <Grid
-                          item
-                          xs={2}
-                          className="contractor-access-table-data"
-                        >
-                          {item?.from}
-                        </Grid>
-                        <Grid
-                          item
-                          xs={2}
-                          className="contractor-access-table-data"
-                        >
-                          {item?.to}
-                        </Grid>
-                        {/* {permission?.includes(permissionObj?.WEB_WORK_SHIFT_DELETE) && */}
-                        <Grid
-                          item
-                          xs={1}
-                          className="contractor-access-table-data"
-                        >
-                          <img
-                            className="delete-icon-style"
-                            src={DeleteIcon}
-                            onClick={() => {
-                              setTimeRemoveModal(true);
-                              setSelIndex(item?.id);
-                              setDelatedUser(item);
-                            }}
-                          />
-                          <RemoveTimeShift
-                            show={timeRemoveModal}
-                            onHide={() => setTimeRemoveModal(false)}
-                          />
-                        </Grid>
-                        {/* } */}
-                      </Grid>
-                    );
-                  })}
-              </div>
-              <div className="d-flex justify-content-center">
-                <TablePagination
-                  component="div"
-                  rowsPerPageOptions={[5, 10, 15]}
-                  labelRowsPerPage="Accces per page"
-                  count={WorkTimeAccess?.totalElements}
-                  page={page}
-                  onPageChange={handleChangePage}
-                  rowsPerPage={rowsPerPage}
-                  onRowsPerPageChange={handleChangeRowsPerPage}
-                />
-              </div>
-            </>
-          ) : (
+          {
+            WorkTimeAccess.totalElements !== 0 ? (
 
-            <NotFoundDataWarning text={"NO Access"} />
-          )}
+              <>
+                <div className="position-relative">
+                  {
+                    selectZoneWorkShift?.length > 0 &&
+                    <div className="remove_selected_access" onClick={() => setDeleteAccessWorkShift(true)}>
+                      <p>{t("remove_selected")?.toUpperCase()}</p>
+                      <i className="fa fa-trash-o" aria-hidden="true"></i>
+                    </div>
+                  }
+                  <div className="access-sec mt-3">
+                    <span className="contractor-access-heading">{t("access")}</span>
+                    <Grid container sx={{ mt: 1 }}>
+                      <Grid
+                        item
+                        xs={3}
+                        className="contractor-access-table-heading"
+                        sx={{ textAlign: "left", display: "flex", alignItems: "center", gap: "0.4rem" }}
+                      >
+
+                        <Tooltip title={t("de_/_select_all").toUpperCase()} placement="top">
+                          <Checkbox
+                            className="grid-checkall checkbox"
+                            checked={isAllChecked}
+                            onChange={handelDeleteAll}
+                            size="small"
+                          />
+                        </Tooltip>
+                        {t("zones")?.toUpperCase()}
+                      </Grid>
+                      <Grid
+                        item
+                        xs={3}
+                        className="contractor-access-table-heading"
+                      >
+                        {t("day")?.toUpperCase()}
+                      </Grid>
+                      <Grid
+                        item
+                        xs={3}
+                        className="contractor-access-table-heading"
+                      >
+                        {t("from")?.toUpperCase()}
+                      </Grid>
+                      <Grid
+                        item
+                        xs={3}
+                        className="contractor-access-table-heading"
+                      >
+                        {t("to")?.toUpperCase()}
+                      </Grid>
+
+                    </Grid>
+                  </div>
+                  {WorkTimeAccess &&
+                    WorkTimeAccess?.content?.map((item) => {
+                      return (
+                        <Grid container sx={{ mt: 1 }}>
+                          <Grid
+                            item
+                            xs={3}
+                            sx={{ display: "flex", alignItems: "center", gap: "0.4rem" }}
+                            className="contractor-access-table-first"
+                          >
+                            <Checkbox
+                              className="grid-checkall checkbox"
+                              checked={selectZoneWorkShift?.includes(item?.id)}
+                              id={item?.id}
+                              onChange={handleCheckboxChange}
+                              size="small"
+                            />
+                            {item?.zoneName || "-"}
+                          </Grid>
+                          <Grid
+                            item
+                            xs={3}
+                            className="contractor-access-table-data"
+                          >
+                            {dayId(item?.dayId)}
+                          </Grid>
+                          <Grid
+                            item
+                            xs={3}
+                            className="contractor-access-table-data"
+                          >
+                            {item?.from || "-"}
+                          </Grid>
+                          <Grid
+                            item
+                            xs={3}
+                            className="contractor-access-table-data"
+                          >
+                            {item?.to || "-"}
+                          </Grid>
+                        </Grid>
+                      );
+                    })}
+                </div>
+                <div className="d-flex justify-content-center">
+                  <TablePagination
+                    component="div"
+                    rowsPerPageOptions={[5, 10, 15]}
+                    labelRowsPerPage="Accces per page"
+                    count={WorkTimeAccess?.totalElements}
+                    page={page}
+                    onPageChange={handleChangePage}
+                    rowsPerPage={rowsPerPage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                  />
+                </div>
+              </>
+            ) : (
+              <div className="no_content">
+                <span className="contractor-access-heading">{t("access")}</span>
+                <NotFoundAnything text={t("no_access")?.toUpperCase()} mt={"0rem"} />
+
+              </div>
+            )}
           {
             permission?.includes(permissionObj?.WEB_WORK_SHIFT_MANAGE_USERS) &&
-            <>
+            <div className="manage_user_work_shift">
+              {
+                selectManageUser?.length > 0 &&
+                <div className="remove_selected_user" onClick={() => setDeleteManageUser(true)}>
+                  <p>{t("remove_selected")?.toUpperCase()}</p>
+                  <i className="fa fa-trash-o" aria-hidden="true"></i>
+                </div>
+              }
 
-              <div className="work_text d-flex align-items-center">
-                <p>Registered Users</p>
+              <div className=" d-flex align-items-center">
+                <p className="title">{t("assgined_employees")?.toUpperCase()}</p>
                 <button
                   className="btn btn-lg manage-more-ext-style"
-                  style={{ fontSize: "14px" }}
+
                   onClick={() => setaddUserModal(true)}
                 >
-                  <u>manage users</u>
+                  <u>{t("manage_users")?.toUpperCase()}</u>
                 </button>
               </div>
-              <div className="row">
-                <div className="row work_text">
-                  {AllUserWithThisWorkAccess && <p>NAME</p>}
+              <div className="row pl-2">
+                <div className="row  ">
+                  {AllUserWithThisWorkAccess.totalElements !== 0 &&
+                    <div className="d-flex align-items-center gap-2 ">
+                      <p className="sub_title">
+                        {t("name")?.toUpperCase()}
+                      </p>
+
+                      <FormControlLabel sx={{ paddingTop: "0.4rem" }} className="grid-checkall" control={<Checkbox
+                        label="Label"
+
+                        checked={isAllCheckedManageUser}
+                        onChange={handelDeleteAllManageUser}
+                        size="small" />} label={t("de_/_select_all")} />
+
+                    </div>
+                  }
                 </div>
                 <div className="row userstable">
-                  {AllUserWithThisWorkAccess.totalElements !== 0 ? (
-                    <>
-                      {AllUserWithThisWorkAccess &&
-                        AllUserWithThisWorkAccess?.content?.map((item) => {
-                          return (
-                            <div className="col-md-3">
-                              <p>
-                                <img
+                  {
+                    AllUserWithThisWorkAccess.totalElements !== 0 ? (
+                      <>
+                        {AllUserWithThisWorkAccess &&
+                          AllUserWithThisWorkAccess?.content?.map((item) => {
+                            console.log(item)
+                            return (
+                              <div className="col-md-3 mt-2">
+                                <p className="item_text d-flex align-items-center gap-2">
+                                  {/* <img
                                   className="delete-icon-style"
                                   src={DeleteIcon}
                                   onClick={() => {
@@ -380,36 +493,50 @@ const WorkShiftCardDetails = ({ setRemoveUserModal, id }) => {
                                     setDelId(item?.userId);
                                     setDelatedUser(item?.name);
                                   }}
-                                />
-                                {item?.name}
-                              </p>
-                            </div>
-                          );
-                        })}
-                      <UserRemove
-                        show={userRemoveModal}
-                        onHide={() => setuserRemoveModal(false)}
-                      />
-                      <div className="d-flex justify-content-center">
-                        <TablePagination
-                          component="div"
-                          rowsPerPageOptions={[5, 10, 15]}
-                          labelRowsPerPage="User per page"
-                          count={AllUserWithThisWorkAccess?.totalElements}
-                          page={userPage}
-                          onPageChange={handleChangeUserPage}
-                          rowsPerPage={rowsPerPage}
-                          onRowsPerPageChange={handleChangeUserRowsPerPage}
-                        />
-                      </div>
-                    </>
-                  ) : (
+                                /> */}
 
-                    <NotFoundDataWarning text={"NO User"} />
-                  )}
+                                  <Checkbox
+                                    className="grid-checkall checkbox"
+                                    checked={selectManageUser?.includes(item?.userId)}
+                                    id={item?.userId}
+                                    onChange={handleCheckboxChangeManageUser}
+                                    size="small"
+                                  />
+                                  {
+                                    item && item.name
+                                      ? `${item.name} ${item.firstLastName} ${item.secondLastName !== null ? item.secondLastName : ""}`
+                                      : "-"
+                                  }
+                                </p>
+                              </div>
+                            );
+                          })}
+                        <UserRemove
+                          show={userRemoveModal}
+                          onHide={() => setuserRemoveModal(false)}
+                        />
+                        <div className="d-flex justify-content-center mt-2">
+                          <TablePagination
+                            component="div"
+                            rowsPerPageOptions={[10, 15, 20]}
+                            labelRowsPerPage="User per page"
+                            count={AllUserWithThisWorkAccess?.totalElements}
+                            page={userPage}
+                            onPageChange={handleChangeUserPage}
+                            rowsPerPage={rowsUserPerPage}
+                            onRowsPerPageChange={handleChangeUserRowsPerPage}
+                          />
+                        </div>
+                      </>
+                    ) : (
+                      <Box sx={{ paddingLeft: "2rem" }}>
+                        <NotFoundAnything text={t("no_user")?.toUpperCase()} mt={"0rem"} />
+                      </Box>
+                    )
+                  }
                 </div>
               </div>
-            </>
+            </div>
           }
         </div>
       </div>
@@ -421,6 +548,28 @@ const WorkShiftCardDetails = ({ setRemoveUserModal, id }) => {
         id={id}
         show={addUserModal}
         onHide={() => setaddUserModal(false)}
+      />
+      <DeleteModal
+        show={deleteManageUser}
+        onHide={() => setDeleteManageUser(false)}
+        onClickFn={() => deleteSelectedManageUser(selectManageUser)}
+        data={selectManageUser}
+        description={"are_you_sure_you_want_to_remove"}
+        title_modal={"workshift"}
+        element_modal={"relation"}
+        isReset={setSelectManageUser}
+        isAllReset={setIsAllCheckedManageUser}
+      />
+      <DeleteModal
+        show={deleteAccessWorkShift}
+        onHide={() => setDeleteAccessWorkShift(false)}
+        onClickFn={() => deleteSelectedWorkShift(selectZoneWorkShift)}
+        data={selectZoneWorkShift}
+        title_modal={"workshift"}
+        description={"are_you_sure_you_want_to_remove"}
+        element_modal={"access"}
+        isReset={setSelectZoneWorkShift}
+        isAllReset={setIsAllChecked}
       />
     </>
   );

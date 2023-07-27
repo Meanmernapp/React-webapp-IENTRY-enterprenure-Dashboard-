@@ -10,6 +10,8 @@ github: https://github.com/Arman-Arzoo
 */
 
 const UploadImage = ({ onPress, dropzone1, imagePreviewUrl }) => {
+
+
   // translation
   const { t } = useTranslation();
   const lCode = Cookies.get("i18next") || "en";
@@ -36,23 +38,30 @@ const UploadImage = ({ onPress, dropzone1, imagePreviewUrl }) => {
                   <p>  {t("size_of_image")}</p>
                 </div>
               </div>
-              {dropzone1.map((file) => (
-                <>
-                  <img
-                    className="img_preview_set text-wrap"
-                    src={file.preview}
-                    alt={file.path}
+              {
+                dropzone1?.length > 0 &&
+                dropzone1.map((file) => (
+                  <>
+                    <img
+                      className="img_preview_set text-wrap"
+                      src={file.preview}
+                      alt={file.path}
 
-                  />
+                    />
 
-                </>
+                  </>
 
-              ))}
+                ))
+              }
+
             </div>
           </div>
         )}
       </Dropzone>
-      <div className="mb-3 imgPreview">{$imagePreview}</div>
+      {
+        dropzone1?.length > 0 &&
+        <div className="mb-3 imgPreview">{$imagePreview}</div>
+      }
     </div>
   );
 };

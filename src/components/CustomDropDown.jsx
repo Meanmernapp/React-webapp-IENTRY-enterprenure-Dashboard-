@@ -56,7 +56,7 @@ const CustomDropDown = () => {
                         </div>
                     </Link>
                 }
-                {permission?.includes(permissionObj?.WEB_WORK_SHIFT_MENU) &&
+                {permission?.includes(permissionObj?.WEB_WORK_SHIFT_READ) &&
                     <Link to='/dashboard/employee/company/workshift-panel'>
                         <div className='dropdownDiv' style={{
                             flexDirection: lCode === "ar" ? "row-reverse" : ""
@@ -66,7 +66,7 @@ const CustomDropDown = () => {
                         </div>
                     </Link>
                 }
-                {permission?.includes(permissionObj?.WEB_EMPLOYEE_DOCUMENT_MENU || permissionObj?.WEB_EXTERNAL_DOCUMENT_MENU) &&
+                {permission?.includes(permissionObj?.WEB_EMPLOYEE_DOCUMENT_READ || permissionObj?.WEB_SUPPLIER_DOCUMENT_READ || permissionObj?.WEB_CONTRACTOR_DOCUMENT_READ) &&
                     <Link to='/dashboard/employee/company/user-doc-panel'>
                         <div className='dropdownDiv' style={{
                             flexDirection: lCode === "ar" ? "row-reverse" : ""
@@ -76,7 +76,7 @@ const CustomDropDown = () => {
                         </div>
                     </Link>
                 }
-                {permission?.includes(permissionObj?.WEB_ROLE_MENU) &&
+                {permission?.includes(permissionObj?.WEB_PRIVILEGE_READ) &&
                     <Link to='/dashboard/employee/company/roles-panel'>
                         <div className='dropdownDiv' style={{
                             flexDirection: lCode === "ar" ? "row-reverse" : ""
@@ -86,7 +86,7 @@ const CustomDropDown = () => {
                         </div>
                     </Link>
                 }
-                {permission?.includes(permissionObj?.WEB_EXTERNAL_VEHICLE_DOCUMENT_MENU) &&
+                {permission?.includes(permissionObj?.WEB_SUPPLIER_VEHICLE_DOCUMENT_READ || permissionObj?.WEB_CONTRACTOR_VEHICLE_DOCUMENT_READ) &&
                     <Link to='/dashboard/employee/company/vehicle-doc-panel'>
                         <div className='dropdownDiv' style={{
                             flexDirection: lCode === "ar" ? "row-reverse" : ""
@@ -107,7 +107,7 @@ const CustomDropDown = () => {
                         </div>
                     </Link>
                 }
-                {permission?.includes(permissionObj?.WEB_ONBOARDING_MENU) &&
+                {permission?.includes(permissionObj?.WEB_ONBOARDING_READ) &&
                     <Link to='/dashboard/employee/company/onboarding'>
                         <div className='dropdownDiv' style={{
                             flexDirection: lCode === "ar" ? "row-reverse" : ""
@@ -118,7 +118,7 @@ const CustomDropDown = () => {
                         </div>
                     </Link>
                 }
-                {permission?.includes(permissionObj?.WEB_ONBOARDING_MENU) &&
+                {permission?.includes(permissionObj?.WEB_ONBOARDING_READ) &&
                     <Link to='/dashboard/employee/company/headers'>
                         <div className='dropdownDiv' style={{
                             flexDirection: lCode === "ar" ? "row-reverse" : ""

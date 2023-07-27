@@ -6,6 +6,7 @@ import { GetAccessType, GetDeviceSmartlock, GetDeviceType, GetDeviceZone, GetLis
 import { GetAntiPassBackType, GetEscortMode, GetDeviceDetails, GetDeviceAirbnkLock, CreateAirbnkLock, CreateDeviceApi, UpdateDeviceApi, DeleteAirbnk, UpdateAirbnk, DeleteSmartLock, GetListStatusDevice } from '../../../reduxToolkit/Devices/DevicesApi';
 import { getWorkStations } from '../../../reduxToolkit/CompanyEmployees/CompanyEmployeesApi';
 import { GetAllZone } from '../../../reduxToolkit/EmployeeOnBoarding/EmployeeOnBoardingApi';
+import { GetAllMedia } from '../../../reduxToolkit/Commons/CommonsApi';
 import { useTranslation } from 'react-i18next';
 import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
@@ -28,6 +29,7 @@ const CreateUpdateDevices = () => {
     const { getAntiPassBackType, getEscortMode, getDeviceAirbnkLock, deleteAirbnk, deleteSmartLock, getListStatusDevice } = useSelector(state => state.DevicesSlice)
     const { getDeviceType, getListStatusZone } = useSelector(state => state.EmployeeZonesSlice)
     const { getallzone } = useSelector(state => state.employeeOnBoardingSlice);
+    const { getAllMedia } = useSelector(state => state.CommonsSlice);
     const { employeeWorkStations } = useSelector(state => state.CompanyEmployeesSlice);
     const { permission } = useSelector(state => state.authenticatioauthennSlice);
 
@@ -56,6 +58,8 @@ const CreateUpdateDevices = () => {
     const [ip, setIp] = React.useState('')
     const [accessType, setAccessType] = React.useState('')
     const [antiPassBackType, setAntiPassBackType] = React.useState('')
+    const [antiPassBackTime, setAntiPassBackTime] = React.useState('')
+    const [antiPassBackAlert, setAntiPassBackAlert] = React.useState('')
     const [escortMode, setEscortMode] = React.useState('')
     const [sn, setSn] = React.useState('')
     const [mac, setMac] = React.useState('')
@@ -116,6 +120,26 @@ const CreateUpdateDevices = () => {
         }
     }, [enableAirbnk])
 
+    useEffect(() => {
+        if (antiPassBackType === 1) {
+            setAntiPassBackAlert(1)
+            setAntiPassBackTime(30)
+        }
+    }, [antiPassBackType])
+
+    useEffect(() => {
+            setSmartCard(false)
+            setFacialRecognition(false)
+            setFingerprint(false)
+            setQr(false)
+            setPin(false)
+            setBluetooth(false)
+            setEnableRelay0(false)
+            setEnableRelay1(false)
+            setEnableAirbnk(false)
+            setEnableTTLock(false)
+    }, [deviceType])
+
     // This section re-route us when a device is deleted
     useEffect(() => {
         if (deletedFlag) {
@@ -134,6 +158,7 @@ const CreateUpdateDevices = () => {
         dispatch(GetAntiPassBackType());
         dispatch(GetEscortMode());
         dispatch(GetAllZone());
+        dispatch(GetAllMedia());
         dispatch(getWorkStations());
         {
             if (location?.state?.zoneNameProps !== undefined) {
@@ -151,6 +176,8 @@ const CreateUpdateDevices = () => {
                 setIp(data?.ip)
                 setAccessType(data?.deviceAccessTypeId)
                 setAntiPassBackType(data?.antiPassBackId)
+                setAntiPassBackTime(data?.antiPassBackTime)
+                setAntiPassBackAlert(data?.antiPassBackAlertById)
                 setEscortMode(data?.escortId)
                 setSn(data?.serialNumber)
                 setMac(data?.mac)
@@ -243,6 +270,8 @@ const CreateUpdateDevices = () => {
         setPassword("");
         setDescription("");
         setAntiPassBackType("");
+        setAntiPassBackTime("");
+        setAntiPassBackAlert("");
         setEscortMode("");
         setRequestSignature("");
         setSyncTime("");
@@ -323,6 +352,8 @@ const CreateUpdateDevices = () => {
             statusId: statusValue,
             escortId: escortMode,
             antiPassBackId: antiPassBackType,
+            antiPassBackTime: antiPassBackType == 1 ? 30 : antiPassBackTime,
+            antiPassBackAlertById: antiPassBackType == 1 ? 1 : antiPassBackAlert,
             syncTime: syncTime,
             synchronizeSelfie: synchorizeSelfies,
             playSound: playSounds,
@@ -343,7 +374,7 @@ const CreateUpdateDevices = () => {
         if (id) {
             body.id = id
             if (ip !== "" && mac !== "" && deviceName !== "" && deviceType !== "" && statusValue !== ""
-                && accessType !== "" && sn !== "" && antiPassBackType !== "" && escortMode !== "" && validationNumber !== "" && ((enableAirbnk && airbnkLockKey !== "" && airbnkLockSerialNumber !== "") || (!enableAirbnk && airbnkLockKey === "" && airbnkLockSerialNumber === ""))) {
+                && accessType !== "" && sn !== "" && antiPassBackType !== "" && escortMode !== "" && validationNumber !== "" && (antiPassBackType === 1 || (antiPassBackTime !== "" && antiPassBackAlert !== "")) && ((enableAirbnk && airbnkLockKey !== "" && airbnkLockSerialNumber !== "") || (!enableAirbnk && airbnkLockKey === "" && airbnkLockSerialNumber === ""))) {
                 dispatch(UpdateDeviceApi(body)).then(({ payload: { data: { data, success } } }) => {
                     {
                         (success === true) ? toast.success(t('device_updated_successfully')) : toast.error(t('fail_to_update_device'))
@@ -385,7 +416,7 @@ const CreateUpdateDevices = () => {
             }
         } else {
             if (ip !== "" && mac !== "" && deviceName !== "" && deviceType !== "" && statusValue !== ""
-                && accessType !== "" && sn !== "" && antiPassBackType !== "" && escortMode !== "" && validationNumber !== "" && ((enableAirbnk && airbnkLockKey !== "" && airbnkLockSerialNumber !== "") || (!enableAirbnk && airbnkLockKey === "" && airbnkLockSerialNumber === ""))) {
+                && accessType !== "" && sn !== "" && antiPassBackType !== "" && escortMode !== "" && validationNumber !== "" && (antiPassBackType === 1 || (antiPassBackTime !== "" && antiPassBackAlert !== "")) && ((enableAirbnk && airbnkLockKey !== "" && airbnkLockSerialNumber !== "") || (!enableAirbnk && airbnkLockKey === "" && airbnkLockSerialNumber === ""))) {
                 dispatch(CreateDeviceApi(body)).then(({ payload: { data: { data } } }) => {
                     {
                         (data?.id !== undefined) ? toast.success(t('device_created_successfully')) : toast.error(t('fail_to_create_device'))
@@ -431,13 +462,35 @@ const CreateUpdateDevices = () => {
             left: lCode === "ar" ? "inherit" : "0",
             right: lCode === "ar" ? "1.75rem" : "0",
             transformOrigin: lCode === "ar" ? "right" : "left",
-            zIndex: 0
+            zIndex: 0,
         },
         "& 	.MuiFormLabel-filled": {
             marginTop: '-5px',
-        }
+        },
     }
 
+    const textFieldAdornment = {
+        textAlign: lCode === "ar" ? "right" : "left",
+        "& 	.MuiOutlinedInput-notchedOutline": {
+            textAlign: lCode === "ar" ? "right" : "left",
+        },
+        "& 	.MuiInputLabel-root": {
+            fontSize: 12,
+            marginTop: '2px',
+            alignItems: 'center',
+            display: 'flex',
+            left: lCode === "ar" ? "inherit" : "0",
+            right: lCode === "ar" ? "1.75rem" : "0",
+            transformOrigin: lCode === "ar" ? "right" : "left",
+            zIndex: 0,
+        },
+        "& 	.MuiFormLabel-filled": {
+            marginTop: '-5px',
+        },
+        "&  .MuiInputBase-adornedEnd": {
+            backgroundColor: antiPassBackType === 1 && '#e6e6e6',
+          },
+    }
 
 
 
@@ -476,7 +529,7 @@ const CreateUpdateDevices = () => {
                             permission?.includes(permissionObj?.WEB_DEVICE_DELETE) &&
                             <button className="delete-btn-1"
                                 onClick={() => {
-                                    setSelectDeviceForDelete([...selectDeviceForDelete, deviceId]);
+                                    setSelectDeviceForDelete([deviceId]);
                                     setDeleteDeviceShow(true)
                                     setDeletedFlag(false)
                                 }}
@@ -647,7 +700,7 @@ const CreateUpdateDevices = () => {
                                                 labelId="demo-simple-select-label"
                                                 id="demo-simple-select"
                                                 label={t("device_type")}
-
+                                                disabled
                                                 value={deviceType}
                                                 onChange={(e) => setDeviceType(e.target.value)}
                                             >
@@ -687,7 +740,9 @@ const CreateUpdateDevices = () => {
                                                 {
                                                     getAccessType?.map((item, index) => {
                                                         return (
-                                                            <MenuItem value={item.id}>{item.name}</MenuItem>
+                                                            <MenuItem value={item.id}>{item?.id === 3 && t('entry_exit').toUpperCase() ||
+                                                            item?.id === 2 && t('exit').toUpperCase() ||
+                                                             item?.id === 1 && t('entry').toUpperCase()}</MenuItem>
                                                         )
                                                     })
                                                 }
@@ -924,7 +979,9 @@ const CreateUpdateDevices = () => {
                                                 {
                                                     getAccessType?.map((item, index) => {
                                                         return (
-                                                            <MenuItem value={item.id}>{item.name}</MenuItem>
+                                                            <MenuItem value={item.id}>{item?.id === 3 && t('entry_exit').toUpperCase() ||
+                                                            item?.id === 2 && t('exit').toUpperCase() ||
+                                                             item?.id === 1 && t('entry').toUpperCase()}</MenuItem>
                                                         )
                                                     })
                                                 }
@@ -1047,12 +1104,62 @@ const CreateUpdateDevices = () => {
                                             {
                                                 getAntiPassBackType?.map((item, index) => {
                                                     return (
-                                                        <MenuItem value={item.id}>{item.name}</MenuItem>
+                                                        <MenuItem value={item.id}>{item.id === 1 ? t('none') : item.name}</MenuItem>
                                                     )
                                                 })
                                             }
                                         </Select>
                                         {showHelperText && antiPassBackType === '' && (
+                                            <FormHelperText className='select_helper_text'>{t('selectOptionText')}</FormHelperText>
+                                        )
+                                        }
+                                    </FormControl>
+                                </Box>
+                                <Box className='requiredData' sx={inputBox}>
+                                    <TextField size="small"
+                                        error={formSubmitted && antiPassBackType !== 1 && antiPassBackTime === ''}
+                                        type='number'
+                                        required
+                                        fullWidth
+                                        disabled={antiPassBackType === 1}
+                                        label={t("anti_pass_back_time")}
+                                        value={antiPassBackTime}
+                                        onChange={(e) => setAntiPassBackTime(e.target.value)}
+                                        helperText={
+                                            formSubmitted && antiPassBackType !== 1 && antiPassBackTime === '' ? t('requiredField') : ''
+                                        }
+                                        InputProps={{
+                                            endAdornment:  (<InputAdornment position="end"
+                                            >{t('sec')}</InputAdornment>),
+                                        }}
+                                        sx={textFieldAdornment}
+                                    />
+                                </Box>
+                            </div>
+                            <div className='form_field'>
+                                <Box className='requiredData' sx={inputBox}>
+                                    <FormControl fullWidth required
+                                        sx={textField}>
+                                        <InputLabel id="demo-simple-select-label" className='select_input_field'>
+                                            {t("anti_pass_back_alert_by")}
+                                        </InputLabel>
+                                        <Select className='select_form_field' size="small"
+                                            labelId="demo-simple-select-label"
+                                            id="demo-simple-select"
+                                            disabled={antiPassBackType === 1}
+                                            label={t("anti_pass_back_alert_by")}
+                                            value={antiPassBackAlert}
+                                            onChange={(e) => setAntiPassBackAlert(e.target.value)}
+                                        >
+                                            {
+                                                getAllMedia?.map((item, index) => {
+                                                    return (
+                                                        <MenuItem value={item.id}>{item.name}</MenuItem>
+                                                    )
+                                                })
+                                            }
+                                        </Select>
+                                        {showHelperText && antiPassBackType !== 1 && antiPassBackAlert === '' && (
                                             <FormHelperText className='select_helper_text'>{t('selectOptionText')}</FormHelperText>
                                         )
                                         }
@@ -1074,7 +1181,8 @@ const CreateUpdateDevices = () => {
                                             {
                                                 getEscortMode?.map((item, index) => {
                                                     return (
-                                                        <MenuItem value={item.id}>{item.name}</MenuItem>
+                                                        <MenuItem value={item.id}>{item?.id === 2 && t('needed').toUpperCase() ||
+                                                        item?.id === 1 && t('none').toUpperCase()}</MenuItem>
                                                     )
                                                 })
                                             }
@@ -1630,15 +1738,15 @@ const CreateUpdateDevices = () => {
                 {
                     location?.state?.zoneNameProps !== undefined ?
                         <Link to="/dashboard/employee/zones/singlezonedetails">
-                            <button className='custom_btn_cancel_gray_hover'
-                                style={{ width: "349px", color: "#BC0000" }}>
+                            <button className='btn_cancel_background_gray_hover'
+                                style={{ width: "349px", color: "#BC0000"}}>
                                 {t("cancel")}
                             </button>
                         </Link>
                         :
                         <Link to="/dashboard/employee/devices">
-                            <button className='custom_btn_cancel_gray_hover'
-                                style={{ width: "349px" }}>
+                            <button className='btn_cancel_background_gray_hover'
+                                style={{ width: "349px", color: "#BC0000"}}>
                                 {t("cancel")}
                             </button>
                         </Link>

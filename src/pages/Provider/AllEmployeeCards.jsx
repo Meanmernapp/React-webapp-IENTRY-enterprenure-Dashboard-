@@ -69,7 +69,7 @@ const AllEmployeeCards = ({ apidata, handleCheckboxChange, selectForDelete }) =>
                                                 item?.name ?
                                                     item?.name
                                                     + " " +
-                                                    item?.secondLastName + " " +
+                                                    (item?.secondLastName != null ? item?.secondLastName : " ") + " " +
                                                     item?.lastName
                                                     : "-"
                                             }

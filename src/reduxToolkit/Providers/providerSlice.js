@@ -46,7 +46,9 @@ const providersSlice = createSlice({
         setSupplierDocValue:{},
         saveProviderVehicleImage:{},
         saveProviderImage:{},
-        imageChangeCheck:""
+        imageChangeCheck:"",
+        getSupplierInfoById:{},
+        getSupplierStatus:[]
 
 
 
@@ -80,6 +82,16 @@ const providersSlice = createSlice({
             else if (status >= 400 && status < 500) {
                 //console.log("Fail to Get provider incoming")
                 // toast("Fail to fetch Zone Devices Lists")
+            }
+        },
+          //get supplier status
+          ["providers/getSupplierStatus/fulfilled"]: (state, action) => {
+            const { data, status } = action.payload || {}
+            if (status >= 200 && status < 300) {
+                console.log(data)
+                state.getSupplierStatus = data?.data
+            }
+            else if (status >= 400 && status < 500) {
             }
         },
 
@@ -159,6 +171,16 @@ const providersSlice = createSlice({
             }
         },
 
+         //get supplier by id
+         ["contractor/getSupplierInfoById/fulfilled"]: (state, action) => {
+            const { data, status } = action.payload || {}
+            if (status >= 200 && status < 300) {
+                console.log(data)
+                state.getSupplierInfoById = data?.data
+            }
+            else if (status >= 400 && status < 500) {
+            }
+        },
         ["providers/getProvidersEmployeeSortList/fulfilled"]: (state, action) => {
             const { data, status } = action.payload || {}
             //console.log("from getProvidersEmployeeSortList slice", data)
@@ -174,14 +196,12 @@ const providersSlice = createSlice({
 
         ["providers/createProviderUserRelationship/fulfilled"]: (state, action) => {
             const { data, status } = action.payload || {}
-            //console.log("from createProviderUserRelationship slice", data)
+            
             if (status >= 200 && status < 300) {
-                // toast(data.message)
                 state.createProviderUserRelationship = data?.data
             }
             else if (status >= 400 && status < 500) {
-                //console.log("Fail to createProviderUserRelationship")
-                // toast("Fail to fetch Zone Devices Lists")
+                toast.error(data?.message)
             }
         },
         ["providers/uploadProviderImage/fulfilled"]: (state, action) => {

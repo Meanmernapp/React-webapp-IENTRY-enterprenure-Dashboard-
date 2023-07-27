@@ -187,6 +187,9 @@ const NotificationPanel = () => {
                 data={selectAnnouncementForDelete}
                 title_modal={"delete announcements"}
                 element_modal={"announcements"}
+    
+                isReset={setSlectAnnouncementForDelete}
+                isAllReset={setIsAllChecked}
 
             />
         </>

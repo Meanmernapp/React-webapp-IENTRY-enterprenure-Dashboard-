@@ -11,6 +11,7 @@ import { GetUserByIdAtEntry, RoleCheck } from "./reduxToolkit/authentication/Aut
 import cryptoJs from 'crypto-js';
 import securekey from "./config";
 import FullPageLoader from "./utils/FullPageLoader";
+import Zones from "./pages/Dashboard/Zones/Zones";
 
 const App = () => {
   const navigate = useNavigate()
@@ -71,12 +72,13 @@ const App = () => {
 
   return (
     <>
-   
+  
   <FullPageLoader />
 
     <DndProvider backend={HTML5Backend}>
  
       <MainRoutes />
+    
       <ToastContainer position="top-right"
         autoClose={4000}
         hideProgressBar={false}

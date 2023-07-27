@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Accordion } from "react-bootstrap";
 import file from "../../../assets/images/file.png";
 import dashIcon from "../../../assets/images/dash.svg";
@@ -31,10 +31,11 @@ let docID;
 const ContractorDetail = ({ employeeDetailsFlag, approveDocumentFlag }) => {
   let dispatch = useDispatch();
   const navigate = useLocation();
-  let { state } = navigate;
-  let contractId = state?.state?.id;
-  let path = state?.approveDoc ? true : false;
-  const [approveDocument, setapproveDocument] = useState(path);
+  // let params = navigate;
+  const params = useParams()
+  // let contractId = state?.state?.id;
+  // let path = state?.approveDoc ? true : false;
+  const [approveDocument, setapproveDocument] = useState();
   const getAllVehicleByContractorId = useSelector(allVehicleByContractorId);
   const [fileIdPresent, setfileIdPresent] = useState(true);
 
@@ -42,7 +43,7 @@ const ContractorDetail = ({ employeeDetailsFlag, approveDocumentFlag }) => {
   const { t } = useTranslation();
 
   useEffect(() => {
-    setapproveDocument(path);
+    // setapproveDocument(path);
   }, []);
 
   const [contractDetail, setContractDetail] = useState();
@@ -88,7 +89,7 @@ const ContractorDetail = ({ employeeDetailsFlag, approveDocumentFlag }) => {
 
   const getContractorDetail = async () => {
     await apiInstance
-      .get(`contractor-service/get-by-id/${contractId}`)
+      .get(`contractor-service/get-by-id/${params?.id}`)
       .then(function (response) {
         if (response.status == 200) {
           setContractDetail(response?.data?.data);
@@ -111,7 +112,7 @@ const ContractorDetail = ({ employeeDetailsFlag, approveDocumentFlag }) => {
     };
     await apiInstance
       .post(
-        `contractor-employee-service/get-all-pageable/company/by-contractor-id/${contractId}`,
+        `contractor-employee-service/get-all-pageable/company/by-contractor-id/${params?.id}`,
         pagination
       )
       .then(function (response) {
@@ -153,7 +154,7 @@ const ContractorDetail = ({ employeeDetailsFlag, approveDocumentFlag }) => {
     /*author mazhar iqbal
       get contarctor vehicle
     */
-    dispatch(GetAllVehicleByContractorId({ contractId, pagination }));
+    dispatch(GetAllVehicleByContractorId({ contractId:params?.id, pagination }));
   }, [pageVeh, rowsPerPageVeh]);
 
   useEffect(() => {
@@ -179,7 +180,7 @@ const ContractorDetail = ({ employeeDetailsFlag, approveDocumentFlag }) => {
         className="row employee_provider_detail"
         style={{ marginTop: "135px" }}
       >
-        <Link to="/dashboard/employee/contractors/update-contractor" state={{ state: state?.state?.id }}>
+        <Link to={`/dashboard/employee/contractors/update-contractor/${params?.id}`} >
           <button className="__update_btn" >
             {t("update_data")}
             <i class="fa fa-floppy-o" aria-hidden="true"></i>

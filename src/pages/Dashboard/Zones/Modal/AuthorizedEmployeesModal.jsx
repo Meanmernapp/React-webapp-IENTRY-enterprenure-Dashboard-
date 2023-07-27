@@ -4,219 +4,315 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import deleteIcon from '../../../../assets/images/ic-delete-red.svg';
 import { updateAllEmployees, updateSelectedEmployees } from '../../../../reduxToolkit/EmployeeEvents/EmployeeEventsSlice';
-import { CreateUserZoneList, DeleteZoneUser } from '../../../../reduxToolkit/EmployeeZones/EmployeeZonesApi';
+import { CreateUserZoneList, DeleteZoneUser, ZoneDetailAuthorizedEmployeeNoPagination } from '../../../../reduxToolkit/EmployeeZones/EmployeeZonesApi';
 // import { updateAllEmployees, updateSelectedEmployees } from '../../../../reduxToolkit/EmployeeEvents/EmployeeEventsSlice';
 import { useTranslation } from 'react-i18next';
 import Cookies from 'js-cookie';
+import { Box, InputAdornment, TextField } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
+import AutoCompleteSearch from '../../../../components/AutoCompleteSearch';
 
 
 
 const AuthorizedEmployeesModal = (props) => {
-    const { t } = useTranslation();
-    const lCode = Cookies.get("i18next") || "en";
-    const dispatch = useDispatch();
-    const allEmployeesData = useSelector(state => state?.EmployeeEventsSlice?.allEmployees);
-    // console.log(allEmployeesData)
-    const { zoneDetailAuthorizedEmployee } = useSelector(state => state.EmployeeZonesSlice)
-    // console.log(zoneDetailAuthorizedEmployee)
+  const { t } = useTranslation();
+  const lCode = Cookies.get("i18next") || "en";
+  const dispatch = useDispatch();
+  const allEmployeesData = useSelector(state => state?.EmployeeEventsSlice?.allEmployees);
+  // console.log(allEmployeesData)
+  const { zoneDetailAuthorizedEmployeeNoPagination } = useSelector(state => state.EmployeeZonesSlice)
+  console.log(zoneDetailAuthorizedEmployeeNoPagination)
+  const [query, setQuery] = useState("")
+  const [addUserquery, setAddUserQuery] = useState("")
+  const [employeesWithRole, setEmployeesWithRole] = useState([]);
+  const [totalEmployees, setTotalEmployees] = useState([]);
 
+  const handleDelete = (dId) => {
+    const data = {
+      userIds:  [dId] ,//props?.deleteData,
+      zoneId: localStorage.getItem("singlezoneId")
+    }
+    dispatch(DeleteZoneUser(data))
+    // props.onHide();
+    setQuery("")
 
+  }
 
-    const [query, setQuery] = useState("")
-    const [addUserquery, setAddUserQuery] = useState("")
-    const [employeesWithRole, setEmployeesWithRole] = useState([]);
-    const [totalEmployees, setTotalEmployees] = useState([]);
+  useEffect(() => {
+    if (props.show === false) {
+      setAddUserQuery('');
+    }
+  }, [props.show])
 
-    const handleDelete = (userSelectedId) => {
-        const data = {
-            userId: userSelectedId,
-            zoneId: localStorage.getItem("singlezoneId")
-        }
-        dispatch(DeleteZoneUser(data))
-        props.onHide();
+  
+  const handleRemoveSelected = (user) => {
 
+    setTotalEmployees(totalEmployees.filter((item) => item?.id !== user.id));
+    dispatch(updateAllEmployees([...allEmployeesData, user]));
+  };
+
+  //  add user to workshif
+  const handleAddUser = () => {
+    const all_user = totalEmployees?.map(item => item?.id)
+    if (all_user) {
+      const data = {
+        list: all_user,
+        zoneId: localStorage.getItem("singlezoneId")
+      }
+
+      dispatch(CreateUserZoneList(data))
+      props.onHide();
+      setTotalEmployees([]);
+      setAddUserQuery('');
+    } else {
+      toast.warn("Please Select User")
     }
 
-    useEffect(() => {
-        if (props.show === false) {
-            setAddUserQuery('');
-        }
-    }, [props.show])
+  }
+  // select for add user
+  const handleselected = (user) => {
+    console.log(user)
+    const checkUser = zoneDetailAuthorizedEmployeeNoPagination?.find(item => {
+      console.log(item)
+      return item?.userId === user?.id
+    })
 
-    const handleAddUser = () => {
-        // dispatch(updateSelectedEmployees(totalEmployees));
-        const listId = totalEmployees.map(item => item.id)
-        const data = {
-            list: listId,
-            zoneId: localStorage.getItem("singlezoneId")
-        }
+    if (checkUser) {
+      toast.warn(`${checkUser?.name} is already Added`)
 
-        dispatch(CreateUserZoneList(data))
-        props.onHide();
-        setTotalEmployees([]);
-        setAddUserQuery('');
-    }
+    } else {
+      const selectedUser = totalEmployees?.find(item => item?.id === user?.id)
 
-    const handleRemoveSelected = (user) => {
-        setTotalEmployees(totalEmployees.filter(item => item.id !== user.id));
-        dispatch(updateAllEmployees([...allEmployeesData, user]));
-    }
-
-    const handleselected = (user) => {
-        // console.log(user?.id)
-        dispatch(updateAllEmployees(allEmployeesData.filter(data => data.id !== user.id)));
-        // if (zoneDetailAuthorizedEmployee?.content?.map((check) => check?.id == user?.id)) {
-        //     toast.error("already added")
-        // } else {
+      if (selectedUser) {
+        toast.warn(`${selectedUser?.label} is already Selected`)
+        setAddUserQuery("")
+      } else {
+        setAddUserQuery("")
         setTotalEmployees([...totalEmployees, user]);
-        // }
+      }
     }
 
 
+  }
 
-    return (
-        <Modal
-            className="manage-role-panel-modal"
-            {...props}
-            size="sm"
-            aria-labelledby="contained-modal-title-vcenter"
-            centered
-        >
-            <Modal.Header>
-                <Modal.Title id="contained-modal-title-vcenter" style={{ fontSize: '16px', letterSpacing: '4px' }}>
-                    {t("manage_access")}
-                </Modal.Title>
+  // handel the logic for object transformation for all user
+  const userDataTransform = (tras) => {
 
-                <i className="fa fa-times cross" aria-hidden="true" onClick={() => props.onHide()}></i>
-            </Modal.Header>
-            <Modal.Body className="manage_role_modal_body">
-                <p>{t("remove_user")}</p>
+    const newData = tras?.map(item => {
+      return {
+        label: item?.name,
+        id: item?.userId
 
-                {/* search bar role panel */}
-                <div className="row">
-                    <div className="col-12">
-                        <input
-                            type="text"
-                            class="form-control"
-                            value={query}
-                            onChange={(e) => setQuery(e.target.value)}
+      }
+    })
+    return newData;
+  }
 
-                        />
-                        <span class="search_btn">
-                            <button class="btn btn-default" type="button">
-                                <i class="fa fa-search" aria-hidden="true"></i>
-                            </button>
-                        </span>
+
+
+  return (
+    <Modal
+      className="manage-role-panel-modal"
+      {...props}
+      // size="sm"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
+      <Modal.Header>
+        <Modal.Title id="contained-modal-title-vcenter" style={{ fontSize: '20px', letterSpacing: '7px' }}>
+          {t("manage_access")}
+        </Modal.Title>
+
+        <i className="fa fa-times cross" aria-hidden="true" onClick={() => props.onHide()}></i>
+      </Modal.Header>
+      <Modal.Body className="manage_role_modal_body">
+        <div className="row shiftmanagement_modal">
+          <div className="text_field">
+            <p className="title">
+              {" "}
+              {t("remove_user")}
+            </p>
+            <Box
+              className="mt-2 mb-2"
+              sx={{
+                width: "100%",
+                maxWidth: "100%",
+                fontSize: "20px",
+                height: "40px",
+                background: "#FCFCFC 0% 0% no-repeat padding-box"
+
+              }}
+            >
+              <TextField size="small"
+                fullWidth
+                disabled={zoneDetailAuthorizedEmployeeNoPagination?.length === 0}
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                label="Search"
+                id="Search"
+                className=""
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <SearchIcon />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+
+            </Box>
+            {/* {
+                AllByWorkShiftId?.length > 0 && */}
+            <div
+              className="main_content"
+
+            >
+              <div
+                className="body"
+              >
+                {zoneDetailAuthorizedEmployeeNoPagination?.filter((user) => {
+                  if (query === "") {
+                    return user;
+                  } else if (
+                    user.name.toLowerCase().includes(query.toLowerCase())
+                  ) {
+                    return user;
+                  }
+                }).map((item) => {
+                  // {AllByWorkShiftId?.map((item) => {
+
+                  return (
+                    <div className="d-flex justify-content-between pr-2">
+                      <div className="badge_container">
+                        <div className="c_badge"></div>
+                        <p>{item?.name}</p>
+                      </div>
+
+
+                      <img
+                        className="delete-icon-style"
+                        src={deleteIcon}
+                        style={{ color: "red", cursor: "pointer" }}
+                        onClick={() => handleDelete(item.userId)}
+                      // onClick={() => {
+
+                      //   setuserRemoveModal(true);
+                      //   setDelId(item?.userId);
+                      // }}
+                      />
                     </div>
-                </div>
-                {/* serach option */}
-                <div className='delete_some_one'>
-                    {
-                        zoneDetailAuthorizedEmployee?.content?.filter(user => {
+                  );
+                })}
+              </div>
+            </div>
+            {/* } */}
+            {/* <UserRemove
+                show={userRemoveModal}
+                onHide={() => setuserRemoveModal(false)}
+              /> */}
+            <div className="mt-3 title" style={{ color: "#146F62" }}>
+              {t("add_user")}
+            </div>
+            <Box
+              className="mt-2 mb-2"
+              sx={{
+                width: "100%",
+                maxWidth: "100%",
+                fontSize: "20px",
 
-                            if (query === '') {
-                                return user;
-                            } else if (user.name.toLowerCase().includes(query.toLowerCase())) {
-                                return user;
-                            }
-                        }).map(user => (
-                            <div className='delte_some_one_item' key={user.id}>
-                                <p>{user.name}</p>
-                                <img
-                                    src={deleteIcon}
-                                    alt="deleteimg"
-                                    onClick={() => handleDelete(user.id)}
-                                    style={{
-                                        cursor: "pointer"
-                                    }}
-                                />
-                            </div>
-                        ))
-                    }
-                </div>
+                background: "#FCFCFC 0% 0% no-repeat padding-box"
+              }}
+            >
 
-                <p className='mt-3'>{t("add_user")}</p>
+              {/* <TextField size="small"
+                  fullWidth
 
-                {/* search bar role panel */}
-                <div className="row">
-                    <div className="col-12">
-                        <input
-                            type="text"
-                            class="form-control"
-                            value={addUserquery}
-                            onChange={(e) => setAddUserQuery(e.target.value)}
+                  label="Search"
+                  id="Search"
+                  value={addUserquery}
+                  onChange={(e) => setAddUserQuery(e.target.value)}
+                  className=""
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <SearchIcon />
+                      </InputAdornment>
+                    ),
+                  }}
+                /> */}
+              <AutoCompleteSearch
+                data={userDataTransform(allEmployeesData)}
+                handleFn={handleselected}
+                value={addUserquery}
+                setValue={setAddUserQuery}
 
-                        />
-                        <span class="search_btn">
-                            <button class="btn btn-default" type="button">
-                                <i class="fa fa-search" aria-hidden="true"></i>
-                            </button>
-                        </span>
+              //  onClick={handleselected(user)} 
+              />
+            </Box>
+            {/* <div
+                className="col-12 searchItem"
+                style={{ display: addUserquery !== "" ? "block" : "none" }}
+              >
+                {AllUser?.filter((user) => {
+                  if (addUserquery === "") {
+                    return user;
+                  } else if (
+                    user.name.toLowerCase().includes(addUserquery.toLowerCase())
+                  ) {
+                    return user;
+                  }
+                }).map((user) => (
+                  <div
+                    className="add_some_one_item"
+                    key={user.id}
+                    onClick={() => handleselected(user)}
+                  >
+                    <p>{user.name}</p>
+                  </div>
+                ))}
+              </div> */}
+            {/* {
+                totalEmployees?.length > 0 && */}
+            <div className="main_content">
+
+              <div className="mt-2 mb-2  pt-2 user_text">
+                {totalEmployees.map((item) => (
+                  <div className="d-flex justify-content-between pr-2">
+                    <div className="badge_container">
+                      <div className="c_badge"></div>
+                      <p>{item?.label}</p>
                     </div>
-                    <div className="col-12 searchItem" style={{ display: addUserquery !== '' ? "block" : "none" }}>
-                        {
-                            allEmployeesData?.filter(user => {
-                                if (addUserquery === '') {
-                                    return user;
-                                } else if (user.name.toLowerCase().includes(addUserquery.toLowerCase())) {
-                                    return user;
-                                }
-                            }).map(user => (
-                                <div
-                                    className='add_some_one_item'
-                                    key={user.id}
-                                    onClick={() => handleselected(user)}
-                                >
-                                    <p>{user.name}</p>
-                                </div>
-                            ))
-                        }
-                    </div>
-                </div>
 
-                {/* add user fileter delete */}
-                <div className='add_some_one'>
-                    {
-                        totalEmployees?.map((item) => {
-                            // console.log("item for sele", item)
-                            return (
-                                <span
-                                    key={item.id}
-                                    className='add_some_one_item'
-                                >
-                                    {item.name}
-                                    <i
-                                        className="fa fa-times"
-                                        aria-hidden="true"
-                                        onClick={() => handleRemoveSelected(item)}
-                                    ></i>
-                                </span>
-                            )
-                        })
-                    }
 
-                </div>
-                <div className="buttonArea mt-4">
-                    <button
-                        className="btns btn btn-light"
-                        onClick={() => props.onHide()}
-                    >
-                        {t("cancel")}
-                    </button>
-                    <button
-                        className="btn btn-success"
-                        onClick={handleAddUser}
-                    >
-                        {t("apply_changes")}
-                        {/* {
-                            loading ? "Deleting...!" : "Delete"
-                        } */}
-                    </button>
-                </div>
-            </Modal.Body>
+                    <img
+                      className="delete-icon-style"
+                      src={deleteIcon}
+                      style={{ color: "red", cursor: "pointer" }}
+                      onClick={() => handleRemoveSelected(item)}
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+            {/* } */}
+          </div>
+          <div className="btn-div">
+            <button
+              className="btn_cancel_background_gray_hover"
+              style={{ width: "100%" }}
+              onClick={props.onHide}
+            >
+              {t("cancel")}
+            </button>
+            <button className="custom_primary_btn_dark"
+              style={{ width: "100%" }}
+              onClick={handleAddUser}>{t("apply_changes")?.toUpperCase()}</button>
+          </div>
+        </div>
+      </Modal.Body>
 
-        </Modal>
-    )
+    </Modal>
+  )
 }
 
 export default AuthorizedEmployeesModal;

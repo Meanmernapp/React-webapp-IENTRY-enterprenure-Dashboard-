@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import SaveIcon from "@mui/icons-material/Save";
 import personPng from "../../../assets/images/person.png";
@@ -21,6 +21,7 @@ import DocumentTable from "../../Modals/DocumentTable";
 const ProviderOrderDetail = ({ employeeDetailsFlag, approveDocumentFlag }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const params = useParams()
   const goBack = () => navigate(-1);
 
   const [filePresent, setfilePresent] = useState(true);
@@ -41,8 +42,6 @@ const ProviderOrderDetail = ({ employeeDetailsFlag, approveDocumentFlag }) => {
   const [showModal, setShowModal] = useState(false);
 
   
-
-
   const onHide = () => {
     setShowModal(false)
   }
@@ -52,22 +51,17 @@ const ProviderOrderDetail = ({ employeeDetailsFlag, approveDocumentFlag }) => {
   }
 
 
-  const dropDownProps = {
-    panel: 'providerFileOption',
-    firstItem: 'DOWNLOAD FILE',
-    secondItem: 'VIEW DETAILS '
-  }
+ 
 
   useEffect(() => {
     setEmployeeDetails(employeeDetailsFlag);
     setapproveDocument(approveDocumentFlag);
     const data = {
-      id: localStorage.getItem("pid")
+      id: params?.id
     }
     dispatch(GetAllProviderDocuments(localStorage.getItem("userId")));
     dispatch(GetEmployeeProviderById(data))
-
-    dispatch(DetailsEmployeeProviderEmployee(localStorage.getItem("employeeProviderDetail")))
+    dispatch(DetailsEmployeeProviderEmployee(params?.id))
 
   }, [approveExternalDocument]);
 

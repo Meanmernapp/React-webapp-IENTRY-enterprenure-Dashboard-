@@ -183,6 +183,8 @@ const VehicleDetail = ({ approveDocumentVehicle }) => {
         data={selectDocumentsForDelete}
         show={deleteDocShow}
         onHide={() => setDeleteDocShow(false)}
+        isReset={setSelectDocumentsForDelete}
+        isAllReset={setIsAllChecked}
       />
       <UnlinkDeviceChangeModal
         show={unlinkShow}

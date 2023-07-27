@@ -10,6 +10,7 @@ const employeeProviderSlice = createSlice({
         createChildZone: [],
         zoneDetailFatherAndChild: [],
         zoneDetailAuthorizedEmployee: [],
+        zoneDetailAuthorizedEmployeeNoPagination:[],
         zoneDetailListDevice: [],
         createCommonAreaZone: null,
         updateZone: null,
@@ -17,7 +18,7 @@ const employeeProviderSlice = createSlice({
         getAccessType: [],
         getDeviceType: [],
         createDeviceZone: null,
-        deleteZoneUser: null,
+        deleteZoneUser: "",
         createUserZoneList: [],
         getListZoneMap: [],
         createZonePlane: {},
@@ -92,7 +93,7 @@ const employeeProviderSlice = createSlice({
             }
             else if (status >= 400 && status < 500) {
 
-                toast("Fail to Fetch Zone Detail")
+                // toast("Fail to Fetch Zone Detail")
             }
         },
         ["employeeZones/zoneDetailAuthorizedEmployee/fulfilled"]: (state, action) => {
@@ -104,9 +105,22 @@ const employeeProviderSlice = createSlice({
             }
             else if (status >= 400 && status < 500) {
 
-                toast("Fail to Fetch Zone Detail Authorized Employee")
+                // toast("Fail to Fetch Zone Detail Authorized Employee")
             }
         },
+        ["employeeZones/zoneDetailAuthorizedEmployeeNoPagination/fulfilled"]: (state, action) => {
+            const { data, status } = action.payload || {}
+            // console.log("from zoneDetailAuthorizedEmployeeNoPagination slice", data)
+            if (status >= 200 && status < 300) {
+                // toast(data.message)
+                state.zoneDetailAuthorizedEmployeeNoPagination = data?.data
+            }
+            else if (status >= 400 && status < 500) {
+
+                // toast("Fail to Fetch Zone Detail Authorized Employee")
+            }
+        },
+        
         ["employeeZones/zoneDetailListDevice/fulfilled"]: (state, action) => {
             const { data, status } = action.payload || {}
             // console.log("from zoneDetailListDevice slice", data)
@@ -116,7 +130,7 @@ const employeeProviderSlice = createSlice({
             }
             else if (status >= 400 && status < 500) {
 
-                toast("Fail to Fetch Zone Detail List Device")
+                // toast("Fail to Fetch Zone Detail List Device")
             }
         },
         ["employeeZones/updateZone/fulfilled"]: (state, action) => {
@@ -339,6 +353,7 @@ const employeeProviderSlice = createSlice({
             // console.log("from deleteImgZonePlane slice", data)
             if (status >= 200 && status < 300) {
                 toast(data.message)
+                console.log(data)
                 state.deleteImgZonePlane = data
             }
             else if (status >= 400 && status < 500) {

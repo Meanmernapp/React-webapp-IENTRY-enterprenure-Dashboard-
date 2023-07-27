@@ -25,7 +25,6 @@
         background: #ffffff 0% 0% no-repeat padding-box;
         box-shadow: 0px 0px 4px #00000099;
         position: absolute;
-        // top: 34%;
         border-radius: 0.7rem;
         width: 50%;
         box-shadow: 4px 4px 8px var(--white-ffffff);
@@ -87,12 +86,38 @@
 }
 
 
+.nav-menu-item {
+    width: 180px;
+    height: 180px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav-menu-row {
+    width: 100%;
+    justify-content: center;
+    gap: 10px;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+
+    .nav-menu-item {
+        padding: 0;
+        width: 180px;
+        height: 180px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+
 
 .login_option_container {
     background: #146F62 0% 0% no-repeat padding-box;
     opacity: 1;
-    // position: relative;
-    height: 88vh;
+    height: 100vh;
 
     .login_option_header {
         display: flex;
@@ -186,7 +211,6 @@
                 }
             }
 
-            // }
         }
 
     }
@@ -195,103 +219,93 @@
         background: #FCFCFC 0% 0% no-repeat padding-box;
         box-shadow: 0px -4px 6px #00000059;
         border-radius: 36px 36px 0px 0px;
-       
-        
-        .overlay_mask_menu{
+        height: 100%;
+
+
+        .overlay_mask_menu {
             border-radius: 36px 36px 0px 0px;
             opacity: 1;
             display: flex;
             gap: 1rem;
-            // padding: 3rem 3rem 1rem 3rem;
             flex-wrap: wrap;
             position: relative;
-            height: 88vh !important;
-            // overflow-y: scroll;
-         
-            .menu_overflow_control{
-                display: flex;
-                gap: 1rem;
-                padding: 3rem 3rem 2rem 3rem;
-                flex-wrap: wrap;
-                height: 77vh;
-                -ms-overflow-style: none;
-                scrollbar-width: none;
-                overflow: auto;
-                // justify-content: center;
-                // padding-top: 3rem;
-                // padding-bottom: 3rem;
+            height: calc(100% - 80px);
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+            overflow: auto;
 
-                &::-webkit-scrollbar {
-                    display: none;
-                }
-    
+            &::-webkit-scrollbar {
+                display: none;
             }
-            
-            /* margin: 0 auto; */
-            // justify-content: center;
-            // align-items: center;
-           
-           
-        .login_option_menu {
-            background: #FFFFFF 0% 0% no-repeat padding-box;
-            box-shadow: 0px 0px 4px #00000080;
-            border-radius: 4px;
-            opacity: 1;
-            width: 220px !important;
-            height: 220px !important;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            text-align: center;
-            overflow: hidden;
-            // margin: 2rem;
-            gap: 1rem;
-            // flex: 1 0 21%;
-            cursor: pointer;
 
-            p {
-                font: normal normal normal 18px/29px Montserrat;
-                letter-spacing: 0px;
-                color: #707070;
-                opacity: 1;
+            .menu_overflow_control {
+                height: calc(100% - 0px);
+                top: 0;
+                bottom: 0;
+
             }
-        }
 
-        .sub_menus {
-            display: flex;
-            width: 220px;
-            height: 220px;
-            flex-wrap: wrap;
-            gap: 0.3rem;
 
-            .sub_menu {
-                background: #65ABA0 0% 0% no-repeat padding-box;
-                box-shadow: 0px 0px 4px #00000059;
+
+            .login_option_menu {
+                z-index: 5 !important;
+                background: #FFFFFF 0% 0% no-repeat padding-box;
+                box-shadow: 0px 0px 4px #00000080;
                 border-radius: 4px;
                 opacity: 1;
-                width: 70px;
-                height: 70px;
+                width: 220px !important;
+                height: 220px !important;
                 display: flex;
                 justify-content: center;
                 align-items: center;
                 flex-direction: column;
-                gap: 0.5rem;
+                text-align: center;
+                overflow: hidden;
+                gap: 1rem;
                 cursor: pointer;
 
                 p {
-                    text-align: center;
-                    font: normal normal 300 8px/10px Montserrat;
+                    font: normal normal normal 18px/29px Montserrat;
                     letter-spacing: 0px;
                     color: #707070;
-                    text-transform: uppercase;
                     opacity: 1;
                 }
             }
-        }
 
-      
-    }
+            .sub_menus {
+                display: flex;
+                width: 220px;
+                height: 220px;
+                flex-wrap: wrap;
+                gap: 0.3rem;
+
+                .sub_menu {
+                    background: #65ABA0 0% 0% no-repeat padding-box;
+                    box-shadow: 0px 0px 4px #00000059;
+                    border-radius: 4px;
+                    opacity: 1;
+                    width: 70px;
+                    height: 70px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    flex-direction: column;
+                    gap: 0.5rem;
+                    cursor: pointer;
+
+                    p {
+                        text-align: center;
+                        font: normal normal 300 8px/10px Montserrat;
+                        letter-spacing: 0px;
+                        color: #707070;
+                        text-transform: uppercase;
+                        opacity: 1;
+                    }
+                }
+            }
+
+
+        }
     }
 
     .overlay {
@@ -334,6 +348,7 @@
             }
         }
     }
+
     .footer_logo {
         position: absolute;
         bottom: 0rem;
@@ -342,18 +357,17 @@
 
 }
 
- .profile_option_menutop{
-    background: transparent  !important;
+.profile_option_menutop {
+    background: transparent !important;
     border: none !important;
     display: flex !important;
     justify-content: space-between;
     gap: 1rem;
     align-items: center;
-    
-    &:hover{
+
+    &:hover {
         background-color: #fff !important;
         color: #146f62 !important;
-      }
-         
-}
+    }
 
+}

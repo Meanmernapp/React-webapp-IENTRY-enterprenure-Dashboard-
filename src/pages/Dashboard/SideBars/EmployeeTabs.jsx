@@ -1,13 +1,10 @@
 import React, { useState } from 'react'
-import angelright_icon from "../../../assets/images/angelright.svg";
 import ic_build from "../../../assets/images/ic-build.svg";
-import circle_notch_solid from "../../../assets/images/circle-notch-solid.svg";
 import ic_people_group_solid from "../../../assets/images/ic-people-group-solid.svg";
 import ic_truck from "../../../assets/images/ic-truck.svg";
 import ic_contract from "../../../assets/images/ic-contract.svg";
 import ic_supplier from "../../../assets/images/ic-supplier.svg";
 import green_company from "../../../assets/images/green-company.svg";
-import green_circle from "../../../assets/images/green-circle.svg";
 import green_event from "../../../assets/images/green-event.svg";
 import green_employee from "../../../assets/images/green-employee.svg";
 import green_vehicle from "../../../assets/images/green-vehicle.svg";
@@ -19,7 +16,6 @@ import payroll_white from "../../../assets/images/payroll_white.svg";
 import department_white from '../../../assets/ic_white_department.svg'
 import green_department from '../../../assets/green_department.svg'
 
-import ic_database from "../../../assets/images/ic-database.svg";
 
 // icons 
 import companyProfile from "../../../assets/menuIcon/company_profile.svg"
@@ -56,6 +52,7 @@ import { useTranslation } from 'react-i18next'
 import { permissionObj } from '../../../Helpers/permission';
 import { ClearGetListZoneMap } from '../../../reduxToolkit/EmployeeZones/EmployeeZoneSlice';
 import BootstrapTooltip from '../../../utils/BootstrapTooltip';
+import { sidebarOptionsEnum } from '../../../enums/sidebarOptionsEnum';
 
 
 
@@ -63,25 +60,32 @@ const EmployeeTabs = ({ isMenuOpen }) => {
     const dispatch = useDispatch()
     const { t } = useTranslation();
     const lCode = Cookies.get("i18next") || "en";
-    const [changeStyle, setChangeStyle] = useState("company");
+
+    //Get the current url to choose the respectively module in the sideBar
+    const currentUrl = window.location.pathname;
+    const parts = currentUrl.split("/");
+    const modulePart = (parts[3] ? (parts[3]) + (parts[4] ? '/' + parts[4] : '') : (''))
+
+    const [changeStyle, setChangeStyle] = useState(sidebarOptionsEnum[modulePart]);
     const [isHovering, setIsHovering] = useState("1");
 
     const { user, permission } = useSelector(state => state.authenticatioauthennSlice);
 
     const limitCharacter = 15
 
-
-
     return (
         <ul >
             {
                 user?.data?.status?.id != 3 &&
                 <>
-                    {permission?.includes(permissionObj?.WEB_COMPANY_MENU) &&
-                        <BootstrapTooltip title={!isMenuOpen ? t('company_profile') : ""} placement="right">
+                    {permission?.includes(permissionObj?.WEB_COMPANY_READ) &&
+                        <BootstrapTooltip title={!isMenuOpen ? t('company_profile')?.toUpperCase() : ""} placement="right">
                             <Link to='/dashboard/employee/company'>
                                 <li
-                                    onClick={() => setChangeStyle("company")}
+                                    onClick={() => {
+                                        setChangeStyle("company")
+                                        sessionStorage.setItem('sidebarOption', 'company')
+                                    }}
                                     className={changeStyle === "company" ? "activeLi" : isHovering === 1 ? "hoverLi" : ""}
                                     onMouseEnter={() => setIsHovering(1)}
                                     onMouseLeave={() => setIsHovering(0)}
@@ -100,23 +104,18 @@ const EmployeeTabs = ({ isMenuOpen }) => {
                                             <span className="ms-1 d-none d-sm-inline">{t('company_profile')?.slice(0, limitCharacter)}</span>
                                         }
                                     </div>
-                                    {/* {
-                                    isMenuOpen && isHovering === 1 && changeStyle !== "company" ?
-                                        <img src={angelright_icon} alt="angelright_icon" style={{
-                                            transform: lCode === "ar" ? "scaleX(-1)" : ""
-                                        }} /> : ""
-                                } */}
                                 </li>
                             </Link>
                         </BootstrapTooltip>
-
                     }
-
-                    {permission?.includes(permissionObj.WEB_ZONE_MENU) &&
-                        <BootstrapTooltip title={!isMenuOpen ? t('first_access') : ""} placement="right">
+                    {permission?.includes(permissionObj.WEB_ZONE_READ) &&
+                        <BootstrapTooltip title={!isMenuOpen ? t('first_access')?.toUpperCase() : ""} placement="right">
                             <Link to='/dashboard/employee/zones' onClick={() => dispatch(ClearGetListZoneMap())}>
                                 <li
-                                    onClick={() => setChangeStyle("zones")}
+                                    onClick={() => {
+                                        setChangeStyle("zones")
+                                        sessionStorage.setItem('sidebarOption', 'zones')
+                                    }}
                                     className={changeStyle === "zones" ? "activeLi" : isHovering === 2 ? "hoverLi" : ""}
                                     onMouseEnter={() => setIsHovering(2)}
                                     onMouseLeave={() => setIsHovering(0)}
@@ -132,181 +131,64 @@ const EmployeeTabs = ({ isMenuOpen }) => {
                                             <span className="ms-1 d-none d-sm-inline">{t('first_access')}</span>
                                         }
                                     </div>
-                                    {/* {
-                                    isMenuOpen && isHovering === 2 && changeStyle !== "zones" ?
-                                        <img src={angelright_icon} alt="angelright_icon" style={{
-                                            transform: lCode === "ar" ? "scaleX(-1)" : ""
-                                        }} /> : ""
-
-                                } */}
                                 </li>
                             </Link>
                         </BootstrapTooltip>
                     }
-
-                    {permission?.includes(permissionObj.WEB_EVENT_MENU) &&
-                        <BootstrapTooltip title={!isMenuOpen ? t('events') : ""} placement="right">
-                            <Link to='/dashboard/employee/events'>
+                    {/* {permission?.includes(permissionObj.WEB_ZONE_READ) &&
+                        <BootstrapTooltip title={!isMenuOpen ? t('internal_monitoring')?.toUpperCase() : ""} placement="right">
+                            <Link to='/dashboard/employee/zones'>
                                 <li
-                                    onClick={() => setChangeStyle("events")}
-                                    className={changeStyle === "events" ? "activeLi" : isHovering === 3 ? "hoverLi" : ""}
-                                    onMouseEnter={() => setIsHovering(3)}
+                                    onClick={() => setChangeStyle("internalMonitoring")}
+                                    className={changeStyle === "internalMonitoring" ? "activeLi" : isHovering === 12 ? "hoverLi" : ""}
+                                    onMouseEnter={() => setIsHovering(12)}
                                     onMouseLeave={() => setIsHovering(0)}
                                 >
                                     <div>
                                         {
-                                            isHovering === 3 && changeStyle !== "events" ?
-                                                <img src={green_event} className="sidBarIcons" alt="green_event" style={{ margin: isMenuOpen ? "0 5px" : "0 -8px" }} /> :
-                                                <img src={eventWhite} className="sidBarIcons" alt="ic_build" style={{ margin: isMenuOpen ? "0 5px" : "0 -8px" }} />
+                                            isHovering === 12 && changeStyle !== "internalMonitoring" ?
+                                                <img src={internalMonitoringIcon} className="sidBarIcons" alt="green_provider" style={{ margin: isMenuOpen ? "0 5px" : "0 -8px" }} /> :
+                                                <img src={internalMonitoringWhite} className="sidBarIcons" alt="ic_build" style={{ margin: isMenuOpen ? "0 5px" : "0 -8px" }} />
                                         }
                                         {
                                             isMenuOpen &&
-                                            <span className="ms-1 d-none d-sm-inline">{t('events')}</span>
+                                            <span className="ms-1 d-none d-sm-inline">{t('internal_monitoring')?.slice(0, limitCharacter)}</span>
                                         }
                                     </div>
-                                    {/* {
-                                    isMenuOpen && isHovering === 3 && changeStyle !== "events" ?
-                                        <img src={angelright_icon} alt="angelright_icon" style={{
-                                            transform: lCode === "ar" ? "scaleX(-1)" : ""
-                                        }} /> : ""
-
-                                } */}
                                 </li>
                             </Link>
                         </BootstrapTooltip>
-                    }
+                    } */}
+                    {permission?.includes(permissionObj.WEB_DEVICE_READ) &&
 
-                    {permission?.includes(permissionObj.WEB_EMPLOYEE_MENU) &&
-                        <BootstrapTooltip title={!isMenuOpen ? t('employees') : ""} placement="right">
+                        <BootstrapTooltip title={!isMenuOpen ? t('devices')?.toUpperCase() : ""} placement="right">
 
-                            <Link to='/dashboard/employee/all-employees'>
+                            <Link to='/dashboard/employee/devices'>
                                 <li
-                                    onClick={() => setChangeStyle("employees")}
-                                    className={changeStyle === "employees" ? "activeLi" : isHovering === 4 ? "hoverLi" : ""}
-                                    onMouseEnter={() => setIsHovering(4)}
+                                    onClick={() => setChangeStyle("devices")}
+                                    className={changeStyle === "devices" ? "activeLi" : isHovering === 22 ? "hoverLi" : ""}
+                                    onMouseEnter={() => setIsHovering(22)}
                                     onMouseLeave={() => setIsHovering(0)}
                                 >
                                     <div>
                                         {
-                                            isHovering === 4 && changeStyle !== "employees" ?
-                                                <img src={green_employee} className="sidBarIcons" alt="green_employee" style={{ margin: isMenuOpen ? "0 5px" : "0 -8px" }} /> :
-                                                <img src={ic_people_group_solid} className="sidBarIcons" alt="ic_build" style={{ margin: isMenuOpen ? "0 5px" : "0 -8px" }} />
+                                            isHovering === 22 && changeStyle !== "devices" ?
+                                                <img src={devicesIcon} className="sidBarIcons" alt="green_provider" style={{ margin: isMenuOpen ? "0 5px" : "0 -8px" }} /> :
+                                                <img src={devicesWhite} className="sidBarIcons" alt="ic_build" style={{ margin: isMenuOpen ? "0 5px" : "0 -8px" }} />
                                         }
                                         {
                                             isMenuOpen &&
-                                            <span className="ms-1 d-none d-sm-inline">{t('employees')}</span>
+                                            <span className="ms-1 d-none d-sm-inline">{t('devices')?.slice(0, limitCharacter)}</span>
                                         }
                                     </div>
-                                    {/* {
-                                    isMenuOpen && isHovering === 4 && changeStyle !== "employees" ?
-                                        <img src={angelright_icon} alt="angelright_icon" style={{
-                                            transform: lCode === "ar" ? "scaleX(-1)" : ""
-                                        }} /> : ""
 
-                                } */}
                                 </li>
                             </Link>
                         </BootstrapTooltip>
+
                     }
-                    {permission?.includes(permissionObj.WEB_VEHICLE_MENU) &&
-                        <BootstrapTooltip title={!isMenuOpen ? t('vehicles') : ""} placement="right">
-
-                            <Link to='/dashboard/employee/allvehicles'>
-                                <li
-                                    onClick={() => setChangeStyle("vehicles")}
-                                    className={changeStyle === "vehicles" ? "activeLi" : isHovering === 5 ? "hoverLi" : ""}
-                                    onMouseEnter={() => setIsHovering(5)}
-                                    onMouseLeave={() => setIsHovering(0)}
-                                >
-                                    <div>
-                                        {
-                                            isHovering === 5 && changeStyle !== "vehicles" ?
-                                                <img src={green_vehicle} className="sidBarIcons" alt="green_vehicle" style={{ margin: isMenuOpen ? "0 5px" : "0 -8px" }} /> :
-                                                <img src={ic_truck} className="sidBarIcons" alt="ic_build" style={{ margin: isMenuOpen ? "0 5px" : "0 -8px" }} />
-                                        }
-                                        {
-                                            isMenuOpen &&
-                                            <span className="ms-1 d-none d-sm-inline">{t('vehicles')}</span>
-                                        }
-                                    </div>
-                                    {/* {
-                                    isMenuOpen && isHovering === 5 && changeStyle !== "vehicles" ?
-                                        <img src={angelright_icon} alt="angelright_icon" style={{
-                                            transform: lCode === "ar" ? "scaleX(-1)" : ""
-                                        }} /> : ""
-
-                                } */}
-                                </li>
-                            </Link>
-                        </BootstrapTooltip>
-                    }
-
-                    {permission?.includes(permissionObj.WEB_CONTRACTOR_MENU) &&
-                        <BootstrapTooltip title={!isMenuOpen ? t('contractors') : ""} placement="right">
-
-                            <Link to='/dashboard/employee/contractors'>
-                                <li
-                                    onClick={() => setChangeStyle("contractor")}
-                                    className={changeStyle === "contractor" ? "activeLi" : isHovering === 6 ? "hoverLi" : ""}
-                                    onMouseEnter={() => setIsHovering(6)}
-                                    onMouseLeave={() => setIsHovering(0)}
-                                >
-                                    <div>
-                                        {
-                                            isHovering === 6 && changeStyle !== "contractor" ?
-                                                <img src={green_contractor} className="sidBarIcons" alt="green_contractor" style={{ margin: isMenuOpen ? "0 5px" : "0 -8px" }} /> :
-                                                <img src={ic_contract} className="sidBarIcons" alt="ic_build" style={{ margin: isMenuOpen ? "0 5px" : "0 -8px" }} />
-                                        }
-                                        {
-                                            isMenuOpen &&
-                                            <span className="ms-1 d-none d-sm-inline">{t('contractors')}</span>
-                                        }
-                                    </div>
-                                    {/* {
-                                    isMenuOpen && isHovering === 6 && changeStyle !== "contractor" ?
-                                        <img src={angelright_icon} alt="angelright_icon" style={{
-                                            transform: lCode === "ar" ? "scaleX(-1)" : ""
-                                        }} /> : ""
-
-                                } */}
-                                </li>
-                            </Link>
-                        </BootstrapTooltip>
-                    }
-                    {permission?.includes(permissionObj.WEB_PROVIDER_MENU) &&
-                        <BootstrapTooltip title={!isMenuOpen ? t('supplier') : ""} placement="right">
-
-                            <Link to='/dashboard/employee/suppliers'>
-                                <li
-                                    onClick={() => setChangeStyle("provider")}
-                                    className={changeStyle === "provider" ? "activeLi" : isHovering === 7 ? "hoverLi" : ""}
-                                    onMouseEnter={() => setIsHovering(7)}
-                                    onMouseLeave={() => setIsHovering(0)}
-                                >
-                                    <div>
-                                        {
-                                            isHovering === 7 && changeStyle !== "provider" ?
-                                                <img src={green_provider} className="sidBarIcons" alt="green_provider" style={{ margin: isMenuOpen ? "0 5px" : "0 -8px" }} /> :
-                                                <img src={ic_supplier} className="sidBarIcons" alt="ic_build" style={{ margin: isMenuOpen ? "0 5px" : "0 -8px" }} />
-                                        }
-                                        {
-                                            isMenuOpen &&
-                                            <span className="ms-1 d-none d-sm-inline">{t('supplier')}</span>
-                                        }
-                                    </div>
-                                    {/* {
-                                    isMenuOpen && isHovering === 7 && changeStyle !== "provider" ?
-                                        <img src={angelright_icon} alt="angelright_icon" style={{
-                                            transform: lCode === "ar" ? "scaleX(-1)" : ""
-                                        }} /> : ""
-
-                                } */}
-                                </li>
-                            </Link>
-                        </BootstrapTooltip>
-                    }
-                    {permission?.includes(permissionObj.WEB_PAYROLL_MENU) &&
-                        <BootstrapTooltip title={!isMenuOpen ? t('attendance') : ""} placement="right">
+                    {permission?.includes(permissionObj.WEB_ATTENDANCE_READ) &&
+                        <BootstrapTooltip title={!isMenuOpen ? t('attendance')?.toUpperCase() : ""} placement="right">
 
                             <Link to='/dashboard/employee/payroll'>
                                 <li
@@ -326,18 +208,353 @@ const EmployeeTabs = ({ isMenuOpen }) => {
                                             <span className="ms-1 d-none d-sm-inline">{t('attendance')}</span>
                                         }
                                     </div>
-                                    {/* {
-                                    isMenuOpen && isHovering === 8 && changeStyle !== "payroll" ?
-                                        <img src={angelright_icon} alt="angelright_icon" style={{
-                                            transform: lCode === "ar" ? "scaleX(-1)" : ""
-                                        }} /> : ""
-                                } */}
                                 </li>
                             </Link>
                         </BootstrapTooltip>
                     }
-                    {permission?.includes(permissionObj.WEB_BACK_UP_MENU) &&
-                        <BootstrapTooltip title={!isMenuOpen ? t('back_up') : ""} placement="right">
+                    {permission?.includes(permissionObj.WEB_DEPARTMENT_READ) &&
+                        <BootstrapTooltip title={!isMenuOpen ? t('departments')?.toUpperCase() : ""} placement="right">
+
+                            <Link to='/dashboard/employee/departments'>
+                                <li
+                                    onClick={() => setChangeStyle("departments")}
+                                    className={changeStyle === "departments" ? "activeLi" : isHovering === 11 ? "hoverLi" : ""}
+                                    onMouseEnter={() => setIsHovering(11)}
+                                    onMouseLeave={() => setIsHovering(0)}
+                                >
+                                    <div>
+                                        {
+                                            isHovering === 11 && changeStyle !== "departments" ?
+                                                <img src={green_department} className="sidBarIcons" alt="green_provider" style={{ margin: isMenuOpen ? "0 5px" : "0 -8px" }} /> :
+                                                <img src={department_white} className="sidBarIcons" alt="ic_build" style={{ margin: isMenuOpen ? "0 5px" : "0 -8px" }} />
+                                        }
+                                        {
+                                            isMenuOpen &&
+                                            <span className="ms-1 d-none d-sm-inline">{t('departments')}</span>
+                                        }
+                                    </div>
+                                </li>
+                            </Link>
+                        </BootstrapTooltip>
+                    }
+                    {permission?.includes(permissionObj.WEB_EMPLOYEE_READ) &&
+                        <BootstrapTooltip title={!isMenuOpen ? t('employees')?.toUpperCase() : ""} placement="right">
+
+                            <Link to='/dashboard/employee/all-employees'>
+                                <li
+                                    onClick={() => {
+                                        setChangeStyle("employees")
+                                        sessionStorage.setItem('sidebarOption', 'employees')
+                                    }}
+                                    className={changeStyle === "employees" ? "activeLi" : isHovering === 4 ? "hoverLi" : ""}
+                                    onMouseEnter={() => setIsHovering(4)}
+                                    onMouseLeave={() => setIsHovering(0)}
+                                >
+                                    <div>
+                                        {
+                                            isHovering === 4 && changeStyle !== "employees" ?
+                                                <img src={green_employee} className="sidBarIcons" alt="green_employee" style={{ margin: isMenuOpen ? "0 5px" : "0 -8px" }} /> :
+                                                <img src={ic_people_group_solid} className="sidBarIcons" alt="ic_build" style={{ margin: isMenuOpen ? "0 5px" : "0 -8px" }} />
+                                        }
+                                        {
+                                            isMenuOpen &&
+                                            <span className="ms-1 d-none d-sm-inline">{t('employees')}</span>
+                                        }
+                                    </div>
+                                </li>
+                            </Link>
+                        </BootstrapTooltip>
+                    }
+                    {permission?.includes(permissionObj.WEB_VEHICLE_READ) &&
+                        <BootstrapTooltip title={!isMenuOpen ? t('vehicles')?.toUpperCase() : ""} placement="right">
+
+                            <Link to='/dashboard/employee/allvehicles'>
+                                <li
+                                    onClick={() => {
+                                        setChangeStyle("vehicles")
+                                        sessionStorage.setItem('sidebarOption', 'vehicles')
+                                    }}
+                                    className={changeStyle === "vehicles" ? "activeLi" : isHovering === 5 ? "hoverLi" : ""}
+                                    onMouseEnter={() => setIsHovering(5)}
+                                    onMouseLeave={() => setIsHovering(0)}
+                                >
+                                    <div>
+                                        {
+                                            isHovering === 5 && changeStyle !== "vehicles" ?
+                                                <img src={green_vehicle} className="sidBarIcons" alt="green_vehicle" style={{ margin: isMenuOpen ? "0 5px" : "0 -8px" }} /> :
+                                                <img src={ic_truck} className="sidBarIcons" alt="ic_build" style={{ margin: isMenuOpen ? "0 5px" : "0 -8px" }} />
+                                        }
+                                        {
+                                            isMenuOpen &&
+                                            <span className="ms-1 d-none d-sm-inline">{t('vehicles')}</span>
+                                        }
+                                    </div>
+                                </li>
+                            </Link>
+                        </BootstrapTooltip>
+                    }
+                    {permission?.includes(permissionObj.WEB_EVENT_READ) &&
+                        <BootstrapTooltip title={!isMenuOpen ? t('events')?.toUpperCase() : ""} placement="right">
+                            <Link to='/dashboard/employee/events'>
+                                <li
+                                    onClick={() => {
+                                        setChangeStyle("events")
+                                        sessionStorage.setItem('sidebarOption', 'events')
+                                    }}
+                                    className={changeStyle === "events" ? "activeLi" : isHovering === 3 ? "hoverLi" : ""}
+                                    onMouseEnter={() => setIsHovering(3)}
+                                    onMouseLeave={() => setIsHovering(0)}
+                                >
+                                    <div>
+                                        {
+                                            isHovering === 3 && changeStyle !== "events" ?
+                                                <img src={green_event} className="sidBarIcons" alt="green_event" style={{ margin: isMenuOpen ? "0 5px" : "0 -8px" }} /> :
+                                                <img src={eventWhite} className="sidBarIcons" alt="ic_build" style={{ margin: isMenuOpen ? "0 5px" : "0 -8px" }} />
+                                        }
+                                        {
+                                            isMenuOpen &&
+                                            <span className="ms-1 d-none d-sm-inline">{t('events')}</span>
+                                        }
+                                    </div>
+                                </li>
+                            </Link>
+                        </BootstrapTooltip>
+                    }
+                    {permission?.includes(permissionObj.WEB_WORK_SHIFT_READ) &&
+                        <BootstrapTooltip title={!isMenuOpen ? t('work_shift_panel')?.toUpperCase() : ""} placement="right">
+
+                            <Link to='/dashboard/employee/company/workshift-panel'>
+                                <li
+                                    onClick={() => setChangeStyle("workshift")}
+                                    className={changeStyle === "workshift" ? "activeLi" : isHovering === 13 ? "hoverLi" : ""}
+                                    onMouseEnter={() => setIsHovering(13)}
+                                    onMouseLeave={() => setIsHovering(0)}
+                                >
+                                    <div>
+                                        {
+                                            isHovering === 13 && changeStyle !== "workshift" ?
+                                                <img src={workShiftIcon} className="sidBarIcons" alt="green_provider" style={{ margin: isMenuOpen ? "0 5px" : "0 -8px" }} /> :
+                                                <img src={workShiftwhite} className="sidBarIcons" alt="ic_build" style={{ margin: isMenuOpen ? "0 5px" : "0 -8px" }} />
+                                        }
+                                        {
+                                            isMenuOpen &&
+                                            <span className="ms-1 d-none d-sm-inline">{t('work_shift_panel')?.slice(0, limitCharacter)}</span>
+                                        }
+                                    </div>
+
+                                </li>
+                            </Link>
+                        </BootstrapTooltip>
+                    }
+                    {permission?.includes(permissionObj?.WEB_ACCESS_USER_READ || permissionObj?.WEB_ACCESS_VEHICLE_READ) &&
+                        <BootstrapTooltip title={!isMenuOpen ? t('access')?.toUpperCase() : ""} placement="right">
+
+                            <Link to='/dashboard/employee/access'>
+                                <li
+                                    onClick={() => setChangeStyle("access")}
+                                    className={changeStyle === "access" ? "activeLi" : isHovering === 14 ? "hoverLi" : ""}
+                                    onMouseEnter={() => setIsHovering(14)}
+                                    onMouseLeave={() => setIsHovering(0)}
+                                >
+                                    <div>
+                                        {
+                                            isHovering === 14 && changeStyle !== "access" ?
+                                                <img src={accessIcon} className="sidBarIcons" alt="green_provider" style={{ margin: isMenuOpen ? "0 5px" : "0 -8px" }} /> :
+                                                <img src={accessWhite} className="sidBarIcons" alt="ic_build" style={{ margin: isMenuOpen ? "0 5px" : "0 -8px" }} />
+                                        }
+                                        {
+                                            isMenuOpen &&
+                                            <span className="ms-1 d-none d-sm-inline">{t('access')}</span>
+                                        }
+                                    </div>
+
+                                </li>
+                            </Link>
+                        </BootstrapTooltip>
+                    }
+                    {permission?.includes(permissionObj.WEB_PRIVILEGE_READ) &&
+                        <BootstrapTooltip title={!isMenuOpen ? t('privilage_settings')?.toUpperCase() : ""} placement="right">
+                            <Link to='/dashboard/employee/company/roles-panel'>
+                                <li
+                                    onClick={() => setChangeStyle("previlageSetting")}
+                                    className={changeStyle === "previlageSetting" ? "activeLi" : isHovering === 15 ? "hoverLi" : ""}
+                                    onMouseEnter={() => setIsHovering(15)}
+                                    onMouseLeave={() => setIsHovering(0)}
+                                >
+                                    <div>
+                                        {
+                                            isHovering === 15 && changeStyle !== "previlageSetting" ?
+                                                <img src={previlageIcon} className="sidBarIcons" alt="green_provider" style={{ margin: isMenuOpen ? "0 5px" : "0 -8px" }} /> :
+                                                <img src={previlageWhite} className="sidBarIcons" alt="ic_build" style={{ margin: isMenuOpen ? "0 5px" : "0 -8px" }} />
+                                        }
+                                        {
+                                            isMenuOpen &&
+                                            <span className="ms-1 d-none d-sm-inline">{t('privilage_settings')?.slice(0, limitCharacter)}</span>
+                                        }
+                                    </div>
+
+                                </li>
+                            </Link>
+                        </BootstrapTooltip>
+                    }
+                    {permission?.includes(permissionObj.WEB_ONBOARDING_READ) &&
+                        <BootstrapTooltip title={!isMenuOpen ? t('on_boarding')?.toUpperCase() : ""} placement="right">
+                            <Link to='/dashboard/employee/company/onboarding'>
+                                <li
+                                    onClick={() => setChangeStyle("onBoarding")}
+                                    className={changeStyle === "onBoarding" ? "activeLi" : isHovering === 16 ? "hoverLi" : ""}
+                                    onMouseEnter={() => setIsHovering(16)}
+                                    onMouseLeave={() => setIsHovering(0)}
+                                >
+                                    <div>
+                                        {
+                                            isHovering === 16 && changeStyle !== "onBoarding" ?
+                                                <img src={onboardingIcon} className="sidBarIcons" alt="green_provider" style={{ margin: isMenuOpen ? "0 5px" : "0 -8px" }} /> :
+                                                <img src={onBoardingWhite} className="sidBarIcons" alt="ic_build" style={{ margin: isMenuOpen ? "0 5px" : "0 -8px" }} />
+                                        }
+                                        {
+                                            isMenuOpen &&
+                                            <span className="ms-1 d-none d-sm-inline">{t('on_boarding')}</span>
+                                        }
+                                    </div>
+
+                                </li>
+                            </Link>
+                        </BootstrapTooltip>
+                    }
+                    {(permission?.includes(permissionObj.WEB_CONTRACTOR_READ) || permission?.includes(permissionObj.WEB_CONTRACTOR_CONTRACT_READ)) &&
+                        <BootstrapTooltip title={!isMenuOpen ? t('contractors')?.toUpperCase() : ""} placement="right">
+
+                            <Link to='/dashboard/employee/contractors'>
+                                <li
+                                    onClick={() => {
+                                        setChangeStyle("contractor")
+                                        sessionStorage.setItem('sidebarOption', 'contractor')
+                                    }}
+                                    className={changeStyle === "contractor" ? "activeLi" : isHovering === 6 ? "hoverLi" : ""}
+                                    onMouseEnter={() => setIsHovering(6)}
+                                    onMouseLeave={() => setIsHovering(0)}
+                                >
+                                    <div>
+                                        {
+                                            isHovering === 6 && changeStyle !== "contractor" ?
+                                                <img src={green_contractor} className="sidBarIcons" alt="green_contractor" style={{ margin: isMenuOpen ? "0 5px" : "0 -8px" }} /> :
+                                                <img src={ic_contract} className="sidBarIcons" alt="ic_build" style={{ margin: isMenuOpen ? "0 5px" : "0 -8px" }} />
+                                        }
+                                        {
+                                            isMenuOpen &&
+                                            <span className="ms-1 d-none d-sm-inline">{t('contractors')}</span>
+                                        }
+                                    </div>
+
+                                </li>
+                            </Link>
+                        </BootstrapTooltip>
+                    }
+                    {(permission?.includes(permissionObj.WEB_SUPPLIER_READ) || permission?.includes(permissionObj.WEB_SUPPLIER_ORDER_READ)) &&
+                        <BootstrapTooltip title={!isMenuOpen ? t('supplier')?.toUpperCase() : ""} placement="right">
+
+                            <Link to='/dashboard/employee/suppliers'>
+                                <li
+                                    onClick={() => {
+                                        setChangeStyle("provider")
+                                        sessionStorage.setItem('sidebarOption', 'provider')
+                                    }}
+                                    className={changeStyle === "provider" ? "activeLi" : isHovering === 7 ? "hoverLi" : ""}
+                                    onMouseEnter={() => setIsHovering(7)}
+                                    onMouseLeave={() => setIsHovering(0)}
+                                >
+                                    <div>
+                                        {
+                                            isHovering === 7 && changeStyle !== "provider" ?
+                                                <img src={green_provider} className="sidBarIcons" alt="green_provider" style={{ margin: isMenuOpen ? "0 5px" : "0 -8px" }} /> :
+                                                <img src={ic_supplier} className="sidBarIcons" alt="ic_build" style={{ margin: isMenuOpen ? "0 5px" : "0 -8px" }} />
+                                        }
+                                        {
+                                            isMenuOpen &&
+                                            <span className="ms-1 d-none d-sm-inline">{t('supplier')}</span>
+                                        }
+                                    </div>
+                                </li>
+                            </Link>
+                        </BootstrapTooltip>
+                    }
+                    {(permission?.includes(permissionObj.WEB_SUPPLIER_DOCUMENT_READ) || permission?.includes(permissionObj.WEB_EMPLOYEE_DOCUMENT_READ) || permission?.includes(permissionObj.WEB_CONTRACTOR_DOCUMENT_READ)) &&
+                        <BootstrapTooltip title={!isMenuOpen ? t('user_document_manager')?.toUpperCase() : ""} placement="right">
+                            <Link to='/dashboard/employee/company/user-doc-panel'>
+                                <li
+                                    onClick={() => setChangeStyle("userDocument")}
+                                    className={changeStyle === "userDocument" ? "activeLi" : isHovering === 17 ? "hoverLi" : ""}
+                                    onMouseEnter={() => setIsHovering(17)}
+                                    onMouseLeave={() => setIsHovering(0)}
+                                >
+                                    <div>
+                                        {
+                                            isHovering === 17 && changeStyle !== "userDocument" ?
+                                                <img src={userDocumentIcon} className="sidBarIcons" alt="green_provider" style={{ margin: isMenuOpen ? "0 5px" : "0 -8px" }} /> :
+                                                <img src={userDocumentWhite} className="sidBarIcons" alt="ic_build" style={{ margin: isMenuOpen ? "0 5px" : "0 -8px" }} />
+                                        }
+                                        {
+                                            isMenuOpen &&
+                                            <span className="ms-1 d-none d-sm-inline">{t('user_document_manager')?.slice(0, limitCharacter)}</span>
+                                        }
+                                    </div>
+                                </li>
+                            </Link>
+                        </BootstrapTooltip>
+                    }
+                    {(permission?.includes(permissionObj.WEB_SUPPLIER_VEHICLE_DOCUMENT_READ) || permission?.includes(permissionObj.WEB_CONTRACTOR_VEHICLE_DOCUMENT_READ)) &&
+                        <BootstrapTooltip title={!isMenuOpen ? t('vehicle_document_manager')?.toUpperCase() : ""} placement="right">
+
+                            <Link to='/dashboard/employee/company/vehicle-doc-panel'>
+                                <li
+                                    onClick={() => setChangeStyle("vehicleDocument")}
+                                    className={changeStyle === "vehicleDocument" ? "activeLi" : isHovering === 18 ? "hoverLi" : ""}
+                                    onMouseEnter={() => setIsHovering(18)}
+                                    onMouseLeave={() => setIsHovering(0)}
+                                >
+                                    <div>
+                                        {
+                                            isHovering === 18 && changeStyle !== "vehicleDocument" ?
+                                                <img src={vehicleDocumentIcon} className="sidBarIcons" alt="green_provider" style={{ margin: isMenuOpen ? "0 5px" : "0 -8px" }} /> :
+                                                <img src={vehicleDocumentWhite} className="sidBarIcons" alt="ic_build" style={{ margin: isMenuOpen ? "0 5px" : "0 -8px" }} />
+                                        }
+                                        {
+                                            isMenuOpen &&
+                                            <span className="ms-1 d-none d-sm-inline">{t('vehicle_document_manager')?.slice(0, limitCharacter)}</span>
+                                        }
+                                    </div>
+
+                                </li>
+                            </Link>
+                        </BootstrapTooltip>
+                    }
+                    {permission?.includes(permissionObj?.WEB_EMAIL_SETTINGS_READ) &&
+                        <BootstrapTooltip title={!isMenuOpen ? t('email_service_settings')?.toUpperCase() : ""} placement="right">
+                            <Link to='/dashboard/employee/payroll/email-setting'>
+                                <li
+                                    onClick={() => setChangeStyle("emailSetting")}
+                                    className={changeStyle === "emailSetting" ? "activeLi" : isHovering === 19 ? "hoverLi" : ""}
+                                    onMouseEnter={() => setIsHovering(19)}
+                                    onMouseLeave={() => setIsHovering(0)}
+                                >
+                                    <div>
+                                        {
+                                            isHovering === 19 && changeStyle !== "emailSetting" ?
+                                                <img src={emailSettingIcon} className="sidBarIcons" alt="green_provider" style={{ margin: isMenuOpen ? "0 5px" : "0 -8px" }} /> :
+                                                <img src={emailSettingWhite} className="sidBarIcons" alt="ic_build" style={{ margin: isMenuOpen ? "0 5px" : "0 -8px" }} />
+                                        }
+                                        {
+                                            isMenuOpen &&
+                                            <span className="ms-1 d-none d-sm-inline">{t('email_service_settings')?.slice(0, limitCharacter)}</span>
+                                        }
+                                    </div>
+                                </li>
+                            </Link>
+                        </BootstrapTooltip>
+                    }
+                    {permission?.includes(permissionObj.WEB_BACK_UP_READ) &&
+                        <BootstrapTooltip title={!isMenuOpen ? t('back_up')?.toUpperCase() : ""} placement="right">
 
                             <Link to='/dashboard/employee/backup'>
                                 <li
@@ -387,357 +604,13 @@ const EmployeeTabs = ({ isMenuOpen }) => {
                                             <span className="ms-1 d-none d-sm-inline ms-3">{t('back_up')}</span>
                                         }
                                     </div>
-                                    {/* {
-                                    isMenuOpen && isHovering === 10 && changeStyle !== "backup" ?
-                                        <img src={angelright_icon} alt="angelright_icon" style={{
-                                            transform: lCode === "ar" ? "scaleX(-1)" : ""
-                                        }} /> : ""
-
-                                } */}
                                 </li>
                             </Link>
                         </BootstrapTooltip>
                     }
+                    
 
-                    <BootstrapTooltip title={!isMenuOpen ? t('departments') : ""} placement="right">
-
-                        <Link to='/dashboard/employee/departments'>
-                            <li
-                                onClick={() => setChangeStyle("departments")}
-                                className={changeStyle === "departments" ? "activeLi" : isHovering === 11 ? "hoverLi" : ""}
-                                onMouseEnter={() => setIsHovering(11)}
-                                onMouseLeave={() => setIsHovering(0)}
-                            >
-                                <div>
-                                    {
-                                        isHovering === 11 && changeStyle !== "departments" ?
-                                            <img src={green_department} className="sidBarIcons" alt="green_provider" style={{ margin: isMenuOpen ? "0 5px" : "0 -8px" }} /> :
-                                            <img src={department_white} className="sidBarIcons" alt="ic_build" style={{ margin: isMenuOpen ? "0 5px" : "0 -8px" }} />
-                                    }
-                                    {
-                                        isMenuOpen &&
-                                        <span className="ms-1 d-none d-sm-inline">{t('departments')}</span>
-                                    }
-                                </div>
-                                {/* {
-isMenuOpen && isHovering === 11 && changeStyle !== "departments" ?
-<img src={angelright_icon} alt="angelright_icon" style={{
-transform: lCode === "ar" ? "scaleX(-1)" : ""
-}} /> : ""
-} */}
-                            </li>
-                        </Link>
-                    </BootstrapTooltip>
-
-
-                    {/* {permission?.includes(permissionObj.WEB_PAYROLL_MENU) && */}
-                    <BootstrapTooltip title={!isMenuOpen ? t('internal_monitoring') : ""} placement="right">
-
-                        <Link to='/dashboard/employee/zones'>
-                            <li
-                                onClick={() => setChangeStyle("internalMonitoring")}
-                                className={changeStyle === "internalMonitoring" ? "activeLi" : isHovering === 12 ? "hoverLi" : ""}
-                                onMouseEnter={() => setIsHovering(12)}
-                                onMouseLeave={() => setIsHovering(0)}
-                            >
-                                <div>
-                                    {
-                                        isHovering === 12 && changeStyle !== "internalMonitoring" ?
-                                            <img src={internalMonitoringIcon} className="sidBarIcons" alt="green_provider" style={{ margin: isMenuOpen ? "0 5px" : "0 -8px" }} /> :
-                                            <img src={internalMonitoringWhite} className="sidBarIcons" alt="ic_build" style={{ margin: isMenuOpen ? "0 5px" : "0 -8px" }} />
-                                    }
-                                    {
-                                        isMenuOpen &&
-                                        <span className="ms-1 d-none d-sm-inline">{t('internal_monitoring')?.slice(0, limitCharacter)}</span>
-                                    }
-                                </div>
-                                {/* {
-                                isMenuOpen && isHovering === 11 && changeStyle !== "departments" ?
-                                    <img src={angelright_icon} alt="angelright_icon" style={{
-                                        transform: lCode === "ar" ? "scaleX(-1)" : ""
-                                    }} /> : ""
-                            } */}
-                            </li>
-                        </Link>
-                    </BootstrapTooltip>
-                    {/* } */}
-                    {/* hide for temporary perpose */}
-                    {/* {permission?.includes(permissionObj.WEB_HOSPITALITY_MENU) &&
-                        <Link to='/dashboard/employee/hospitality'>
-                            <li
-                                onClick={() => setChangeStyle("hospitality")}
-                                className={changeStyle === "hospitality" ? "activeLi" : isHovering === 12 ? "hoverLi" : ""}
-                                onMouseEnter={() => setIsHovering(12)}
-                                onMouseLeave={() => setIsHovering(0)}
-                            >
-                                <div>
-                                    {
-                                        isHovering === 12 && changeStyle !== "hospitality" ?
-                                            <img src={payroll_green} className="sidBarIcons" alt="green_provider" style={{margin:isMenuOpen ?"0 5px":"0 -8px"}}/> :
-                                            <img src={payroll_white} className="sidBarIcons" alt="ic_build" style={{margin:isMenuOpen ?"0 5px":"0 -8px"}}/>
-                                    }
-                                    {isMenuOpen &&
-
-                                        <span className="ms-1 d-none d-sm-inline">{t('hospitality')}</span>
-                                    }
-                                </div>
-                                {
-                                  isMenuOpen &&  isHovering === 11 && changeStyle !== "hospitality" ?
-                                        <img src={angelright_icon} alt="angelright_icon" style={{
-                                            transform: lCode === "ar" ? "scaleX(-1)" : ""
-                                        }} /> : ""
-
-                                }
-                            </li>
-                        </Link>
-                    } */}
-
-
-
-                    <BootstrapTooltip title={!isMenuOpen ? t('work_shift_panel') : ""} placement="right">
-
-                        <Link to='/dashboard/employee/company/workshift-panel'>
-                            <li
-                                onClick={() => setChangeStyle("workshift")}
-                                className={changeStyle === "workshift" ? "activeLi" : isHovering === 13 ? "hoverLi" : ""}
-                                onMouseEnter={() => setIsHovering(13)}
-                                onMouseLeave={() => setIsHovering(0)}
-                            >
-                                <div>
-                                    {
-                                        isHovering === 13 && changeStyle !== "workshift" ?
-                                            <img src={workShiftIcon} className="sidBarIcons" alt="green_provider" style={{ margin: isMenuOpen ? "0 5px" : "0 -8px" }} /> :
-                                            <img src={workShiftwhite} className="sidBarIcons" alt="ic_build" style={{ margin: isMenuOpen ? "0 5px" : "0 -8px" }} />
-                                    }
-                                    {
-                                        isMenuOpen &&
-                                        <span className="ms-1 d-none d-sm-inline">{t('work_shift_panel')?.slice(0, limitCharacter)}</span>
-                                    }
-                                </div>
-                                {/* {
-            isMenuOpen && isHovering === 11 && changeStyle !== "departments" ?
-                <img src={angelright_icon} alt="angelright_icon" style={{
-                    transform: lCode === "ar" ? "scaleX(-1)" : ""
-                }} /> : ""
-        } */}
-                            </li>
-                        </Link>
-                    </BootstrapTooltip>
-
-
-                    <BootstrapTooltip title={!isMenuOpen ? t('access') : ""} placement="right">
-
-                        <Link to='#'>
-                            <li
-                                onClick={() => setChangeStyle("access")}
-                                className={changeStyle === "access" ? "activeLi" : isHovering === 14 ? "hoverLi" : ""}
-                                onMouseEnter={() => setIsHovering(14)}
-                                onMouseLeave={() => setIsHovering(0)}
-                            >
-                                <div>
-                                    {
-                                        isHovering === 14 && changeStyle !== "access" ?
-                                            <img src={accessIcon} className="sidBarIcons" alt="green_provider" style={{ margin: isMenuOpen ? "0 5px" : "0 -8px" }} /> :
-                                            <img src={accessWhite} className="sidBarIcons" alt="ic_build" style={{ margin: isMenuOpen ? "0 5px" : "0 -8px" }} />
-                                    }
-                                    {
-                                        isMenuOpen &&
-                                        <span className="ms-1 d-none d-sm-inline">{t('access')}</span>
-                                    }
-                                </div>
-                                {/* {
-            isMenuOpen && isHovering === 11 && changeStyle !== "departments" ?
-                <img src={angelright_icon} alt="angelright_icon" style={{
-                    transform: lCode === "ar" ? "scaleX(-1)" : ""
-                }} /> : ""
-        } */}
-                            </li>
-                        </Link>
-                    </BootstrapTooltip>
-
-                    <BootstrapTooltip title={!isMenuOpen ? t('privilage_settings') : ""} placement="right">
-
-                        <Link to='/dashboard/employee/company/roles-panel'>
-                            <li
-                                onClick={() => setChangeStyle("previlageSetting")}
-                                className={changeStyle === "previlageSetting" ? "activeLi" : isHovering === 15 ? "hoverLi" : ""}
-                                onMouseEnter={() => setIsHovering(15)}
-                                onMouseLeave={() => setIsHovering(0)}
-                            >
-                                <div>
-                                    {
-                                        isHovering === 15 && changeStyle !== "previlageSetting" ?
-                                            <img src={previlageIcon} className="sidBarIcons" alt="green_provider" style={{ margin: isMenuOpen ? "0 5px" : "0 -8px" }} /> :
-                                            <img src={previlageWhite} className="sidBarIcons" alt="ic_build" style={{ margin: isMenuOpen ? "0 5px" : "0 -8px" }} />
-                                    }
-                                    {
-                                        isMenuOpen &&
-                                        <span className="ms-1 d-none d-sm-inline">{t('privilage_settings')?.slice(0, limitCharacter)}</span>
-                                    }
-                                </div>
-                                {/* {
-            isMenuOpen && isHovering === 11 && changeStyle !== "departments" ?
-                <img src={angelright_icon} alt="angelright_icon" style={{
-                    transform: lCode === "ar" ? "scaleX(-1)" : ""
-                }} /> : ""
-        } */}
-                            </li>
-                        </Link>
-                    </BootstrapTooltip>
-
-
-                    <BootstrapTooltip title={!isMenuOpen ? t('on_boarding') : ""} placement="right">
-
-                        <Link to='/dashboard/employee/company/onboarding'>
-                            <li
-                                onClick={() => setChangeStyle("onBoarding")}
-                                className={changeStyle === "onBoarding" ? "activeLi" : isHovering === 16 ? "hoverLi" : ""}
-                                onMouseEnter={() => setIsHovering(16)}
-                                onMouseLeave={() => setIsHovering(0)}
-                            >
-                                <div>
-                                    {
-                                        isHovering === 16 && changeStyle !== "onBoarding" ?
-                                            <img src={onboardingIcon} className="sidBarIcons" alt="green_provider" style={{ margin: isMenuOpen ? "0 5px" : "0 -8px" }} /> :
-                                            <img src={onBoardingWhite} className="sidBarIcons" alt="ic_build" style={{ margin: isMenuOpen ? "0 5px" : "0 -8px" }} />
-                                    }
-                                    {
-                                        isMenuOpen &&
-                                        <span className="ms-1 d-none d-sm-inline">{t('on_boarding')}</span>
-                                    }
-                                </div>
-                                {/* {
-            isMenuOpen && isHovering === 11 && changeStyle !== "departments" ?
-                <img src={angelright_icon} alt="angelright_icon" style={{
-                    transform: lCode === "ar" ? "scaleX(-1)" : ""
-                }} /> : ""
-        } */}
-                            </li>
-                        </Link>
-                    </BootstrapTooltip>
-
-
-                    <BootstrapTooltip title={!isMenuOpen ? t('user_document_manager') : ""} placement="right">
-
-                        <Link to='/dashboard/employee/company/user-doc-panel'>
-                            <li
-                                onClick={() => setChangeStyle("userDocument")}
-                                className={changeStyle === "userDocument" ? "activeLi" : isHovering === 17 ? "hoverLi" : ""}
-                                onMouseEnter={() => setIsHovering(17)}
-                                onMouseLeave={() => setIsHovering(0)}
-                            >
-                                <div>
-                                    {
-                                        isHovering === 17 && changeStyle !== "userDocument" ?
-                                            <img src={userDocumentIcon} className="sidBarIcons" alt="green_provider" style={{ margin: isMenuOpen ? "0 5px" : "0 -8px" }} /> :
-                                            <img src={userDocumentWhite} className="sidBarIcons" alt="ic_build" style={{ margin: isMenuOpen ? "0 5px" : "0 -8px" }} />
-                                    }
-                                    {
-                                        isMenuOpen &&
-                                        <span className="ms-1 d-none d-sm-inline">{t('user_document_manager')?.slice(0, limitCharacter)}</span>
-                                    }
-                                </div>
-                                {/* {
-            isMenuOpen && isHovering === 11 && changeStyle !== "departments" ?
-                <img src={angelright_icon} alt="angelright_icon" style={{
-                    transform: lCode === "ar" ? "scaleX(-1)" : ""
-                }} /> : ""
-        } */}
-                            </li>
-                        </Link>
-                    </BootstrapTooltip>
-
-
-                    <BootstrapTooltip title={!isMenuOpen ? t('vehicle_document_manager') : ""} placement="right">
-
-                        <Link to='/dashboard/employee/company/vehicle-doc-panel'>
-                            <li
-                                onClick={() => setChangeStyle("vehicleDocument")}
-                                className={changeStyle === "vehicleDocument" ? "activeLi" : isHovering === 18 ? "hoverLi" : ""}
-                                onMouseEnter={() => setIsHovering(18)}
-                                onMouseLeave={() => setIsHovering(0)}
-                            >
-                                <div>
-                                    {
-                                        isHovering === 18 && changeStyle !== "vehicleDocument" ?
-                                            <img src={vehicleDocumentIcon} className="sidBarIcons" alt="green_provider" style={{ margin: isMenuOpen ? "0 5px" : "0 -8px" }} /> :
-                                            <img src={vehicleDocumentWhite} className="sidBarIcons" alt="ic_build" style={{ margin: isMenuOpen ? "0 5px" : "0 -8px" }} />
-                                    }
-                                    {
-                                        isMenuOpen &&
-                                        <span className="ms-1 d-none d-sm-inline">{t('vehicle_document_manager')?.slice(0, limitCharacter)}</span>
-                                    }
-                                </div>
-                                {/* {
-            isMenuOpen && isHovering === 11 && changeStyle !== "departments" ?
-                <img src={angelright_icon} alt="angelright_icon" style={{
-                    transform: lCode === "ar" ? "scaleX(-1)" : ""
-                }} /> : ""
-        } */}
-                            </li>
-                        </Link>
-                    </BootstrapTooltip>
-
-                    <BootstrapTooltip title={!isMenuOpen ? t('email_service_settings') : ""} placement="right">
-
-                        <Link to='/dashboard/employee/payroll/email-setting'>
-                            <li
-                                onClick={() => setChangeStyle("emailSetting")}
-                                className={changeStyle === "emailSetting" ? "activeLi" : isHovering === 19 ? "hoverLi" : ""}
-                                onMouseEnter={() => setIsHovering(19)}
-                                onMouseLeave={() => setIsHovering(0)}
-                            >
-                                <div>
-                                    {
-                                        isHovering === 19 && changeStyle !== "emailSetting" ?
-                                            <img src={emailSettingIcon} className="sidBarIcons" alt="green_provider" style={{ margin: isMenuOpen ? "0 5px" : "0 -8px" }} /> :
-                                            <img src={emailSettingWhite} className="sidBarIcons" alt="ic_build" style={{ margin: isMenuOpen ? "0 5px" : "0 -8px" }} />
-                                    }
-                                    {
-                                        isMenuOpen &&
-                                        <span className="ms-1 d-none d-sm-inline">{t('email_service_settings')?.slice(0, limitCharacter)}</span>
-                                    }
-                                </div>
-                                {/* {
-            isMenuOpen && isHovering === 11 && changeStyle !== "departments" ?
-                <img src={angelright_icon} alt="angelright_icon" style={{
-                    transform: lCode === "ar" ? "scaleX(-1)" : ""
-                }} /> : ""
-        } */}
-                            </li>
-                        </Link>
-                    </BootstrapTooltip>
-
-                    {permission?.includes(permissionObj.WEB_DEVICE_MENU) &&
-
-                        <BootstrapTooltip title={!isMenuOpen ? t('devices') : ""} placement="right">
-
-                            <Link to='/dashboard/employee/devices'>
-                                <li
-                                    onClick={() => setChangeStyle("devices")}
-                                    className={changeStyle === "devices" ? "activeLi" : isHovering === 22 ? "hoverLi" : ""}
-                                    onMouseEnter={() => setIsHovering(22)}
-                                    onMouseLeave={() => setIsHovering(0)}
-                                >
-                                    <div>
-                                        {
-                                            isHovering === 22 && changeStyle !== "devices" ?
-                                                <img src={devicesIcon} className="sidBarIcons" alt="green_provider" style={{ margin: isMenuOpen ? "0 5px" : "0 -8px" }} /> :
-                                                <img src={devicesWhite} className="sidBarIcons" alt="ic_build" style={{ margin: isMenuOpen ? "0 5px" : "0 -8px" }} />
-                                        }
-                                        {
-                                            isMenuOpen &&
-                                            <span className="ms-1 d-none d-sm-inline">{t('devices')?.slice(0, limitCharacter)}</span>
-                                        }
-                                    </div>
-                                    
-                                </li>
-                            </Link>
-                        </BootstrapTooltip>
-
-                    }
-
-                    <BootstrapTooltip title={!isMenuOpen ? t('announcements') : ""} placement="right">
+                    {/* <BootstrapTooltip title={!isMenuOpen ? t('announcements') : ""} placement="right">
 
                         <Link to='/dashboard/employee/announcement-panel'>
                             <li
@@ -757,64 +630,40 @@ transform: lCode === "ar" ? "scaleX(-1)" : ""
                                         <span className="ms-1 d-none d-sm-inline">{t('announcements')?.slice(0, limitCharacter)}</span>
                                     }
                                 </div>
-                                {/* {
-isMenuOpen && isHovering === 11 && changeStyle !== "departments" ?
-<img src={angelright_icon} alt="angelright_icon" style={{
-transform: lCode === "ar" ? "scaleX(-1)" : ""
-}} /> : ""
-} */}
+
                             </li>
                         </Link>
-                    </BootstrapTooltip>
-
-                    <BootstrapTooltip title={!isMenuOpen ? t('profile') : ""} placement="right">
-
-                        <Link to='/dashboard/employee/profile'>
-                            <li
-                                onClick={() => setChangeStyle("profile")}
-                                className={changeStyle === "profile" ? "activeLi" : isHovering === 21 ? "hoverLi" : ""}
-                                onMouseEnter={() => setIsHovering(21)}
-                                onMouseLeave={() => setIsHovering(0)}
-                            >
-                                <div>
-                                    {
-                                        isHovering === 21 && changeStyle !== "profile" ?
-                                            <img src={profileIcon} className="sidBarIcons" alt="green_provider" style={{ margin: isMenuOpen ? "0 5px" : "0 -8px" }} /> :
-                                            <img src={profileWhite} className="sidBarIcons" alt="ic_build" style={{ margin: isMenuOpen ? "0 5px" : "0 -8px" }} />
-                                    }
-                                    {
-                                        isMenuOpen &&
-                                        <span className="ms-1 d-none d-sm-inline">{t('profile')?.slice(0, limitCharacter)}</span>
-                                    }
-                                </div>
-                                {/* {
-isMenuOpen && isHovering === 11 && changeStyle !== "departments" ?
-<img src={angelright_icon} alt="angelright_icon" style={{
-transform: lCode === "ar" ? "scaleX(-1)" : ""
-}} /> : ""
-} */}
-                            </li>
-                        </Link>
-                    </BootstrapTooltip>
-
-
-
+                    </BootstrapTooltip> */}
+                    {permission?.includes(permissionObj.WEB_PROFILE_READ) &&
+                        <BootstrapTooltip title={!isMenuOpen ? t('profile')?.toUpperCase() : ""} placement="right">
+                            <Link to='/dashboard/employee/profile'>
+                                <li
+                                    onClick={() => setChangeStyle("profile")}
+                                    className={changeStyle === "profile" ? "activeLi" : isHovering === 21 ? "hoverLi" : ""}
+                                    onMouseEnter={() => setIsHovering(21)}
+                                    onMouseLeave={() => setIsHovering(0)}
+                                >
+                                    <div>
+                                        {
+                                            isHovering === 21 && changeStyle !== "profile" ?
+                                                <img src={profileIcon} className="sidBarIcons" alt="green_provider" style={{ margin: isMenuOpen ? "0 5px" : "0 -8px" }} /> :
+                                                <img src={profileWhite} className="sidBarIcons" alt="ic_build" style={{ margin: isMenuOpen ? "0 5px" : "0 -8px" }} />
+                                        }
+                                        {
+                                            isMenuOpen &&
+                                            <span className="ms-1 d-none d-sm-inline">{t('profile')?.slice(0, limitCharacter)}</span>
+                                        }
+                                    </div>
+                                </li>
+                            </Link>
+                        </BootstrapTooltip>
+                    }
                 </>
 
             }
 
             <Link to='#'>
-                <li
-
-                    // onClick={() => setChangeStyle("profile")}
-                    // className={
-                    //     isMenuOpen && changeStyle   === "profile" ? "activeLi" :
-                    //      isHovering === 9 && isMenuOpen ? "hoverLi" : ""}
-                    // onMouseEnter={() => setIsHovering(9)}
-                    // onMouseLeave={() => setIsHovering(0)}
-                    className={`${isMenuOpen ? "profile_li" : "profile_li_col"}`}
-
-                >
+                <li  className={`${isMenuOpen ? "profile_li" : "profile_li_col"}`}>
                     <SidebarDropDownOption
                         changestyle={changeStyle}
                         hovereffect={isHovering}

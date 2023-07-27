@@ -1,0 +1,319 @@
+.search-dialog {
+    .dialog-content {
+        overflow-y: scroll;
+    }
+
+    .dialog-content::-webkit-scrollbar {
+        width: 0;
+        background-color: transparent;
+    }
+
+    .dialog-content::-webkit-scrollbar-thumb {
+        background-color: transparent;
+    }
+
+    .search-title {
+        text-align: left;
+        font: normal normal 600 28px/34px Montserrat;
+        letter-spacing: 0px;
+        color: #000000;
+    }
+
+    .modal-close {
+        position: absolute;
+        right: 8px;
+        top: 8px;
+        padding: 2px;
+
+        &:hover {
+            background: #E1E1E1 0% 0% no-repeat padding-box;
+            border-radius: 1px;
+            cursor: pointer;
+        }
+    }
+
+    .MuiDivider-root {
+        background: #178A7B;
+        height: 3px;
+        border-radius: 10px;
+        opacity: 1;
+    }
+
+    .MuiFormControl-root {
+        border: 2px;
+    }
+
+    .div-options {
+
+        display: flex;
+
+
+        .span-options {
+            text-align: left;
+            font: normal normal bold 14px/18px Montserrat;
+            letter-spacing: 0px;
+            color: #707070;
+            padding-right: 22%;
+        }
+
+
+        label {
+            font: normal normal normal 14px/18px Montserrat;
+            letter-spacing: 0px;
+            color: #707070;
+            opacity: 1;
+        }
+
+        .criteria-option-label {
+            text-decoration: underline;
+            font: normal normal bold 14px/18px Montserrat;
+            letter-spacing: 0px;
+            color: $accent;
+            opacity: 1;
+        }
+
+        .MuiSwitch-root {
+            .Mui-checked {
+                .MuiSwitch-thumb {
+                    color: $primary; // The color of the thumb when the switch is OR
+                    opacity: 1;
+                }
+
+                +.MuiSwitch-track {
+                    background-color: $accent;
+                    /* Color of the track when the switch is activated (checked) */
+                    opacity: 1;
+                }
+            }
+
+            .MuiSwitch-thumb {
+                color: $grey; // The color of the thumb when the switch is AND
+                opacity: 1;
+            }
+
+            .MuiSwitch-track {
+                background-color: $accent-grey; //The of the track when switch is OR
+                opacity: 1;
+            }
+        }
+
+
+
+    }
+
+    .div-criterias {
+
+        .title-card {
+            display: grid;
+            text-align: center;
+            font: normal normal bold 14px/18px Montserrat;
+            letter-spacing: 0px;
+            color: #707070;
+        }
+
+        .MuiCard-root {
+            background: #E1E1E1 0% 0% no-repeat padding-box;
+            border: 2px solid #707070;
+            border-radius: 6px;
+            height: 200px;
+            position: relative;
+
+
+            .card-content-criteria {
+                max-height: 170px;
+                overflow-y: scroll;
+            }
+
+            .card-content-criteria::-webkit-scrollbar {
+                width: 0;
+                background-color: transparent;
+            }
+
+            .card-content-criteria::-webkit-scrollbar-thumb {
+                background-color: transparent;
+            }
+
+            .card-rules {
+                max-height: 196px;
+                overflow-y: scroll;
+            }
+
+            .card-rules::-webkit-scrollbar {
+                width: 0;
+                background-color: transparent;
+            }
+
+            .card-rules::-webkit-scrollbar-thumb {
+                background-color: transparent;
+            }
+
+            .list-item-criteria {
+                margin: 0.5px 5px;
+                padding: 0.5px 5px;
+                cursor: pointer;
+
+                .MuiListItemText-primary {
+                    user-select: none;
+                    text-align: left;
+                    font: normal normal normal 10px/13px Montserrat;
+                    letter-spacing: 0px;
+                    color: #707070;
+                    opacity: 1;
+                    cursor: pointer;
+                }
+
+                .assign-icon {
+                    width: 8px;
+                    height: 14px;
+                }
+
+                .deallocate-icon {
+                    width: 14px;
+                    height: 14px;
+                }
+
+                &:hover {
+                    background: #FFFFFF 0% 0% no-repeat padding-box;
+                    border-radius: 4px;
+                    opacity: 1;
+                    cursor: pointer;
+                }
+
+            }
+
+            .list-item-rules {
+                margin: 3px 5px;
+                padding: 0.5px 5px;
+                display: flex;
+                align-items: center;
+
+
+                .MuiListItemText-primary {
+                    user-select: none;
+                    text-align: left;
+                    font: normal normal normal 14px/18px Montserrat;
+                    letter-spacing: 0px;
+                    color: #707070;
+                    opacity: 1;
+                    cursor: default;
+                }
+
+                .circle {
+                    border-radius: 50%;
+                    width: 6px;
+                    height: 6px;
+                    background-color: $dark;
+                    margin-right: 10px;
+                }
+
+                .delete-icon {
+                    width: 16px;
+                    height: 18px;
+                    cursor: pointer;
+
+                    &:hover {
+                        box-shadow: 0px 0px 0px 2px #FFFFFF;
+                        border-radius: 2px;
+                        background: #FFFFFF;
+                    }
+                }
+
+            }
+
+            .MuiCardActions-root {
+                background: white;
+                position: absolute;
+                padding: 0px;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                display: flex;
+                justify-content: center;
+                align-items: flex-end;
+
+                .MuiButton-root {
+                    height: 20px;
+                    color: $grey;
+                    text-align: center;
+                    text-decoration: underline;
+                    font: normal normal normal 12px/15px Montserrat;
+                    letter-spacing: 0px;
+                    opacity: 1;
+                    border: none;
+                    box-shadow: none;
+                    padding: 2px 8px;
+                    margin: 3px;
+
+                    &:hover {
+                        background: $accent-grey;
+                        border-radius: 1px;
+                        opacity: 1;
+                        padding: 2px 8px;
+                        margin: 3px;
+                    }
+                }
+            }
+        }
+
+        .add-rule-btn {
+            margin-top: 20px;
+            width: 100%;
+            text-align: center;
+            font: normal normal 600 14px/18px Montserrat;
+            letter-spacing: 0px;
+            color: #FFFFFF;
+            opacity: 1;
+            background: $accent;
+            box-shadow: 0px 0px 4px #0000004D;
+            border-radius: 4px;
+            opacity: 1;
+
+            &:hover {
+                background: $accent-hover;
+                box-shadow: 0px 0px 4px #0000004D;
+                border-radius: 4px;
+                opacity: 1;
+            }
+        }
+
+        .div-rules {
+            display: flex;
+            margin-top: 10px;
+
+            .span-rules {
+                text-align: left;
+                font: normal normal bold 14px/18px Montserrat;
+                letter-spacing: 0px;
+                color: #707070;
+                margin-top: 5px
+            }
+        }
+
+        .search-btn {
+            margin-top: 8px;
+            width: 50%;
+            margin-left: 50%;
+            text-align: center;
+            font: normal normal 600 14px/18px Montserrat;
+            letter-spacing: 0px;
+            color: #FFFFFF;
+            opacity: 1;
+            background: $dark;
+            box-shadow: 0px 0px 4px #0000004D;
+            border-radius: 4px;
+            opacity: 1;
+
+            &:hover {
+                background: $dark-hover;
+                box-shadow: 0px 0px 4px #0000004D;
+                border-radius: 4px;
+                opacity: 1;
+            }
+        }
+
+        
+
+
+    }
+
+}

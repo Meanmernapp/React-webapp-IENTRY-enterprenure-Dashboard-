@@ -9,10 +9,16 @@ import { Link } from "react-router-dom";
 import Cookies from "js-cookie";
 import { useTranslation } from 'react-i18next'
 import { useSelector } from "react-redux";
+import { status } from "../../../../../enums/statusEnum";
+import { GoPrimitiveDot } from 'react-icons/go';
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
 const AllVehiclesCards = ({ searchVehicle, handleCheckboxChange, selectVehicleForDelete }) => {
     const { t } = useTranslation();
     const lCode = Cookies.get("i18next") || "en";
     const { getAllVehicle } = useSelector(state => state.VehicleSlice);
+    const { searchByFilters } = useSelector(state => state.SearchSlice);
 
     const checkStatus = (id) => {
         if (id === 2) {
@@ -30,7 +36,7 @@ const AllVehiclesCards = ({ searchVehicle, handleCheckboxChange, selectVehicleFo
 
     return (
         <>
-            <div className="row mt-3 mr-2">
+            <div className="row animated-div-left mt-0 ml-0">
                 {
                     // getAllVehicle?.content?.filter((user) => {
                     //     if (searchVehicle === "") {
@@ -43,88 +49,84 @@ const AllVehiclesCards = ({ searchVehicle, handleCheckboxChange, selectVehicleFo
                     //       return user;
                     //     }
                     //   })
-                    getAllVehicle?.content?.map(item => (
-                        <div className="col-md-3" key={item?.id}>
-                            <div className="vehicle_component">
-                                <div style={{
-                                    display: "flex",
-                                    justifyContent: "space-between",
-                                    alignItems: "center"
-                                }}>
-                                    <input type="checkbox" className="checkbox"
-                                        checked={selectVehicleForDelete?.includes(item?.vehicle?.id)}
-                                        id={item?.vehicle?.id}
+                    searchByFilters?.content?.map(item => (
+                        <div className="panel-grid col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 px-0 pr-1 mb-3" key={item?.id}>
+                            <div className="card-base-grid mb-3 pb-2 mr-1 h-100">
+                                <div className="top-heading-card">
+                                    {/* <input type="checkbox" className="checkbox"
+                                        checked={selectVehicleForDelete?.includes(item?.id)}
+                                        id={item?.id}
                                         onChange={handleCheckboxChange}
+                                    /> */}
+                                    <Checkbox
+                                        className="grid-checkall checkbox"
+                                        checked={selectVehicleForDelete?.includes(item?.id)}
+                                        id={item?.id}
+                                        onChange={handleCheckboxChange}
+                                        size="small"
                                     />
-                                    <div
-                                        className="statusDiv"
-                                        style={{
-                                            color: checkStatus(item?.vehicle?.status?.id),
-                                            textTransform: "uppercase",
-                                            fontWeight: "bold"
-                                        }}
-                                    >
-                                        <p>
-                                            {item?.vehicle?.status?.name.replace(/\_/g, " ")}
+                                    <div className={"status " + status[item?.statusId]}>
+                                        <p
+                                        >
+                                            {t(status[(item?.statusId)])}
                                         </p>
-                                        <i
-                                            className="fa fa-circle"
-                                            aria-hidden="true"
-                                        ></i>
+                                        <GoPrimitiveDot
+                                            className="ml-1"
+                                        />
                                     </div>
                                 </div>
-                                <div className="vehicle_card_header" >
-                                    <img src={item?.vehicle?.image ? `data:image/png;base64,${item?.vehicle?.image}`:car} />
-                                    {/* <div className="header_component">
+                                <div
+                                    className="card-body-grid px-2 pb-2"
+                                >
+                                    <div className="img-body" >
+                                        <img src={item?.image ? `data:image/png;base64,${item?.image}` : car} />
+                                        {/* <div className="header_component">
                                         <p>{item?.vehicle?.brand}</p>
                                         <span>{item?.vehicle?.subBrand}</span>
                                     </div> */}
-                                </div>
-                                <div
-                                    className="vehicle_card_body"
-                                >
-                                    <div className="row_body">
+                                    </div>
+
+                                    <div className="card-content-grid">
                                         <p>{t('brand')}</p>
-                                        <span>{item?.vehicle?.brand || "-"}</span>
+                                        <span>{item?.brand || "-"}</span>
                                     </div>
-                                    <div className="row_body">
-                                        <p>{t('sub_Brand')}</p>
-                                        <span>{item?.vehicle?.subBrand || "-"}</span>
+                                    <div className="card-content-grid">
+                                        <p>{t('sub_brand')}</p>
+                                        <span>{item?.subBrand || "-"}</span>
                                     </div>
-                                    <div className="row_body">
+                                    <div className="card-content-grid">
                                         <p>{t('model')}</p>
-                                        <span>{item?.vehicle?.model || "-"}</span>
+                                        <span>{item?.model || "-"}</span>
                                     </div>
-                                    <div className="row_body">
+                                    <div className="card-content-grid">
                                         <p>{t('color')}</p>
-                                        <span>{item?.vehicle?.color || "-"}</span>
+                                        <span>{item?.color || "-"}</span>
                                     </div>
-                                    <div className="row_body">
+                                    <div className="card-content-grid">
                                         <p>{t('plates')}</p>
-                                        <span>{item?.vehicle?.plate || "-"}</span>
+                                        <span>{item?.plate || "-"}</span>
                                     </div>
                                     {/* <div className="row_body">
                                         <p>{t('type')}</p>
                                         <span>{item?.vehicle?.type || "-"}</span>
                                     </div> */}
-                                    <div className="row_body">
+                                    <div className="card-content-grid">
                                         <p>{t('tag')}</p>
-                                        <span>{item?.vehicle?.tag || "-"}</span>
+                                        <span>{item?.tag || "-"}</span>
                                     </div>
 
 
                                 </div>
-                                <Link to={`/dashboard/employee/allVehicles/vehicle-detail/${item?.vehicle?.id}`} className="update_data">
-                                    {t('vehicle_details')}
-                                    <span>
-                                        <img src={angelright_icon} alt="" style={{
-                                            transform: lCode === "ar" ? "scaleX(-1)" : "",
-                                            margin: "0 10px"
-                                        }}
-
-                                        />
-                                    </span>
-                                </Link>
+                                <span className="viewcard-container-link mt-2 d-flex mr-2">
+                                    <Link to={`/dashboard/employee/allVehicles/vehicle-detail/${item?.id}`}>
+                                        {t('details')}
+                                        <span>
+                                            <KeyboardArrowRightIcon style={{
+                                                transform: lCode === "ar" ? "scaleX(-1)" : "",
+                                            }} />
+                                        </span>
+                                    </Link>
+                                </span>
                             </div>
                         </div>
                     ))

@@ -15,6 +15,10 @@ const statusId = (id) => {
             return t("on_vacations")
         case 6:
             return t("in_active")
+        case 22:
+            return t("contract_active")
+        case 23:
+            return t("contract_cancel")
         default:
             return "none"
     }

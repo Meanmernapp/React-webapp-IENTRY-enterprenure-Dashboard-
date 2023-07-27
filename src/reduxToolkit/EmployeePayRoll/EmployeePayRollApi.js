@@ -52,7 +52,7 @@ export const GetAllSelectedDevice = createAsyncThunk("employeePayRoll/getAllSele
 
 export const AddDeviceToListPayroll = createAsyncThunk("employeePayRoll/addDeviceToListPayroll", async (params) => {
 
-    let response = await apiInstance.post('email-settings-service/device-email/create', params).then((response) => {
+    let response = await apiInstance.post(`email-settings-service/device-email/create/by-device-id/${params?.device?.id}`).then((response) => {
         return response
     }).catch((error) => {
         return error.response
@@ -106,7 +106,7 @@ export const GetAllSelectedEmployees = createAsyncThunk("employeePayRoll/getAllS
 
 export const AddEmployeesToListPayroll = createAsyncThunk("employeePayRoll/addEmployeesToListPayroll", async (params) => {
 
-    let response = await apiInstance.post('email-settings-service/user-email/create', params).then((response) => {
+    let response = await apiInstance.post(`email-settings-service/user-email/create/by-user-id/${params?.user?.id}`).then((response) => {
         return response
     }).catch((error) => {
         return error.response
@@ -160,6 +160,32 @@ export const UpdateEmailSetting = createAsyncThunk("employeePayRoll/updateEmailS
 export const ChangeTimeAndSelectedDaysUpdate = createAsyncThunk("employeePayRoll/changeTimeAndSelectedDaysUpdate", async (params, { dispatch, getState }) => {
 
     let response = await apiInstance.put('email-settings-service/update', params).then((response) => {
+        return response
+    }).catch((error) => {
+        return error.response
+    })
+    const { data, status } = response;
+    return { data, status }
+
+});
+
+// remove devices
+export const RemoveDeviceAttendance = createAsyncThunk("employeePayRoll/removeDeviceAttendance", async (params, { dispatch, getState }) => {
+
+    let response = await apiInstance.post('email-settings-service/device-email/delete-list', params).then((response) => {
+        return response
+    }).catch((error) => {
+        return error.response
+    })
+    const { data, status } = response;
+    return { data, status }
+
+});
+
+// remove employee
+export const RemoveEmployeeAttendance = createAsyncThunk("employeePayRoll/removeEmployeeAttendance", async (params, { dispatch, getState }) => {
+
+    let response = await apiInstance.post('email-settings-service/user-email/delete-list', params).then((response) => {
         return response
     }).catch((error) => {
         return error.response

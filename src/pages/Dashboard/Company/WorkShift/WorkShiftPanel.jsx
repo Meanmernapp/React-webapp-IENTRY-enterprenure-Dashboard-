@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AddWorkShift from "./Modals/AddWorkShift";
 import RemoveUser from "./Modals/RemoveUser";
 import WorkShiftPanelCard from "./WorkShiftPanelCard";
@@ -8,6 +8,13 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Cookies from "js-cookie";
 import { permissionObj } from "../../../../Helpers/permission";
+import { AllWorkShiftTime } from "../../../../reduxToolkit/CompanyWorkShift/CompanyWorkShiftSlice";
+import DeleteModal from "../../../Modals/DeleteModal";
+import { DeleteItemsApi } from "../../../../reduxToolkit/Commons/CommonsApi";
+import { toast } from "react-toastify";
+import NotFoundDataWarning from "../../../../components/NotFoundDataWarning";
+import { GetAllWorkShifts } from "../../../../reduxToolkit/CompanyWorkShift/CompanyWorkShiftApi";
+import { Checkbox, FormControlLabel } from "@mui/material";
 
 
 
@@ -16,12 +23,60 @@ const WorkShiftPanel = () => {
   const navigate = useNavigate()
   const { t } = useTranslation();
   const lCode = Cookies.get("i18next") || "en";
+  const title_modal = `workshift_panel`;
+  const element_modal = `workshift`;
 
-  const { permission } = useSelector(state => state.authenticatioauthennSlice);
-
+  // useState
   const [workShiftModalShow, setWorkShiftModalShow] = useState(false);
   const [removeUserModal, setRemoveUserModal] = useState();
+  const [selectWorkshiftForDelete, setSelectWorkshiftForDelete] = useState([])
+  const [isAllChecked, setIsAllChecked] = useState(false)
+  const [deleteShow, setDeleteShow] = useState(false)
+  const [isUpdate, setIsUpdate] = useState(false)
+  const [updateData, setUpdateData] = useState()
+  // use selector
+  const { permission } = useSelector(state => state.authenticatioauthennSlice);
+  const fetchAllWorkTime = useSelector(AllWorkShiftTime);
 
+  // this function control select all id or unSelect all
+  const handelDeleteAll = (e) => {
+    setIsAllChecked(e.target.checked)
+    if (e.target.checked) {
+      const selectAllIds = fetchAllWorkTime?.content?.map(item => {
+        return item?.id
+      })
+      setSelectWorkshiftForDelete(selectAllIds)
+    } else {
+      setSelectWorkshiftForDelete([])
+    }
+  }
+  // this function handle only specific id base on selection
+  const handleCheckboxChange = (e) => {
+
+    if (e.target.checked) {
+      setSelectWorkshiftForDelete([...selectWorkshiftForDelete, e.target.id]);
+    } else {
+      setSelectWorkshiftForDelete(selectWorkshiftForDelete.filter((removeid) => removeid !== e.target.id));
+    }
+  };
+
+  useEffect(() => {
+    const pagination = {
+      "order": true,
+      "page": 0,
+      "size": 8,
+      "sortBy": "id"
+    }
+    //get all work shifts
+    dispatch(GetAllWorkShifts(pagination));
+  }, [])
+
+  // delete workshif
+  const deleteWorkShift = (deleteItem) => {
+    const tableName = "work_shift"
+    const body = deleteItem
+    dispatch(DeleteItemsApi({ tableName, body }))
+  }
   return (
     <>
       <div className="head">
@@ -33,20 +88,61 @@ const WorkShiftPanel = () => {
           />  */}
           {t('work_shift_panel')}
         </span>
-        {permission?.includes(permissionObj?.WEB_WORK_SHIFT_CREATE) &&
-          <button
-            className="btn btn-lg btn-hover" style={{ width: "270px" }}
-            onClick={() => setWorkShiftModalShow(true)}
-          >
-            {t('add_new_work_shift')}
-            <i className="fa fa-plus" aria-hidden="true"></i>
-          </button>
-        }
+        <div className="container-top-right-btns">
+          {permission?.includes(permissionObj?.WEB_WORK_SHIFT_CREATE) &&
+            <>
+              <button
+                className="add-btn-1"
+                onClick={() => {
+                  setWorkShiftModalShow(true)
+                  setIsUpdate(false)
+                }}
+
+              >
+                <i className="fa fa-plus" aria-hidden="true"></i>
+                {t('add')}
+              </button>
+
+              <button className="delete-btn-1"
+                disabled={selectWorkshiftForDelete?.length === 0}
+                onClick={() => {
+                  setDeleteShow(true)
+                }}
+
+              >
+                <i class="fa fa-trash-o" aria-hidden="true"></i>
+                {t('delete')}
+              </button>
+            </>
+          }
+        </div>
       </div>
-      <WorkShiftPanelCard setRemoveUserModal={setRemoveUserModal} />
+      <div className="d-flex gap-1 pl-2 pb-2">
+         <FormControlLabel className="grid-checkall" control={<Checkbox
+          label="Label"
+          checked={isAllChecked}
+          onChange={handelDeleteAll}
+          size="small" />} label={t("de_/_select_all")} />
+      </div>
+      {
+        fetchAllWorkTime?.content?.length > 0 ?
+          <WorkShiftPanelCard
+            setRemoveUserModal={setRemoveUserModal}
+            selectForDelete={selectWorkshiftForDelete}
+            handleCheckboxChange={handleCheckboxChange}
+            setUpdateModal={setWorkShiftModalShow}
+            setIsUpdate={setIsUpdate}
+            setUpdateData={setUpdateData}
+          /> :
+          <>
+            <NotFoundDataWarning text={t("no_workshift")} />
+          </>
+      }
       <AddWorkShift
-        title="Add Work Shift"
+        title={""}
         check="false"
+        isUpdate={isUpdate}
+        data={updateData}
         show={workShiftModalShow}
         onHide={() => setWorkShiftModalShow(false)}
       />
@@ -54,6 +150,17 @@ const WorkShiftPanel = () => {
         title="Remove User"
         show={removeUserModal}
         onHide={() => setRemoveUserModal(false)}
+      />
+
+      <DeleteModal
+        show={deleteShow}
+        onHide={() => setDeleteShow(false)}
+        data={selectWorkshiftForDelete}
+        onClickFn={() => deleteWorkShift(selectWorkshiftForDelete)}
+        title_modal={title_modal}
+        element_modal={element_modal}
+        isReset={setSelectWorkshiftForDelete}
+        isAllReset={setIsAllChecked}
       />
 
     </>

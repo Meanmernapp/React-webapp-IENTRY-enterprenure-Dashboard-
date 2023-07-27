@@ -20,10 +20,28 @@ table {
   }
 }
 
+.hover_effect {
+  font: normal normal normal 10px/13px Montserrat;
+  letter-spacing: 0px;
+  color: #000000;
+  text-transform: uppercase;
+  opacity: 1;
+  text-decoration: underline;
+  padding: 0.2rem 0.5rem;
+  margin-left: 0.4rem !important;
+  font-weight: 600;
+
+  &:hover {
+    background: #e1e1e1;
+    border-radius: 5px;
+  }
+}
+
 .accordion-item {
   margin-bottom: 12px !important;
-  box-shadow: 0px 0px 4px #7070704d !important;
-  border-radius: 8px !important;
+  box-shadow: 0px 0px 4px $shadow !important;
+  border-radius: 4px !important;
+  border: none;
 
   :focus {
     box-shadow: none !important;
@@ -41,6 +59,7 @@ table {
   .main {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     width: 100%;
 
     .leftText {
@@ -55,11 +74,13 @@ table {
         color: #000000;
         opacity: 0.5;
         margin-left: 0.5rem;
+
+        &:hover {
+          background-color: #e1e1e1;
+        }
       }
 
-      sub:hover {
-        background-color: #e1e1e1;
-      }
+
     }
 
     .middeltext {
@@ -103,10 +124,21 @@ table {
         background-color: #21643c;
       }
     }
+
+    .img_view {
+      padding: 0.3rem;
+
+      &:hover {
+        background: #E1E1E1;
+        border-radius: 5px;
+
+      }
+    }
+
   }
 
   .zoneCardDetail {
-    border-top: 2px dashed #178a7b;
+    border-top: 3px dashed #146F62;
     margin: 4px;
 
     tr {
@@ -132,6 +164,25 @@ table {
       border: none;
     }
 
+    .sub_zone_status {
+      font: normal normal 600 12px/25px Montserrat;
+      letter-spacing: 0px;
+      color: #707070;
+      opacity: 1;
+    }
+
+    .status_check {
+      font: normal normal bold 14px/25px Montserrat;
+      letter-spacing: 0px;
+      color: #146F62;
+      opacity: 1;
+
+      i {
+        font-size: 10px;
+        color: #146f62;
+      }
+    }
+
     th {
       color: #707070 !important;
     }
@@ -145,6 +196,24 @@ table {
         font-size: 8px;
         text-decoration: underline;
       }
+
+      .sub_zone {
+        text-decoration: underline;
+        font: normal normal normal 10px/13px Montserrat;
+        letter-spacing: 0px;
+        color: #000000;
+        text-transform: capitalize;
+        opacity: 1;
+        font-weight: 600;
+
+      }
+    }
+
+    .d_name {
+      font: normal normal 600 12px/25px Montserrat;
+      letter-spacing: 0px;
+      color: #707070;
+      opacity: 1;
     }
 
     h5 {
@@ -177,6 +246,7 @@ table {
   border-radius: 4px;
   opacity: 0.3;
   cursor: default;
+
   &:not([disabled]) {
     opacity: 1; // si no está deshabilitado, opacidad 1
 
@@ -323,12 +393,19 @@ table {
 
 .zonescollaps_building {
   h4 {
-    @include color(#178a7b, 1.2rem, 600, uppercase);
+    font: normal normal 600 12px/25px Montserrat;
+    letter-spacing: 0px;
+    color: #178A7B;
+    opacity: 1;
+    text-transform: uppercase;
 
     a {
-      margin-left: 1.5rem;
-      @include color(#000000, 0.6rem, normal, uppercase);
-      border-bottom: 1px solid #000000;
+      text-decoration: underline;
+      font: normal normal normal 8px/10px Montserrat;
+      letter-spacing: 0px;
+      color: #000000;
+      opacity: 1;
+      font-weight: 600
     }
 
     p {
@@ -361,13 +438,19 @@ table {
   }
 
   h5 {
-    @include color(#707070, 1rem, 600, uppercase);
-    // margin-bottom: 2rem;
+    font: normal normal 600 12px/25px Montserrat;
+    letter-spacing: 0px;
+    color: #707070;
+    opacity: 1;
+
   }
 
+
   h6 {
-    line-height: 1rem;
-    @include color(#146f62, 1rem, bold, uppercase);
+    font: normal normal bold 14px/25px Montserrat;
+    letter-spacing: 0px;
+    color: #146F62;
+    opacity: 1;
 
     i {
       font-size: 1rem;
@@ -389,9 +472,12 @@ table {
 
     // margin-left: 2rem;
     a {
-      // margin-left: 2rem;
-      @include color(#707070, 0.7rem, normal, capitalize);
-      text-decoration: underline !important;
+      text-decoration: underline;
+      font: normal normal normal 10px/13px Montserrat;
+      letter-spacing: 0px;
+      color: #000000 !important;
+      text-transform: capitalize;
+      opacity: 1;
     }
   }
 
@@ -400,7 +486,10 @@ table {
   }
 
   h4 {
-    // margin-top: 2.6rem;
+    font: normal normal 600 12px/25px Montserrat;
+    letter-spacing: 0px;
+    color: #178A7B;
+    opacity: 1;
   }
 }
 
@@ -621,15 +710,20 @@ table {
 
 .buildingdetail_access_txt {
   h1 {
-    letter-spacing: 2.4px;
-    @include color(#65aba0, 1.2rem, bold, capitalize);
+    font: normal normal bold 24px/29px Montserrat;
+    letter-spacing: 3.6px;
+    color: #65ABA0;
+    opacity: 1;
 
     span {
-      margin: 0rem 0rem 0rem 1rem;
       text-decoration: underline;
-      letter-spacing: 0rem;
+      font: normal normal normal 12px/15px Montserrat;
+      letter-spacing: 0px;
+      color: #000000;
+      opacity: 1;
+      font-weight: 600;
+      text-transform: uppercase;
       cursor: pointer;
-      @include color(#000000, 0.8rem, normal, capitalize);
     }
 
     span:hover {
@@ -728,12 +822,50 @@ table {
 }
 
 .buildingdetail_access_d {
+  position: relative;
 
   // margin: 4rem 0rem 0rem 0rem;
   h1 {
+    font: normal normal bold 24px/25px Montserrat;
     letter-spacing: 3.6px;
-    text-align: left;
-    @include color(#65aba0, 1.4rem, bold, uppercase);
+    color: #65ABA0;
+    opacity: 1;
+  }
+
+  .remove_selected_zone_employee {
+    cursor: pointer;
+    position: absolute;
+    bottom: 15px;
+    right: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #707070;
+    font-size: 14px;
+
+    p {
+      font-weight: normal;
+      letter-spacing: 0px;
+      text-transform: uppercase;
+      opacity: 1;
+      text-decoration: underline;
+    }
+
+    i {
+      font-size: 18px;
+    }
+
+    @include hover_effect;
+
+  }
+
+  .head_line {
+    border: none;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+
+
   }
 
   .device_button {
@@ -742,6 +874,7 @@ table {
     letter-spacing: 0px;
     color: #000000;
     opacity: 1;
+    font-weight: 600;
   }
 
   .device_button:hover {
@@ -750,13 +883,13 @@ table {
   }
 
   .manage_employee_btn {
-    text-align: left;
-    text-decoration: underline;
     font: normal normal normal 12px/15px Montserrat;
     letter-spacing: 0px;
     color: #000000;
     opacity: 1;
     cursor: pointer;
+    text-decoration: underline;
+    font-weight: 600;
   }
 
   .manage_employee_btn:hover {
@@ -1362,6 +1495,7 @@ table {
     height: 18px;
     vertical-align: middle;
     cursor: pointer;
+
     &:disabled {
       cursor: default;
     }
@@ -1369,13 +1503,14 @@ table {
 
   label {
     color: #707070;
-    input:disabled + & {
+
+    input:disabled+& {
       // Cambiar el color de texto
       color: #E1E1E1;
     }
   }
 
-  input[type="checkbox"]:disabled + label {
+  input[type="checkbox"]:disabled+label {
     color: #E1E1E1; // Cambia el color a gris cuando el checkbox está deshabilitado
   }
 }
@@ -1391,27 +1526,29 @@ table {
     letter-spacing: 4.5px;
   }
 
-    input[type="checkbox"] {
-      accent-color: #146f62;
-      cursor: pointer;
-      margin-right: 0.8rem;
-      width: 18px;
-      height: 18px;
-      vertical-align: middle;
-      &:disabled {
-        cursor: default;
-      }
+  input[type="checkbox"] {
+    accent-color: #146f62;
+    cursor: pointer;
+    margin-right: 0.8rem;
+    width: 18px;
+    height: 18px;
+    vertical-align: middle;
+
+    &:disabled {
+      cursor: default;
     }
+  }
 
   label {
     color: #707070;
-    input:disabled + & {
+
+    input:disabled+& {
       // Cambiar el color de texto
       color: #E1E1E1;
     }
   }
 
-  input[type="checkbox"]:disabled + label {
+  input[type="checkbox"]:disabled+label {
     color: grey; // Cambia el color a gris cuando el checkbox está deshabilitado
   }
 
@@ -1430,13 +1567,14 @@ table {
     height: 18px;
     vertical-align: middle;
     cursor: pointer;
+
     &:disabled {
       cursor: default;
       background: #E1E1E1
     }
   }
 
-  input[type="checkbox"]:disabled + label {
+  input[type="checkbox"]:disabled+label {
     color: #E1E1E1; // Cambia el color a gris cuando el checkbox está deshabilitado
   }
 
@@ -1523,7 +1661,8 @@ table {
 
 .show_device {
   position: relative;
-  margin-left: -12px;
+  margin-left: -1rem;
+  margin-right: -1rem;
 
   // height: 100vh !important;
 
@@ -1533,19 +1672,19 @@ table {
     box-shadow: 0px 0px 4px #00000080;
     border-radius: 6px;
     opacity: 1;
-    width: 250px;
+    // width: 250px;
     // height: 43px;
     overflow: hidden;
-    margin-top: 1.5rem;
+    margin-top: 1rem;
     padding: 0rem 1rem;
-    margin-left: 6px;
+    margin-left: 1rem;
     z-index: 1;
     // z-index: 9999;
     cursor: pointer;
 
     .show_device_navigation_item {
       display: flex;
-      justify-content: center;
+      justify-content: space-between;
       align-items: center;
       padding-top: 0.6rem;
 
@@ -1600,8 +1739,8 @@ table {
 
   .showdevice_addbtn {
     position: absolute;
-    right: 0%;
-    top: 2%;
+    right: 1rem;
+    top: 1rem;
     z-index: 1;
 
     button:hover {
@@ -1611,6 +1750,7 @@ table {
       width: 14rem;
       height: 48px;
       display: flex;
+
       justify-content: space-around;
 
       span {
@@ -1627,6 +1767,7 @@ table {
     button {
       width: 46px;
       height: 48px;
+      border: none;
       background: #146f62 0% 0% no-repeat padding-box;
 
       span {
@@ -1683,8 +1824,8 @@ table {
 
   .showdevice_list {
     position: absolute;
-    right: 0%;
-    top: 11%;
+    right: 1rem;
+    top: 5rem;
     z-index: 1;
 
     button {
@@ -1693,6 +1834,7 @@ table {
       border-radius: 8px;
       width: 48px;
       height: 48px;
+      border: none;
 
       img {
         margin-bottom: 0.4rem;
@@ -1703,7 +1845,8 @@ table {
   .Image_container_zone {
     position: relative;
     width: 100%;
-    height: calc(100vh - 24px);
+    // height: calc(100vh - 24px);
+    height: 100vh;
     // height: 700px;
 
     overflow: hidden;
@@ -1725,7 +1868,9 @@ table {
       .image_container img {
         width: 100%;
         // height: 100vh;
-        height: calc(100vh - 24px);
+        // height: calc(100vh - 24px);
+        height: 100vh;
+
         // object-fit: contain;
       }
 
@@ -1738,17 +1883,18 @@ table {
         box-shadow: 0px 0px 4px #00000080;
         border-radius: 6px;
         opacity: 1;
-        width: 277px;
-        height: 204px;
+        width: auto;
+        // height: 204px;
         z-index: 2;
+        padding: 1rem;
 
         .cross_container {
           position: relative;
 
           .cross_zone_device {
             position: absolute;
-            top: 10px;
-            right: 10px;
+            top: 0px;
+            right: 0px;
             width: 16px;
             height: 16px;
             color: red;
@@ -1770,7 +1916,8 @@ table {
           justify-content: space-between;
           align-items: center;
           border-bottom: 1px dashed #146f62;
-          width: 80%;
+          width: 100%;
+          gap: 1rem;
           margin: 0 auto;
           margin-bottom: 0.5rem;
           padding-bottom: 0.5rem;
@@ -1856,26 +2003,38 @@ table {
   .inner_item {
     display: flex;
     justify-content: space-around;
+    align-items: center;
 
     .fa-cloud-upload {
-      font-size: 5rem;
+      font-size: 4rem;
       color: #c4ccd599;
     }
 
     h4 {
-      color: #707070b3;
-      font-size: 1.2rem;
+      text-align: center;
+      font: normal normal normal 14px/10px Montserrat;
+      letter-spacing: 0px;
+      line-height: 2;
+      color: #707070B3;
     }
 
     h5 {
-      color: #707070b3;
-      font-size: 1.2rem;
+      text-align: center;
+      line-height: 2;
+      font: normal normal normal 14px/10px Montserrat;
+      letter-spacing: 0px;
+      color: #707070B3;
     }
 
     p {
-      color: #707070b3;
-      font-size: 0.7rem;
-      font-weight: bold;
+      // color: #707070b3;
+      // font-size: 0.7rem;
+      // font-weight: bold;
+      text-align: center;
+      padding-top: 0.5rem;
+      font: normal normal bold 8px/10px Montserrat;
+      letter-spacing: 0px;
+      color: #707070B3;
     }
   }
 }
@@ -2049,6 +2208,41 @@ table {
 .add_zone_modal {
   .modal-content {
     width: 100% !important;
+  }
+
+  .clear_all_input {
+
+    background: #146F62 0% 0% no-repeat padding-box;
+    box-shadow: 0px 0px 4px #00000059;
+    border-radius: 4px;
+    opacity: 1;
+    width: 24px;
+    height: 24px;
+    border: none;
+    @include flex_center;
+  }
+
+  .header_zone {
+
+    display: flex;
+    align-items: center;
+    margin-top: 0.5rem;
+
+    h4 {
+      font: normal normal bold 20px/24px Montserrat;
+      letter-spacing: 7px;
+      color: #146F62;
+      opacity: 1;
+      margin-top: 1rem;
+    }
+
+    .sub_title {
+      font: normal normal bold 20px/24px Montserrat;
+      letter-spacing: 7px;
+      color: #146F62;
+      opacity: 1;
+      margin-top: 1rem;
+    }
   }
 }
 
@@ -2475,4 +2669,8 @@ table {
 
     margin-right: 172px !important;
   }
+}
+
+.border_line {
+  border-top: 3px dashed #146F62;
 }

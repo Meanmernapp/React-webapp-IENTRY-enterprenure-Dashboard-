@@ -1,0 +1,21 @@
+export const status = {
+    1: "pre_registered",
+    2: "to_change_password",
+    3: "to_approve_document",
+    4: "active",
+    5: "on_vacations",
+    6: "in_active",
+    14: "contract_active_employee",
+    15: "contract_inactive_employee",
+    21: "contract_finished",
+    22: "contract_active",
+    23: "contract_cancel",
+    24: "contractor_active",
+    25: "contractor_inactive",
+    26: "supplier_active",
+    27: "supplier_inactive",
+    28: "order_incomplete",
+    29: "order_on_course",
+    30: "order_delivered",
+    36: "order_canceled"
+}

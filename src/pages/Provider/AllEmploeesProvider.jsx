@@ -105,7 +105,7 @@ const AllEmploeesProvider = () => {
         <div className="container-top-right-btns"
         >
 
-          
+
           {
 
             // permission?.includes(permissionObj?.WEB_VEHICLE_CREATE) &&
@@ -217,13 +217,11 @@ const AllEmploeesProvider = () => {
 
                           } alt="" className="name_avatar mr-2" />
                           {
-                            item?.name ?
-                              item?.name
-                              + " " +
-                              item?.secondLastName + " " +
-                              item?.lastName
+                            item && item.name
+                              ? `${item.name} ${item.firstLastName} ${item.secondLastName !== null ? item.secondLastName : ""}`
                               : "-"
                           }
+
                         </td>
                         <td>{item?.phoneNumber || "-"}</td>
                         <td >{item?.email || "-"}</td>

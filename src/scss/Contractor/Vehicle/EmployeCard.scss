@@ -1,7 +1,71 @@
 .employe-status-documents{
-    color: #F2A100;
+    color: $yellow;
 }
 
 .employe-status-Vacation{
-    color:#006594;
+    color: $blue;
+}
+
+.contract-status-cancel{
+    color: $red;
+}
+
+.contract_cancel{
+    color: $red;
+}
+
+.contract_finished{
+    color: $yellow;
+}
+
+.contract_active{
+    color: $green;
+}
+
+.contractor_active{
+    color: $green
+}
+
+.contractor_inactive{
+    color: $yellow;
+}
+
+.to_change_password{
+    color: $yellow;
+}
+
+.on_vacations{
+    
+}
+
+.in_active{
+    color: $red
+}
+
+.to_approve_document{
+    color: $blue
+}
+
+.supplier_active{
+    color: $green
+}
+
+.supplier_inactive{
+    color: $yellow
+}
+
+.order_incomplete{
+    color: $grey
+}
+
+.order_on_course{
+    color: $blue
+}
+
+.order_delivered{
+    color: $yellow
+}
+
+.order_canceled{
+    color: $red
 }

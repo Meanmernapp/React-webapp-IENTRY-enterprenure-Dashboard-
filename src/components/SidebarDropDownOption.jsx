@@ -104,7 +104,7 @@ const SidebarDropDownOption = ({ changestyle, hovereffect, isMenuOpen, menutop }
 
                         <img src={userDefault} alt="profile" width={"48px"} height={"48px"}
                             style={{
-                                margin: isMenuOpen ? "0 5px" : menutop ? "" : "0 -23px",
+                                margin: isMenuOpen ? "0 5px" : menutop ? "0 -10px" : "0 -23px",
                                 borderRadius: "5"
                             }}
                         />

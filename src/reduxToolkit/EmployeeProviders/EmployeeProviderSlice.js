@@ -34,7 +34,10 @@ const employeeProviderSlice = createSlice({
         getUserDocumentsEmployee: {},
         createToExternalEmployee: {},
         setToExternalEmployee: {},
-        createEmployeeOrder: {}
+        createEmployeeOrder: {},
+        createEmployeeSupplier: {},
+        updateEmployeeSupplier: {},
+        getEmployeeSupplierByItId: {}
 
     },
     reducers: {
@@ -419,6 +422,39 @@ const employeeProviderSlice = createSlice({
             else if (status >= 400 && status < 500) {
                 console.log("Fail to setToExternalEmployee")
                 // toast("Fail to fetch Zone Devices Lists")
+            }
+        },
+
+        ["employeeProvider/createEmployeeSupplier/fulfilled"]: (state, action) => {
+            const { data, status } = action.payload || {}
+            if (status >= 200 && status < 300) {
+                state.createEmployeeSupplier = data
+                toast.success("Created Successfuly")
+            }
+            else if (status >= 400 && status < 500) {
+                toast.error(data.message)
+
+            }
+        },
+        ["employeeProvider/updateEmployeeSupplier/fulfilled"]: (state, action) => {
+            const { data, status } = action.payload || {}
+            if (status >= 200 && status < 300) {
+                state.updateEmployeeSupplier = data
+                toast.success("Updated Successfuly")
+            }
+            else if (status >= 400 && status < 500) {
+                toast.error(data.message)
+
+            }
+        },
+        ["employeeProvider/getEmployeeSupplierByItId/fulfilled"]: (state, action) => {
+            const { data, status } = action.payload || {}
+            if (status >= 200 && status < 300) {
+                state.getEmployeeSupplierByItId = data?.data
+            }
+            else if (status >= 400 && status < 500) {
+                toast.error(data.message)
+
             }
         },
 

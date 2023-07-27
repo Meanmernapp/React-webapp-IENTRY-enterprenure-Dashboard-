@@ -54,13 +54,17 @@ const ShowDevices = () => {
   const [defaultZone, setDefaultZone] = useState([]);
   const [x, setX] = useState(0);
   const [y, setY] = useState(0);
+  const [showPlaneModal, setShowPlaneModal] = useState(false)
+  const [deletePlaneModal, setDeletePlaneModal] = useState(false)
 
   //use Selector hook to get state for redux store
   const { permission } = useSelector(state => state.authenticatioauthennSlice);
   const { zoneDetailFatherAndChild, getListZoneMap, createZonePlane, deleteImgZonePlane,
+
     setZoneImageCoordinate, getZoneDevicesLists, uploadImgZonePlane } = useSelector(state => state.EmployeeZonesSlice)
 
   console.log(getListZoneMap)
+
 
 
 
@@ -121,7 +125,7 @@ const ShowDevices = () => {
     // console.log(checked)
     setSelectedZone(checked[0])
 
-  }, [selectedZone, viewPlane, getListZoneMap])
+  }, [selectedZone, viewPlane, getListZoneMap,deleteImgZonePlane])
 
 
   useEffect(() => {
@@ -131,7 +135,7 @@ const ShowDevices = () => {
     const checkDeviceImg = filtered?.map(item => ({ top: item.axisPositionX, left: item.axisPositionY, ...item }))
     // console.log(checkDeviceImg)
     setImageMarkers(checkDeviceImg)
-  }, [selectedZone, getZoneDevicesLists, viewPlane])
+  }, [selectedZone, getZoneDevicesLists, viewPlane,deleteImgZonePlane])
 
   //get all device zone
   useEffect(() => {
@@ -156,7 +160,7 @@ const ShowDevices = () => {
     if (getListZoneMap?.length === 0) {
       setViewPlane("map")
     }
-  }, [])
+  }, [deleteImgZonePlane])
 
   // useEffect(() => {
   //   getListZoneMap?.map((item) => {
@@ -182,13 +186,13 @@ const ShowDevices = () => {
                 <h4 onClick={() => setOpenNavigation(!openNavigation)}>{t("zone_information")}</h4>
               </div>
               <div>
-                <h6>{t("corporate")}</h6>
-                <p><span>IBL |</span> Intelligence Bereau Laboratory</p>
+                {/* <h6>{t("corporate")}</h6>
+                <p><span>{zoneDetailFatherAndChild?.corporate || "-"}</span>{"-"} </p> */}
                 <h6>{t("zone")}</h6>
                 <p>{zoneDetailFatherAndChild?.name}</p>
               </div>
-              <div>
-                <FormControl sx={{ m: 1, minWidth: 200 }} size="small">
+              <div >
+                <FormControl sx={{ minWidth: 200, paddingBottom: "0.6rem" }} size="small" fullWidth>
                   <InputLabel id="demo-select-small">{t("view")}</InputLabel>
                   <Select size="small"
                     labelId="demo-select-small"
@@ -214,8 +218,12 @@ const ShowDevices = () => {
                 </FormControl>
                 {
                   viewPlane !== "map" && permission?.includes(permissionObj?.WEB_ZONE_DELETE_DEVICES) &&
-                  <Link to="#" data-toggle="modal" className="remove_link"
-                    data-target="#removePLan">{t("remove_plane")?.toUpperCase()}</Link>
+                  <div >
+
+                    <Link to="#"  className="remove_link"
+                    onClick={()=>setDeletePlaneModal(true)}
+                     >{t("remove_plane")?.toUpperCase()}</Link>
+                  </div>
                 }
               </div>
             </div>
@@ -224,9 +232,10 @@ const ShowDevices = () => {
         {
           permission?.includes(permissionObj?.WEB_ZONE_CREATE_DEVICES) &&
           <div className="showdevice_addbtn"
-            data-toggle="modal"
-            data-target="#showdeviceModal">
-            <button className="btn btn-primary">
+          // data-toggle="modal"
+          // data-target="#showdeviceModal"
+          >
+            <button className="custom_primary_btn_dark" onClick={() => setShowPlaneModal(true)}>
               <span>{t("add_plan")}</span>
               <img src={map_solid} alt="" />
             </button>
@@ -246,7 +255,7 @@ const ShowDevices = () => {
             className="showdevice_list"
             data-toggle="modal"
             data-target="#showdevice_listModal">
-            <button className="btn btn-primary" onClick={() => { setIsDeviceList(true) }}>
+            <button className="custom_primary_btn_dark" onClick={() => { setIsDeviceList(true) }}>
               <img src={ic_info} alt="" />
             </button>
           </div>
@@ -350,9 +359,17 @@ const ShowDevices = () => {
               </div>
           }
         </div>
-        <ShowDeviceModal setProfileImage={setProfileImage} />
+        <ShowDeviceModal
+          show={showPlaneModal}
+          onHide={() => setShowPlaneModal(false)}
+          setProfileImage={setProfileImage}
+        />
         <ShowDeviceMapModal />
-        <RemovePlanModal id={selectedZone?.id} />
+        <RemovePlanModal
+          id={selectedZone?.id}
+          show={deletePlaneModal}
+          onHide={() => setDeletePlaneModal(false)}
+        />
       </div>
     </>
   )

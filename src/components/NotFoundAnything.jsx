@@ -8,7 +8,7 @@ Author : Arman Ali
 Module: Zone
 github: https://github.com/Arman-Arzoo
 */
-const NotFoundAnything = ({ text }) => {
+const NotFoundAnything = ({ text,mt }) => {
     return (
         <Box sx={{
             display: 'flex',
@@ -18,7 +18,7 @@ const NotFoundAnything = ({ text }) => {
             alignContent: "center",
             width: '100%',
             gap: '1rem',
-            marginTop: '3rem'
+            marginTop: mt ? mt : '3rem'
 
         }}>
             <img src={noData} alt="" />

@@ -4,16 +4,18 @@ import filter from "../../assets/images/filter.svg";
 import plus from "../../assets/images/plus.svg";
 import file from "../../assets/images/file.svg";
 import ProvidersFilterModal from "./ProviderModels/providersFilterModal";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import CustomDropDown from "../../components/CustomDropDown";
 import ProviderDropDown from "./SubComponents/providerDropDown";
 import MUIDataTable from "mui-datatables";
 import FilterModal from "./Modal/FilterModal";
 import { useTranslation } from 'react-i18next';
 import Cookies from 'js-cookie';
+import SettingButton from "../../components/SettingButton";
 
 const ProvidersPanel = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate()
   const lCode = Cookies.get("i18next") || "en";
   const [show, setShow] = useState(false);
   const [toggleState, setToggleState] = useState(1);
@@ -134,6 +136,9 @@ const ProvidersPanel = () => {
       <div className="head">
         <div className="headLeft">
           <h2>{t("supplier_panel")}</h2>
+          
+          {/* <SettingButton onAction={()=>navigate("/dashboard/employee/supplier-restriction")}
+          title={t("restriction")} /> */}
         </div>
       </div>
       {/* portfolio-grid */}

@@ -51,6 +51,8 @@ import { toast } from "react-toastify";
 import { useTranslation } from 'react-i18next'
 import Cookies from "js-cookie";
 import NotFoundDataWarning from "../../../components/NotFoundDataWarning";
+import Step4AccessRights from "../Company/Employees/EnrollmentSteps/Step4AccessRights";
+import ClearButton from "../../../components/ClearButton";
 
 export const CreateContractor = () => {
 
@@ -85,6 +87,10 @@ export const CreateContractor = () => {
   var endContractSeconds = new Date(endContract); // some mock date
   var endMilliseconds = endContractSeconds.getTime();
   const [userRemoveModal, setuserRemoveModal] = useState(false);
+
+
+  const [workShiftsList, setWorkShiftsList] = useState([]);
+  const [customizedList, setCustomizedList] = useState([]);
 
   // Pagination
   const [page, setPage] = useState(0);
@@ -171,7 +177,7 @@ export const CreateContractor = () => {
         starDate: startMilliseconds,
         endDate: endMilliseconds,
         description: description,
-        folio:folio
+        folio: folio
       };
       /*author mazhar iqbal
         create contract
@@ -228,83 +234,242 @@ export const CreateContractor = () => {
               margin: "0 10px"
             }}></i>
           </Link>
-          <h2>{t("create_contract")}</h2>
+          <h2>{t("create")}</h2>
         </div>
       </div>
-      <div className="mt-5 order_data_component">
-        <p className="__header">{t("contract_data")}</p>
-        <div className="formCard">
-          <div className="mt-2 __body">
-            <Box sx={{display:'flex', gap:"4.5rem"}}>
-            <Box
-              sx={{ width: "100%",marginLeft:"15px" }}
-              className="inputField"
-            >
-              <FormControl fullWidth
-                sx={{
-                  textAlign: i18n.dir() == "rtl" ? "right" : "left",
-                  "& 	.MuiOutlinedInput-notchedOutline": {
-                    textAlign: i18n.dir() == "rtl" ? "right" : "left",
-                  },
-                  "& 	.MuiInputLabel-root": {
-                    fontSize: 12,
-                    left: i18n.dir() == "rtl" ? "inherit" : "0",
-                    right: i18n.dir() == "rtl" ? "1.75rem" : "0",
-                    transformOrigin: i18n.dir() == "rtl" ? "right" : "left"
-                  }
-                }}
-              >
-                <InputLabel id="demo-simple-select-label">
-                  {t("choose_a_contractor")}
-                </InputLabel>
-                <Select size="small"
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  label={t("choose_a_contractor")}
-                  value={contractor}
-                  onChange={(e) => setContractor(e.target.value)}
+      <Box sx={{ padding: "0rem 4rem" }}>
+        <div className="mt-2 order_data_component">
+          <p className="__header">{t("contract_data")}</p>
+          <div className="formCard">
+            <div className="mt-2 __body">
 
-                >
-                  {getAllContractor &&
-                    getAllContractor.map((item, index) => {
-                      return (
-                        <MenuItem value={item?.id} key={index}>
-                          <strong className="me-2">{item?.acronym} | </strong>{" "}
-                          <span style={{ fontSize: "14px" }}>
-                            {item?.user?.name}
-                          </span>
-                        </MenuItem>
-                      );
-                    })}
-                </Select>
-              </FormControl>
-            </Box>
-            <Box  sx={{ width: "100%",marginRight:"15px" }}>
-            <TextField size="small"
+              <Grid container spacing={2}>
+                <ClearButton flagTooltip={true} handleClear={()=>console.log()} textTooltip={"Clear_all_fields"}/>
+                <Grid item xs={12} sm={6} md={6} lg={6}>
+                  <Box className="inputField">
+                    <FormControl fullWidth
+                      sx={{
+                        textAlign: i18n.dir() == "rtl" ? "right" : "left",
+                        "& 	.MuiOutlinedInput-notchedOutline": {
+                          textAlign: i18n.dir() == "rtl" ? "right" : "left",
+                        },
+                        "& 	.MuiInputLabel-root": {
+                          fontSize: 12,
+                          left: i18n.dir() == "rtl" ? "inherit" : "0",
+                          right: i18n.dir() == "rtl" ? "1.75rem" : "0",
+                          transformOrigin: i18n.dir() == "rtl" ? "right" : "left"
+                        }
+                      }}
+                    >
+                      <InputLabel id="demo-simple-select-label">
+                        {t("choose_a_contractor")}
+                      </InputLabel>
+                      <Select size="small"
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        label={t("choose_a_contractor")}
+                        value={contractor}
+                        onChange={(e) => setContractor(e.target.value)}
+
+                      >
+                        {getAllContractor &&
+                          getAllContractor.map((item, index) => {
+                            return (
+                              <MenuItem value={item?.id} key={index}>
+                                <strong className="me-2">{item?.acronym} | </strong>{" "}
+                                <span style={{ fontSize: "14px" }}>
+                                  {item?.user?.name}
+                                </span>
+                              </MenuItem>
+                            );
+                          })}
+                      </Select>
+                    </FormControl>
+                  </Box>
+                </Grid>
+                <Grid item xs={12} sm={6} md={6} lg={6}>
+                  <Box >
+                    <TextField size="small"
+                      className="inputField"
+                      fullWidth
+                      id="outlined-multiline-static"
+                      label={t("folio")}
+
+                      value={folio}
+                      // defaultValue="Type some description if necessary..."
+                      style={{ color: "#707070" }}
+                      onChange={(e) => setFolio(e.target.value)}
+
+                      sx={{
+                        textAlign: i18n.dir() == "rtl" ? "right" : "left",
+                        "& 	.MuiOutlinedInput-notchedOutline": {
+                          textAlign: i18n.dir() == "rtl" ? "right" : "left",
+                        },
+                        "& 	.MuiInputLabel-root": {
+                          fontSize: 12,
+                          left: i18n.dir() == "rtl" ? "inherit" : "0",
+                          right: i18n.dir() == "rtl" ? "1.75rem" : "0",
+                          transformOrigin: i18n.dir() == "rtl" ? "right" : "left"
+                        }
+                      }}
+                    />
+                  </Box>
+                </Grid>
+                <Grid item xs={12} sm={6} md={6} lg={6}>
+                  <Box className="inputField">
+                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                      <Stack spacing={3}
+                        sx={{
+                          textAlign: i18n.dir() == "rtl" ? "right" : "left",
+                          "& 	.MuiOutlinedInput-notchedOutline": {
+                            textAlign: i18n.dir() == "rtl" ? "right" : "left",
+                          },
+                          "& 	.MuiInputLabel-root": {
+                            fontSize: 12,
+                            left: i18n.dir() == "rtl" ? "inherit" : "0",
+                            right: i18n.dir() == "rtl" ? "1.75rem" : "0",
+                            transformOrigin: i18n.dir() == "rtl" ? "right" : "left"
+                          }
+                        }}
+                      >
+                        <DesktopDatePicker
+                          label={t("start_contract")}
+                          inputFormat="MM/dd/yyyy"
+                          value={startContract}
+                          onChange={setstartContract}
+                          renderInput={(params) => <TextField size="small" {...params} />}
+
+                        />
+                      </Stack>
+                    </LocalizationProvider>
+                  </Box>
+                </Grid>
+                <Grid item xs={12} sm={6} md={6} lg={6}>
+                  <Box className="inputField">
+                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                      <Stack spacing={3}
+                        sx={{
+                          textAlign: i18n.dir() == "rtl" ? "right" : "left",
+                          "& 	.MuiOutlinedInput-notchedOutline": {
+                            textAlign: i18n.dir() == "rtl" ? "right" : "left",
+                          },
+                          "& 	.MuiInputLabel-root": {
+                            fontSize: 12,
+                            left: i18n.dir() == "rtl" ? "inherit" : "0",
+                            right: i18n.dir() == "rtl" ? "1.75rem" : "0",
+                            transformOrigin: i18n.dir() == "rtl" ? "right" : "left"
+                          }
+                        }}
+                      >
+                        <DesktopDatePicker
+                          label={t("end_contract")}
+                          inputFormat="MM/dd/yyyy"
+                          value={endContract}
+                          onChange={setendContract}
+                          renderInput={(params) => <TextField size="small" {...params} />}
+                        />
+                      </Stack>
+                    </LocalizationProvider>
+                  </Box>
+                </Grid>
+                <Grid item xs={12} sm={12} md={12} lg={12}>
+                  <TextField size="small"
+                    className="inputField"
+                    fullWidth
+                    id="outlined-multiline-static"
+                    label={t("description")}
+                    multiline
+                    rows={4}
+
+                    // defaultValue="Type some description if necessary..."
+                    style={{ color: "#707070" }}
+                    onChange={(e) => setDescription(e.target.value)}
+
+                    sx={{
+                      textAlign: i18n.dir() == "rtl" ? "right" : "left",
+                      "& 	.MuiOutlinedInput-notchedOutline": {
+                        textAlign: i18n.dir() == "rtl" ? "right" : "left",
+                      },
+                      "& 	.MuiInputLabel-root": {
+                        fontSize: 12,
+                        left: i18n.dir() == "rtl" ? "inherit" : "0",
+                        right: i18n.dir() == "rtl" ? "1.75rem" : "0",
+                        transformOrigin: i18n.dir() == "rtl" ? "right" : "left"
+                      }
+                    }}
+                  />
+                </Grid>
+              </Grid>
+              {/* <Box sx={{ display: 'flex', gap: "4.5rem" }}>
+              <Box
+                sx={{ width: "100%", marginLeft: "15px" }}
                 className="inputField"
-                fullWidth
-                id="outlined-multiline-static"
-                label={t("folio")}
-               
-value={folio}
-                // defaultValue="Type some description if necessary..."
-                style={{ color: "#707070"}}
-                onChange={(e) => setFolio(e.target.value)}
-
-                sx={{
-                  textAlign: i18n.dir() == "rtl" ? "right" : "left",
-                  "& 	.MuiOutlinedInput-notchedOutline": {
+              >
+                <FormControl fullWidth
+                  sx={{
                     textAlign: i18n.dir() == "rtl" ? "right" : "left",
-                  },
-                  "& 	.MuiInputLabel-root": {
-                    fontSize: 12,
-                    left: i18n.dir() == "rtl" ? "inherit" : "0",
-                    right: i18n.dir() == "rtl" ? "1.75rem" : "0",
-                    transformOrigin: i18n.dir() == "rtl" ? "right" : "left"
-                  }
-                }}
-              />
-            </Box>
+                    "& 	.MuiOutlinedInput-notchedOutline": {
+                      textAlign: i18n.dir() == "rtl" ? "right" : "left",
+                    },
+                    "& 	.MuiInputLabel-root": {
+                      fontSize: 12,
+                      left: i18n.dir() == "rtl" ? "inherit" : "0",
+                      right: i18n.dir() == "rtl" ? "1.75rem" : "0",
+                      transformOrigin: i18n.dir() == "rtl" ? "right" : "left"
+                    }
+                  }}
+                >
+                  <InputLabel id="demo-simple-select-label">
+                    {t("choose_a_contractor")}
+                  </InputLabel>
+                  <Select size="small"
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    label={t("choose_a_contractor")}
+                    value={contractor}
+                    onChange={(e) => setContractor(e.target.value)}
+
+                  >
+                    {getAllContractor &&
+                      getAllContractor.map((item, index) => {
+                        return (
+                          <MenuItem value={item?.id} key={index}>
+                            <strong className="me-2">{item?.acronym} | </strong>{" "}
+                            <span style={{ fontSize: "14px" }}>
+                              {item?.user?.name}
+                            </span>
+                          </MenuItem>
+                        );
+                      })}
+                  </Select>
+                </FormControl>
+              </Box>
+              <Box sx={{ width: "100%", marginRight: "15px" }}>
+                <TextField size="small"
+                  className="inputField"
+                  fullWidth
+                  id="outlined-multiline-static"
+                  label={t("folio")}
+
+                  value={folio}
+                  // defaultValue="Type some description if necessary..."
+                  style={{ color: "#707070" }}
+                  onChange={(e) => setFolio(e.target.value)}
+
+                  sx={{
+                    textAlign: i18n.dir() == "rtl" ? "right" : "left",
+                    "& 	.MuiOutlinedInput-notchedOutline": {
+                      textAlign: i18n.dir() == "rtl" ? "right" : "left",
+                    },
+                    "& 	.MuiInputLabel-root": {
+                      fontSize: 12,
+                      left: i18n.dir() == "rtl" ? "inherit" : "0",
+                      right: i18n.dir() == "rtl" ? "1.75rem" : "0",
+                      transformOrigin: i18n.dir() == "rtl" ? "right" : "left"
+                    }
+                  }}
+                />
+              </Box>
             </Box>
             <div className="col-md-12 d-flex">
               <Box
@@ -390,11 +555,22 @@ value={folio}
                   }
                 }}
               />
+            </div> */}
             </div>
           </div>
         </div>
-      </div>
-      <div className="mt-5 access_right_component">
+        <Box sx={{ margin: "2rem 0rem" }}>
+          <Step4AccessRights
+            // employeeData={employeeData}
+            workShiftsList={workShiftsList}
+            setWorkShiftsList={setWorkShiftsList}
+            customizedList={customizedList}
+            setCustomizedList={setCustomizedList}
+          // onChange={handleFormChangeEmployeeData}
+          // setEmployeeData={setEmployeeData} 
+          />
+        </Box>
+        {/* <div className="mt-5 access_right_component">
         <p className="__header">{t("access_right")}</p>
         <div className="mt-2  __body">
           <div className="__upper d-flex">
@@ -564,7 +740,17 @@ value={folio}
           </button>
 
         </div>
-      </div>
+      </div> */}
+        < div className="d-flex justify-content-end mb-3">
+          <button className="custom_btn_cancel_gray_hover" style={{ width: "284px", flex: "unset" }}>
+            {t("cancel")?.toUpperCase()}
+          </button>
+          <button className="custom_primary_btn_dark" onClick={handleSubmit} style={{ width: "284px", flex: "unset" }}>
+            {t("create")?.toUpperCase()}
+          </button>
+
+        </div>
+      </Box>
     </>
   );
 };

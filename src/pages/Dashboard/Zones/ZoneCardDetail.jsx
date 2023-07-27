@@ -3,6 +3,7 @@ import { Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import Cookies from 'js-cookie';
+import NotFoundAnything from "../../../components/NotFoundAnything";
 
 /*
 Author : Arman Ali
@@ -32,97 +33,115 @@ const ZoneCardDetail = ({ item }) => {
     <>
       <div className="row zoneCardDetail">
         {/* total access device table */}
-        <div className="col-lg-6 col-md-8 p-0">
-          <Table style={{ border: "hidden", marginTop: "5px" }}>
+        <div className="col-lg-12 col-md-12 p-0">
+          <Table style={{ border: "hidden", marginTop: "1rem" }}>
             <thead >
               <tr>
-                <th className="nameTD">{t("total_access_devices")}</th>
-                <th className="text-center">{CalculateTotalDevice(item)}{" "}{t("devices")}</th>
+                <th className="nameTD">{t("access_devices")?.toUpperCase()}</th>
+                <th className="text-right">{CalculateTotalDevice(item)}{" "}{t("devices")?.toUpperCase()}</th>
               </tr>
             </thead>
             <tbody>
               <tr >
-                <td>{t("MANTARA")}</td>
-                <td className="text-center">{item?.accessDeviceProjection?.noMantra}</td>
+                <td className="d_name">{t("MANTARA")}</td>
+                <td className="text-right pr-5">{item?.accessDeviceProjection?.noMantra}</td>
               </tr>
               <tr >
-                <td> {t("PDA")}</td>
-                <td className="text-center">{item?.accessDeviceProjection?.noPda}</td>
+                <td className="d_name"> {t("PDA")}</td>
+                <td className="text-right pr-5">{item?.accessDeviceProjection?.noPda}</td>
               </tr>
               <tr >
-                <td>{t("TELPO450")}</td>
-                <td className="text-center">{item?.accessDeviceProjection?.noTelpo450}</td>
+                <td className="d_name">{t("TELPO450")}</td>
+                <td className="text-right pr-5">{item?.accessDeviceProjection?.noTelpo450}</td>
               </tr>
               <tr >
-                <td>{t("TELPO980")}</td>
-                <td className="text-center">{item?.accessDeviceProjection?.noTelpo980}</td>
+                <td className="d_name">{t("TELPO980")}</td>
+                <td className="text-right pr-5">{item?.accessDeviceProjection?.noTelpo980}</td>
               </tr>
               <tr >
-                <td>{t("TELPOF6")}</td>
-                <td className="text-center">{item?.accessDeviceProjection?.noTelpoF6}</td>
+                <td className="d_name">{t("TELPOF6")}</td>
+                <td className="text-right pr-5">{item?.accessDeviceProjection?.noTelpoF6}</td>
               </tr>
               <tr >
-                <td>{t("TELPOk5")}</td>
-                <td className="text-center">{item?.accessDeviceProjection?.noTelpoK5}</td>
+                <td className="d_name">{t("TELPOk5")}</td>
+                <td className="text-right pr-5">{item?.accessDeviceProjection?.noTelpoK5}</td>
               </tr>
               <tr >
-                <td>{t("TELPOF10")}</td>
-                <td className="text-center">{item?.accessDeviceProjection?.noTelpoF10}</td>
+                <td className="d_name">{t("TELPOF10")}</td>
+                <td className="text-right pr-5">{item?.accessDeviceProjection?.noTelpoF10}</td>
               </tr>
             </tbody>
           </Table>
         </div>
         {/* sub zone table list */}
-        <div className="col-md-11 p-0">
-          <h6 className="nameTD" style={{ fontWeight: '600', letterSpacing: "0.2rem" }}>{t("sub_zones")}</h6>
-          <Table style={{ border: "hidden" }}>
-            <thead style={{ border: "hidden" }}>
-              <tr>
-                <th>{t("name")}</th>
-                <th className="text-center">{t("access_device")}</th>
-                <th className="text-center">{t("common_area")}</th>
-                <th className="text-center">{t("status")}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {
-                item?.children?.map((item, index) => {
-                  return (
-
-                    <tr style={{ border: "hidden" }} key={index}>
-                      <td className="nameTD">
-                        {item?.name} <Link to="/dashboard/dashboard/employee/zones/singlezonedetails"><sub>{t("more_details")}</sub></Link>
-                      </td>
-                      <td className="text-center">
-                        {
-                          item?.devices.length == 0 &&
-                          <i class="fa fa-times" aria-hidden="true" style={{ color: "red", fontSize: "1.2rem" }}></i>
-                        }
-                        {
-                          item?.devices.length > 0 &&
-                          <i class="fa fa-check" aria-hidden="true" style={{ color: 'green', fontSize: "1.2rem" }}></i>
-                        }
-
-                      </td>
-                      <td className="text-center">
-                        {
-                          item?.commonArea == null &&
-                          <i class="fa fa-times" aria-hidden="true" style={{ color: "red", fontSize: "1.2rem" }}></i>
-                        }
-                        {
-                          item?.commonArea != null &&
-                          <i class="fa fa-check" aria-hidden="true" style={{ color: 'green', fontSize: "1.2rem" }}></i>
-                        }
-                      </td>
-                      <td className="text-center" style={{ color: '#146f62', fontWeight: "bold" }}>
-                        {item?.status?.name} <i style={{ fontSize: '10px', color: '#146f62' }} class="fa fa-circle" aria-hidden="true"></i>
-                      </td>
+        <div className="col-md-12 p-0 border_line pt-3">
+          {
+            item?.children?.length > 0 ?
+              <>
+                <h6 className="nameTD pb-3" style={{ fontWeight: '600', letterSpacing: "0.2rem" }}>{t("internal_monitoring")?.toUpperCase()}</h6>
+                <Table style={{ border: "hidden" }}>
+                  <thead style={{ border: "hidden" }}>
+                    <tr>
+                      <th className="sub_zone_status">{t("sub_zone")?.toUpperCase()}</th>
+                      <th className="text-center sub_zone_status">{t("access_device")?.toUpperCase()}</th>
+                      <th className="text-center sub_zone_status">{t("common_area")?.toUpperCase()}</th>
+                      <th className="text-center sub_zone_status">{t("status")?.toUpperCase()}</th>
                     </tr>
-                  )
-                })
-              }
-            </tbody>
-          </Table>
+                  </thead>
+                  <tbody>
+                    {
+                      item?.children?.map((item, index) => {
+                        return (
+
+                          <tr style={{ border: "hidden",marginBottom:"1rem" }} key={index}>
+                            <td className="nameTD d-flex gap-2 align-items-center">
+                              {item?.name}
+                              <Link to="/dashboard/employee/zones/singlezonedetails"
+                              className="sub_zone"
+                              >
+                                {/* <sub> */}
+                                  {t("more_details")}
+                                  {/* </sub> */}
+                              </Link>
+                            </td>
+                            <td className="text-center">
+                              {
+                                item?.devices.length == 0 &&
+                                <i class="fa fa-times" aria-hidden="true" style={{ color: "red", fontSize: "1.2rem" }}></i>
+                              }
+                              {
+                                item?.devices.length > 0 &&
+                                <i class="fa fa-check" aria-hidden="true" style={{ color: 'green', fontSize: "1.2rem" }}></i>
+                              }
+
+                            </td>
+                            <td className="text-center">
+                              {
+                                item?.commonArea == null &&
+                                <i class="fa fa-times" aria-hidden="true" style={{ color: "red", fontSize: "1.2rem" }}></i>
+                              }
+                              {
+                                item?.commonArea != null &&
+                                <i class="fa fa-check" aria-hidden="true" style={{ color: 'green', fontSize: "1.2rem" }}></i>
+                              }
+                            </td>
+                            <td className="text-center status_check" >
+                              {item?.status?.name?.split("_").join(" ")} <i  class="fa fa-circle" aria-hidden="true"></i>
+                            </td>
+                          </tr>
+                        )
+                      })
+                    }
+                  </tbody>
+                </Table>
+              </>
+              :
+              <div className="">
+                <h6 className="nameTD" style={{ fontWeight: '600', letterSpacing: "0.2rem" }}>{t("sub_zones")}</h6>
+                <NotFoundAnything text={"no_sub_zone"} mt={"0rem"} />
+
+              </div>
+          }
         </div>
       </div>
     </>

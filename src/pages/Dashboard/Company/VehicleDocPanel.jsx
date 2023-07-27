@@ -7,7 +7,7 @@ import React, { useEffect, useState, useRef } from 'react'
 import ic_delete_red from '../../../assets/images/ic-delete-red.svg'
 import download_Img from '../../../assets/images/ic-download-file.svg'
 import cancel from '../../../assets/images/ic-cancel.svg';
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import cloud from '../../../assets/images/cloud.svg'
 import ic_cancel from '../../../assets/images/ic-cancel.svg';
@@ -32,10 +32,12 @@ import {
   CreateContractorVehicleDoc, CreateSupplierVehicleDoc, DeleteAllVehicleDocument, DeleteDocumentById,
   DownloadDocumentById, GetAllDepartments, GetAllEmployeeDoc, GetAllSupplierVehicleDoc, GetAllContractorVehicleDoc
 } from '../../../reduxToolkit/DocumentPanel/DocumentPanelApi';
+import SettingButton from '../../../components/SettingButton';
 
 const VehicleDocPanel = () => {
   // use hook importer
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   const { t } = useTranslation();
   const lCode = Cookies.get("i18next") || "en";
   // use State
@@ -128,10 +130,10 @@ const VehicleDocPanel = () => {
 
   // check permission check 
   useEffect(() => {
-    if (!permission?.includes(permissionObj?.WEB_EXTERNAL_DOCUMENT_MENU)) {
+    if (!permission?.includes(permissionObj?.WEB_CONTRACTOR_VEHICLE_DOCUMENT_READ)) {
       setToggleState(1)
     }
-    else if (!permission?.includes(permissionObj?.WEB_EMPLOYEE_DOCUMENT_MENU)) {
+    else if (!permission?.includes(permissionObj?.WEB_SUPPLIER_VEHICLE_DOCUMENT_READ)) {
       setToggleState(2)
     }
     dispatch(GetAllDepartments())
@@ -161,7 +163,10 @@ const VehicleDocPanel = () => {
           </div>
 
           <div className='container-top-right-btns'>
-            {permission?.includes(permissionObj?.WEB_EXTERNAL_DOCUMENT_CREATE || permissionObj?.WEB_EMPLOYEE_DOCUMENT_CREATE) &&
+            
+          <SettingButton onAction={()=>navigate("/dashboard/employee/document-restriction")}
+          title={t("restriction")} />
+            {permission?.includes(permissionObj?.WEB_SUPPLIER_VEHICLE_DOCUMENT_CREATE || permissionObj?.WEB_CONTRACTOR_VEHICLE_DOCUMENT_CREATE) &&
 
               <button className='add-btn-1'
                 onClick={() => setAddDocumentModal(true)}
@@ -185,9 +190,9 @@ const VehicleDocPanel = () => {
         </div>
 
         {/* portfolio-grid */}
-        <div className="row steps-row justify-content-between m-0" id="pills-tab" role="tablist">
+        <div className="row steps-row justify-content-center m-0" id="pills-tab" role="tablist">
 
-          {permission?.includes(permissionObj?.WEB_EXTERNAL_DOCUMENT_MENU) &&
+          {permission?.includes(permissionObj?.WEB_SUPPLIER_VEHICLE_DOCUMENT_READ) &&
             <div
               // className="col-4 text-center p-0 tap_hover active_tap"
               className={`col-6 text-center p-0 tap_hover ${toggleState === 1 ? 'active_tap' : 'deactive_tap'}`}
@@ -208,7 +213,7 @@ const VehicleDocPanel = () => {
               </a>
             </div>
           }
-          {permission?.includes(permissionObj?.WEB_EXTERNAL_DOCUMENT_MENU) &&
+          {permission?.includes(permissionObj?.WEB_CONTRACTOR_VEHICLE_DOCUMENT_READ) &&
             <div
               // className="col-4 text-center p-0 tap_hover"
               className={`col-6 text-center p-0 tap_hover ${toggleState === 2 ? 'active_tap' : 'deactive_tap'}`}
@@ -233,7 +238,7 @@ const VehicleDocPanel = () => {
 
         <div className="tab-content" id="pills-tabContent" ref={elementRef}>
           {/* provider */}
-          {permission?.includes(permissionObj?.WEB_EXTERNAL_DOCUMENT_MENU) &&
+          {permission?.includes(permissionObj?.WEB_SUPPLIER_VEHICLE_DOCUMENT_READ) &&
             <div
               className={`${toggleState === 1 ? 'tab-pane fade show active ' : 'tab-pane fade'}`}
               id="pills-profile"
@@ -347,7 +352,7 @@ const VehicleDocPanel = () => {
               </div>
             </div>
           }
-          {permission?.includes(permissionObj?.WEB_EXTERNAL_DOCUMENT_MENU) &&
+          {permission?.includes(permissionObj?.WEB_CONTRACTOR_VEHICLE_DOCUMENT_READ) &&
             <div
               className={`${toggleState === 2 ? 'tab-pane fade show active ' : 'tab-pane fade'}`}
               id="pills-profile"
@@ -468,6 +473,8 @@ const VehicleDocPanel = () => {
           data={selectDocForDelete}
           title_modal={title_modal}
           element_modal={element_modal}
+          isReset={setSelectDocForDelete}
+          isAllReset={setIsAllChecked}
         />
 
       </div>

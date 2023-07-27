@@ -26,10 +26,13 @@ import { permissionObj } from '../../../Helpers/permission';
 import NotFoundDataWarning from '../../../components/NotFoundDataWarning';
 import { Box, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material';
 import { CreateContractorDoc, CreateEmployeeDoc, CreateSupplierDoc, DeleteAllDocument, DeleteDocumentById, DownloadDocumentById, GetAllContractorDoc, GetAllDepartments, GetAllEmployeeDoc, GetAllSupplierDoc } from '../../../reduxToolkit/DocumentPanel/DocumentPanelApi';
+import SettingButton from '../../../components/SettingButton';
+import { useNavigate } from 'react-router';
 
 const UserDocPanel = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const [toggleState, setToggleState] = useState(1);
   const [showDeleteModal, setShowDeleteModal] = useState();
@@ -120,11 +123,14 @@ const UserDocPanel = () => {
   }, [toggleState]);
 
   useEffect(() => {
-    if (!permission?.includes(permissionObj?.WEB_EXTERNAL_DOCUMENT_MENU)) {
+    if (!permission?.includes(permissionObj?.WEB_SUPPLIER_DOCUMENT_READ) && !permission?.includes(permissionObj?.WEB_CONTRACTOR_DOCUMENT_READ)) {
       setToggleState(1)
     }
-    else if (!permission?.includes(permissionObj?.WEB_EMPLOYEE_DOCUMENT_MENU)) {
+    else if (!permission?.includes(permissionObj?.WEB_EMPLOYEE_DOCUMENT_READ) && !permission?.includes(permissionObj?.WEB_CONTRACTOR_DOCUMENT_READ)) {
       setToggleState(2)
+    }
+    else if (!permission?.includes(permissionObj?.WEB_EMPLOYEE_DOCUMENT_READ) && !permission?.includes(permissionObj?.WEB_SUPPLIER_DOCUMENT_READ)){
+      setToggleState(3)
     }
     dispatch(GetAllDepartments())
   }, [])
@@ -159,7 +165,10 @@ const UserDocPanel = () => {
           </div>
 
           <div className='container-top-right-btns'>
-            {permission?.includes(permissionObj?.WEB_EXTERNAL_DOCUMENT_CREATE || permissionObj?.WEB_EMPLOYEE_DOCUMENT_CREATE) &&
+            
+          <SettingButton onAction={()=>navigate("/dashboard/employee/document-restriction")}
+          title={t("restriction")} />
+            {permission?.includes(permissionObj?.WEB_SUPPLIER_DOCUMENT_CREATE || permissionObj?.WEB_EMPLOYEE_DOCUMENT_CREATE || permissionObj?.WEB_CONTRACTOR_DOCUMENT_CREATE) &&
 
               <button className='add-btn-1'
                 onClick={() => setAddDocumentModal(true)}
@@ -184,8 +193,8 @@ const UserDocPanel = () => {
         </div>
 
         {/* portfolio-grid */}
-        <div className="row steps-row justify-content-between m-0" id="pills-tab" role="tablist">
-          {permission?.includes(permissionObj?.WEB_EMPLOYEE_DOCUMENT_MENU) &&
+        <div className="row steps-row justify-content-center m-0" id="pills-tab" role="tablist">
+          {permission?.includes(permissionObj?.WEB_EMPLOYEE_DOCUMENT_READ) &&
             <div
               // className="col-4 text-center p-0 tap_hover" 
               className={`col-4 text-center p-0 tap_hover ${toggleState === 1 ? 'active_tap' : 'deactive_tap'}`}
@@ -205,7 +214,7 @@ const UserDocPanel = () => {
               </a>
             </div>
           }
-          {permission?.includes(permissionObj?.WEB_EXTERNAL_DOCUMENT_MENU) &&
+          {permission?.includes(permissionObj?.WEB_SUPPLIER_DOCUMENT_READ) &&
             <div
               // className="col-4 text-center p-0 tap_hover active_tap"
               className={`col-4 text-center p-0 tap_hover ${toggleState === 2 ? 'active_tap' : 'deactive_tap'}`}
@@ -226,7 +235,7 @@ const UserDocPanel = () => {
               </a>
             </div>
           }
-          {permission?.includes(permissionObj?.WEB_EXTERNAL_DOCUMENT_MENU) &&
+          {permission?.includes(permissionObj?.WEB_CONTRACTOR_DOCUMENT_READ) &&
             <div
               // className="col-4 text-center p-0 tap_hover"
               className={`col-4 text-center p-0 tap_hover ${toggleState === 3 ? 'active_tap' : 'deactive_tap'}`}
@@ -250,7 +259,7 @@ const UserDocPanel = () => {
         </div>
 
         <div className="tab-content" id="pills-tabContent" ref={elementRef}>
-          {permission?.includes(permissionObj?.WEB_EMPLOYEE_DOCUMENT_MENU) &&
+          {permission?.includes(permissionObj?.WEB_EMPLOYEE_DOCUMENT_READ) &&
             <div
               className={`${toggleState === 1 ? 'tab-pane fade show active ' : 'tab-pane fade'}`}
               id="pills-home"
@@ -368,7 +377,7 @@ const UserDocPanel = () => {
               </div>
             </div>
           }
-          {permission?.includes(permissionObj?.WEB_EXTERNAL_DOCUMENT_MENU) &&
+          {permission?.includes(permissionObj?.WEB_SUPPLIER_DOCUMENT_READ) &&
             <div
               className={`${toggleState === 2 ? 'tab-pane fade show active ' : 'tab-pane fade'}`}
               id="pills-profile"
@@ -488,7 +497,7 @@ const UserDocPanel = () => {
             </div>
           }
 
-          {permission?.includes(permissionObj?.WEB_EXTERNAL_DOCUMENT_MENU) &&
+          {permission?.includes(permissionObj?.WEB_CONTRACTOR_DOCUMENT_READ) &&
             <div
               className={`${toggleState === 3 ? 'tab-pane fade show active ' : 'tab-pane fade'}`}
               id="pills-profile"
@@ -614,6 +623,8 @@ const UserDocPanel = () => {
           data={selectDocForDelete}
           title_modal={title_modal}
           element_modal={element_modal}
+          isReset={setSelectDocForDelete}
+          isAllReset={setIsAllChecked}
         />
       </div>
 

@@ -192,8 +192,22 @@ export const CheckProviderPreUser = createAsyncThunk("providers/checkProviderPre
 //corporate-user-pre-prod-v1/provider-employee-service/create
 export const CreateProviderUserRelationship = createAsyncThunk("providers/createProviderUserRelationship", async (params, { dispatch, getState }) => {
 
-    let result = await apiInstanceV2.post(`supplier-employee-service/create`, params).then(function (response) {
+    let result = await apiInstanceV2.post(`supplier-employee-service/v1/create`, params?.data).then(function (response) {
         toast.success(" successfully  created")
+        const imgData = {
+            user: {
+                id: response?.data?.data?.userId,
+            },
+            accessMethod: {
+                id: "5"
+            },
+            description: "Face recognition"
+    
+        }
+        // want to update or create image
+        if (params?.file != "") {
+            // dispatch(UploadProviderImage({ imgData, file:params?.file }))
+        }
         return response
     }).catch(function (error) {
         return error.response
@@ -204,20 +218,27 @@ export const CreateProviderUserRelationship = createAsyncThunk("providers/create
     return { data, status }
 });
 
+// get supplier info by id
+export const GetSupplierInfoById = createAsyncThunk("contractor/getSupplierInfoById", async (params, { dispatch, getState }) => {
+  
+    let result = await apiInstance.get(`supplier-employee-service/v1/get-by-user-id/${params}`).then(function (response) {
+        return response
+    }).catch(function (error) {
+        return error.response
+    })
+    const { data, status } = result
+    return { data, status }
+  });
+
 // upload image 
 export const UploadProviderImage = createAsyncThunk("providers/uploadProviderImage", async (params, { dispatch, getState }) => {
 
     console.log(params?.file)
     let result = await apiInstanceV2.post(`user-service/user-image/create`, params?.imgData).then(function (response) {
-        // toast.success("create object image")
-        console.log(params?.file)
+       
         console.log(response)
-        // let formData = new FormData();
-        // formData.append('id', response?.data?.data?.user?.id);
-        // formData.append('option', "user");
-        // formData.append('file', params?.file);
         dispatch(SaveProviderImage({id:response?.data?.data?.id, file:params?.file}))
-        // toast.success("Image uploaded successfully")
+        
         return response
     }).catch(function (error) {
         // toast.error(" failed")
@@ -231,6 +252,7 @@ export const UploadProviderImage = createAsyncThunk("providers/uploadProviderIma
 
 });
 
+
 // save image
 export const SaveProviderImage = createAsyncThunk("providers/saveProviderImage", async (params, { dispatch, getState }) => {
     let formData = new FormData();
@@ -239,7 +261,6 @@ export const SaveProviderImage = createAsyncThunk("providers/saveProviderImage",
     formData.append('file', params?.file);
 
     let result = await apiInstanceV2.put(`image-service/upload`, formData).then(function (response) {
-        toast.success(" successfully image uploaded")
         return response
     }).catch(function (error) {
         toast.error(error?.response?.data?.message)
@@ -309,46 +330,46 @@ export const GetSingleProvider = createAsyncThunk("providers/getSingleProvider",
 
 //update provider employee
 export const UpdateProviderData = createAsyncThunk("providers/updateProviderData", async (params, { dispatch, getState }) => {
-    const { id, file, name, email, gender, phoneNumber, statusid, dbo,lastName,secondLastName } = params
-    let result = await apiInstanceV2.put(`user-service/update`, { id, name, email, gender, phoneNumber, status: statusid, dbo,lastName,secondLastName }).then(function (response) {
+    
+  let result = await apiInstance.put(`supplier-employee-service/v1/update`, params?.data).then(function (response) {
+    toast.success(" successfully  updated")
+    console.log(response?.data?.data?.userId)
+    const imgData = {
+      user: {
+          id: response?.data?.data?.userId,
+      },
+      accessMethod: {
+          id: "5"
+      },
+      description: "Face recognition"
 
-        // want to update
-        // let formData = new FormData();
-        // formData.append('id', id);
-        // formData.append('option', "user");
-        // formData.append('file', file[0]);
-        // dispatch(SaveProviderImage(formData))
+  }
+  // want to update or create image
+  if (params?.file != "") {
+      dispatch(UploadProviderImage({ imgData, file:params?.file }))
+  }
+    return response
+}).catch(function (error) {
+    return error.response
+})
+const { data, status } = result
+//console.log(result)
 
-        //want to create or update
-        // if (file != "") {
+return { data, status }
+    return { data, status }
+});
 
-
-        //     const imgData = {
-        //         user: {
-        //             id: id,
-        //         },
-        //         accessMethod: {
-        //             id: "5"
-        //         },
-        //         description: "Face recognition"
-
-        //     }
-        //     dispatch(UploadProviderImage({ imgData, file }))
-
-        // }
-        toast.success("successfully updated")
+// get suplier status
+export const GetSupplierStatus = createAsyncThunk("providers/getSupplierStatus", async (params, { dispatch, getState }) => {
+  
+    let result = await apiInstance.get(`status-service/get-all-to-supplier`).then(function (response) {
         return response
     }).catch(function (error) {
-
         return error.response
     })
     const { data, status } = result
-    console.log(result?.data)
-    if (result?.data?.code == 832) {
-        toast.warn(result.data?.message)
-    }
     return { data, status }
-});
+  });
 
 
 // check user aleready image or not

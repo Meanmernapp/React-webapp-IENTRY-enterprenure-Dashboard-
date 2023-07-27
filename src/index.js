@@ -42,9 +42,12 @@ i18next
   });
 
 const loadingMarkup = (
-  <div className="py-4 text-center">
-    <h3>Loading..</h3>
-  </div>
+  // <div className="py-4 text-center">
+  //   <h3>Loading..</h3>
+  // </div>
+  <>
+
+  </>
 );
 
 ReactDOM.render(
@@ -58,7 +61,6 @@ ReactDOM.render(
             </PersistGate>
           </ThemeProvider>
         </Provider>
-        ,
       </BrowserRouter>
     </React.StrictMode>
   </Suspense>,

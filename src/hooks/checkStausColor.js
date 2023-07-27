@@ -11,7 +11,10 @@ const checkStatus = (id) => {
         return orangeColor
     } else if (id === 6) {
         return redColor
+    } else if (id === 23) {
+        return redColor
     }
+
 }
 
 export default checkStatus

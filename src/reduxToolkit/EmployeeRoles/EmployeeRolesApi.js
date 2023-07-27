@@ -89,11 +89,11 @@ export const getAllEmployees = createAsyncThunk(
   }
 );
 
-export const removeRoleToUserById = createAsyncThunk(
+export const removeRoleToUserByIds = createAsyncThunk(
   "employeeRoles/removeRoleToUserById",
-  async (id) => {
+  async (body) => {
     let result = await apiInstance
-      .put(`role-service/remove-role-to-user-by-id/${id}`)
+      .put(`role-service/remove-role-to-users-by-ids`,body)
       .then(function (response) {
         return response;
       })
@@ -127,7 +127,7 @@ export const creatRole = createAsyncThunk(
   "employeeRoles/creatRole",
   async (body) => {
     let result = await apiInstance
-      .post(`role-service/create`, body)
+      .post(`role-service/v1/create`, body)
       .then(function (response) {
         return response;
       })
@@ -178,7 +178,7 @@ export const GetSingleRole = createAsyncThunk(
   "employeeRoles/GetSingleRole",
   async (id) => {
     let result = await apiInstance
-      .get(`role-service/get-by-id/${id}`)
+      .get(`role-service/v1/get-by-id/${id}`)
       .then(function (response) {
         return response;
       })
@@ -195,7 +195,7 @@ export const UpdateRole = createAsyncThunk(
   "employeeRoles/UpdateRole",
   async (body) => {
     let result = await apiInstance
-      .put(`role-service/update`, body)
+      .put(`role-service/v1/update`, body)
       .then(function (response) {
         return response;
       })

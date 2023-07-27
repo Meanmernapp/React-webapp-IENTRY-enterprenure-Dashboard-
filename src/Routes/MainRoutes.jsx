@@ -59,7 +59,7 @@ import CreateUpdateDevices from "../pages/Dashboard/Devices/CreateUpdateDevices"
 import DevicesPanel from "../pages/Dashboard/Devices/DevicesPanel";
 // import CreateDevice from "../pages/Dashboard/Zones/CreateDevice";
 import BackUp from "../pages/Dashboard/BackUp/backUp";
-import AddContractor from "../pages/Dashboard/Contractors/AddContractor";
+import AddUserType from "../pages/Dashboard/Contractors/AddUserType";
 import ContractorDetail from "../pages/Dashboard/Contractors/ContractorDetail";
 import ContractorEmployeDetails from "../pages/Dashboard/Contractors/ContractorEmployeDetails";
 import { CreateContractor } from "../pages/Dashboard/Contractors/CreateContract";
@@ -124,6 +124,12 @@ import ProviderOrderDetail from "../pages/Provider/ProviderDetailsApproveDocumen
 import ProvidersPanel from "../pages/Provider/ProvidersPanel";
 import UserDocuments from "../pages/Provider/UserDocuments";
 import VehicleDetail from "../pages/Provider/VehicleDetail";
+import { contractorFile, supplierFile } from "../constant/userType";
+import UserRestriction from "../pages/Dashboard/Restrictions/UserRestriction";
+import DocumentRestriction from "../pages/Dashboard/Restrictions/DocumentRestriction";
+import EventRestriction from "../pages/Dashboard/Restrictions/EventRestriction";
+import RestrictionUsers from "../pages/Dashboard/Restrictions/RestrictionUsers";
+import Access from "../pages/Dashboard/Access/Access";
 
 // Contrator import
 
@@ -137,33 +143,35 @@ const MainRoutes = () => {
   const location = useLocation();
 
 
-  console.log(!permission?.includes(permissionObj?.WEB_COMPANY_MENU))
+  // console.log(!permission?.includes(permissionObj?.WEB_COMPANY_MENU))
 
   useEffect(() => {
     if (
-      token && !permission?.includes(permissionObj?.WEB_COMPANY_MENU) && location?.pathname == "/dashboard/employee/company" ||
-      token && !permission?.includes(permissionObj?.WEB_EVENT_MENU) && location?.pathname == "/dashboard/employee/events" ||
-      token && !permission?.includes(permissionObj?.WEB_ZONE_MENU) && location?.pathname == "/dashboard/employee/zones" ||
-      token && !permission?.includes(permissionObj?.WEB_DEVICE_MENU) && location?.pathname == "/dashboard/employee/devices" ||
-      token && !permission?.includes(permissionObj?.WEB_EMPLOYEE_MENU) && location?.pathname == "/dashboard/employee/all-employees" ||
-      token && !permission?.includes(permissionObj?.WEB_VEHICLE_MENU) && location?.pathname == "/dashboard/employee/allvehicles" ||
-      token && !permission?.includes(permissionObj?.WEB_CONTRACTOR_MENU) && location?.pathname == "/dashboard/employee/contractors" ||
-      token && !permission?.includes(permissionObj?.WEB_PROVIDER_MENU) && location?.pathname == "/dashboard/employee/suppliers" ||
-      token && !permission?.includes(permissionObj?.WEB_PAYROLL_MENU) && location?.pathname == "/dashboard/employee/payroll" ||
-      token && !permission?.includes(permissionObj?.WEB_BACK_UP_MENU) && location?.pathname == "/dashboard/employee/backup" ||
+      token && !permission?.includes(permissionObj?.WEB_COMPANY_READ) && location?.pathname == "/dashboard/employee/company" ||
+      token && !permission?.includes(permissionObj?.WEB_EVENT_READ) && location?.pathname == "/dashboard/employee/events" ||
+      token && !permission?.includes(permissionObj?.WEB_ZONE_READ) && location?.pathname == "/dashboard/employee/zones" ||
+      token && !permission?.includes(permissionObj?.WEB_DEVICE_READ) && location?.pathname == "/dashboard/employee/devices" ||
+      token && !permission?.includes(permissionObj?.WEB_DEPARTMENT_READ) && location?.pathname == "/dashboard/employee/departments" ||
+      token && !permission?.includes(permissionObj?.WEB_EMPLOYEE_READ) && location?.pathname == "/dashboard/employee/all-employees" ||
+      token && !permission?.includes(permissionObj?.WEB_VEHICLE_READ) && location?.pathname == "/dashboard/employee/allvehicles" ||
+      token && (!permission?.includes(permissionObj?.WEB_CONTRACTOR_READ) && !permission?.includes(permissionObj?.WEB_CONTRACTOR_CONTRACT_READ)) && location?.pathname == "/dashboard/employee/contractors" ||
+      token && (!permission?.includes(permissionObj?.WEB_SUPPLIER_READ) && !permission?.includes(permissionObj?.WEB_SUPPLIER_ORDER_READ)) && location?.pathname == "/dashboard/employee/suppliers" ||
+      token && !permission?.includes(permissionObj?.WEB_ATTENDANCE_READ) && location?.pathname == "/dashboard/employee/payroll" ||
+      token && !permission?.includes(permissionObj?.WEB_BACK_UP_READ) && location?.pathname == "/dashboard/employee/backup" ||
       token && !permission?.includes(permissionObj?.WEB_HOSPITALITY_MENU) && location?.pathname == "/dashboard/employee/hospitality" ||
       token && !permission?.includes(permissionObj?.WEB_COMPANY_UPDATE) && location?.pathname == "/dashboard/employee/company/update-data" ||
-      token && !permission?.includes(permissionObj?.WEB_WORK_SHIFT_MENU) && location?.pathname == "/dashboard/employee/company/workshift-panel" ||
-      token && !permission?.includes(permissionObj?.WEB_EMPLOYEE_DOCUMENT_MENU || !permissionObj?.WEB_EXTERNAL_DOCUMENT_MENU) && location?.pathname == "/dashboard/employee/company/user-doc-panel" ||
-      token && !permission?.includes(permissionObj?.WEB_ROLE_MENU) && location?.pathname == "/dashboard/employee/company/roles-panel" ||
-      token && !permission?.includes(permissionObj?.WEB_EXTERNAL_VEHICLE_DOCUMENT_MENU) && location?.pathname == "/dashboard/employee/company/vehicle-doc-panel" ||
-      token && !permission?.includes(permissionObj?.WEB_EMAIL_SETTINGS_MENU) && location?.pathname == "/dashboard/employee/payroll/email-setting" ||
-      token && !permission?.includes(permissionObj?.WEB_ONBOARDING_MENU) && location?.pathname == "/dashboard/employee/company/onboarding" ||
-      
+      token && !permission?.includes(permissionObj?.WEB_WORK_SHIFT_READ) && location?.pathname == "/dashboard/employee/company/workshift-panel" ||
+      token && !permission?.includes(permissionObj?.WEB_EMPLOYEE_DOCUMENT_READ || !permissionObj?.WEB_SUPPLIER_DOCUMENT_READ || !permissionObj?.WEB_CONTRACTOR_DOCUMENT_READ) && location?.pathname == "/dashboard/employee/company/user-doc-panel" ||
+      token && !permission?.includes(permissionObj?.WEB_PRIVILEGE_READ) && location?.pathname == "/dashboard/employee/company/roles-panel" ||
+      token && !permission?.includes(permissionObj?.WEB_SUPPLIER_VEHICLE_DOCUMENT_READ || !permissionObj?.WEB_CONTRACTOR_VEHICLE_DOCUMENT_READ) && location?.pathname == "/dashboard/employee/company/vehicle-doc-panel" ||
+      token && !permission?.includes(permissionObj?.WEB_EMAIL_SETTINGS_READ) && location?.pathname == "/dashboard/employee/payroll/email-setting" ||
+      token && !permission?.includes(permissionObj?.WEB_PROFILE_READ) && location?.pathname == "/dashboard/employee/profile" ||
+      token && !permission?.includes(permissionObj?.WEB_ONBOARDING_READ) && location?.pathname == "/dashboard/employee/company/onboarding" ||
+
       // devices
       token && !permission?.includes(permissionObj?.WEB_DEVICE_CREATE) && location?.pathname == "/dashboard/employee/devices/create" ||
       token && !permission?.includes(permissionObj?.WEB_DEVICE_UPDATE) && location?.pathname == "/dashboard/employee/devices/update/:id" ||
-      token && !permission?.includes(permissionObj?.WEB_ZONE_CREATE_DEVICES) && location?.pathname == "/dashboard/employee/zones/create-device"  ||
+      token && !permission?.includes(permissionObj?.WEB_ZONE_CREATE_DEVICES) && location?.pathname == "/dashboard/employee/zones/create-device" ||
       token && !permission?.includes(permissionObj?.WEB_ZONE_UPDATE_DEVICES) && location?.pathname == "/dashboard/employee/zones/update-device/:id"
       // 
       // !permission.includes(permissionObj?.WEB_EMPLOYEE_CREATE) && location?.pathname == "/dashboard/employee/all-employees/add-employee"||
@@ -222,7 +230,7 @@ const MainRoutes = () => {
           />
         }
       >
-        <Route path="/dashboard" element={<DashboardLayout />}>
+        <Route path="/dashboard" element={<DashboardLayout />} >
           <Route
             path="announcement-panel"
             element={<NotificationPanel />}
@@ -345,17 +353,17 @@ const MainRoutes = () => {
               <Route path="contractors" element={<ContractorEmployeeOutlet />}>
                 {/* <Route path="contractor-panel" element={<ContractorPanel />} /> */}
                 <Route path="create-contract" element={<CreateContractor />} />
-                <Route path="add-contractor" element={<AddContractor />} />
+                <Route path="add-contractor" element={<AddUserType userType={contractorFile} isUpdate={false} />} />
                 <Route
-                  path="update-contractor"
-                  element={<UpdateContractor />}
+                  path="update-contractor/:id"
+                  element={<AddUserType userType={contractorFile} isUpdate={true} />}
                 />
                 <Route
                   path="employee-contractor-details"
                   element={<EmployeeContractorDetails />}
                 />
                 <Route
-                  path="contractor-approve-document"
+                  path="contractor-approve-document/:id"
                   // element={<ApproveDocument />}
                   element={<ContractorApproveDocument />}
                 />
@@ -368,13 +376,13 @@ const MainRoutes = () => {
                   element={<ContractorDetails />}
                 />
                 <Route
-                  path="contractor-detail"
+                  path="contractor-detail/:id"
                   element={<ContractorDetail />}
                 />
                 {/* <Route
               path="provider-detail"
               element={<ProviderDetailsApproveDocuments />}
-            /> */}
+             /> */}
                 <Route
                   path="vehicle-detail"
                   element={<VehicleProviderDetails />}
@@ -414,15 +422,15 @@ const MainRoutes = () => {
                   path="vehicle-detail"
                   element={<VehicleProviderDetails />}
                 />
-                <Route path="add-suppliers" element={<AddProviders />} />
-                <Route path="update-suppliers" element={<UpdateProvider />} />
+                <Route path="add-suppliers" element={<AddUserType userType={supplierFile} isUpdate={false} />} />
+                <Route path="update-suppliers/:id" element={<AddUserType userType={supplierFile} isUpdate={true} />} />
                 <Route
                   path="employee-suppliers-details"
                   element={<ProviderDetails />}
                 />
-                <Route path="approve-documents" element={<ApproveDocument />} />
+                <Route path="approve-documents/:id" element={<ApproveDocument />} />
                 <Route path="upload-supplier" element={<UploadProviderFile />} />
-                <Route path="suppliers_deatail_page" element={<ProviderEmployeeDetails />} />
+                <Route path="suppliers_deatail_page/:id" element={<ProviderEmployeeDetails />} />
               </Route>
               {/* @payroll */}
               <Route path="payroll" element={<Payroll />} />
@@ -432,6 +440,8 @@ const MainRoutes = () => {
               </Route>
               {/* @back up */}
               <Route path="backup" element={<BackUp />} />
+              {/* @access */}
+              <Route path="access" element={<Access />} />
               {/* @hospitality */}
               <Route path="hospitality" element={<Hospitality />} />
               <Route path="hospitality" element={<HospitalityOutlet />}>
@@ -441,6 +451,13 @@ const MainRoutes = () => {
               </Route>
               {/* @Departments */}
               <Route path="departments" element={<Department />} />
+
+              {/* Restriction  */}
+              <Route path="user-restriction" element={<UserRestriction/>}/>
+              <Route path="document-restriction" element={<DocumentRestriction/>}/>
+              <Route path="event-restriction" element={<EventRestriction/>}/>
+              <Route path="contractor-restriction" element={<RestrictionUsers userType={contractorFile} />}/>
+              <Route path="supplier-restriction" element={<RestrictionUsers userType={supplierFile}/>}/>
             </Route>
           </Route>
 
@@ -478,7 +495,7 @@ const MainRoutes = () => {
               <Route path="order-detail" element={<OrderDetail />} />
               <Route
                 path="create-employee"
-                element={<CreateEmployeeProvider  isUpdate={false}/>}
+                element={<CreateEmployeeProvider isUpdate={false} />}
               />
               <Route
                 path="add-vehicles"
@@ -488,11 +505,11 @@ const MainRoutes = () => {
                 path="update-vehicles"
                 element={<AddVehicle isUpdate={true} />}
               />
-              <Route path="user-Documents" element={<UserDocuments  docType="supplier"/>} />
+              <Route path="user-Documents" element={<UserDocuments docType="supplier" />} />
               <Route
                 path="update-employee"
                 // element={<UpdateEmployeeProvider />}
-                element={<CreateEmployeeProvider isUpdate={true}/>}
+                element={<CreateEmployeeProvider isUpdate={true} />}
               />
               {/* <Route path="update-order" element={<UpdateOrder />} /> */}
               <Route path="upload-doc" element={<DocumentUpload />} />
@@ -511,25 +528,25 @@ const MainRoutes = () => {
             <Route path="contractor" element={<ContratorLayout />}>
               <Route path="profile" element={<ProfileProvider />} />
               {/* <Route path="announcementtab" element={<NotificationTab />} /> */}
-              <Route path="announcementtab" element={<NotificationPanel/>}/>
+              <Route path="announcementtab" element={<NotificationPanel />} />
               <Route path="edit-profile/:id" element={<EditProfile />} />
-              <Route path="addvehical" element={<AddVehical  isUpdate={false}/>} />
-              <Route path="update-vehicle/:id" element={<AddVehical   isUpdate={true}/>} />
+              <Route path="addvehical" element={<AddVehical isUpdate={false} />} />
+              <Route path="update-vehicle/:id" element={<AddVehical isUpdate={true} />} />
               <Route path="search-vehicle" element={<SearchVehicle />} />
               <Route path="search-employe" element={<SearchEmploye />} />
-              <Route path="add-new-employe" element={<AddNewEmploye isUpdate={false}/>} />
-              <Route path="update-employee/:id" element={<AddNewEmploye isUpdate={true}/>} />
+              <Route path="add-new-employe" element={<AddNewEmploye isUpdate={false} />} />
+              <Route path="update-employee/:id" element={<AddNewEmploye isUpdate={true} />} />
               <Route path="add-vehicle-docs" element={<AddVehicleDocuments />} />
-              <Route path="employee-contract-detail/:id" element={<EmployeContractDetail  approveDocument={false}/>} />
+              <Route path="employee-contract-detail/:id" element={<EmployeContractDetail approveDocument={false} />} />
               {/* <Route path="announcement-panel" element={<ProfileNotifications />} /> */}
-              <Route path="vehicle-contract-detail/:id" element={<VehicalContractDetail  approveDocumentVehicle={false}/>} />
+              <Route path="vehicle-contract-detail/:id" element={<VehicalContractDetail approveDocumentVehicle={false} />} />
               <Route path="upload-vehicle-documents/:id" element={<VehicalContractDetail approveDocumentVehicle={true} />} />
               <Route path="user-contract-detail/:id" element={<UserContractDetail />} />
               <Route path="contracts" element={<Contracts />} />
-              <Route path="employee-upload-documets/:id" element={<EmployeContractDetail   approveDocument={true}/>} />
+              <Route path="employee-upload-documets/:id" element={<EmployeContractDetail approveDocument={true} />} />
               {/* <Route path="contracts/user-Documents" element={<ContractorDocumentsStatus />} /> */}
-              <Route path="user-Documents" element={<UserDocuments docType="contractor"/>}/>
-              
+              <Route path="user-Documents" element={<UserDocuments docType="contractor" />} />
+
             </Route>
           </Route>
         </Route>

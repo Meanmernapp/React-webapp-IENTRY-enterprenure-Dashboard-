@@ -604,29 +604,29 @@
         color: #f2a100;
     }
 
-    table {
-        border-collapse: separate !important;
-        border-spacing: 0 15px;
+    // table {
+    //     border-collapse: separate !important;
+    //     border-spacing: 0 15px;
 
-        thead {
-            th {
-                font-size: 14px;
-                color: #65aba0;
-                text-transform: uppercase;
-                text-align: center;
-            }
-        }
+    //     thead {
+    //         th {
+    //             font-size: 14px;
+    //             color: #65aba0;
+    //             text-transform: uppercase;
+    //             text-align: center;
+    //         }
+    //     }
 
-        tr {
-            box-shadow: 0px 0px 6px 0px black;
-            border-radius: 5px;
-            height: 36px;
+    //     tr {
+    //         box-shadow: 0px 0px 6px 0px black;
+    //         border-radius: 5px;
+    //         height: 36px;
 
-            td {
-                text-align: center;
-            }
-        }
-    }
+    //         td {
+    //             text-align: center;
+    //         }
+    //     }
+    // }
 }
 
 // Providers-Filter-modal

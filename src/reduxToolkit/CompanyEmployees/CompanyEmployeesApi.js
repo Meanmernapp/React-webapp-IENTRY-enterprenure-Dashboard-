@@ -110,6 +110,25 @@ export const getWorkStations = createAsyncThunk(
   }
 );
 
+export const getDepartments = createAsyncThunk(
+  "companyEmployees/getDepartments",
+  async () => {
+    let result = await apiInstance
+      .get(`department-service/get-all`)
+      .then(function (response) {
+        return response;
+      })
+      .catch(function (error) {
+        return error.response;
+      });
+    const { data, status } = result;
+
+    return { data, status };
+  }
+);
+
+
+
 // @GetWorkShiftAccess
 // export const GetWorkShiftAccess = createAsyncThunk(
 //   "companyEmployees/getWorkStations",

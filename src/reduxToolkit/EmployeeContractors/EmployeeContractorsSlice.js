@@ -22,6 +22,11 @@ const employeeContractorSlice = createSlice({
         getEmployeeContractorById: {},
 
         getAllToContractor: [],
+        createEmployeeContractor:{},
+        updateEmployeeContractor:{},
+        getEmployeeContractorByItId:{},
+        getAllContractorDocuments:{},
+        detailsEmployeeContractorEmployee:{}
     },
     reducers: {
         customScduleTime: (state, { payload }) => {
@@ -157,6 +162,63 @@ const employeeContractorSlice = createSlice({
                 document.getElementById("overlay").style.display = "none";
             }
         },
+        ["employeeContractor/createEmployeeContractor/fulfilled"]: (state, action) => {
+            const { data, status } = action.payload || {}
+            if (status >= 200 && status < 300) {
+                state.createEmployeeContractor = data
+                toast.success("Created Successfuly")
+            }
+            else if (status >= 400 && status < 500) {
+                toast.error(data.message)
+    
+            }
+        },
+        ["employeeContractor/updateEmployeeContractor/fulfilled"]: (state, action) => {
+            const { data, status } = action.payload || {}
+            if (status >= 200 && status < 300) {
+                state.updateEmployeeContractor = data
+                toast.success("Updated Successfuly")
+            }
+            else if (status >= 400 && status < 500) {
+                toast.error(data.message)
+    
+            }
+        },
+        ["employeeContractor/getEmployeeContractorByItId/fulfilled"]: (state, action) => {
+            const { data, status } = action.payload || {}
+            if (status >= 200 && status < 300) {
+                state.getEmployeeContractorByItId = data?.data
+            }
+            else if (status >= 400 && status < 500) {
+                toast.error(data.message)
+    
+            }
+        },
+        ["employeeContractor/getAllContractorDocuments/fulfilled"]: (state, action) => {
+            const { data, status } = action.payload || {}
+            if (status >= 200 && status < 300) {
+                state.getAllContractorDocuments = data?.data
+            }
+            else if (status >= 400 && status < 500) {
+                // toast.error(data.message)
+    
+            }
+        },
+        ["employeeContractor/detailsEmployeeContractorEmployee/fulfilled"]: (state, action) => {
+            const { data, status } = action.payload || {}
+            if (status >= 200 && status < 300) {
+                state.detailsEmployeeContractorEmployee = data?.data
+            }
+            else if (status >= 400 && status < 500) {
+                // toast.error(data.message)
+    
+            }
+        },
+
+        
+        
+        
+        
     }
 })
 

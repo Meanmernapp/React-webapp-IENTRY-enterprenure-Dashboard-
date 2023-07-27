@@ -385,7 +385,7 @@ const CreateDevice = () => {
                                     type="number"
                                     label={t("sync_name")}
                                     id="SYNC TIME"
-                                    helperText="LEAVE 0 TO MAKE IT IN REAL TIME"
+                                    helperText={t("leave_0_to_avoid_send_it")?.toUpperCase()}
                                     value={syncTime}
                                     onChange={(e) => setSyncTime(e.target.value)}
                                     sx={textField}

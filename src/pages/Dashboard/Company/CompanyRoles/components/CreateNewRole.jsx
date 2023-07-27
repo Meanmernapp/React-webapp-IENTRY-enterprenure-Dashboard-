@@ -1,45 +1,49 @@
+
+/*
+Author : Arman Ali
+Module: Role
+github: https://github.com/Arman-Arzoo
+website: https://www.toplinegeeks.com,
+modify every implementation
+*/
+
 import { Box, TextField } from '@mui/material';
-import React, { useEffect, useState } from 'react'
+import Cookies from "js-cookie";
+import React, { useEffect, useState } from 'react';
 import { Accordion } from 'react-bootstrap';
-import { Link, useNavigate, useParams } from 'react-router-dom'
-import deleteIcon from '../../../../../assets/images/ic-delete-red.svg';
-import warningIcon from '../../../../../assets/images/warning.svg'
+import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import {
-    createRole,
-    getRoleById,
-    addRoleUserList,
-} from '../../../../../Apis/roles';
-import chevron_right_solid from '../../../../../assets/images/chevron-right-solid.svg'
-import ic_cancel from '../../../../../assets/images/ic-cancel.svg'
+import { iconStyle } from '../../../../../Helpers/arabicStyle';
+import chevron_right_solid from '../../../../../assets/images/chevron-right-solid.svg';
+import ic_cancel from '../../../../../assets/images/ic-cancel.svg';
+import ClearButton from '../../../../../components/ClearButton';
+import { GetSingleRole, UpdateRole, creatRole, roleAvailableTasks } from '../../../../../reduxToolkit/EmployeeRoles/EmployeeRolesApi';
 import DeleteRoleModal from './DeleteRoleModal';
 import ManageRoleModal from './ManageRoleModal';
-import { useDispatch, useSelector } from 'react-redux';
-import { EmployeesInCreate, HandleChoosedList, HandleTaskList } from '../../../../../reduxToolkit/EmployeeRoles/EmployeeRolesSlice';
-import Cookies from "js-cookie";
-import { useTranslation } from 'react-i18next'
-import { addPermissionTask, addUsersToRole, creatRole, GetSingleRole, roleAvailableTasks, UpdateRole, updateRoleRestriction } from '../../../../../reduxToolkit/EmployeeRoles/EmployeeRolesApi';
-import { iconStyle } from '../../../../../Helpers/arabicStyle';
+import AvailableRole from './AvailableRole';
+import { companyMobile } from './RoleData'
+import ChooseRole from './ChooseRole';
+import ReusableTextField from '../../../../../components/ReusableTextField ';
 
 const CreateNewRole = () => {
+    // use hook
     const { t } = useTranslation();
     const lCode = Cookies.get("i18next") || "en";
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const { id } = useParams();
-    const navigate = useNavigate();
-    const {
-        selectedEmployeesList,
-        mobileAvailableList,
-        websiteAvailableList,
-        mobileChooseList,
-        websiteChooseList,
-        mobileSelected,
-        websiteSelected
-    } = useSelector(state => state?.EmployeeRolesSlice);
-    console.log(
-        mobileAvailableList,
-        websiteAvailableList)
-
+    // useSelector
+    const { roleListData, singleRoleObj, updateRoleSuccess, creteRoleSuccess } = useSelector(state => state?.EmployeeRolesSlice);
+    // useState
+    const [mobileAvailableList, setMobileAvaliableList] = useState([])
+    const [websiteAvailableList, setWebsiteAvailableList] = useState([])
+    const [mobileChooseList, setMobileChooseList] = useState([])
+    const [websiteChooseList, setWebsiteChooseList] = useState([])
+    const [mobileSelected, setMobileSelected] = useState([])
+    const [websiteSelected, setWebsiteSelected] = useState([])
+    const [deleteTask, setDeleteTask] = useState([])
     const [roleRestrictions, setroleRestrictions] = useState([
         {
             name: "biocrValidation",
@@ -84,14 +88,12 @@ const CreateNewRole = () => {
             info: "To use the 6 digits code to log in on the web app",
         },
     ]);
-
     const [roleName, setRoleName] = useState("");
     const [deleteId, setDeleteId] = useState();
     const [deleteItemName, setdeleteItemName] = useState();
     const [roleDataById, setRoleDataById] = useState();
     const [show, setShow] = useState(false);
     const [manageShow, setManageShow] = useState(false);
-    const [choosedCount, setChoosedCount] = useState(null);
     const [selectedRestrictions, setSelectedRestrictions] = useState({
         biocrValidation: false,
         eventValidation: false,
@@ -102,176 +104,330 @@ const CreateNewRole = () => {
         sharePdfInMobileApp: false,
         useTokenWebApp: false
     });
-    console.log(choosedCount)
+    const [isInitialSetup, setIsInitialSetup] = useState(true);
+    const [nameError, setNameError] = useState('');
+    const [submitClicked, setSubmitClicked] = useState(false);
 
+    // clear all field
+    const clearField = () => {
+        setRoleName("")
+        setroleRestrictions(prevState => {
+            const updatedCheckboxList = prevState.map(item => ({ ...item, check: false }));
+            return updatedCheckboxList;
+        });
 
-    useEffect(() => {
-        dispatch(HandleTaskList({
-            check: 5
-        }))
-        dispatch(roleAvailableTasks());
-        if (id) {
-            dispatch(GetSingleRole(id)).unwrap().then(({ data: { data } }) => {
-                setRoleDataById(data);
-                setRoleName(data?.name);
-                setSelectedRestrictions(data?.roleRestriction);
-                let arr1 = [];
-                let arr2 = [];
-                data?.roleTasks?.map((item) => {
-                    if (item?.task?.isMobileApp) {
-                        arr1.push(item?.task);
-                    } else {
-                        arr2.push(item?.task);
-                    }
-                });
-                dispatch(HandleChoosedList({ arr1, arr2 }))
+        setSelectedRestrictions({
+            biocrValidation: false,
+            eventValidation: false,
+            extraDataEmployee: false,
+            id: "",
+            keepSessionActiveWebApp: false,
+            sharePdfInMobileApp: false,
+            useTokenWebApp: false
+        });
 
-                // data?.roleTasks.map((item) => {
-                //     setSelectedTaskList(selectedTaskList => [...selectedTaskList.filter(value => value.id !== item.task.id), item.task])
-                // })
+        const mr = roleListData?.filter(item => item?.isMobileApp);
+        const wr = roleListData?.filter(item => !item?.isMobileApp);
+        setMobileAvaliableList(mr)
+        setWebsiteAvailableList(wr)
+        setWebsiteChooseList([])
+        setMobileChooseList([])
 
-                var arrObj = [
-                    {
-                        res: "biocrValidation",
-                        check: data?.roleRestriction?.biocrValidation,
-                        data: t('biocr_validation_for_externals'),
-                        info: "Use the BIOCR validation to confirm your identity",
-                    },
-                    {
-                        res: "eventValidation",
-                        check: data?.roleRestriction?.eventValidation,
-                        data: t('event_validation'),
-                        info: "Validate the event who created in this role.",
-                    },
-                    {
-                        res: "extraDataEmployee",
-                        check: data?.roleRestriction?.extraDataEmployee,
-                        data: t('extra_data_employee'),
-                        info: "Add extra data to the employee.",
-                    },
-                    {
-                        res: "keepSessionActiveWebApp",
-                        check: data?.roleRestriction?.keepSessionActiveWebApp,
-                        data: t('keep_session_active'),
-                        info: "To keep the session al the time active in the web app",
-                    },
-                    {
-                        res: "sharePdfInMobileApp",
-                        check: data?.roleRestriction?.sharePdfInMobileApp,
-                        data: "Share Pdf In MobileApp",
-                        info: "To use the 6 digits code to log in on the web app",
-                    },
-                    {
-                        res: "useTokenWebApp",
-                        check: data?.roleRestriction?.useTokenWebApp,
-                        data: t('use_token_webapp'),
-                        info: "To use the 6 digits code to log in on the web app",
-                    },
-                ]
-                setroleRestrictions(arrObj);
-            })
-        }
-    }, [])
-
-    const handleCheckBox = (e, item) => {
-        const { checked, name } = e.target
-        let checkboxList = roleRestrictions;
-        checkboxList.forEach(chkItem => {
-            if (chkItem === item) {
-                chkItem.check = checked;
-                setSelectedRestrictions({ ...selectedRestrictions, [name]: checked })
-            }
-        })
-        setroleRestrictions(checkboxList);
+        let db = [...mr, ...wr];
+        const deleteState = db.filter(item => singleRoleObj?.currentTasks?.some(selectedItem => selectedItem.id === item.id));
+        setDeleteTask(deleteState)
     }
+    // CheckBox restriction
+    // const handleCheckBox = (e, item) => {
+    //     const { checked, name } = e.target
+    //     let checkboxList = roleRestrictions;
+    //     checkboxList.forEach(chkItem => {
+    //         if (chkItem === item) {
+    //             chkItem.check = checked;
+    //         }
+    //     })
+    //     setSelectedRestrictions(prevState => ({
+    //         ...prevState,
+    //         [name]: checked
+    //     }));
+    //     setroleRestrictions(checkboxList);
+    // }
+    const handleCheckBox = (e, item) => {
+        const { checked, name } = e.target;
+        let checkboxList = [...roleRestrictions]; // Create a copy of roleRestrictions
 
+        checkboxList.forEach(chkItem => {
+            if (chkItem.res === item.res) {
+                chkItem.check = checked;
+            }
+        });
 
+        setSelectedRestrictions(prevState => ({
+            ...prevState,
+            [name]: checked
+        }));
+
+        setroleRestrictions(checkboxList);
+    };
+    console.log(deleteTask)
+    // //  handle add and delete task
+    const handleTaskListClick = (payload) => {
+        switch (payload.check) {
+            case 1:
+                if (payload.selected.option) {
+                    setWebsiteChooseList(prevArray => [...prevArray, payload.selected]);
+                    setWebsiteAvailableList(prevArray => prevArray.filter(obj => obj.id !== payload.selected?.id));
+                } else {
+                    toast.warn("Do'not need to add it already in database")
+                    setDeleteTask(prevArray => prevArray.filter(obj => obj.id !== payload.selected?.id));
+                    setWebsiteChooseList(prevArray => [...prevArray, payload.selected]);
+                    setWebsiteAvailableList(prevArray => prevArray.filter(obj => obj.id !== payload.selected?.id));
+                }
+                break;
+            case 2:
+                if (payload.selected.option) {
+                    setMobileChooseList(prevArray => [...prevArray, payload.selected]);
+                    setMobileAvaliableList(prevArray => prevArray.filter(obj => obj.id !== payload.selected?.id));
+                } else {
+                    toast.warn("Do'not need to add it already in database")
+                    setDeleteTask(prevArray => prevArray.filter(obj => obj.id !== payload.selected?.id));
+                    setMobileChooseList(prevArray => [...prevArray, payload.selected]);
+                    setMobileAvaliableList(prevArray => prevArray.filter(obj => obj.id !== payload.selected?.id));
+                }
+                break;
+            case 3:
+                if (payload.selected.option) {
+                    setMobileAvaliableList(prevArray => [...prevArray, payload.selected]);
+                    setMobileChooseList(prevArray => prevArray.filter(obj => obj.id !== payload.selected?.id));
+                } else {
+                    setDeleteTask(prev => [...prev, payload.selected])
+                    setMobileAvaliableList(prevArray => [...prevArray, payload.selected]);
+                    setMobileChooseList(prevArray => prevArray.filter(obj => obj.id !== payload.selected?.id));
+                }
+                break;
+            case 4:
+                if (payload.selected.option) {
+                    setWebsiteAvailableList(prevArray => [...prevArray, payload.selected]);
+                    setWebsiteChooseList(prevArray => prevArray.filter(obj => obj.id !== payload.selected?.id));
+                }
+                else {
+                    setDeleteTask(prev => [...prev, payload.selected])
+                    setWebsiteAvailableList(prevArray => [...prevArray, payload.selected]);
+                    setWebsiteChooseList(prevArray => prevArray.filter(obj => obj.id !== payload.selected?.id));
+                }
+
+                break;
+            case 5:
+                const mr = roleListData?.filter(item => item?.isMobileApp);
+                const wr = roleListData?.filter(item => !item?.isMobileApp);
+                setMobileAvaliableList([])
+                setWebsiteAvailableList([])
+                setWebsiteChooseList(wr)
+                setMobileChooseList(mr)
+                break;
+            case 6:
+                const ma = roleListData?.filter(item => item?.isMobileApp);
+                const wa = roleListData?.filter(item => !item?.isMobileApp);
+                setMobileAvaliableList(ma)
+                setWebsiteAvailableList(wa)
+                setWebsiteChooseList([])
+                setMobileChooseList([])
+                let db = [...ma, ...wa];
+                const deleteState = db.filter(item => singleRoleObj?.currentTasks?.some(selectedItem => selectedItem.id === item.id));
+                setDeleteTask(deleteState)
+                break;
+            default:
+                // Handle unknown payload.check values, if needed
+                toast.warn("invalid check")
+                break;
+        }
+    }
+    const handleNameChange = (value) => {
+        // Perform validation logic
+        if (value === '' ) {
+          setNameError('Role cannot be empty');
+        } else {
+          setNameError('');
+        }
+    
+        setRoleName(value);
+      };
+    // handel create and update role
     const handleCreateRole = () => {
-        if (roleName !== "") {
+        if (roleName != "") {
             if (id) {
-                dispatch(UpdateRole({
-                    id,
+                const addTasks = [...mobileChooseList, ...websiteChooseList].map(item => ({ id: item.id }));
+                const removeTasks = [...deleteTask].map(item => ({ id: item.id }));
+                const updateData = {
+                    id: singleRoleObj?.id,
+                    addTasks,
+                    removeTasks,
                     name: roleName,
-                })).unwrap().then(({ data: { data } }) => {
-                    const roleRestriction = {
-                        biocrValidation: selectedRestrictions?.biocrValidation,
-                        eventValidation: selectedRestrictions?.eventValidation,
-                        extraDataEmployee: selectedRestrictions?.extraDataEmployee,
-                        keepSessionActiveWebApp: selectedRestrictions?.keepSessionActiveWebApp,
-                        sharePdfInMobileApp: selectedRestrictions?.sharePdfInMobileApp,
-                        useTokenWebApp: selectedRestrictions?.useTokenWebApp,
-                        id: data?.roleRestriction?.id,
-                        role: {
-                            id,
-                        }
+                    roleRestriction: {
+                        roleId: singleRoleObj?.roleRestriction?.roleId,
+                        id: singleRoleObj?.roleRestriction?.id,
+                        biocrValidation: roleRestrictions.find(obj => obj.res === "biocrValidation").check,
+                        eventValidation: roleRestrictions.find(obj => obj.res === "eventValidation").check,
+                        extraDataEmployee: roleRestrictions.find(obj => obj.res === "extraDataEmployee").check,
+                        keepSessionActiveWebApp: roleRestrictions.find(obj => obj.res === "keepSessionActiveWebApp").check,
+                        sharePdfInMobileApp: roleRestrictions.find(obj => obj.res === "sharePdfInMobileApp").check,
+                        useTokenWebApp: roleRestrictions.find(obj => obj.res === "useTokenWebApp").check,
                     }
-                    dispatch(updateRoleRestriction(roleRestriction)).then(() => {
-                        toast.success("data updated successfully.")
-                        dispatch(EmployeesInCreate([]));
-                        navigate("/dashboard/employee/company/roles-panel")
-                    })
-
-                    let filteredIds = selectedEmployeesList.map(item => { return item.id; });
-                    const employeeBody = {
-                        roleId: id,
-                        userIds: filteredIds
+                }
+                dispatch(UpdateRole(updateData)).then(res => {
+                    if (res.payload?.status == 200) {
+                        navigate(-1)
                     }
-                    dispatch(addUsersToRole(employeeBody))
                 })
             } else {
-                dispatch(creatRole({
+                const addTasks = [...mobileChooseList, ...websiteChooseList].map(item => ({ id: item.id }));
+                const data = {
+                    addTasks,
                     name: roleName,
-                })).unwrap().then(({ data: { data } }) => {
-                    const roleRestriction = {
+                    removeTasks: null,
+                    roleRestriction: {
                         biocrValidation: selectedRestrictions?.biocrValidation,
                         eventValidation: selectedRestrictions?.eventValidation,
                         extraDataEmployee: selectedRestrictions?.extraDataEmployee,
                         keepSessionActiveWebApp: selectedRestrictions?.keepSessionActiveWebApp,
                         sharePdfInMobileApp: selectedRestrictions?.sharePdfInMobileApp,
                         useTokenWebApp: selectedRestrictions?.useTokenWebApp,
-                        id: data?.roleRestriction?.id,
-                        role: {
-                            id: data?.id,
-                        }
                     }
-                    const role = {
-                        createdAt: data?.createdAt,
-                        id: data?.id,
-                        updatedAt: data?.updatedAt
+                }
+                dispatch(creatRole(data)).then(res => {
+                    if (res.payload?.status == 201) {
+                        navigate(-1)
                     }
-                    let rollTask = []
-                    mobileSelected.forEach((task) => {
-                        rollTask.push({
-                            "task": task,
-                            "role": role,
-                        })
-                    })
-                    websiteSelected.forEach((task) => {
-                        rollTask.push({
-                            "task": task,
-                            "role": role,
-                        })
-                    })
-                    dispatch(addPermissionTask(rollTask)).then(() => {
-                        dispatch(updateRoleRestriction(roleRestriction)).then(() => {
-                            toast.success("data updated successfully.")
-                            dispatch(EmployeesInCreate([]));
-                            navigate("/dashboard/employee/company/roles-panel")
-                        })
-                    })
-
-                    let filteredIds = selectedEmployeesList.map(item => { return item.id; });
-                    const employeeBody = {
-                        roleId: data?.id,
-                        userIds: filteredIds
-                    }
-                    dispatch(addUsersToRole(employeeBody))
                 })
             }
         } else {
-            toast.error("Must Provide the Role name..!")
+            // toast.warn("Role Name is Required")
+            setSubmitClicked(true)
         }
     }
+    // // makeSure some sate when initailize is empty
+    useEffect(() => {
+        setDeleteTask([])
+        setMobileChooseList([])
+        setWebsiteChooseList([])
+    }, [])
+    // // transforming data to available and choose for get display
+    useEffect(() => {
+        dispatch(roleAvailableTasks());
+        const m = roleListData?.filter(item => item?.isMobileApp);
+        const w = roleListData?.filter(item => !item?.isMobileApp);
+
+        setMobileAvaliableList(m);
+        setWebsiteAvailableList(w);
+
+
+    }, []);
+    // // before update data 
+    useEffect(() => {
+        if (id) {
+            var arrObj = [
+                {
+                    res: "biocrValidation",
+                    check: singleRoleObj?.roleRestriction?.biocrValidation,
+                    data: t('biocr_validation_for_externals'),
+                    info: "Use the BIOCR validation to confirm your identity",
+                },
+                {
+                    res: "eventValidation",
+                    check: singleRoleObj?.roleRestriction?.eventValidation,
+                    data: t('event_validation'),
+                    info: "Validate the event who created in this role.",
+                },
+                {
+                    res: "extraDataEmployee",
+                    check: singleRoleObj?.roleRestriction?.extraDataEmployee,
+                    data: t('extra_data_employee'),
+                    info: "Add extra data to the employee.",
+                },
+                {
+                    res: "keepSessionActiveWebApp",
+                    check: singleRoleObj?.roleRestriction?.keepSessionActiveWebApp,
+                    data: t('keep_session_active'),
+                    info: "To keep the session al the time active in the web app",
+                },
+                {
+                    res: "sharePdfInMobileApp",
+                    check: singleRoleObj?.roleRestriction?.sharePdfInMobileApp,
+                    data: "Share Pdf In MobileApp",
+                    info: "To use the 6 digits code to log in on the web app",
+                },
+                {
+                    res: "useTokenWebApp",
+                    check: singleRoleObj?.roleRestriction?.useTokenWebApp,
+                    data: t('use_token_webapp'),
+                    info: "To use the 6 digits code to log in on the web app",
+                },
+            ]
+            setroleRestrictions(arrObj);
+
+            // get detail with id
+            dispatch(GetSingleRole(id))
+            // set all the state
+            setRoleName(singleRoleObj?.name)
+            setRoleDataById(singleRoleObj);
+            setRoleName(singleRoleObj?.name);
+            setSelectedRestrictions(singleRoleObj?.roleRestriction);
+            // checking choose and selected list
+            let arr1 = [];
+            let arr2 = [];
+            singleRoleObj?.currentTasks?.forEach(item => {
+                if (item?.isMobileApp) {
+
+                    const transformedItem = {
+                        ...item,
+                        option: false // Set the option attribute to false
+                    };
+                    arr1.push(transformedItem);
+                } else {
+
+                    const transformedItem = {
+                        ...item,
+                        option: false // Set the option attribute to false
+                    };
+
+                    arr2.push(transformedItem);
+                }
+            });
+            // set after get from current list
+            setMobileChooseList(arr1);
+            setWebsiteChooseList(arr2);
+
+
+
+
+        }
+    }, [singleRoleObj?.id, creteRoleSuccess, updateRoleSuccess])
+    // // filter out to avoid confilt and smooth filter base on currentTasks 
+    useEffect(() => {
+        if (isInitialSetup) {
+            setIsInitialSetup(false);
+            return;
+        }
+        // Code for subsequent updates
+        // Check if all the required data is available before filtering
+        if (
+            singleRoleObj &&
+            mobileAvailableList &&
+            websiteAvailableList
+        ) {
+            // filter out from mobile available
+            const removeAvailableMobile = mobileAvailableList.filter(
+                (item) => !mobileChooseList.some((selectedItem) => selectedItem.id === item.id)
+            );
+            setMobileAvaliableList(removeAvailableMobile);
+
+            // filter out from web available
+            const removeAvailableWeb = websiteAvailableList.filter(
+                (item) => !websiteChooseList.some((selectedItem) => selectedItem.id === item.id)
+            );
+            setWebsiteAvailableList(removeAvailableWeb);
+        }
+    }, [isInitialSetup, singleRoleObj, mobileChooseList, creteRoleSuccess, updateRoleSuccess]);
 
     return (
         <>
@@ -285,9 +441,17 @@ const CreateNewRole = () => {
             </div>
             <div className='create_new_role'>
                 <div className="row">
+                    {/* role restriction */}
                     <div className="col-4">
                         <div className="create_new_role_data">
-                            <h3>{t('data')}</h3>
+                            <div className='header_clear'>
+                                <h3>{t('data')}</h3>
+                                <ClearButton
+                                    flagTooltip={true}
+                                    handleClear={() => clearField()}
+                                    textTooltip={t('clear_all_inputs')?.toUpperCase()} />
+
+                            </div>
                             <div className="create_new_role_data_item">
                                 <Box
                                     component="form"
@@ -300,7 +464,7 @@ const CreateNewRole = () => {
                                     noValidate
                                     autoComplete="off"
                                 >
-                                    <TextField size="small"
+                                    {/* <TextField size="small"
 
                                         fullWidth
                                         label={t('role_name')}
@@ -309,10 +473,19 @@ const CreateNewRole = () => {
                                         defaultValue=" "
                                         value={roleName}
                                         onChange={(e) => setRoleName(e.target.value)}
+                                    /> */}
+                                    <ReusableTextField
+                                        label={t("role_name")}
+                                        onChange={handleNameChange}
+                                        value={roleName}
+                                        helperText={nameError}
+                                        isRequired={true}
+                                        submitClicked={submitClicked}
+                                        validate={(value) => value === ''}
                                     />
                                 </Box>
                             </div>
-                            <h3 className='mt-3'>{t('restrictios')}</h3>
+                            <h3 className='mt-4'>{t('restrictios')}</h3>
                             {
                                 roleRestrictions?.map((item, index) => (
                                     <div className="create_new_role_data_restrictions" key={index}>
@@ -337,10 +510,11 @@ const CreateNewRole = () => {
                             }
                         </div>
                     </div>
+                    {/* available */}
                     <div className="col-4 mt-4 new_role_available">
                         <p>{t('available')}</p>
                         <div className='new_role_available_container'>
-                            <Accordion defaultActiveKey="0">
+                            {/* <Accordion defaultActiveKey="0">
                                 <Accordion.Item
                                     eventKey="0"
                                     className="outerAccordionItem"
@@ -358,14 +532,14 @@ const CreateNewRole = () => {
                                                                 className="innerAccordionItem"
                                                             >
                                                                 <Accordion.Header>{task1?.name?.split("_")[0]}</Accordion.Header>
-                                                                {mobileAvailableList.map(task2 => {
+                                                                {mobileAvailableList?.map(task2 => {
                                                                     return (
-                                                                        task1?.module.id === task2?.module.id && task2?.name?.split("_")[1] !== "MENU" ?
+                                                                        task1?.moduleId === task2?.moduleId && task2?.name?.split("_")[1] !== "MENU" ?
                                                                             <Accordion.Body
-                                                                                onClick={() => dispatch(HandleTaskList({
+                                                                                onClick={() => handleTaskListClick({
                                                                                     selected: task2,
                                                                                     check: 1
-                                                                                }))}
+                                                                                })}
                                                                             >
                                                                                 <span>{task2?.name.replace(/_/g, ' ')}</span>
                                                                                 <img
@@ -398,13 +572,13 @@ const CreateNewRole = () => {
                                                             className="innerAccordionItem"
                                                         >
                                                             <Accordion.Header>{task1?.name?.split("_")[1]}</Accordion.Header>
-                                                            {websiteAvailableList.map(task2 => (
-                                                                task1?.module.id === task2?.module.id && task2?.name?.split("_")[2] !== "MENU" ?
+                                                            {websiteAvailableList?.map(task2 => (
+                                                                task1?.moduleId === task2?.moduleId && task2?.name?.split("_")[2] !== "MENU" ?
                                                                     <Accordion.Body
-                                                                        onClick={() => dispatch(HandleTaskList({
+                                                                        onClick={() => handleTaskListClick({
                                                                             selected: task2,
                                                                             check: 3
-                                                                        }))}
+                                                                        })}
                                                                     >
                                                                         <span>{task2?.name.replace(/_/g, ' ')}</span>
                                                                         <img
@@ -419,15 +593,39 @@ const CreateNewRole = () => {
                                         </Accordion>
                                     </Accordion.Body>
                                 </Accordion.Item>
-                            </Accordion>
-                        </div>
-                    </div>
+                            </Accordion> */}
+                            <AvailableRole
+                                onHandler={handleTaskListClick}
+                                data={roleListData}
+                                mobileAvailableList={mobileAvailableList}
+                                setMobileAvailableList={setMobileAvaliableList}
+                                websiteAvailableList={websiteAvailableList}
+                                setWebsiteAvailableList={setWebsiteAvailableList}
+                                mobileChooseList={mobileChooseList}
+                                setMobileChooseList={setMobileChooseList}
+                                websiteChooseList={websiteChooseList}
+                                setWebsiteChooseList={setWebsiteChooseList}
+                                mobileSelected={mobileSelected}
+                                setMobileSelected={setMobileSelected}
+                                websiteSelected={websiteSelected}
+                                setWebsiteSelected={setWebsiteSelected}
+                            />
 
+                        </div>
+                        <div className='accodion_footer_role'
+                            onClick={() => handleTaskListClick({
+                                check: 5
+                            })}>
+                            <span>{t("add_all")}</span>
+                        </div>
+
+                    </div>
+                    {/* chooce */}
                     <div className="col-4 new_role_available">
                         <h3>{t('permissions')}</h3>
                         <p>{t('choosed')}</p>
                         <div className='new_role_available_container'>
-                            <Accordion defaultActiveKey="0">
+                            {/* <Accordion defaultActiveKey="0">
                                 <Accordion.Item
                                     eventKey="0"
                                     className="outerAccordionItem"
@@ -446,7 +644,7 @@ const CreateNewRole = () => {
                                                             <Accordion.Header>{task1?.name?.split("_")[0]}</Accordion.Header>
                                                             {mobileChooseList.map(task2 => (
                                                                 mobileSelected?.map(selectedItem => {
-                                                                    if (selectedItem?.module.id === task1?.module.id && selectedItem?.name === task2?.name) {
+                                                                    if (selectedItem?.moduleId === task1?.moduleId && selectedItem?.name === task2?.name) {
                                                                         // setChoosedCount(task1?.module.id)
                                                                         return (
                                                                             <Accordion.Body key={selectedItem.id}>
@@ -455,10 +653,10 @@ const CreateNewRole = () => {
                                                                                     src={ic_cancel}
                                                                                     alt="ic_cancel"
                                                                                     // onClick={() => handleDeleteTask(selectedItem)}
-                                                                                    onClick={() => dispatch(HandleTaskList({
+                                                                                    onClick={() => handleTaskListClick({
                                                                                         selected: selectedItem,
                                                                                         check: 2
-                                                                                    }))}
+                                                                                    })}
                                                                                 />
                                                                             </Accordion.Body>
                                                                         )
@@ -475,7 +673,7 @@ const CreateNewRole = () => {
                                     eventKey="1"
                                     className="outerAccordionItem"
                                 >
-                                    <Accordion.Header>{t("web_app")} <sub>{`(${websiteChooseList?.length})`}</sub> </Accordion.Header>
+                                    <Accordion.Header>{t("web_app")} <sub>{`(${Number(websiteChooseList?.length) - Number(websiteAvailableList?.length)})`}</sub> </Accordion.Header>
                                     <Accordion.Body className='mainAccordionBody'>
                                         <Accordion defaultActiveKey="0">
                                             {
@@ -487,18 +685,18 @@ const CreateNewRole = () => {
                                                             className="innerAccordionItem"
                                                         >
                                                             <Accordion.Header>{task1?.name?.split("_")[1]}</Accordion.Header>
-                                                            {websiteChooseList.map(task2 => (
+                                                            {websiteChooseList?.map(task2 => (
                                                                 websiteSelected?.map(selectedItem => (
-                                                                    selectedItem?.module.id === task1?.module.id && selectedItem?.name === task2?.name ?
+                                                                    selectedItem?.moduleId === task1?.moduleId && selectedItem?.name === task2?.name ?
                                                                         <Accordion.Body key={selectedItem.id}>
                                                                             <span>{selectedItem?.name.replace(/_/g, ' ')}</span>
                                                                             <img
                                                                                 src={ic_cancel}
                                                                                 alt="ic_cancel"
-                                                                                onClick={() => dispatch(HandleTaskList({
+                                                                                onClick={() => handleTaskListClick({
                                                                                     selected: selectedItem,
                                                                                     check: 4
-                                                                                }))}
+                                                                                })}
                                                                             />
                                                                         </Accordion.Body> : null
                                                                 ))
@@ -509,57 +707,44 @@ const CreateNewRole = () => {
                                         </Accordion>
                                     </Accordion.Body>
                                 </Accordion.Item>
-                            </Accordion>
+                            </Accordion> */}
+                            <ChooseRole
+                                onHandler={handleTaskListClick}
+                                data={roleListData}
+                                mobileAvailableList={mobileAvailableList}
+                                setMobileAvailableList={setMobileAvaliableList}
+                                websiteAvailableList={websiteAvailableList}
+                                setWebsiteAvailableList={setWebsiteAvailableList}
+                                mobileChooseList={mobileChooseList}
+                                setMobileChooseList={setMobileChooseList}
+                                websiteChooseList={websiteChooseList}
+                                setWebsiteChooseList={setWebsiteChooseList}
+                                mobileSelected={mobileSelected}
+                                setMobileSelected={setMobileSelected}
+                                websiteSelected={websiteSelected}
+                                setWebsiteSelected={setWebsiteSelected}
+                            />
+
+
+                        </div>
+                        <div className='accodion_footer_role' onClick={() => handleTaskListClick({ check: 6 })}>
+                            <span>{t('remove_all')}</span>
                         </div>
                     </div>
                 </div>
-                {/* employee */}
-                <div className='role_card_detail mt-5'>
-                    <div className='role_card_detail_head'>
-                        <p>
-                            {t('employees')}
-                            <sub
-                                onClick={() => {
-                                    setDeleteId("")
-                                    setManageShow(true)
-                                }}
-                            >{t('manage_users')}</sub>
-                        </p>
-                    </div>
-                    {/* {console.log(selectedEmployeesList)} */}
-                    <div className="row role_card_detail_body">
-                        {selectedEmployeesList?.length !== 0 ?
-                            selectedEmployeesList?.map(roleEmployee => (
-                                <div className="col-md-3 role_card_detail_body_item">
-                                    <img
-                                        src={deleteIcon}
-                                        alt="deleteimg"
-                                        onClick={() => {
-                                            let arr = selectedEmployeesList?.filter(item => item?.id !== roleEmployee?.id);
-                                            dispatch(EmployeesInCreate(arr))
-                                        }}
-                                        style={{
-                                            cursor: "pointer"
-                                        }}
-                                    />
-                                    <p>{roleEmployee.name}</p>
-                                </div>
-                            ))
-                            :
-                            <div className="not_role_employee">
-                                <span>{t('no_users')}</span>
-                                <img src={warningIcon} alt="warning" />
-                            </div>
-                        }
-                    </div>
-                </div>
 
-                <div className='mt-5 mb-5' style={{ float: 'right' }}>
+
+                <div className='d-flex justify-content-end mt-4 mb-4' >
                     <Link to="/dashboard/employee/company/roles-panel">
-                        <button className='btn_role_cancel'>{t('cancel')}</button>
+                        <button className='btn_cancel_background_gray_hover'
+                            style={{ minWidth: "304px" }} >
+                            {t('cancel')}
+                        </button>
                     </Link>
-                    <button className='btn_role_create' onClick={() => handleCreateRole()}>
-                        {id ? t('update_role') : t('create_role')}
+                    <button className='custom_primary_btn_dark' onClick={() => handleCreateRole()}
+                        style={{ minWidth: "304px" }}
+                    >
+                        {id ? t('update')?.toUpperCase() : t('create')?.toUpperCase()}
                     </button>
                 </div>
                 <DeleteRoleModal

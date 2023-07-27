@@ -69,24 +69,12 @@ const EmployeCard = ({ apidata, handleCheckboxChange, selectForDelete }) => {
                                         <p>{t('name')}</p>
                                         <span>
                                             {
-                                              item?.secondLastName !=null &&
-                                               
-                                                    item?.name
-                                                    + " " +
-                                                    item?.secondLastName + " " +
-                                                    item?.lastName
-                                                   
-                                                    
-                                            }
-                                              {
-                                              item?.secondLastName == null &&
                                                 item?.name ?
                                                     item?.name
                                                     + " " +
-                
+                                                    (item?.secondLastName != null ? item?.secondLastName : " ") + " " +
                                                     item?.lastName
                                                     : "-"
-                                                    
                                             }
                                         </span>
                                     </div>
@@ -111,7 +99,7 @@ const EmployeCard = ({ apidata, handleCheckboxChange, selectForDelete }) => {
                                     item?.statusId == 3 ?
 
                                         <Link className="update_data"
-                                        to={`/dashboard/contractor/employee-upload-documets/${item?.id}`}
+                                            to={`/dashboard/contractor/employee-upload-documets/${item?.id}`}
                                             onClick={() => {
                                                 dispatch(GetContractorEmployeeDetail(item?.id));
                                             }}
@@ -133,7 +121,7 @@ const EmployeCard = ({ apidata, handleCheckboxChange, selectForDelete }) => {
                                             to={`/dashboard/contractor/employee-contract-detail/${item?.id}`}
                                             onClick={() => {
                                                 dispatch(GetContractorEmployeeDetail(item?.id));
-                                              
+
                                             }}
                                         >
                                             {t('employee_details')}

@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from "react-redux";
 import { ApproveExternalDocument, GetAllCompanybyProviderId, GetAllProviderDocuments, GetEmployeeProviderById, GetStatusListProvider } from "../../../../reduxToolkit/EmployeeProviders/EmployeeProvidersApi";
 import { t } from "i18next";
+import { GetEmployeeContractorById } from "../../../../reduxToolkit/EmployeeContractors/EmployeeContractorsApi";
 
 const CustomToggle = React.forwardRef(({ children, onClick }, ref) => {
 
@@ -34,11 +35,11 @@ const CustomToggle = React.forwardRef(({ children, onClick }, ref) => {
   );
 });
 
-const ProviderDropDown = ({ dropDownProps, userId, pid, statusTo, onShow, documentId }) => {
+const ProviderDropDown = ({ dropDownProps, userId, pid, statusTo, onShow, documentId,data,cid }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  console.log(dropDownProps)
+  console.log(cid)
 
   return (
     <Dropdown>
@@ -145,27 +146,55 @@ const ProviderDropDown = ({ dropDownProps, userId, pid, statusTo, onShow, docume
           </Link> */}
         </Dropdown.Menu>
       }
-      {dropDownProps.panel == 'contractor' &&
-        <Dropdown.Menu size="sm" title="go to details">
-          <Link to={'/dashboard/employee/contractors/contractor-approve-document'}>
-            <div className="dropdownDiv">
-              <img src={pencil} alt="pencil" />
-              <span>{t("approve_document")}</span>
-            </div>
-          </Link>
-          <Link to={'/dashboard/employee/contractors/update-contractor'}>
+      {dropDownProps?.panel == 'contractor' &&
+        <Dropdown.Menu size="sm" title="go to details" className="dropdown_menu">
+
+          {
+            statusTo == 3 &&
+            <Link to={'/dashboard/employee/contractors/contractor-approve-document'} onClick={() => {
+              const data = {
+                id: cid
+              }
+              dispatch(GetAllProviderDocuments(cid));
+              dispatch(GetEmployeeContractorById(data))
+              localStorage.setItem("cid", cid)
+              localStorage.setItem("userId", userId)
+
+
+            }}>
+              <div className="dropdownDiv">
+                {/* <img src={pencil} alt="pencil" /> */}
+                <i class="fa fa-file" aria-hidden="true"></i>
+                <span>{t("approve_document")}</span>
+              </div>
+            </Link>
+          }
+
+
+          <Link to={`/dashboard/employee/contractors/update-contractor/${cid}`} state={{ state: data }}>
             <div className="dropdownDiv">
               <img src={pencil} alt="pencil" />
 
-              <span>{t("update_Data")}</span>
+              <span>{t("update_contractor")}</span>
             </div>
           </Link>
-          <Link to="/dashboard/document-panel">
+
+          <Link to="/dashboard/employee/contractors/contractor-detail"
+            state={{ state: data }}
+          >
+            <div className="dropdownDiv">
+              <img src={listIcon} alt="pencil" />
+
+              <span>{t("show_details")}</span>
+            </div>
+          </Link>
+
+          {/* <Link to="/dashboard/document-panel">
             <div className="dropdownDiv">
               <img src={del} alt="delete" />
-              <span>{t("delete_contractor")}</span>
+              <span>DELETE CONTRACTOR</span>
             </div>
-          </Link>
+          </Link> */}
         </Dropdown.Menu>
       }
       {dropDownProps.panel == 'events' &&

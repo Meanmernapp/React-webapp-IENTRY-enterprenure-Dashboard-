@@ -80,11 +80,11 @@ $finalDistance: calc(#{$distance} + 65px);
 
     .viewcard-container__link {
         a {
-            font: normal normal normal 14px/18px Montserrat;
+            font: normal normal normal 12px/15px Montserrat;
             letter-spacing: 0px;
             color: #146F62;
             opacity: 1;
-            font-weight: bold;
+            font-weight: 600;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -114,13 +114,14 @@ $finalDistance: calc(#{$distance} + 65px);
             justify-content: space-between;
 
             .card-body {
-                width: 225px;
-                height: 255px;
+                // width: 225px;
+                // height: 255px;
 
                 img {
-                    width: 210px;
-                    height: 117px;
-                    object-fit: cover;
+                    width: 100px;
+                    height: 100px;
+                    border-radius: 50%;
+                    object-fit: fill;
                 }
 
                 .card-content {
@@ -151,20 +152,21 @@ $finalDistance: calc(#{$distance} + 65px);
     .cards-second-row {
         margin-top: 43.39px;
 
-        .cards {
+        
 
             .card {
                 .card-body {
                     background: #FFFFFF 0% 0% no-repeat padding-box;
                     box-shadow: 0px 0px 4px #00000099;
                     opacity: 1;
-                    width: 225px;
-                    height: 272px;
+                    // width: 225px;
+                    // height: 272px;
 
                     img {
-                        width: 210px;
-                        height: 117px !important;
-                        object-fit: cover !important;
+                        width: 100px;
+                    height: 100px;
+                    border-radius: 50%;
+                    object-fit: fill;
                     }
 
                     .card-content {
@@ -184,7 +186,7 @@ $finalDistance: calc(#{$distance} + 65px);
                 }
             }
 
-        }
+        
     }
 
     .cards-heading {

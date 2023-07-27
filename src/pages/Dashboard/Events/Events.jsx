@@ -15,6 +15,7 @@ import { permissionObj } from "../../../Helpers/permission";
 import { handlePagination } from '../../../reduxToolkit/EmployeeEvents/EmployeeEventsSlice';
 import ic_add from "../../../assets/images/ic-add.svg"
 import DeleteModal from "../../Modals/DeleteModal";
+import SettingButton from "../../../components/SettingButton";
 
 const Events = () => {
   const { t } = useTranslation();
@@ -125,6 +126,9 @@ const Events = () => {
         <div className="container-top-right-btns"
         >
 
+
+          <SettingButton onAction={() => navigate("/dashboard/employee/event-restriction")}
+            title={t("restriction")} />
 
           {
             permission?.includes(permissionObj?.WEB_EVENT_CREATE) &&

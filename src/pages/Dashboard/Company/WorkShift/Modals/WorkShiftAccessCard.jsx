@@ -5,7 +5,7 @@ Module: Work Shift Panel
 
 //Create New Access Time for Work Shift
 import { LocalizationProvider, TimePicker } from "@mui/lab";
-import { TextField } from "@mui/material";
+import { Checkbox, FormControlLabel, TextField } from "@mui/material";
 import React, { useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
@@ -16,8 +16,11 @@ import { GetWorkTimeAccess } from "../../../../../reduxToolkit/EmployeeContracto
 import { CreateWorkShiftAccess } from "../../../../../reduxToolkit/CompanyWorkShift/CompanyWorkShiftApi";
 import moment from "moment";
 import { toast } from "react-toastify";
+import Cookies from 'js-cookie';
+import { useTranslation } from 'react-i18next';
+import WorkShiftTreeView from "../WorkShiftTreeView";
 
-let day_arr = [];
+// let day_arr = [];
 const WorkShiftAccessCard = ({
   heading1,
   heading2,
@@ -26,23 +29,62 @@ const WorkShiftAccessCard = ({
   id
 }) => {
 
-
-
-
   // use hook importer
   let dispatch = useDispatch();
   const zoneData = useSelector(getZonetree);
+  const { t } = useTranslation();
+  const lCode = Cookies.get("i18next") || "en";
 
   // use state hook  for local state managment
-  const [fromValue, setfromValue] = useState(new Date("2014-08-18T21:11:54"));
-  const [toValue, setToValue] = useState(new Date("2014-08-18T21:11:54"));
+  const [fromValue, setfromValue] = useState(new Date("2014-08-18T00:00:00"));
+  const [toValue, setToValue] = useState(new Date("2014-08-18T00:00:00"));
   const [allDays, setAllDays] = useState(false);
   const [allTime, setAllTime] = useState(false);
   const [checked, setChecked] = useState([]);
+  const [isAllChecked, setIsAllChecked] = useState(false)
+  const [dayArray, setDayArray] = useState([])
+  const [array, setArray] = useState([]);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [orderby, setOrderby] = useState("id");
+  // constant varaible
+  let contractPagination = {
+    order: true,
+    page: page,
+    size: rowsPerPage,
+    sortBy: orderby,
+  };
+
+  // this function control select all id or unSelect all
+  const handelZoneCheckAll = (e) => {
+    setIsAllChecked(e.target.checked)
+    if (e.target.checked) {
+      const selectAllIds = getAllItemIds(zoneData);
+      setChecked(selectAllIds)
+      console.log(checked)
+    } else {
+      setChecked([])
+    }
+
+  }
+  // this funtion to look into all child and sub child and get return ids
+  function getAllItemIds(data) {
+    let ids = [];
+    for (let i = 0; i < data.length; i++) {
+      const item = data[i];
+      ids.push(`${item.id},${item.name}`);
+      if (item.children && item.children.length > 0) {
+        const childIds = getAllItemIds(item.children);
+        ids = ids.concat(childIds);
+      }
+    }
+    return ids;
+  }
 
   //handle selected and unselected days list
   const handleCheck = (event) => {
     var updatedList = [...checked];
+    console.log(checked)
     if (event.target.checked) {
       updatedList = [...checked, event.target.value];
     } else {
@@ -51,35 +93,23 @@ const WorkShiftAccessCard = ({
     setChecked(updatedList);
   };
 
-    const [page, setPage] = useState(0);
 
-    const handleChangePage = (event, newPage) => {
-      setPage(newPage);
-    };
-    const handleChangeRowsPerPage = (event) => {
-      setRowsPerPage(parseInt(event.target.value));
-      setPage(0);
-    };
-    const [rowsPerPage, setRowsPerPage] = useState(5);
-    const [orderby, setOrderby] = useState("id");
-    let contractPagination = {
-      order: true,
-      page: page,
-      size: rowsPerPage,
-      sortBy: orderby,
-    };
-    // End Pagination
-  
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value));
+    setPage(0);
+  };
 
   //list of create access
-  const [array, setArray] = useState([]);
   const handleCLick = async () => {
-    const updateArray = [...array];
+    let updateArray = [...array];
     for (let i = 0; i < checked.length; i++) {
-      for (let j = 0; j < day_arr.length; j++) {
+      for (let j = 0; j < dayArray.length; j++) {
         let x = {
-          zone: { id: checked[i]},
-          day: { id: day_arr[j] },
+          zone: { id: checked[i] },
+          day: { id: dayArray[j] },
           from: moment(fromValue).format("HH:mm:ss"),
           to: moment(toValue).format("HH:mm:ss"),
         };
@@ -90,161 +120,105 @@ const WorkShiftAccessCard = ({
     let customSchdule = [];
     updateArray?.map((item) => {
       customSchdule.push({
-        workShift:{id: id},
-        zone: { id: item?.zone?.id.split(",",1)[0] },
-        day: { id: item?.day?.id },
+        dayId: item?.day?.id,
         from: item?.from,
         to: item?.to,
+        workShiftId: id,
+        zoneId: item?.zone?.id.split(",", 1)[0],
       });
     });
-   
-    //create custom access time for work shift
-    if(customSchdule.length !== 0){
-      dispatch(CreateWorkShiftAccess(customSchdule)).then(()=>{
-      //get list of access time for work shift
-        dispatch(GetWorkTimeAccess({ id, contractPagination }));
-      })
-    }else{
-      toast.info("Select Zone, Days, Time")
-    } 
-  };
 
+    //create custom access time for work shift
+    if (customSchdule.length > 0) {
+      dispatch(CreateWorkShiftAccess(customSchdule)).then(() => {
+        //get list of access time for work shift
+        setChecked([])
+        updateArray = []
+        setArray([])
+        setDayArray([])
+        customSchdule = []
+        dispatch(GetWorkTimeAccess({ id, contractPagination }));
+        setAllTime(false)
+        setfromValue();
+        setToValue();
+
+      })
+    } else {
+      toast.info("Select Zone, Days, Time")
+    }
+  };
   //select all days logic
   const selectAllDays = (event) => {
+    setAllDays(event.target.checked)
     if (event.target.checked) {
-      day_arr = [1, 2, 3, 4, 5, 6, 0];
+      setDayArray([1, 2, 3, 4, 5, 6, 0])
     } else {
-      day_arr = [];
+      setDayArray([])
     }
-    setAllDays(!allDays);
-  };
 
+  };
   //select all time logic
   const handleAllTime = (event) => {
     if (event.target.checked) {
-      setfromValue(new Date(-2211769692000));
-      setToValue(new Date(-2211683293000));
+      setfromValue(new Date("2014-08-18T00:00:00"));
+      setToValue(new Date("2014-08-18T23:59:59"));
     } else {
-      setfromValue();
-      setToValue();
+      setfromValue(new Date("2014-08-18T00:00:00"));
+      setToValue(new Date("2014-08-18T00:00:00"));
     }
     setAllTime(!allTime);
   }
- 
-  //all below functions use for handle select or unselect day
-  const handleMon = (event) => {
-    if (event.target.checked) {
-      day_arr.push(event.target.value);
-    } else {
-      day_arr.pop(event.target.value);
+
+  // to handle days
+  const handleDay = (event, dayValue) => {
+    const value = parseInt(dayValue);
+    const index = dayArray.indexOf(value);
+
+    if (event.target.checked && index === -1) {
+      setDayArray(prevArray => [...prevArray, value]);
+    } else if (!event.target.checked && index !== -1) {
+      setDayArray(prevArray => prevArray.filter(item => item !== value));
     }
-  }; const handleTue = (event) => {
-    if (event.target.checked) {
-      day_arr.push(event.target.value);
-    } else {
-      day_arr.pop(event.target.value);
-    }
-  }; const handleWed = (event) => {
-    if (event.target.checked) {
-      day_arr.push(event.target.value);
-    } else {
-      day_arr.pop(event.target.value);
-    }
-  }; const handleThur = (event) => {
-    if (event.target.checked) {
-      day_arr.push(event.target.value);
-    } else {
-      day_arr.pop(event.target.value);
-    }
-  }; const handleFri = (event) => {
-    if (event.target.checked) {
-      day_arr.push(event.target.value);
-    } else {
-      day_arr.pop(event.target.value);
-    }
-  }; const handleSat = (event) => {
-    if (event.target.checked) {
-      day_arr.push(event.target.value);
-    } else {
-      day_arr.pop(event.target.value);
-    }
-  }; const handleSun = (event) => {
-    if (event.target.checked) {
-      day_arr.push(event.target.value);
-    } else {
-      day_arr.pop(event.target.value);
-    }
+
   };
+
 
   return (
     <div className="pt-3 row pr-5">
-      <div className="col-lg-6">
-        <div className={heading1 === "zones" ? "access_text" : "work_text"}>
-          <p>{heading1}</p>
+      <div className="col-lg-6 work_shift_tree_view">
+        <div className="d-flex align-items-center gap-2 ">
+
+          <p className="heading_tree">{t("zones")}</p>
+          <FormControlLabel className="grid-checkall"
+            sx={{ paddingTop: "0.4rem" }}
+            control={<Checkbox
+              label="Label"
+              checked={isAllChecked}
+              onChange={handelZoneCheckAll}
+              size="small" />} label={t("de_/_select_all")} />
+
         </div>
 
-        <div className="checkboxes_m">
-          {zoneData &&
-            zoneData.map((item) => {
-              return (
-                <ol>
-                  <li>
-                    <i
-                      className="fa fa-angle-right angeL_rights"
-                      aria-hidden="true"
-                    ></i>
-                    <input
-                      type="checkbox"
-                      value={`${item?.id},${item?.name}`}
-                      onChange={handleCheck}
-                    />
-                    <span className="sm_res">{item?.name}</span>
-                  </li>
-                  {item?.children &&
-                    item?.children.map((childItem) => {
-                      return (
-                        <ul>
-                          <li>
-                            <i
-                              className="fa fa-angle-right angeL_rights"
-                              aria-hidden="true"
-                            ></i>
-                            <input
-                              type="checkbox"
-                              value={`${childItem?.id},${childItem?.name}`}
-                              onChange={handleCheck}
-                            />
-                            <span className="sm_res">{childItem?.name}</span>
-
-                            <ul className="nested_checkbox">
-                              {childItem &&
-                                childItem?.children.map((grandChild) => {
-                                  return (
-                                    <li>
-                                      <input
-                                        type="checkbox"
-                                        value={`${grandChild?.id},${grandChild?.name}`}
-                                        onChange={handleCheck}
-                                      />
-                                      <span className="sm_ress">
-                                        {grandChild?.name}
-                                      </span>
-                                    </li>
-                                  );
-                                })}
-                            </ul>
-                          </li>
-                        </ul>
-                      );
-                    })}
-                </ol>
-              );
-            })}
-        </div>
+        <WorkShiftTreeView data={zoneData} onInputchange={handleCheck} isChecked={checked} />
       </div>
       <div className="col-lg-6">
-      <span className="schedule-heading">SCHEDULE</span>
-      <span className="schedule-heading-sub-heading">To open de doors.</span>
+        <div className="d-flex justify-content-between">
+          <div>
+
+            <span className="schedule-heading">SCHEDULE</span>
+            <span className="schedule-heading-sub-heading">To open de doors.</span>
+          </div>
+          <div className="all-checkbox">
+            <Checkbox
+              className='grid-checkall checkbox'
+              indeterminate={dayArray.length > 0 && (dayArray.length !== 7)}
+              checked={allDays || (dayArray.length > 0 && (dayArray.length === 7))}
+              onChange={selectAllDays}
+              size='small'
+            />{" "}
+            {t("all_days")}
+          </div>
+        </div>
         <div
           className="main_content days_card"
           style={{
@@ -253,116 +227,119 @@ const WorkShiftAccessCard = ({
             paddingLeft: "15px",
           }}
         >
-          <div className="d-flex justify-content-between contract-custom-checkbox" style={{paddingTop:"2px"}}>
+          <div className="d-flex justify-content-between contract-custom-checkbox" style={{ paddingTop: "2px" }}>
             <article>
               <input
                 type="checkbox"
                 value={1}
-                onChange={handleMon}
-                checked={allDays ? allDays : null}
+                onChange={(e) => handleDay(e, "1")}
+                checked={dayArray?.includes(1)}
+
               />
-              
-                <span className="days-text-style" >
-                  M
-                  <br />
-                </span>
-              
+
+              <span className="days-text-style" >
+                M
+                <br />
+              </span>
+
             </article>
             <article>
               <input
                 type="checkbox"
                 value={2}
-                onChange={handleTue}
-                checked={allDays ? allDays : null}
+                onChange={(e) => handleDay(e, "2")}
+                checked={dayArray?.includes(2)}
               />
-             
-                <span className="days-text-style">
-                  T
-                  <br />
-                </span>
-         
+
+              <span className="days-text-style">
+                T
+                <br />
+              </span>
+
             </article>
             <article>
               <input
                 type="checkbox"
                 value={3}
-                onChange={handleWed}
-                checked={allDays ? allDays : null}
+                onChange={(e) => handleDay(e, "3")}
+
+                checked={dayArray?.includes(3)}
               />
-         
-                <span className="days-text-style">
-                  W
-                  <br />
-                </span>
-            
+
+              <span className="days-text-style">
+                W
+                <br />
+              </span>
+
             </article>
             <article>
               <input
                 type="checkbox"
                 value={4}
-                onChange={handleThur}
-                checked={allDays ? allDays : null}
+                onChange={(e) => handleDay(e, "4")}
+                checked={dayArray?.includes(4)}
               />
-       
-                <span className="days-text-style">
-                  T
-                  <br />
-                </span>
-             
+
+              <span className="days-text-style">
+                T
+                <br />
+              </span>
+
             </article>
             <article>
               <input
                 type="checkbox"
                 value={5}
-                onChange={handleFri}
-                checked={allDays ? allDays : null}
+                onChange={(e) => handleDay(e, "5")}
+                checked={dayArray?.includes(5)}
               />
-      
-                <span className="days-text-style">
-                  F
-                  <br />
-                </span>
-           
+
+              <span className="days-text-style">
+                F
+                <br />
+              </span>
+
             </article>
             <article>
               <input
                 type="checkbox"
                 value={6}
-                onChange={handleSat}
-                checked={allDays ? allDays : null}
+                onChange={(e) => handleDay(e, "6")}
+                checked={dayArray?.includes(6)}
               />
-        
-                <span className="days-text-style">
-                  S
-                  <br />
-                </span>
-          
+
+              <span className="days-text-style">
+                S
+                <br />
+              </span>
+
             </article>
             <article>
               <input
                 type="checkbox"
                 value={0}
-                onChange={handleSun}
-                checked={allDays ? allDays : null}
+                onChange={(e) => handleDay(e, "0")}
+                checked={dayArray?.includes(0)}
               />
-        
-                <span className="days-text-style">
-                  S
-                  <br />
-                </span>
-       
+              <span className="days-text-style">
+                S
+                <br />
+              </span>
+
             </article>
           </div>
-
-          <div className="all_checkbox">
-            <input type="checkbox" checked={allDays} onChange={selectAllDays} />{" "}
-            ALL Days
-          </div>
         </div>
-
         <div className="col-md-12 p-0">
-          <div className="mt-5 access_text">
-            <p>hours</p>
+          <div className="mt-2 access_text">
+            {/* <p>hours</p> */}
+            <div className="all-checkbox">
+              <Checkbox className='grid-checkall checkbox'
+                checked={allTime}
+                onChange={handleAllTime}
+                size='small'
+              />{" "}
+              {t("all_time")}
+            </div>
             <div className="mt-3">
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <TimePicker
@@ -402,25 +379,23 @@ const WorkShiftAccessCard = ({
                 />
               </LocalizationProvider>
             </div>
-            <div className="all_checkbox">
-              <input
-                type="checkbox"
-                checked={allTime}
-                onChange={handleAllTime}
-              />{" "}
-              ALL Time
-            </div>
+
           </div>
           <div className="btnDiv d-flex justify-content-end">
-            <Button
-              className="add-access-btn"
+            <button
+              className="custom_primary_btn_dark mt-3"
+              style={{
+                width: "100%",
+                justifyContent: 'space-between',
+                padding: "0rem 1rem"
+              }}
               onClick={(e) => {
                 handleCLick(e);
               }}
             >
-              ADD ACCESS
+              {t("add")}
               <AddIcon style={{ marginLeft: "10px" }} />
-            </Button>
+            </button>
           </div>
         </div>
       </div>

@@ -15,6 +15,8 @@ import ZoneLeaflet from "../../../../components/ZoneLeaflet";
 import { useTranslation } from 'react-i18next';
 import Cookies from 'js-cookie';
 import { toast } from "react-toastify";
+import BootstrapTooltip from "../../../../utils/BootstrapTooltip";
+import broomIcon from "../../../../assets/icon/broom-solid.svg";
 
 /*
 Author : Arman Ali
@@ -29,7 +31,7 @@ const AddZoneModal = (props) => {
   const dispatch = useDispatch()
 
   // destructure from prop
-  const { title, check, isFatherZone } = props;
+  const { title, check, isFatherZone, sub_title } = props;
 
   //use Selector hook to get state for redux store
   const { getListStatusZone } = useSelector(state => state.EmployeeZonesSlice)
@@ -135,9 +137,23 @@ const AddZoneModal = (props) => {
       centered
       className="add_zone_modal"
     >
-      <Modal.Header>
-        <Modal.Title id="contained-modal-title-vcenter" style={{ fontSize: '1.1rem', fontWeight: '600', marginTop: '0.5rem', letterSpacing: '0.3rem' }}>
+      <Modal.Header className="header_zone">
+        <Modal.Title id="contained-modal-title-vcenter" className="header_zone">
+          <h4>
+
           {title}
+          </h4>
+          <span className="sub_title">{`(${sub_title})`}</span>
+          <span>
+            <BootstrapTooltip title={t("clean_all_inputs")} placement="right">
+              <button className='clear_all_input'
+              onClick={() => { reset() }}
+              >
+                <img src={broomIcon} alt="" />
+              </button>
+            </BootstrapTooltip>
+
+          </span>
         </Modal.Title>
         <img onClick={() => {
           props.onHide();
@@ -220,8 +236,8 @@ const AddZoneModal = (props) => {
                 </Select>
               </FormControl>
             </Box>
-            <div className="row">
-              <div className="col-md-6">
+            <div className="d-flex gap-2 align-items-center">
+      
                 <Box
                   sx={{
                     width: "100%",
@@ -241,8 +257,7 @@ const AddZoneModal = (props) => {
                     sx={textField}
                   />
                 </Box>
-              </div>
-              <div className="col-md-6">
+              
                 <Box
                   sx={{
                     width: "100%",
@@ -262,11 +277,11 @@ const AddZoneModal = (props) => {
                     sx={textField}
                   />
                 </Box>
-              </div>
+       
             </div>
-            <Box sx={{ display: 'flex', gap: '0.4rem' }}>
-              <button className="cancelBtn" onClick={() => props.onHide()}>{t("cancel")}</button>
-              <button className="addBtn" onClick={() => { handelCreateZone() }}>{t("create")}</button>
+            <Box sx={{ display: 'flex', gap: '0.4rem', paddingTop: "1.5rem" }}>
+              <button style={{ width: "100%" }} className="btn_cancel_background_gray_hover" onClick={() =>{ props.onHide();reset()}}>{t("cancel")}</button>
+              <button style={{ width: "100%" }} className="custom_primary_btn_dark" onClick={() => { handelCreateZone() }}>{t("create")}</button>
             </Box>
           </div>
           <div className="col-md-6 text-center">

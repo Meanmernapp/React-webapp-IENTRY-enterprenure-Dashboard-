@@ -45,6 +45,8 @@ import emptyList from "../../../assets/images/warning.svg";
 import { useTranslation } from 'react-i18next'
 import Cookies from "js-cookie";
 import NotFoundDataWarning from "../../../components/NotFoundDataWarning";
+import ClearButton from "../../../components/ClearButton";
+import Step4AccessRights from "../Company/Employees/EnrollmentSteps/Step4AccessRights";
 
 const UpdateContract = () => {
   const lCode = Cookies.get("i18next") || "en";
@@ -73,6 +75,9 @@ const UpdateContract = () => {
   const [selIndex, setSelIndex] = useState(null)
   const [contractStatus, setContractStatus] = useState()
   const [singleContract, setSingleContract] = useState()
+
+  const [workShiftsList, setWorkShiftsList] = useState([]);
+  const [customizedList, setCustomizedList] = useState([]);
   console.log("this is the contract id", singleContract)
 
   const miliseconds = 1604395966369;
@@ -297,17 +302,120 @@ const UpdateContract = () => {
               margin: "0 10px"
             }}></i>
           </Link>
-          <h2>UPDATE Contract</h2>
+          <h2> {t("Update")?.toUpperCase()}</h2>
         </div>
       </div>
-      <div className="mt-5 order_data_component">
-        <p className="__header">CONTRACT DATA</p>
-        <div className="formCard">
-          <div className="mt-2 __body">
-            <div className="col-md-12 d-flex">
-              <FormControl fullWidth
+      <Box sx={{ padding: "0rem 4rem" }}>
+        <div className="mt-5 order_data_component">
+          <p className="__header">CONTRACT DATA</p>
+          <div className="formCard">
+            <div className="mt-2 __body">
+              <Grid container spacing={2}>
+                <ClearButton flagTooltip={true} handleClear={() => console.log()} textTooltip={"Clear_all_fields"} />
+                <Grid item xs={12} sm={6} md={6} lg={6}>
+                  <FormControl fullWidth>
+                    <Box
+                      disabled
+                      sx={{
+                        width: "100%",
+                        maxWidth: "100%",
+                        fontSize: "20px",
+                        height: "40px",
+                        background: "#E1E1E1",
+                        borderRadius: '4px'
+                      }}
 
-              >
+                    >
+                      <TextField size="small"
+                        fullWidth
+                        // disabled
+                        focused={singleContract?.contractor.acronym}
+                        placeholder={singleContract?.contractor.acronym}
+                        label={t("contractor")}
+                        id="LONGTITID"
+                        value={singleContract?.contractor.acronym}
+                      />
+                    </Box>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12} sm={6} md={6} lg={6}>
+                  <Box
+
+                    className="inputField"
+                  >
+                    <FormControl fullWidth>
+                      <InputLabel id="demo-simple-select-label">
+                        {t("status")}
+                      </InputLabel>
+                      <Select size="small"
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        label={t("status")}
+                        value={contractStatus}
+                        onChange={(e) => setContractStatus(e.target.value)}
+                      >
+                        {contractAllStatus &&
+                          contractAllStatus.map((item, index) => {
+                            return (
+                              <MenuItem value={item?.id} key={index}>
+                                <span style={{ fontSize: "14px" }}>{item?.name.replace("_", " ")}</span>
+                              </MenuItem>
+                            );
+                          })}
+                      </Select>
+                    </FormControl>
+                  </Box>
+                </Grid>
+                <Grid item xs={12} sm={6} md={6} lg={6}>
+                  <Box
+
+                    className="inputField"
+                  >
+                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                      <Stack spacing={3}>
+                        <DesktopDatePicker
+                          label="START CONTRACT"
+                          inputFormat="MM/dd/yyyy"
+                          value={startContract ? startContract : startDate}
+                          onChange={setstartContract}
+                          renderInput={(params) => <TextField size="small" {...params} />}
+                        />
+                      </Stack>
+                    </LocalizationProvider>
+                  </Box>
+                </Grid>
+                <Grid item xs={12} sm={6} md={6} lg={6}>
+                  <Box className="inputField">
+                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                      <Stack spacing={3}>
+                        <DesktopDatePicker
+                          label="END CONTRACT"
+                          inputFormat="MM/dd/yyyy"
+                          value={endContract ? endContract : endDate}
+                          onChange={setendContract}
+                          renderInput={(params) => <TextField size="small" {...params} />}
+                        />
+                      </Stack>
+                    </LocalizationProvider>
+                  </Box>
+                </Grid>
+                <Grid item xs={12} sm={12} md={12} lg={12}>
+                  <TextField size="small"
+                    className="inputField"
+                    fullWidth
+                    id="outlined-multiline-static"
+                    label="DESCRIPTION"
+                    multiline
+                    focused={singleContract?.description}
+                    rows={4}
+                    defaultValue={singleContract?.description}
+                    style={{ color: "#707070" }}
+                    onChange={(e) => setDescription(e.target.value)}
+                  />
+                </Grid>
+              </Grid>
+              {/* <div className="col-md-12 d-flex">
+              <FormControl fullWidth>
                 <Box
                   disabled
                   sx={{
@@ -358,7 +466,6 @@ const UpdateContract = () => {
                 </FormControl>
               </Box>
             </div>
-
             <div className="col-md-12 d-flex">
               <Box
                 style={{ width: "100%", marginRight: "68px" }}
@@ -403,11 +510,33 @@ const UpdateContract = () => {
                 style={{ color: "#707070" }}
                 onChange={(e) => setDescription(e.target.value)}
               />
+            </div> */}
             </div>
           </div>
         </div>
-      </div>
-      <div className="mt-5 access_right_component">
+        <Box sx={{ margin: "2rem 0rem" }}>
+          <Step4AccessRights
+            // employeeData={employeeData}
+            workShiftsList={workShiftsList}
+            setWorkShiftsList={setWorkShiftsList}
+            customizedList={customizedList}
+            setCustomizedList={setCustomizedList}
+          // onChange={handleFormChangeEmployeeData}
+          // setEmployeeData={setEmployeeData} 
+          />
+        </Box>
+
+        <div className="d-flex justify-content-end mb-3" >
+          <button className="custom_btn_cancel_gray_hover" style={{ width: "284px", flex: "unset" }}>
+          {t("cancel")?.toUpperCase()}
+          </button>
+          <button className="custom_primary_btn_dark" onClick={handleSubmit} style={{ width: "284px", flex: "unset" }}>
+          {t("update")?.toUpperCase()}
+          </button>
+        </div>
+      </Box>
+
+      {/* <div className="mt-5 access_right_component">
         <p className="__header">ACCESS RIGHTS</p>
         <div className="mt-2  __body">
           <div className="__upper d-flex">
@@ -581,7 +710,7 @@ const UpdateContract = () => {
             UPDATE
           </button>
         </div>
-      </div>
+      </div> */}
     </>
   );
 };

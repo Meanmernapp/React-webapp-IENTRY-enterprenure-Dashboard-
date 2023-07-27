@@ -17,6 +17,16 @@ import TablePagination from '@mui/material/TablePagination';
 import DeleteVehicleModal from "./modal/DeleteVehicleModal";
 import SearchIcon from "@mui/icons-material/Search";
 import DisplayView from "../../../../components/DisplayView";
+import SearchFor from "../../../Modals/SearchFor";
+import { MODELS } from "../../../../Apis/Models";
+import { TABLES } from "../../../../Apis/Tables";
+import { SearchByFilters } from "../../../../reduxToolkit/Search/SearchApi";
+import { status } from "../../../../enums/statusEnum";
+import { toast } from 'react-toastify';
+import { Checkbox, Tooltip } from '@mui/material';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import checkedIcon from "../../../../assets/icon/ic-check-white.svg";
+
 
 const AllVehicles = () => {
   const { t } = useTranslation();
@@ -27,18 +37,25 @@ const AllVehicles = () => {
   const [orderBy, setOrderBy] = useState();
   const [sortBy, setSortBy] = useState();
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(8);
+  const [rowsPerPage, setRowsPerPage] = useState(20);
   const [searchVehicle, setSearchVehicle] = useState("");
-  const [view, setView] = useState("grid")
+  const [view, setView] = useState("list")
   const [selectVehicleForDelete, setSlectVehicleForDelete] = useState([])
   const [isAllChecked, setIsAllChecked] = useState(false)
   const [deleteVehicleShow, setDeleteVehicleShow] = useState(false)
+  const [filterDialogShow, setFilterDialogShow] = useState(false)
+  const [finalArray, setFinalArray] = useState([])
+  const [loaded, setLoaded] = useState(false);
 
 
   const { permission } = useSelector(state => state.authenticatioauthennSlice);
   const { getAllVehicle } = useSelector(state => state.VehicleSlice);
   const { uploadImage } = useSelector(state => state.sharedSlice);
-  console.log(getAllVehicle)
+  const { searchByFilters } = useSelector(state => state.SearchSlice);
+
+  // Props to the filter window
+  const [moduleId, setModuleId] = useState(`${MODELS.vehicle}`);
+  const [option, setOption] = useState(`${TABLES.VEHICLES}`);
 
   const handleChangeRowsPerPage = event => {
     setRowsPerPage(parseInt(event.target.value));
@@ -52,8 +69,8 @@ const AllVehicles = () => {
   const handelDeleteAll = (e) => {
     setIsAllChecked(e.target.checked)
     if (e.target.checked) {
-      const selectAllIds = getAllVehicle?.content?.map(item => {
-        return item?.vehicle?.id
+      const selectAllIds = searchByFilters?.content?.map(item => {
+        return item?.id
       })
       setSlectVehicleForDelete(selectAllIds)
 
@@ -75,13 +92,86 @@ const AllVehicles = () => {
 
   const elementRef = useRef(null);
   useEffect(() => {
+    resetAllCheckboxes();
+    setSlectVehicleForDelete([]);
+    setIsAllChecked(false);
+    setPage(0)
     if (elementRef.current) {
       const rect = elementRef.current.getBoundingClientRect();
       const distanceTop = rect.top + 15;
       console.log(distanceTop);
       elementRef.current.style.setProperty('--top-value', `${distanceTop}px`);
     }
+    if (view === 'grid') {
+      setRowsPerPage(12)
+    } else {
+      setRowsPerPage(20)
+    }
   }, [view]);
+
+  // useEffect to avoid first load
+  useEffect(() => {
+    setLoaded(true);
+  }, [view, page, rowsPerPage, finalArray]);
+
+  // useEffect to avoid first load
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+
+  // useEffect to check automatically all the items when page, rowsPerPage, or search change
+  useEffect(() => {
+    if (isAllChecked) {
+      const selectAllIds = searchByFilters?.content?.map(item => item?.id);
+      setSlectVehicleForDelete(prevState => {
+        const uniqueIds = selectAllIds.filter(id => !prevState.includes(id));
+        return [...prevState, ...uniqueIds];
+      });
+    }
+  }, [searchByFilters])
+
+  //This fragment makes uncheked all the checkboxes when toggleState change
+  const resetAllCheckboxes = () => {
+    const checkboxes = document.querySelectorAll(".checkbox");
+    checkboxes.forEach((checkbox) => {
+      checkbox.checked = false;
+    });
+  }
+
+  //Create body to get the respectively search
+  useEffect(() => {
+    if (loaded) {
+
+    const criteriaList = finalArray.map((item) => {
+      return {
+        dataOption: item.dataOption,
+        fieldType: item.fieldType,
+        filterKey: item.filterKey,
+        operation: item.operation,
+        sort: item.sort,
+        table: item.table,
+        values: item.values,
+        from: item.from,
+        to: item.to
+      };
+    });
+
+    const body = {
+      pagination: {
+        page: page,
+        size: rowsPerPage,
+      },
+      searchCriteriaList: criteriaList
+    }
+    dispatch(SearchByFilters({ option, body })).then(({ payload: { data: { data, success } } }) => {
+      {
+        (success !== true) && toast.error(t('fail_to_complete_fetch'))
+      }
+    })
+    setLoaded(false)
+  }
+
+  }, [loaded, page, rowsPerPage, orderBy, sortBy, finalArray])
 
   useEffect(() => {
     const body = {
@@ -133,12 +223,19 @@ const AllVehicles = () => {
             {t('delete')}
           </button>
           <button
+            className="filter-btn-1"
+            style={{ width: "48px", height: "48px" }}
+            onClick={() => setFilterDialogShow(true)}
+          >
+            <FilterAltIcon style={{ fontSize: "32px" }} />
+          </button>
+          {/* <button
             className="custom_primary_btn_dark"
             style={{ width: "48px", height: "48px" }}
             onClick={() => setModalShow(true)}
           >
             <FilterAltIcon style={{ fontSize: "32px" }} />
-          </button>
+          </button> */}
         </div>
       </div>
       {modalShow && <FilterPopus setModalShow={setModalShow} />}
@@ -156,17 +253,17 @@ const AllVehicles = () => {
       </div> */}
       {/* select de select */}
       {
-         view === "grid" &&
+        view === "grid" &&
 
-      <div className="d-flex gap-1 pl-2">
+        <div className="d-flex mr-0 pl-0">
 
-        <input type="checkbox" className="checkbox"
-          checked={isAllChecked}
-          onChange={handelDeleteAll}
-        />
-        
-        <span className="text_size_12">de/select all</span>
-      </div>
+          <FormControlLabel className="grid-checkall" control={<Checkbox
+            label="Label"
+            checked={isAllChecked}
+            onChange={handelDeleteAll}
+            size="small" />} label={t("de_/_select_all")} />
+
+        </div>
       }
       {
         view === "grid" &&
@@ -183,14 +280,22 @@ const AllVehicles = () => {
 
         <div className="panelTables px-1 animated-div" ref={elementRef}>
           {
-            getAllVehicle?.content?.length > 0 ?
+            searchByFilters?.content?.length > 0 ?
               <table style={{ width: "100%" }}>
                 <thead>
                   <th className='first_head'>
-                    <input type="checkbox" className="checkbox"
+                    <Tooltip title={t("de_/_select_all").toUpperCase()} placement="top">
+                      <Checkbox
+                        className="grid-checkall checkbox"
+                        checked={isAllChecked}
+                        onChange={handelDeleteAll}
+                        size="small"
+                      />
+                    </Tooltip>
+                    {/* <input type="checkbox" className="checkbox"
                       checked={isAllChecked}
                       onChange={handelDeleteAll}
-                    />
+                    /> */}
                   </th>
                   <th className='first_head'>{t("brand")}</th>
                   <th>{t("sub_brand")}</th>
@@ -204,7 +309,7 @@ const AllVehicles = () => {
                 </thead>
 
                 {
-                  getAllVehicle?.content?.filter((user) => {
+                  searchByFilters?.content?.filter((user) => {
                     if (searchVehicle === "") {
                       return user;
                     } else if (
@@ -217,32 +322,39 @@ const AllVehicles = () => {
                   })?.map((item, index) => {
                     return (
                       <tr key={item?.id}>
-                        <td className='first'>
-                          <input type="checkbox" className="checkbox"
-                            checked={selectVehicleForDelete?.includes(item?.vehicle?.id)}
-                            id={item?.vehicle?.id}
+                        <td className='first align-middle'>
+                          <Checkbox
+                            className="grid-checkall checkbox"
+                            checked={selectVehicleForDelete?.includes(item?.id)}
+                            id={item?.id}
                             onChange={handleCheckboxChange}
+                            size="small"
                           />
+                          {/* <input type="checkbox" className="checkbox"
+                            checked={selectVehicleForDelete?.includes(item?.id)}
+                            id={item?.id}
+                            onChange={handleCheckboxChange}
+                          /> */}
                         </td>
-                        < td className='first' >
+                        < td className='first align-middle' >
 
                           {
-                            item?.vehicle?.brand
+                            item?.brand || "-"
                             // + " " + 
                             // item?.secondLastName + " " + 
                             //  item?.lastName
                           }
                         </td>
-                        <td>{item?.vehicle?.subBrand || "-"}</td>
-                        <td >{item?.vehicle?.model || "-"}</td>
-                        <td>{item?.vehicle?.color || "-"}</td>
-                        <td > {item?.vehicle?.plate || "-"} </td>
-                        <td>{item?.vehicle?.vin || "-"}</td>
-                        <td>{item?.vehicle?.tag || "-"}</td>
+                        <td>{item?.subBrand || "-"}</td>
+                        <td >{item?.model || "-"}</td>
+                        <td>{item?.color || "-"}</td>
+                        <td > {item?.plate || "-"} </td>
+                        <td>{item?.vin || "-"}</td>
+                        <td>{item?.tag || "-"}</td>
                         <td className='tableIcon'>
                           <button className='btn-option'
                             onClick={() => {
-                              navigate(`/dashboard/employee/allVehicles/vehicle-detail/${item?.vehicle?.id}`)
+                              navigate(`/dashboard/employee/allVehicles/vehicle-detail/${item?.id}`)
                             }}>
                             <img
                               src={eyeIcon} alt="eye"
@@ -251,7 +363,7 @@ const AllVehicles = () => {
                         </td>
                         <td className='tableIcon'>
                           <button className='btn-option'
-                            onClick={() => navigate(`/dashboard/employee/allVehicles/update-vehicle/${item?.vehicle?.id}`)}>
+                            onClick={() => navigate(`/dashboard/employee/allVehicles/update-vehicle/${item?.id}`)}>
                             <i className="fa fa-pencil" aria-hidden="true"
                               style={{ color: "#146F62" }}
                             // onClick={() => navigate(`/dashboard/employee/all-employees/update-employee/${item?.id}`)}
@@ -264,7 +376,7 @@ const AllVehicles = () => {
                 }
 
               </table> :
-              <NotFoundDataWarning text={t("no_documents")} />
+              <NotFoundDataWarning text={t("not_vehicles")} />
           }
 
         </div>
@@ -273,12 +385,12 @@ const AllVehicles = () => {
 
 
       {
-        getAllVehicle?.content?.length > 0 &&
+        searchByFilters?.content?.length > 0 &&
         <div className="d-flex justify-content-center">
           <TablePagination
             component="div"
-            rowsPerPageOptions={[8, 16, 24, 32]}
-            count={getAllVehicle?.totalElements}
+            rowsPerPageOptions={view === 'grid' ? [12, 24, 36, 48] : [20, 40, 60]}
+            count={searchByFilters?.totalElements}
             page={page}
             onPageChange={handleChangePage}
             labelRowsPerPage={t('vehicle_per_page')}
@@ -293,6 +405,20 @@ const AllVehicles = () => {
         onHide={() => setDeleteVehicleShow(false)}
         data={selectVehicleForDelete}
 
+      />
+      {/* dialog for advance search */}
+      <SearchFor
+        open={filterDialogShow}
+        onClose={() => {
+          setFilterDialogShow(false);
+        }}
+        onFiltered={(originalArray) => {
+          setFilterDialogShow(false);
+          setFinalArray(originalArray);
+        }}
+        moduleId={moduleId}
+        option={option}
+        finalArray={finalArray}
       />
     </>
   );

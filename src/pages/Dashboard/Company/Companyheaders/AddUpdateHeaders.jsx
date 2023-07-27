@@ -9,6 +9,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { GetHeaders, UpdateHeaders } from '../../../../reduxToolkit/headers/HeadersApi';
 import { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import ClearButton from '../../../../components/ClearButton';
+import CustomTextWithLine from '../../../../components/CustomTextWithLine';
 
 const useStyles = makeStyles((theme) => ({
     clearField: {
@@ -136,34 +138,18 @@ const AddUpdateHeaders = () => {
                     <h2>{t('custom headers')}</h2>
                 </div>
             </div>
-            <Box className='headerMain'>
-                {/* <p className='extraDataTitle'>{t("extra data users")}</p>
-                <Divider className='hrLine' /> */}
-
-                <Grid display='flex' gap="0.8rem" alignItems="baseline">
-                    <p className='extraDataTitle'>{t('extra data users')}</p>
-                    <div className='hrLine'></div>
-                </Grid>
+            {/* <Box className='headerMain'> */}
+            <Grid item sx={12} md={12} padding="0rem 7rem" paddingTop={"1rem"}>
+                <CustomTextWithLine title={t("other_details")?.toUpperCase()} />
                 {/* clear all field */}
-                <Grid container width="96%" justifyContent='flex-end'>
-                    <Grid container alignItems='center' gap='0.5rem'
-                        width="auto"
-                        className={classes?.clearField}
-                        onClick={() => handleClearFields()}
-                    >
-                        <Grid item>
-                            <Typography sx={{ color: "#BC0000", fontSize: "12px" }}>{t("clean_all_fields")}</Typography>
-                        </Grid>
-                        <Grid item sx={{ color: "#BC0000" }}>
-                            {/* <Icon>delete</Icon> */}
-                            <i className="fa fa-trash" aria-hidden="true"></i>
-                        </Grid>
-                    </Grid>
+                <Box sx={{paddingRight:"1rem"}}>
 
-                </Grid>
-            </Box>
-            <Grid container spacing={2} justifyContent="center" >
-                <Grid item xs={12} md={5}>
+                <ClearButton flagTooltip={true} textTooltip={t("clear_all_inputs")} handleClear={() => handleClearFields()} />
+                </Box>
+            </Grid>
+            {/* </Box> */}
+            <Grid container spacing={2}  padding="0rem 8rem" paddingTop="1rem">
+                <Grid item xs={12} md={6}>
                     <TextField size="small"
                         fullWidth
 
@@ -174,7 +160,7 @@ const AddUpdateHeaders = () => {
                         sx={textField}
                     />
                 </Grid>
-                <Grid item xs={12} md={5}>
+                <Grid item xs={12} md={6}>
                     <TextField size="small"
                         fullWidth
 
@@ -185,7 +171,7 @@ const AddUpdateHeaders = () => {
                         sx={textField}
                     />
                 </Grid>
-                <Grid item xs={12} md={5}>
+                <Grid item xs={12} md={6}>
                     <TextField size="small"
                         fullWidth
 
@@ -196,7 +182,7 @@ const AddUpdateHeaders = () => {
                         sx={textField}
                     />
                 </Grid>
-                <Grid item xs={12} md={5}>
+                <Grid item xs={12} md={6}>
                     <TextField size="small"
                         fullWidth
 
@@ -207,7 +193,7 @@ const AddUpdateHeaders = () => {
                         sx={textField}
                     />
                 </Grid>
-                <Grid item xs={12} md={5}>
+                <Grid item xs={12} md={6}>
                     <TextField size="small"
                         fullWidth
 
@@ -218,7 +204,7 @@ const AddUpdateHeaders = () => {
                         sx={textField}
                     />
                 </Grid>
-                <Grid item xs={12} md={5}>
+                <Grid item xs={12} md={6}>
                     <TextField size="small"
                         fullWidth
 
@@ -229,7 +215,7 @@ const AddUpdateHeaders = () => {
                         sx={textField}
                     />
                 </Grid>
-                <Grid item xs={12} md={5}>
+                <Grid item xs={12} md={6}>
                     <TextField size="small"
                         fullWidth
 
@@ -240,7 +226,7 @@ const AddUpdateHeaders = () => {
                         sx={textField}
                     />
                 </Grid>
-                <Grid item xs={12} md={5}>
+                <Grid item xs={12} md={6}>
                     <TextField size="small"
                         fullWidth
 
@@ -251,7 +237,7 @@ const AddUpdateHeaders = () => {
                         sx={textField}
                     />
                 </Grid>
-                <Grid item xs={12} md={5}>
+                <Grid item xs={12} md={6}>
                     <TextField size="small"
                         fullWidth
 
@@ -262,7 +248,7 @@ const AddUpdateHeaders = () => {
                         sx={textField}
                     />
                 </Grid>
-                <Grid item xs={12} md={5}>
+                <Grid item xs={12} md={6}>
                     <TextField size="small"
                         fullWidth
 
@@ -273,7 +259,7 @@ const AddUpdateHeaders = () => {
                         sx={textField}
                     />
                 </Grid>
-                <Grid item xs={12} md={5}>
+                <Grid item xs={12} md={6}>
                     <TextField size="small"
                         fullWidth
 
@@ -284,7 +270,7 @@ const AddUpdateHeaders = () => {
                         sx={textField}
                     />
                 </Grid>
-                <Grid item xs={12} md={5}>
+                <Grid item xs={12} md={6}>
                     <TextField size="small"
                         fullWidth
 
@@ -295,7 +281,7 @@ const AddUpdateHeaders = () => {
                         sx={textField}
                     />
                 </Grid>
-                <Grid item xs={12} md={5}>
+                <Grid item xs={12} md={6}>
                     <TextField size="small"
                         fullWidth
 
@@ -306,7 +292,7 @@ const AddUpdateHeaders = () => {
                         sx={textField}
                     />
                 </Grid>
-                <Grid item xs={12} md={5}>
+                <Grid item xs={12} md={6}>
                     <TextField size="small"
                         fullWidth
 
@@ -317,7 +303,7 @@ const AddUpdateHeaders = () => {
                         sx={textField}
                     />
                 </Grid>
-                <Grid item xs={12} md={5}>
+                <Grid item xs={12} md={6}>
                     <TextField size="small"
                         fullWidth
 
@@ -328,15 +314,34 @@ const AddUpdateHeaders = () => {
                         sx={textField}
                     />
                 </Grid>
-                <Grid item xs={12} md={5}> </Grid>
-                <Grid item xs={12} md={10} align="right">
+                <Grid item xs={12} md={6}> </Grid>
+                <Grid item xs={12} md={6}> </Grid>
+                <Grid item xs={12} md={6}>
                     <button
-                        className='create'
+                        className='custom_primary_btn_dark'
                         onClick={() => handleHeaders()}
+                        style={{ width: "100%" }}
                     >
-                        {t("save extra data headers")}
+                        {t("update")?.toUpperCase()}
                     </button>
                 </Grid>
+                {/* <Grid container spacing={2}>
+                    <Grid xs={12} sm={6} md={6} lg={6}>
+
+                    </Grid>
+
+                    <Grid xs={12} sm={6} md={6} lg={6} align="right">
+                        <button
+                            className='custom_primary_btn_dark'
+                            onClick={() => handleHeaders()}
+                            style={{ width: "100%" }}
+                        >
+                            {t("update")}
+                        </button>
+                    </Grid>
+
+                </Grid> */}
+
             </Grid>
         </div>
     )

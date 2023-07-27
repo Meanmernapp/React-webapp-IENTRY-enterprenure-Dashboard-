@@ -1,0 +1,303 @@
+.panel-grid {
+
+    .card-base-grid {
+        width: 97%;
+        background-color: $white;
+        box-shadow: 0px 0px 4px $shadow;
+        border-radius: 5px;
+
+        .top-heading-card {
+            height: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            .checkbox {
+                margin-left: 0.5rem;
+            }
+
+            .status {
+                display: flex;
+                align-items: center;
+
+                p {
+                    font-size: 12px;
+                    font-weight: 600;
+                    text-transform: uppercase;
+                }
+            }
+
+        }
+
+        .card-body-grid {
+
+            width: 100%;
+
+            .img-body {
+                width: 100%;
+                height: 117px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                img {
+                    width: 101px;
+                    height: 101px;
+                    border-radius: 50%;
+
+                }
+            }
+
+            .card-content-grid {
+                display: flex;
+                justify-content: space-between;
+                overflow: hidden;
+
+                p {
+
+                    font-family: Montserrat;
+                    font-size: 12px;
+                    font-weight: 600;
+                    letter-spacing: 0px;
+                    color: #000000;
+                    opacity: 1;
+                }
+
+                span {
+
+                    font-size: 12px;
+
+                    letter-spacing: 0px;
+                    color: #707070;
+                    opacity: 1;
+                }
+            }
+
+            .viewcard-container-status {
+                display: flex !important;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .viewcard-container {
+                span {
+                    width: 100%;
+                    letter-spacing: 0px;
+                    opacity: 1;
+                }
+
+                &-heading {
+                    text-align: left;
+                    font: normal normal bold 12px/15px Montserrat;
+                    color: $dark !important;
+                }
+
+                &-no {
+                    text-align: left;
+                    font: normal normal normal 12px/15px Montserrat;
+                    color: $dark;
+                }
+
+                &-courier {
+                    text-align: left;
+                    font: normal normal 600 12px/15px Montserrat;
+                    color: $dark !important;
+                }
+
+                &-name {
+                    display: block;
+                    text-align: left;
+                    font: normal normal 600 14px/19px Montserrat;
+                    color: #707070;
+                    opacity: 1;
+                }
+
+                &-contractor {
+                    text-align: left;
+                    font: normal normal 100 12px/15px Montserrat;
+                    color: #707070;
+                }
+
+                &-detail {
+                    width: 100%;
+                    border-top: 2px solid #65ABA0;
+                    border-bottom: 2px solid #65ABA0;
+                    padding: 8px 0;
+                }
+
+                &-title {
+                    text-align: left;
+                    font: normal normal 300 14px/18px Montserrat;
+                    color: #707070;
+                }
+
+                &-desc {
+                    text-align: right;
+                    font: normal normal 600 14px/18px Montserrat;
+                    color: #707070;
+                }
+
+                &-link {
+                    display: flex;
+                    justify-content: flex-end;
+                    align-items: center;
+                    font: normal normal bold 12px/15px Montserrat;
+                    letter-spacing: 0px;
+                    color: #146F62;
+                    opacity: 1;
+                    cursor: pointer;
+                    position: relative;
+                    align-items: flex-end;
+                    bottom: 10px;
+                    right: 20px;
+
+                    a {
+                        font: normal normal bold 12px/15px Montserrat;
+                        letter-spacing: 0px;
+                        color: #146F62 !important;
+                    }
+
+                    svg {
+                        margin: -2px -7px 0 -3px;
+                    }
+                }
+            }
+
+
+
+
+            .card-detail-grid {
+                display: flex;
+                justify-content: flex-end;
+                align-items: flex-end;
+                margin-top: 10px;
+                width: auto;
+                text-align: right;
+                position: absolute;
+                bottom: 10px;
+                right: 20px;
+
+                p {
+                    font: normal normal normal 12px/15px Montserrat;
+                    letter-spacing: 0px;
+                    color: #146F62;
+                    opacity: 1;
+                    font-weight: 600;
+                    text-transform: uppercase;
+                    margin-bottom: 0 !important;
+                }
+
+                img {
+                    margin-left: 6px;
+                    width: 10px;
+                    height: 14px;
+                    align-items: center;
+                }
+
+                &:hover {
+                    background: #E1E1E1 0% 0% no-repeat padding-box;
+                    border-radius: 1px;
+                    opacity: 1;
+                }
+            }
+        }
+
+        .viewcard-container {
+            span {
+                width: 100%;
+                letter-spacing: 0px;
+                opacity: 1;
+            }
+
+            &-heading {
+                text-align: left;
+                font: normal normal bold 12px/15px Montserrat;
+                color: $dark;
+            }
+
+            &-no {
+                text-align: left;
+                font: normal normal normal 12px/15px Montserrat;
+                color: $dark;
+            }
+
+            &-courier {
+                text-align: left;
+                font: normal normal 600 12px/15px Montserrat;
+                color: $dark;
+            }
+
+            &-name {
+                display: block;
+                text-align: left;
+                font: normal normal 600 14px/19px Montserrat;
+                color: #707070;
+                opacity: 1;
+            }
+
+            &-contractor {
+                text-align: left;
+                font: normal normal 100 12px/15px Montserrat;
+                color: #707070;
+            }
+
+            &-detail {
+                width: 100%;
+                border-top: 2px solid #65ABA0;
+                border-bottom: 2px solid #65ABA0;
+                padding: 8px 0;
+            }
+
+            &-title {
+                text-align: left;
+                font: normal normal 300 14px/18px Montserrat;
+                color: #707070;
+            }
+
+            &-desc {
+                text-align: right;
+                font: normal normal 600 14px/18px Montserrat;
+                color: #707070;
+            }
+
+            &-link {
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+                font: normal normal bold 12px/15px Montserrat;
+                letter-spacing: 0px;
+                color: #146F62;
+                opacity: 1;
+                cursor: pointer;
+                position: absolute;
+                align-items: flex-end;
+                bottom: 0px;
+                right: 10px;
+
+                a {
+                    font: normal normal bold 12px/15px Montserrat;
+                    letter-spacing: 0px;
+                    color: #146F62 !important;
+                }
+
+                svg {
+                    margin: -2px -7px 0 -3px;
+                }
+            }
+        }
+    }
+
+}
+
+.grid-checkall {
+    padding-left: 0.68rem;
+    .MuiFormControlLabel-label {
+        color: $grey;
+        font: normal normal normal 12px/15px Montserrat;
+    }
+
+    .MuiSvgIcon-root {
+        font-size: 16.5px;
+        color: $dark;
+    }
+}

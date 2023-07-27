@@ -152,11 +152,12 @@ export const AddUserWithWorkShiftId = createAsyncThunk(
 export const DeleteUserFromWorkShift = createAsyncThunk(
   "companyWorkShift/DeleteUserFromWorkShift",
   async (params) => {
-    const { id, delId } = params;
+    // const { id, delId } = params;
 
     let result = await apiInstance
-      .delete(
-        `work-shift-service/work/delete-by-user-id/${delId}/by-work-shift-id/${id}`
+      .post(
+        // `work-shift-service/work/delete-by-user-id/${delId}/by-work-shift-id/${id}`
+        `work-shift-service/work/remove/work-shift-list/to-user-ids`,params
       )
       .then(function (response) {
         if (response.status == 201 || response.status == 200) {
@@ -190,3 +191,16 @@ export const DeleteWorkSHiftTime = createAsyncThunk(
     return { data, status };
   }
 );
+
+// details of provider employee
+export const UpdateWorkShiftName = createAsyncThunk("companyWorkShift/updateWorkShiftName", async (params, { dispatch, getState }) => {
+
+  let result = await apiInstance.put(`work-shift-service/update-name`,params).then(function (response) {
+      return response
+  }).catch(function (error) {
+      return error.response
+  })
+  const { data, status } = result
+  return { data, status }
+});
+

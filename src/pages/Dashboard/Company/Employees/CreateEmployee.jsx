@@ -16,10 +16,12 @@ import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
 import TablePagination from '@mui/material/TablePagination';
 import Checkbox from "@mui/material/Checkbox";
+import Typography from '@mui/material/Typography';
 
 // images
 import exchangealt from "../../../../assets/images/exchange-alt-solid.svg";
 import person4 from "../../../../assets/images/user-png.png";
+import person5 from "../../../../assets/images/user-png-140.png";
 import userregular from "../../../../assets/images/user-regular.svg";
 
 
@@ -35,13 +37,25 @@ import {
 import { Divider, Grid } from "@mui/material";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
-import { getRoles, getWorkStations, addWorkShift, addCustomWorkShift, userInfoStatus, createImgObj, uploadNewImage, getSelfie, downloadSelfie, GetContractStatus } from "../../../../reduxToolkit/CompanyEmployees/CompanyEmployeesApi";
+import { getRoles, getWorkStations, getDepartments, addWorkShift, addCustomWorkShift, userInfoStatus, createImgObj, uploadNewImage, getSelfie, downloadSelfie, GetContractStatus } from "../../../../reduxToolkit/CompanyEmployees/CompanyEmployeesApi";
 import ContractorAccessCard from "../../Contractors/ContractorAccessCard";
 import { GetAllWorkSchdule, GetWorkTimeAccess } from "../../../../reduxToolkit/EmployeeContractors/EmployeeContractorsApi";
 import { getAllWorkSchdule, getcustomSchdulTime, getWorkTimeAccess } from "../../../../reduxToolkit/EmployeeContractors/EmployeeContractorsSlice";
 import { useTranslation } from "react-i18next";
 import { GetHeaders } from "../../../../reduxToolkit/headers/HeadersApi";
 import Cookies from "js-cookie";
+import { Stepper, Step, StepLabel } from '@mui/material';
+import StepConnector, { stepConnectorClasses } from '@mui/material/StepConnector';
+import { styled } from '@mui/material/styles';
+import Step1Details from "./EnrollmentSteps/Step1Details";
+import Step2OtherDetails from "./EnrollmentSteps/Step2OtherDetails"
+import Step3EmployeeContract from './EnrollmentSteps/Step3EmployeeContract'
+import SwipeableViews from 'react-swipeable-views';
+import Step4AccessRights from "./EnrollmentSteps/Step4AccessRights";
+import Step5TakeSelfie from "./EnrollmentSteps/Step5TakeSelfie";
+import Step6CapturerFinger from "./EnrollmentSteps/Step6CaptureFinger";
+import Step7Card from "./EnrollmentSteps/Step7Card";
+import Step8Summary from "./EnrollmentSteps/Step8Summary";
 
 
 const smallBoxStyle = {
@@ -62,6 +76,7 @@ const CreateEmployee = () => {
   const employeeWorkStations = useSelector(state => state?.CompanyEmployeesSlice?.employeeWorkStations);
   const userInfoStatusList = useSelector(state => state?.CompanyEmployeesSlice?.userInfoStatusList);
   const { contractStatusList } = useSelector(state => state?.CompanyEmployeesSlice)
+  const employeeDepartments = useSelector(state => state?.CompanyEmployeesSlice?.employeeDepartments);
   const { headersList } = useSelector(state => state.headersSlice);
   const workShiftAccessTime = useSelector(getWorkTimeAccess);
   const workShiftSchdule = useSelector(getAllWorkSchdule);
@@ -102,6 +117,82 @@ const CreateEmployee = () => {
   const [WorkShift, setWorkShift] = useState();
   const [imageToUpload, setImageToUpload] = useState(null);
   const [imgUpload, setImgUpload] = useState(null);
+  const [activeStep, setActiveStep] = useState(0);
+  const [workShiftsList, setWorkShiftsList] = useState([]);
+  const [customizedList, setCustomizedList] = useState([]);
+
+  const [userData, setUserData] = useState({
+    name: '',
+    lastName: '',
+    secondLastName: '',
+    genderId: '',
+    phoneNumber: '',
+    statusId: '',
+    email: '',
+    dob: null,
+  });
+
+  const [extraData, setExtraData] = useState({
+    field1: '',
+    field2: '',
+    field3: '',
+    field4: '',
+    field5: '',
+    field6: '',
+    field7: '',
+    field8: '',
+    field9: '',
+    field10: '',
+    field11: '',
+    field12: '',
+    field13: '',
+    field14: '',
+    field15: '',
+  })
+
+  const [employeeData, setEmployeeData] = useState({
+    departmentId: '',
+    employeeId: '',
+    startDate: null,
+    endDate: null,
+    roleId: '',
+    zoneId: '',
+    contractStatusId: ''
+  })
+
+  const handleFormChangeUserData = (e) => {
+    const { name, value } = e.target;
+    setUserData((prevData) => ({
+      ...prevData,
+      [name]: value
+    }));
+  };
+
+  const handleFormChangeExtraData = (e) => {
+    const { name, value } = e.target;
+    setExtraData((prevData) => ({
+      ...prevData,
+      [name]: value
+    }));
+  };
+
+  const handleFormChangeEmployeeData = (e) => {
+    const { name, value } = e.target;
+    setEmployeeData((prevData) => ({
+      ...prevData,
+      [name]: value
+    }));
+  };
+
+  const steps = [t("details"), t("other_details"), t("employee_contract"), t("access_rights"), t("take_selfie"), t("capture_fingerprint"), t("card"), t("summary")];
+
+  const isStepOptional = (step) => {
+    return step === 1 || step === 3 || step === 4 || step === 5 || step === 6;
+  };
+
+  const handleStepChange = (step) => {
+    setActiveStep(step);
+  };
 
 
   let contractPagination = {
@@ -114,6 +205,7 @@ const CreateEmployee = () => {
   useEffect(() => {
     dispatch(getRoles());
     dispatch(getWorkStations());
+    dispatch(getDepartments());
     dispatch(GetAllWorkSchdule());
     dispatch(userInfoStatus());
     dispatch(GetHeaders())
@@ -284,6 +376,29 @@ const CreateEmployee = () => {
     dispatch(GetWorkTimeAccess({ id: WorkShift, contractPagination }));
   };
 
+  const QontoConnector = styled(StepConnector)(({ theme }) => ({
+    [`&.${stepConnectorClasses.alternativeLabel}`]: {
+      top: 10,
+      left: 'calc(-50% + 13px)',
+      right: 'calc(50% + 13px)',
+    },
+    [`&.${stepConnectorClasses.active}`]: {
+      [`& .${stepConnectorClasses.line}`]: {
+        borderColor: '#707070',
+      },
+    },
+    [`&.${stepConnectorClasses.completed}`]: {
+      [`& .${stepConnectorClasses.line}`]: {
+        borderColor: '#707070',
+      },
+    },
+    [`& .${stepConnectorClasses.line}`]: {
+      borderColor: theme.palette.mode === 'dark' ? theme.palette.grey[800] : '#eaeaf0',
+      borderTopWidth: 1,
+      borderRadius: 1,
+    },
+  }));
+
   return (
     <>
       <div className='head'>
@@ -294,7 +409,7 @@ const CreateEmployee = () => {
               margin: "0 10px",
             }}></i>
           </Link>
-          <h2>{t("create_employee")}</h2>
+          <h2>{t("enrollment")}</h2>
         </div>
       </div>
 
@@ -302,758 +417,204 @@ const CreateEmployee = () => {
         <img
           src={
             imageToUpload === null
-              ? person4
+              ? person5
               : imageToUpload
           }
           className="img-fluid"
-          style={{ width: 240, height: 240, borderRadius: "100%" }}
+          // style={{ width: 240, height: 240, borderRadius: "100%" }}
           alt="employeedetail-person4"
         />
-        <Link
-          to="#"
-          onClick={() => setChangeImageModal(true)}
-          className="position-relative"
-        >
-          <span className="dot">
-            <img
-              src={exchangealt}
-              className="img-fluid exchange_alt_m"
-              alt="exchange_alt"
-            />
-          </span>
-        </Link>
-        <ChangeImage
-          show={changeImageModal}
-          onHide={() => setChangeImageModal(false)}
-          preview={setImageToUpload}
-          fileObj={setImgUpload}
-        />
+        
       </div>
 
-      <div className="mt-3 mb-4 row">
-        <div className="col-lg-6 col-md-12 col-12">
-          <p className="mb-2 infoEmpl_text">INFORMATION</p>
-          <div className="empdetail_c">
-            <div className="row mb-3">
-              <Box sx={smallBoxStyle} className="col-lg-12">
-                <TextField size="small"
-                  fullWidth
+      
 
-                  label="NAME"
-                  id="NAME"
-                  required
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className=""
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <img
-                          src={userregular}
-                          className="user_regular_img"
-                          alt="acadd_logo"
-                        />
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-              </Box>
-            </div>
-            <div className="row mb-3">
-              <Box className="col-lg-6">
-                <FormControl fullWidth>
-                  <InputLabel id="demo-simple-select-label">
-                    Gender
-                  </InputLabel>
-                  <Select size="small"
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    label="Age"
-                    value={gender}
-                    onChange={(e) => setGender(e.target.value)}
-                  >
-                    <MenuItem value={10}>Male</MenuItem>
-                    <MenuItem value={20}>Female</MenuItem>
-                  </Select>
-                </FormControl>
-              </Box>
-              <Box
-                className="col-lg-6"
-                sx={smallBoxStyle}
-              >
-                <TextField size="small"
-                  fullWidth
+      <Stepper className="stepper-font mt-3" activeStep={activeStep} alternativeLabel connector={<QontoConnector />}>
+        {steps.map((label, index) => {
+          const labelProps = {};
+          if (isStepOptional(index)) {
+            labelProps.optional = (
+              <Typography variant="caption">{t('(optional)')}</Typography>
+            );
+          }
+          return (
+            <Step key={index}>
+              <StepLabel className="text-center stepper-font" {...labelProps}>{label}</StepLabel>
+            </Step>
+          )
+        })}
+      </Stepper>
 
-                  label="CELULAR"
-                  id="CELULAR"
-                  value={cellular}
-                  onChange={(e) => setCellular(e.target.value)}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <PhoneIphoneIcon />
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-              </Box>
-            </div>
-            <div className="row mb-3">
-              <Box className="col-lg-6">
-                <FormControl fullWidth>
-                  <InputLabel id="demo-simple-select-label">
-                    Status
-                  </InputLabel>
-                  <Select size="small"
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    label="Status"
-                    value={status}
-                    onChange={(e) => setStatus(e.target.value)}
-                  >
-                    {
-                      userInfoStatusList?.map(item => (
-                        <MenuItem value={item?.id}>{item?.name}</MenuItem>
-                      ))
-                    }
-                  </Select>
-                </FormControl>
-              </Box>
-              <Box
-                className="col-lg-6"
-                sx={smallBoxStyle}
-              >
-                <TextField size="small"
-                  fullWidth
-
-                  label="EMAIL"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  id="EMAIL"
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <MailOutlineIcon />
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-              </Box>
-            </div>
-            <div className="row">
-              <div className="col-lg-6">
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                  <Stack spacing={3}>
-                    <DesktopDatePicker
-                      label="DOB"
-                      inputFormat="MM/dd/yyyy"
-                      value={dob}
-                      onChange={(e) => setDob(e)}
-                      renderInput={(params) => <TextField size="small" {...params} />}
-                    />
-                  </Stack>
-                </LocalizationProvider>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {
-          companyRestrictionsData?.extraDataExternal ?
-            <div className="col-lg-6 col-md-12 col-12">
-              <p className="mb-2 infoEmpl_text">extra data</p>
-              <div className="empdetail_c">
-                <div className="row mb-3">
-                  <Box
-                    className="col-lg-6"
-                    sx={smallBoxStyle}
-                  >
-                    <TextField size="small"
-                      fullWidth
-                      label={headersList?.header1 || "header1"}
-                      value={field1}
-                      onChange={(e) => setField1(e.target.value)}
-                    />
-                  </Box>
-                  <Box
-                    className="col-lg-6"
-                    sx={smallBoxStyle}
-                  >
-                    <TextField size="small"
-                      fullWidth
-
-                      label={headersList?.header2 || "header2"}
-                      value={field2}
-                      onChange={(e) => setField2(e.target.value)}
-                    />
-                  </Box>
-                </div>
-                <div className="row mb-3">
-                  <Box
-                    className="col-lg-6"
-                    sx={smallBoxStyle}
-                  >
-                    <TextField size="small"
-                      fullWidth
-                      label={headersList?.header3 || "header3"}
-                      value={field3}
-                      onChange={(e) => setField3(e.target.value)}
-                    />
-                  </Box>
-                  <Box
-                    className="col-lg-6"
-                    sx={smallBoxStyle}
-                  >
-                    <TextField size="small"
-                      fullWidth
-
-                      label={headersList?.header4 || "header4"}
-                      value={field4}
-                      onChange={(e) => setField4(e.target.value)}
-                    />
-                  </Box>
-                </div>
-                <div className="row mb-3">
-                  <Box
-                    className="col-lg-6"
-                    sx={smallBoxStyle}
-                  >
-                    <TextField size="small"
-                      fullWidth
-
-                      label={headersList?.header5 || "header5"}
-                      value={field5}
-                      onChange={(e) => setField5(e.target.value)}
-                    />
-                  </Box>
-                  <Box
-                    className="col-lg-6"
-                    sx={smallBoxStyle}
-                  >
-                    <TextField size="small"
-                      fullWidth
-
-                      label={headersList?.header6 || "header6"}
-                      value={field6}
-                      onChange={(e) => setField6(e.target.value)}
-                    />
-                  </Box>
-                </div>
-
-                <div className="row mb-3">
-                  <Box
-                    className="col-lg-6"
-                    sx={smallBoxStyle}
-                  >
-                    <TextField size="small"
-                      fullWidth
-
-                      label={headersList?.header7 || "header7"}
-                      value={field7}
-                      onChange={(e) => setField7(e.target.value)}
-                    />
-                  </Box>
-                  <Box
-                    className="col-lg-6"
-                    sx={smallBoxStyle}
-                  >
-                    <TextField size="small"
-                      fullWidth
-                      label={headersList?.header8 || "header8"}
-                      value={field8}
-                      onChange={(e) => setField8(e.target.value)}
-                    />
-                  </Box>
-                </div>
-                <div className="row mb-3">
-                  <Box
-                    className="col-lg-6"
-                    sx={smallBoxStyle}
-                  >
-                    <TextField size="small"
-                      fullWidth
-                      label={headersList?.header9 || "header9"}
-                      value={field9}
-                      onChange={(e) => setField9(e.target.value)}
-                    />
-                  </Box>
-                  <Box
-                    className="col-lg-6"
-                    sx={smallBoxStyle}
-                  >
-                    <TextField size="small"
-                      fullWidth
-                      label={headersList?.header10 || "header10"}
-                      value={field10}
-                      onChange={(e) => setField10(e.target.value)}
-                    />
-                  </Box>
-                </div>
-                <div className="row mb-3">
-                  <Box
-                    className="col-lg-6"
-                    sx={smallBoxStyle}
-                  >
-                    <TextField size="small"
-                      fullWidth
-                      label={headersList?.header11 || "header11"}
-                      value={field11}
-                      onChange={(e) => setField11(e.target.value)}
-                    />
-                  </Box>
-                  <Box
-                    className="col-lg-6"
-                    sx={smallBoxStyle}
-                  >
-                    <TextField size="small"
-                      fullWidth
-                      label={headersList?.header12 || "header12"}
-                      value={field12}
-                      onChange={(e) => setField12(e.target.value)}
-                    />
-                  </Box>
-                </div>
-                <div className="row mb-3">
-                  <Box
-                    className="col-lg-6"
-                    sx={smallBoxStyle}
-                  >
-                    <TextField size="small"
-                      fullWidth
-                      label={headersList?.header13 || "header13"}
-                      value={field13}
-                      onChange={(e) => setField13(e.target.value)}
-                    />
-                  </Box>
-                  <Box
-                    className="col-lg-6"
-                    sx={smallBoxStyle}
-                  >
-                    <TextField size="small"
-                      fullWidth
-                      label={headersList?.header14 || "header14"}
-                      value={field14}
-                      onChange={(e) => setField14(e.target.value)}
-                    />
-                  </Box>
-                </div>
-                <div className="row mb-3">
-                  <Box
-                    className="col-lg-6"
-                    sx={smallBoxStyle}
-                  >
-                    <TextField size="small"
-                      fullWidth
-                      label={headersList?.header15 || "header15"}
-                      value={field15}
-                      onChange={(e) => setField15(e.target.value)}
-                    />
-                  </Box>
-                </div>
-              </div>
-            </div>
-            : null
-        }
-        {/* {
-          companyRestrictionsData?.extraDataExternal ?
-            <div className="col-lg-6 col-md-12 col-12">
-              <p className="mb-2 infoEmpl_text">extra data</p>
-              <div className="empdetail_c">
-                <div className="row mb-3">
-                  <Box
-                    className="col-lg-6"
-                    sx={smallBoxStyle}
-                  >
-                    <TextField size="small"
-                      fullWidth
-                      label={headersList?.header1}
-                      id="ADDRESS 1"
-                      value={address1}
-                      onChange={(e) => setAddress1(e.target.value)}
-                    />
-                  </Box>
-                  <Box
-                    className="col-lg-6"
-                    sx={smallBoxStyle}
-                  >
-                    <TextField size="small"
-                      fullWidth
-                      label={headersList?.header2}
-                      id="ADDRESS 2"
-                      value={address2}
-                      onChange={(e) => setAddress2(e.target.value)}
-                    />
-                  </Box>
-                </div>
-                <div className="row mb-3">
-                  <Box
-                    className="col-lg-6"
-                    sx={smallBoxStyle}
-                  >
-                    <TextField size="small"
-                      fullWidth
-
-                      label={headersList?.header3}
-                      value={state}
-                      onChange={(e) => setState(e.target.value)}
-                      id="STATE"
-                    />
-                  </Box>
-                  <Box
-                    className="col-lg-6"
-                    sx={smallBoxStyle}
-                  >
-                    <TextField size="small"
-                      fullWidth
-
-                      label={headersList?.header4}
-                      id="COUNTRY"
-                      value={country}
-                      onChange={(e) => setCountry(e.target.value)}
-                    />
-                  </Box>
-                </div>
-                <div className="row mb-3">
-                  <Box
-                    className="col-lg-6"
-                    sx={smallBoxStyle}
-                  >
-                    <TextField size="small"
-                      fullWidth
-
-                      label={headersList?.header5}
-                      value={postcode}
-                      onChange={(e) => setPostCode(e.target.value)}
-                      id="POST CODE"
-                    />
-                  </Box>
-                  <Box
-                    className="col-lg-6"
-                    sx={smallBoxStyle}
-                  >
-                    <TextField size="small"
-                      fullWidth
-
-                      label={headersList?.header6}
-                      value={homeNumber}
-                      onChange={(e) => setHomeNumber(e.target.value)}
-                      id="HOME NUMBER"
-                    />
-                  </Box>
-                </div>
-
-                <div className="row mb-3">
-                  <Box
-                    className="col-lg-6"
-                    sx={smallBoxStyle}
-                  >
-                    <TextField size="small"
-                      fullWidth
-
-                      label={headersList?.header7}
-                      value={bloodType}
-                      onChange={(e) => setBloodType(e.target.value)}
-                      id="BLOOD TYPE"
-                    />
-                  </Box>
-                  <Box
-                    className="col-lg-6"
-                    sx={smallBoxStyle}
-                  >
-                    <TextField size="small"
-                      fullWidth
-
-                      label={headersList?.header8}
-                      id="ARABIC NAME"
-                      value={arabicName}
-                      onChange={(e) => setArabicName(e.target.value)}
-                    />
-                  </Box>
-                </div>
-                <div className="row">
-                  <Box className="col-lg-6">
-                    <FormControl fullWidth>
-                      <InputLabel id="demo-simple-select-label">
-                        {headersList?.header9}
-                      </InputLabel>
-                      <Select size="small"
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        label={headersList?.header9}
-                        value={wasVacinated}
-                        onChange={(e) => setWasVacinated(e.target.value)}
-                      >
-                        <MenuItem value={true}>YES</MenuItem>
-                        <MenuItem value={false}>NO</MenuItem>
-                      </Select>
-                    </FormControl>
-                  </Box>
-                </div>
-              </div>
-            </div>
-            : null
-        } */}
-      </div>
-
-      <div className="mb-4">
-        <p className="mb-2 infoEmpl_text">CONTRACT</p>
-        <div className="row m-0 access_right_card">
-          <Box className="col-lg-6 mb-4">
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">
-                Role
-              </InputLabel>
-              <Select size="small"
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                label="role"
-                value={role}
-                onChange={(e) => setRole(e.target.value)}
-              >
-                {
-                  employeeRoles?.map(item => (
-                    <MenuItem value={item.id}>{item.name}</MenuItem>
-                  ))
-                }
-              </Select>
-            </FormControl>
-          </Box>
-          <Box
-            className="col-lg-6 mb-4"
-            sx={smallBoxStyle}
-          >
-            <TextField size="small"
-              fullWidth
-
-              label="EMPLOYEE ID"
-              id="EMPLOYEE ID"
-              value={employeeId}
-              onChange={(e) => setEmployeeId(e.target.value)}
-            />
-          </Box>
-          <Box className="col-lg-6 mb-4">
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">
-                Contract Status
-              </InputLabel>
-              <Select
-                size="small"
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                label="Contract Status"
-                value={contractStatus}
-                onChange={(e) => setContractStatus(e.target.value)}
-              >
-                {
-                  contractStatusList?.map(item => (
-                    <MenuItem value={item?.id}>{item?.name}</MenuItem>
-
-                  ))
-                }
-              </Select>
-            </FormControl>
-          </Box>
-          <div className="col-lg-6 mb-4">
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <Stack spacing={3}>
-                <DesktopDatePicker
-                  label="START DATE"
-                  inputFormat="MM/dd/yyyy"
-                  disablePast={true}
-                  value={startdate}
-                  onChange={(e) => setStartdate(e)}
-                  renderInput={(params) => <TextField size="small" {...params} />}
-                />
-              </Stack>
-            </LocalizationProvider>
-          </div>
-          <Box className="col-lg-6">
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">
-                WORK STATION
-              </InputLabel>
-              <Select size="small"
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                label="WORK STATION"
-                value={workStation}
-                onChange={(e) => setWorkStation(e.target.value)}
-              >
-                {
-                  employeeWorkStations?.map(item => (
-                    <MenuItem value={item.id}>{item.name}</MenuItem>
-                  ))
-                }
-              </Select>
-            </FormControl>
-          </Box>
-          <div className="col-lg-6">
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <Stack spacing={3}>
-                <DesktopDatePicker
-                  label="END DATE"
-                  disablePast={true}
-                  inputFormat="MM/dd/yyyy"
-                  value={endDate}
-                  onChange={(e) => setEndDate(e)}
-                  renderInput={(params) => <TextField size="small" {...params} />}
-                />
-              </Stack>
-            </LocalizationProvider>
-          </div>
-        </div>
-      </div>
-
-      <div className="mt-5 access_right_component">
-        <p className="__header">ACCESS RIGHTS</p>
-        <div className="mt-2  __body">
-          <div className="__upper d-flex">
-            <Box
-              style={{ width: "459px", marginLeft: "15px" }}
-              className="inputField"
+      {/* {activeStep === 0 && ( */}
+      <SwipeableViews index={activeStep} onChangeIndex={handleStepChange}>
+        <div className="enrollment-wrapper justify-content-right mt-5 mb-4">
+          <Step1Details
+            userData={userData}
+            onChange={handleFormChangeUserData}
+            setUserData={setUserData} />
+          <div className="create-enrollment-footer mt-3 row pr-2" >
+            <button
+              className='col-6' style={{ background: '#fcfcfc', border: 'none', boxShadow: 'none' }}
             >
-              <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">
-                  SCHEDULE ACCESS
-                </InputLabel>
-                <Select size="small"
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  label="CHOOSE A PROVIDER"
-                  value={WorkShift}
-                  disabled={checkboxState ? true : false}
-                  onChange={(e) => {
-                    setWorkShift(e.target.value);
-                    let id = e.target.value;
-                    dispatch(GetWorkTimeAccess({ id, contractPagination }));
-                  }}
-                >
-                  {workShiftSchdule &&
-                    workShiftSchdule.map((item) => {
-                      return (
-                        <MenuItem value={item?.id}>{item?.name}</MenuItem>
-                      );
-                    })}
-                </Select>
-              </FormControl>
-            </Box>
-            <p>
-              <Checkbox
-                defaultChecked={false}
-                onChange={() => setCheckboxState(!checkboxState)}
-                style={{ marginLeft: "37px" }}
-              />
-              OR CUSTOM SCHEDULE
-            </p>
+
+            </button>
+            <button
+              className='custom_primary_btn_dark col-6'
+              disabled={activeStep === steps.length - 1} onClick={() => setActiveStep(prevStep => prevStep + 1)}>
+              {t('next').toUpperCase()}
+            </button>
           </div>
-          {checkboxState && (
-            <div className="__accessbody">
-              <Divider>
-                <p className="mt-2 separator">
-                  Or Choose <br />
-                  Custom Schedule
-                </p>
-              </Divider>
-              <ContractorAccessCard
-                heading1="zones"
-                heading2="days"
-                update
-                isAddemployee={true}
-                data={workShiftAccessTime}
-              />
-            </div>
-          )}
         </div>
-        {!checkboxState && WorkShift && workShiftAccessTime?.totalElements !== 0 && (
-          <>
-            <div className="">
-              <p className="__header">ACCESS</p>
-              <Grid container sx={{ mt: 1 }}>
-                <Grid
-                  item
-                  xs={3}
-                  className="contractor-access-table-heading"
-                  sx={{ textAlign: "left" }}
-                >
-                  NAME
-                </Grid>
-                <Grid item xs={3} className="contractor-access-table-heading">
-                  DAY
-                </Grid>
-                <Grid item xs={3} className="contractor-access-table-heading">
-                  FROM
-                </Grid>
-                <Grid item xs={3} className="contractor-access-table-heading">
-                  TO
-                </Grid>
-              </Grid>
-              {workShiftAccessTime &&
-                workShiftAccessTime?.content?.map((item) => {
-                  return (
-                    <Grid container sx={{ mt: 1 }}>
-                      <Grid
-                        item
-                        xs={3}
-                        className="contractor-access-table-first"
-                      >
-                        {item?.zone?.name}
-                      </Grid>
-                      <Grid
-                        item
-                        xs={3}
-                        className="contractor-access-table-data"
-                      >
-                        {item?.day?.name}
-                      </Grid>
-                      <Grid
-                        item
-                        xs={3}
-                        className="contractor-access-table-data"
-                      >
-                        {item?.from}
-                      </Grid>
-                      <Grid
-                        item
-                        xs={3}
-                        className="contractor-access-table-data"
-                      >
-                        {item?.to}
-                      </Grid>
-                    </Grid>
-                  );
-                })}
-            </div>
-            <div className="d-flex justify-content-center">
-              <TablePagination
-                component="div"
-                rowsPerPageOptions={[10, 15, 20]}
-                labelRowsPerPage="Users per page"
-                count={workShiftAccessTime?.totalElements}
-                page={page}
-                onPageChange={handleChangePage}
-                rowsPerPage={rowsPerPage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-              />
-            </div>
-          </>
-        )
-          //  : (
-
-          //   <NotFoundDataWarning text={"NO WorkShift Access"} />
-          // )
-        }
-      </div>
-
-      <div className="addemp_dletuser">
-        <div className="pull-right d-flex align-items-center mb-4">
-          <Link to="/dashboard/company">
-            <span style={{ cursor: "pointer" }}>CANCEL</span>
-          </Link>
-          <button onClick={handleSaveChanges}>
-            CREATE EMPLOYEE
-          </button>
+        {/* } */}
+        <div className="enrollment-wrapper justify-content-right mt-5 mb-4">
+          <Step2OtherDetails
+            extraData={extraData}
+            onChange={handleFormChangeExtraData}
+            setExtraData={setExtraData}
+            headersList={headersList} />
+            
+          <div className="create-enrollment-footer mt-3 row pr-2" >
+            <button className='btn_cancel_background_gray_hover col-6' onClick={() => setActiveStep(prevStep => prevStep - 1)}
+              style={{ color: "#BC0000" }}>
+              {t("back")}
+            </button>
+            <button
+              className='custom_primary_btn_dark col-6'
+              disabled={activeStep === steps.length - 1} onClick={() => setActiveStep(prevStep => prevStep + 1)}>
+              {t('next').toUpperCase()}
+            </button>
+          </div>
         </div>
-      </div>
+
+        <div className="enrollment-wrapper justify-content-right mt-5 mb-4">
+          <Step3EmployeeContract
+            employeeData={employeeData}
+            employeeRoles={employeeRoles}
+            employeeWorkStations={employeeWorkStations}
+            contractStatusList={contractStatusList}
+            employeeDepartments={employeeDepartments}
+            onChange={handleFormChangeEmployeeData}
+            setEmployeeData={setEmployeeData} />
+          <div className="create-enrollment-footer mt-3 row pr-2" >
+            <button className='btn_cancel_background_gray_hover col-6' onClick={() => setActiveStep(prevStep => prevStep - 1)}
+              style={{ color: "#BC0000" }}>
+              {t("back")}
+            </button>
+            <button
+              className='custom_primary_btn_dark col-6'
+              disabled={activeStep === steps.length - 1} onClick={() => setActiveStep(prevStep => prevStep + 1)}>
+              {t('next').toUpperCase()}
+            </button>
+          </div>
+        </div>
+
+        <div className="enrollment-wrapper justify-content-right mt-5 mb-4">
+          <Step4AccessRights
+            employeeData={employeeData}
+            workShiftsList={workShiftsList}
+            setWorkShiftsList={setWorkShiftsList}
+            customizedList={customizedList}
+            setCustomizedList={setCustomizedList}
+            onChange={handleFormChangeEmployeeData}
+            setEmployeeData={setEmployeeData} />
+          <div className="create-enrollment-footer mt-3 row pr-2" >
+            <button className='btn_cancel_background_gray_hover col-6' onClick={() => setActiveStep(prevStep => prevStep - 1)}
+              style={{ color: "#BC0000" }}>
+              {t("back")}
+            </button>
+            <button
+              className='custom_primary_btn_dark col-6'
+              disabled={activeStep === steps.length - 1} onClick={() => setActiveStep(prevStep => prevStep + 1)}>
+              {t('next').toUpperCase()}
+            </button>
+          </div>
+        </div>
+
+        <div className="enrollment-wrapper justify-content-right mt-5 mb-4">
+          <Step5TakeSelfie
+            employeeData={employeeData}
+            onChange={handleFormChangeEmployeeData}
+            setEmployeeData={setEmployeeData} />
+          <div className="create-enrollment-footer mt-3 row pr-2" >
+            <button className='btn_cancel_background_gray_hover col-6' onClick={() => setActiveStep(prevStep => prevStep - 1)}
+              style={{ color: "#BC0000" }}>
+              {t("back")}
+            </button>
+            <button
+              className='custom_primary_btn_dark col-6'
+              disabled={activeStep === steps.length - 1} onClick={() => setActiveStep(prevStep => prevStep + 1)}>
+              {t('next').toUpperCase()}
+            </button>
+          </div>
+        </div>
+
+        <div className="enrollment-wrapper justify-content-right mt-5 mb-4">
+          <Step6CapturerFinger
+            employeeData={employeeData}
+            onChange={handleFormChangeEmployeeData}
+            setEmployeeData={setEmployeeData} />
+          <div className="create-enrollment-footer mt-3 row pr-2" >
+            <button className='btn_cancel_background_gray_hover col-6' onClick={() => setActiveStep(prevStep => prevStep - 1)}
+              style={{ color: "#BC0000" }}>
+              {t("back")}
+            </button>
+            <button
+              className='custom_primary_btn_dark col-6'
+              disabled={activeStep === steps.length - 1} onClick={() => setActiveStep(prevStep => prevStep + 1)}>
+              {t('next').toUpperCase()}
+            </button>
+          </div>
+        </div>
+
+        <div className="enrollment-wrapper justify-content-right mt-5 mb-4">
+          <Step7Card
+            employeeData={employeeData}
+            onChange={handleFormChangeEmployeeData}
+            setEmployeeData={setEmployeeData} />
+          <div className="create-enrollment-footer mt-3 row pr-2" >
+            <button className='btn_cancel_background_gray_hover col-6' onClick={() => setActiveStep(prevStep => prevStep - 1)}
+              style={{ color: "#BC0000" }}>
+              {t("back")}
+            </button>
+            <button
+              className='custom_primary_btn_dark col-6'
+              disabled={activeStep === steps.length - 1} onClick={() => setActiveStep(prevStep => prevStep + 1)}>
+              {t('next').toUpperCase()}
+            </button>
+          </div>
+        </div>
+
+        <div className="enrollment-wrapper justify-content-right mt-5 mb-4">
+          <Step8Summary
+            userData={userData}
+            extraData={extraData}
+            employeeRoles={employeeRoles}
+            employeeWorkStations={employeeWorkStations}
+            contractStatusList={contractStatusList}
+            employeeDepartments={employeeDepartments}
+            workShiftsList={workShiftsList}
+            customizedList={customizedList}
+            onChange={handleFormChangeEmployeeData}
+            employeeData={employeeData}
+            headersList={headersList} />
+          <div className="create-enrollment-footer mt-3 row pr-2" >
+            <button className='btn_cancel_background_gray_hover col-6' onClick={() => setActiveStep(prevStep => prevStep - 1)}
+              style={{ color: "#BC0000" }}>
+              {t("back")}
+            </button>
+            <button
+              className='custom_primary_btn_dark col-6'
+              disabled={activeStep === steps.length - 1} onClick={() => setActiveStep(prevStep => prevStep + 1)}>
+              {t('next').toUpperCase()}
+            </button>
+          </div>
+        </div>
+
+      </SwipeableViews>
+
+
+
+
 
       <NewCard
         title="New Card"

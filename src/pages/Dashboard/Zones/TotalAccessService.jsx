@@ -16,6 +16,7 @@ import DeviceLogModal from "../Devices/Modals/DeviceLogModal";
 import ic_list_detail from '../../../assets/images/ic-list-detail_grey.svg'
 import { TABLES } from "../../../Apis/Tables";
 import RemoveModal from "../../Modals/RemoveModal";
+import { Checkbox } from "@mui/material";
 
 /*
 Author : Arman Ali
@@ -128,8 +129,8 @@ const TotalAccessService = (props) => {
         >
           <thead style={{ border: "hidden" }}>
             <tr>
-              <th style={{ display: 'flex', border: 'none', gap: "50px", alignItems: 'center', padding: "10px 0" }}>
-                <h1>{t("total_acces_devices")}</h1>
+              <th style={{ display: 'flex', border: 'none', gap: "44px", alignItems: 'center', padding: "10px 0" }}>
+                <h1>{t("access_devices")}</h1>
                 {
                   permission?.includes(permissionObj?.WEB_ZONE_CREATE_DEVICES) &&
                   <span className="device_button"
@@ -253,10 +254,18 @@ const TotalAccessService = (props) => {
               {
                 permission?.includes(permissionObj?.WEB_ZONE_DELETE_DEVICES) &&
                 <th className='first_head'>
-                  <input type="checkbox" className="checkbox"
+                  {/* <input type="checkbox" className="checkbox"
                     checked={isAllChecked}
                     onChange={handelDeleteAll}
-                  />
+                  /> */}
+                  <Tooltip title={t("de_/_select_all").toUpperCase()} placement="top">
+                    <Checkbox
+                      className="grid-checkall checkbox"
+                      checked={isAllChecked}
+                      onChange={handelDeleteAll}
+                      size="small"
+                    />
+                  </Tooltip>
                 </th>
               }
               <th className='first_head'>{t("name")}</th>
@@ -281,10 +290,17 @@ const TotalAccessService = (props) => {
                       {
                         permission?.includes(permissionObj?.WEB_ZONE_DELETE_DEVICES) &&
                         <td className='first'>
-                          <input type="checkbox" className="checkbox"
+                          {/* <input type="checkbox" className="checkbox"
                             checked={selectDeviceForDelete?.includes(item?.id)}
                             id={item?.id}
                             onChange={handleCheckboxChange}
+                          /> */}
+                          <Checkbox
+                            className="grid-checkall checkbox"
+                            checked={selectDeviceForDelete?.includes(item?.id)}
+                            id={item?.id}
+                            onChange={handleCheckboxChange}
+                            size="small"
                           />
                         </td>
                       }

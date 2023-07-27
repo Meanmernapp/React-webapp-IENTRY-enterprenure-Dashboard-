@@ -9,6 +9,7 @@ const CompanyEmployeesSlice = createSlice({
     singleEmployeeWithId: {},
     employeeRoles: [],
     employeeWorkStations: [],
+    employeeDepartments: [],
     hasSelfiData: [],
     selfieImage: null,
     employeeDocumentsList: [],
@@ -92,6 +93,17 @@ const CompanyEmployeesSlice = createSlice({
       } = action.payload || {};
       if (status >= 200 && status < 300) {
         state.employeeWorkStations = data;
+      } else if (status >= 400 && status < 500) {
+        toast("Fail to fetch data");
+      }
+    },
+    ["companyEmployees/getDepartments/fulfilled"]: (state, action) => {
+      const {
+        data: { data },
+        status,
+      } = action.payload || {};
+      if (status >= 200 && status < 300) {
+        state.employeeDepartments = data;
       } else if (status >= 400 && status < 500) {
         toast("Fail to fetch data");
       }

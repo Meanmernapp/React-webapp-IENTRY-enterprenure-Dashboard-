@@ -9,7 +9,7 @@ const companyWorkShiftSlice = createSlice({
         AllUserWithThisWorkAccess:[],
         AllUser:[],
         AllByWorkShiftId:[],
-
+        updateWorkShiftName:{},
         allEmployees: [],
 
 
@@ -26,7 +26,16 @@ const companyWorkShiftSlice = createSlice({
         [`companyWorkShift/CreateCompanyWorkShift/fulfilled`]: (state, action) => {
             const { data, status } = action.payload || {}
             if (status >= 200 && status < 300) {
-                state.createContract = data.data
+                state.createContract = data
+            }
+            else if (status >= 400 && status < 500) {
+            }
+        },
+        
+        [`companyWorkShift/updateWorkShiftName/fulfilled`]: (state, action) => {
+            const { data, status } = action.payload || {}
+            if (status >= 200 && status < 300) {
+                state.updateWorkShiftName = data
             }
             else if (status >= 400 && status < 500) {
             }

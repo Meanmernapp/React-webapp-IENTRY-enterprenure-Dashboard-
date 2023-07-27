@@ -65,6 +65,16 @@
   letter-spacing: 0px;
   color: #707070;
   opacity: 1;
+  .assign-icon {
+    width: 16px;
+    height: 18px;
+
+    &:hover {
+      background-color: $accent-grey;
+      box-shadow: 0px 0px 0px 4px $accent-grey;
+      border-radius: 1px;
+    }
+  }
 }
 
 .contractor-access-table-first {
@@ -86,7 +96,7 @@
 }
 
 .access-sec {
-  border-top: 2px dashed #146f62;
+  border-top: 3px dashed #146f62;
   padding-top: 20px;
 }
 
@@ -459,4 +469,12 @@
   color: #fff;
   border-top-right-radius: 7px;
   border-bottom-right-radius: 7px;
+}
+
+
+.no_content{
+  margin-top: 1rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  border-top: 3px dashed #146F62;
 }

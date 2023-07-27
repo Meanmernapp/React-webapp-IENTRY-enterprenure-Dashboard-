@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import SaveIcon from "@mui/icons-material/Save";
-import personPng from "../../../assets/images/person.png";
+import personPng from "../../../assets/defaultImages/userDef.svg";
 import file from "../../../assets/images/file.png";
 import DownloadIcon from "@mui/icons-material/Download";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
@@ -42,6 +42,7 @@ const ProviderEmployeeDetails = ({ employeeDetailsFlag, approveDocumentFlag }) =
     const [sortByVehicle, setSortByVehicle] = useState();
 
     const dispatch = useDispatch();
+    const params = useParams()
 
 
     const { getAllProviderDocuments } = useSelector(state => state.EmployeeProviderSlice);
@@ -76,7 +77,7 @@ const ProviderEmployeeDetails = ({ employeeDetailsFlag, approveDocumentFlag }) =
     useEffect(() => {
         const body = {
 
-            providerId: localStorage.getItem("pid"),
+            providerId: params?.id,
 
             pagination: {
                 "order": sortBy === 'asc' ? true : false,
@@ -93,7 +94,7 @@ const ProviderEmployeeDetails = ({ employeeDetailsFlag, approveDocumentFlag }) =
     useEffect(() => {
         const body = {
 
-            providerId: localStorage.getItem("pid"),
+            providerId: params?.id,
 
             pagination: {
                 "order": sortByVehicle === 'asc' ? true : false,
@@ -108,7 +109,7 @@ const ProviderEmployeeDetails = ({ employeeDetailsFlag, approveDocumentFlag }) =
 
     useEffect(() => {
         const data = {
-            id: localStorage.getItem("pid")
+            id: params?.id
         };
 
         dispatch(GetEmployeeProviderById(data))
@@ -135,14 +136,16 @@ const ProviderEmployeeDetails = ({ employeeDetailsFlag, approveDocumentFlag }) =
                 </div>
             </div>
             <div className="row employee_provider_detail">
-                <Link to="/dashboard/employee/suppliers/update-suppliers">
+                <Link to={`/dashboard/employee/suppliers/update-suppliers/${getEmployeeProviderById?.id}`}>
                     <button className="__update_btn" >
                         {t("update_data")}
                         <i class="fa fa-floppy-o" aria-hidden="true"></i>
                     </button>
                 </Link>
                 <div className="col-md-4 __userData">
-                    <img src={personPng} className="__userImage" />
+                    <img 
+                    style={{background:'white'}}
+                    src={getEmployeeProviderById?.selfie ? `data:image/png;base64,${getEmployeeProviderById?.selfie}` : personPng} className="__userImage" />
                     <div className="__body">
                         <p>{t("name")}</p>
                         <span>{getEmployeeProviderById?.user?.name}</span>
@@ -160,8 +163,8 @@ const ProviderEmployeeDetails = ({ employeeDetailsFlag, approveDocumentFlag }) =
 
                     {
                         getAllProviderDocuments?.length > 0 ?
-                      
-                        <DocumentTable dataTable={getAllProviderDocuments} approve={false} optionDownload="document_external"/>
+
+                            <DocumentTable dataTable={getAllProviderDocuments} approve={false} optionDownload="document_external" />
                             :
                             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: "50vh" }}>
 

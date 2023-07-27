@@ -3,9 +3,9 @@ import { Outlet } from "react-router-dom";
 
 const ProviderLayout = () => {
   return (
-    <main>
+    // <main>
       <Outlet />
-    </main>
+    // </main>
   );
 };
 

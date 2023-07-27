@@ -4,16 +4,19 @@ import AddZoneModal from "./Modal/AddZoneModal";
 import ZonesCard from "./ZonesCard";
 import { useDispatch, useSelector } from "react-redux";
 import TablePagination from '@mui/material/TablePagination';
-import { Box } from "@mui/material";
+import { Box, Checkbox, FormControlLabel } from "@mui/material";
 import { permissionObj } from "../../../Helpers/permission";
 import { useTranslation } from 'react-i18next';
 import Cookies from 'js-cookie';
 import NotFoundDataWarning from "../../../components/NotFoundDataWarning";
+import DeleteModal from "../../Modals/DeleteModal";
+import { DeleteItemsApi } from "../../../reduxToolkit/Commons/CommonsApi";
 
 /*
 Author : Arman Ali
-Module: Zone
+Module: zone
 github: https://github.com/Arman-Arzoo
+website: https://www.toplinegeeks.com
 */
 
 // Zone module main funtion
@@ -29,6 +32,7 @@ const Zones = () => {
   const { createFatherZone } = useSelector(state => state.EmployeeZonesSlice)
   const { createChildZone } = useSelector(state => state.EmployeeZonesSlice)
   const { permission } = useSelector(state => state.authenticatioauthennSlice);
+  const { deleteItemsApi } = useSelector(state => state.CommonsSlice);
 
   // use State hook for local state management
   const [modalShow, setModalShow] = useState(false);
@@ -36,6 +40,9 @@ const Zones = () => {
   const [rowsPerPageZone, setRowsPerPageZone] = useState(10);
   const [orderBy, setOrderBy] = useState();
   const [sortBy, setSortBy] = useState();
+  const [selectZoneForDelete, setSelectZoneForDelete] = useState([])
+  const [isAllChecked, setIsAllChecked] = useState(false)
+  const [deleteShow, setDeleteShow] = useState(false)
 
   // custom Funtion
   // a funtion to control zone page
@@ -47,6 +54,39 @@ const Zones = () => {
     setRowsPerPageZone(parseInt(event.target.value));
     setPageZone(0);
   };
+
+
+  // this function control select all id or unSelect all
+  const handelDeleteAll = (e) => {
+    setIsAllChecked(e.target.checked)
+    if (e.target.checked) {
+      const selectAllIds = getListFatherZones?.content?.map(item => {
+        return item?.id
+      })
+      setSelectZoneForDelete(selectAllIds)
+
+
+    } else {
+      setSelectZoneForDelete([])
+    }
+
+  }
+  // this function handle only specific id base on selection
+  const handleCheckboxChange = (e) => {
+
+    if (e.target.checked) {
+      setSelectZoneForDelete([...selectZoneForDelete, e.target.id]);
+    } else {
+      setSelectZoneForDelete(selectZoneForDelete.filter((removeid) => removeid !== e.target.id));
+    }
+  };
+
+  // delete workshif
+  const deleteZone = (deleteItem) => {
+    const tableName = "zone"
+    const body = deleteItem
+    dispatch(DeleteItemsApi({ tableName, body }))
+  }
 
   // useEffect for api call incoming with pagination
   useEffect(() => {
@@ -60,34 +100,54 @@ const Zones = () => {
       }
     }
     dispatch(GetListFatherZones(body));
-  }, [pageZone, rowsPerPageZone, orderBy, sortBy, createFatherZone, createChildZone])
+  }, [pageZone, rowsPerPageZone, orderBy, sortBy, createFatherZone, createChildZone, deleteItemsApi])
   // return main page 
   return (
     <>
-      <div className='head' 
+      <div className='head'
       // style={{ paddingTop: '1rem' }}
       >
         <div className="headLeft">
-        <h2 
-        // style={{ fontSize: '1.5rem', fontWeight: '600' }}
-        >{t('first_access')}</h2>
+          <h2
+          // style={{ fontSize: '1.5rem', fontWeight: '600' }}
+          >{t('first_access')}</h2>
         </div>
-        {
-          permission?.includes(permissionObj?.WEB_ZONE_CREATE) &&
+        <div className="container-top-right-btns">
+          {
+            permission?.includes(permissionObj?.WEB_ZONE_CREATE) &&
 
-          <button
-            style={{ width: '15%', height: '30px', cursor: 'pointer' }}
-            className="btn btn-sm"
-            onClick={() => setModalShow(true)}
+            <button
+              style={{ width: '15%', height: '30px', cursor: 'pointer' }}
+              className="add-btn-1"
+              onClick={() => setModalShow(true)}
+            >
+              <i className="fa fa-plus" aria-hidden="true"></i>
+              {t("add")}
+            </button>
+
+          }
+          <button className="delete-btn-1"
+            disabled={selectZoneForDelete?.length === 0}
+            onClick={() => {
+              setDeleteShow(true)
+            }}
+
           >
-            {t("add_zone")}
-            <i class="fa fa-plus" aria-hidden="true"></i>
+            <i class="fa fa-trash-o" aria-hidden="true"></i>
+            {t('delete')}
           </button>
-        }
+        </div>
       </div>
-      <div className="subhead">
+      {/* <div className="subhead">
         <h5>{t("zones")}</h5>
         <p>{t("total")} {getListFatherZones?.numberOfElements}</p>
+      </div> */}
+      <div className="d-flex gap-1 " style={{ paddingLeft: "0.68rem" }}>
+        <FormControlLabel className="grid-checkall" control={<Checkbox
+          label="Label"
+          checked={isAllChecked}
+          onChange={handelDeleteAll}
+          size="small" />} label={t("de_/_select_all")} />
       </div>
       {
         getListFatherZones?.content?.length > 0 ?
@@ -96,7 +156,8 @@ const Zones = () => {
             {
               getListFatherZones?.content.map((item, index) => {
                 // zone Card render list
-                return <ZonesCard key={index} item={item} />
+                return <ZonesCard key={index} item={item} selectForDelete={selectZoneForDelete}
+                  handleCheckboxChange={handleCheckboxChange} />
               })
             }
           </>
@@ -127,12 +188,23 @@ const Zones = () => {
       this modal let you create a zone or sub zone 
       */}
       <AddZoneModal
-        title={t("zone")}
+        title={t("first_access")}
+        sub_title={t("zone")}
         check="false"
         show={modalShow}
         onHide={() => setModalShow(false)}
       />
       {/* Add Building Modal End */}
+      <DeleteModal
+        show={deleteShow}
+        onHide={() => setDeleteShow(false)}
+        onClickFn={() => deleteZone(selectZoneForDelete)}
+        data={selectZoneForDelete}
+        title_modal={"first_access"}
+        element_modal={"zone"}
+        isReset={setSelectZoneForDelete}
+        isAllReset={setIsAllChecked}
+      />
     </>
   );
 };
